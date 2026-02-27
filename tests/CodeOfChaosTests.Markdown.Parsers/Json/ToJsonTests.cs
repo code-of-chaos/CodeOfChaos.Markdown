@@ -3,14 +3,14 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Markdown;
 using CodeOfChaos.Markdown.Markdown.Syntax;
-using CodeOfChaosTests.Markdown.DataSources;
+using CodeOfChaosTests.Markdown.Parsers.DataSources;
 using CodeOfChaosTests.Shared;
 
 namespace CodeOfChaosTests.Markdown.Parsers.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-[InfiniBlazorMarkdownDIDataSource]
+[MarkdownDiDataSource]
 public class ToJsonTests(IMarkdownParser parser) {
     [Test]
     [MethodDataSource<MdTestDataSources>(nameof(MdTestDataSources.GetBlankTest))]

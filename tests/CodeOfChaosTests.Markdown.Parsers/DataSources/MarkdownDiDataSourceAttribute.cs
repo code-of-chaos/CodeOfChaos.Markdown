@@ -7,12 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using NSubstitute;
 
-namespace CodeOfChaosTests.Markdown.DataSources;
+namespace CodeOfChaosTests.Markdown.Parsers.DataSources;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class InfiniBlazorMarkdownDIDataSourceAttribute : DependencyInjectionDataSourceAttribute<IServiceScope> {
+public class MarkdownDiDataSourceAttribute : DependencyInjectionDataSourceAttribute<IServiceScope> {
     private static readonly IServiceProvider ServiceProvider = CreateSharedServiceProvider();
 
     // -----------------------------------------------------------------------------------------------------------------

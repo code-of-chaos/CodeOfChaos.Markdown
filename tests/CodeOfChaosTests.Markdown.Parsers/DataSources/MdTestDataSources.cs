@@ -2,10 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
-using System.Runtime.CompilerServices;
 using CodeOfChaosTests.Shared;
+using System.Runtime.CompilerServices;
 
-namespace CodeOfChaosTests.Markdown.DataSources;
+namespace CodeOfChaosTests.Markdown.Parsers.DataSources;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

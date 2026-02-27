@@ -28,6 +28,9 @@
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
+    <Project Path="tests/CodeOfChaosTests.Markdown.Editors/CodeOfChaosTests.Markdown.Editors.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Markdown.Parsers/CodeOfChaosTests.Markdown.Parsers.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Markdown.Syntax/CodeOfChaosTests.Markdown.Syntax.csproj" />
     <Project Path="tests/CodeOfChaosTests.Markdown/CodeOfChaosTests.Markdown.csproj" />
     <Project Path="tests/CodeOfChaosTests.Shared/CodeOfChaosTests.Shared.csproj" />
   </Folder>

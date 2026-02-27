@@ -7,7 +7,6 @@ using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 using System.Xml.Linq;
-using ImageMdSyntaxNode = CodeOfChaos.Markdown.Syntax.Nodes.ImageMdSyntaxNode;
 
 namespace CodeOfChaosTests.Markdown.Parsers.Xml;
 // ---------------------------------------------------------------------------------------------------------------------

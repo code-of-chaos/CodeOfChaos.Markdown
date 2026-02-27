@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using ImageMdSyntaxNode = CodeOfChaos.Markdown.Syntax.Nodes.ImageMdSyntaxNode;
 
 namespace CodeOfChaosTests.Markdown.Syntax;
 // ---------------------------------------------------------------------------------------------------------------------
