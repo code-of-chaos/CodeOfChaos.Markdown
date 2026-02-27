@@ -16,7 +16,7 @@ namespace CodeOfChaosTests.Shared;
 [SuppressMessage("ReSharper", "InvertIf")]
 public class MdTestDataProvider(ILogger<MdTestDataProvider> logger) {
     private const string RootFilePath = "../../";
-    private const string TestFolderFromRootPath = "tests/CodeOfChaosTests.Markdown/DataSources/Files";
+    private const string TestFolderFromRootPath = "tests/CodeOfChaosTests.Markdown.Parsers/DataSources/Files";
 
     internal string TestFolder { get; private init; } = Path.GetFullPath(Path.Combine(RootFilePath, TestFolderFromRootPath));
 
