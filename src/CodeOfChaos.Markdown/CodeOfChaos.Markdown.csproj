@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>CodeOfChaos.Markdown</RootNamespace>
-
         <!-- Package metadata -->
         <PackageId>CodeOfChaos.Markdown</PackageId>
-        <Description>InfiniLore's Component Library</Description>
-        <PackageTags>Blazor;Ui;Design;Components;Library</PackageTags>
+        <Description>Markdown Parsers for C# and DotNet</Description>
+        <PackageTags>Markdown;Parsing;Library</PackageTags>
     </PropertyGroup>
     
     <ItemGroup>

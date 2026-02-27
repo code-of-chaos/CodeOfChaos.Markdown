@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <InternalsVisibleTo Include="CodeOfChaos.Markdown"/>
-        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Parsers"/>
-        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Editors"/>
-    </ItemGroup>
+    <PropertyGroup>
+        <RootNamespace>CodeOfChaos.Markdown.Syntax</RootNamespace>
+
+        <!-- Package metadata -->
+        <PackageId>CodeOfChaos.Markdown.Syntax</PackageId>
+        <Description>Markdown Parsers for C# and DotNet</Description>
+        <PackageTags>Markdown;Parsing;Library</PackageTags>
+    </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />

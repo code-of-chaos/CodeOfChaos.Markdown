@@ -10,16 +10,16 @@
         <DebugSymbols>true</DebugSymbols>
         
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <RepositoryUrl>https://github.com/InfiniLore/InfiniBlazor.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/code-of-chaos/Markdown.git</RepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         
-        <Version>0.1.0-preview.120</Version>
+        <Version>0.1.0-preview.0</Version>
         <Authors>Anna Sas</Authors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageProjectUrl>https://docs.infiniblazor.dev/</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/code-of-chaos/Markdown/</PackageProjectUrl>
 
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
@@ -29,24 +29,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="InfiniBlazor.Core.Components" />
-        <InternalsVisibleTo Include="InfiniBlazor.Core.Js" />
-        <InternalsVisibleTo Include="InfiniBlazor.Core.Markdown" />
-        <InternalsVisibleTo Include="InfiniBlazor.Core.Theming" />
-        <InternalsVisibleTo Include="InfiniBlazor.Core.Toasting" />
-        
-        <InternalsVisibleTo Include="InfiniBlazor.Extensions.AutoDocumentation" />
-        <InternalsVisibleTo Include="InfiniBlazor.Extensions.ExtraComponents" />
-        <InternalsVisibleTo Include="InfiniBlazor.Extensions.Maui" />
-        
-        <InternalsVisibleTo Include="InfiniBlazorTests" />
-        <InternalsVisibleTo Include="InfiniBlazorTests.Shared" />
-        <InternalsVisibleTo Include="CodeOfChaosTests.Shared" />
-        <InternalsVisibleTo Include="InfiniBlazorTests.Extensions.AutoDocumentation" />
-        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown" />
-        <InternalsVisibleTo Include="InfiniBlazorTests.Core.Emotes" />
-    </ItemGroup>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Syntax"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Parsers"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Editors"/>
 
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Editors"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Parsers"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Syntax"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Shared"/>
+    </ItemGroup>
     
     <ItemGroup>
         <None Include="../../LICENSE" Pack="true" PackagePath="" Visible="false" />

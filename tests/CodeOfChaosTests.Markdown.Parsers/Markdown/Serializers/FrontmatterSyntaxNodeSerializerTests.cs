@@ -8,7 +8,7 @@ namespace CodeOfChaosTests.Markdown.RegexLib;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class FindFrontmatterRegexTests {
+public class FrontmatterSyntaxNodeSerializerTests {
     public record TestDataDto(bool ExpectedResult, string Input, string? Lang = null, string? Body = null);
 
     public static IEnumerable<Func<TestDataDto>> GetTestData() {

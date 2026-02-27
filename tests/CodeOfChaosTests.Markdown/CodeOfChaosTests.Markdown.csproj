@@ -13,4 +13,8 @@
     <ItemGroup>
         <ProjectReference Include="..\CodeOfChaosTests.Shared\CodeOfChaosTests.Shared.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="RegexLib\" />
+    </ItemGroup>
 </Project>
