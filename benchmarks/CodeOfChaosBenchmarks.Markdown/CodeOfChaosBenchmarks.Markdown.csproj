@@ -11,13 +11,18 @@
         <PackageReference Include="BenchmarkDotNet"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
-        
-        <None Include="MarkdownBenchmark.md" CopyToOutputDirectory="Always"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
       <ProjectReference Include="..\..\src\CodeOfChaos.Markdown\CodeOfChaos.Markdown.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Benchmarks\MarkdownBenchmark.md">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <DependentUpon>MarkdownBenchmark.cs</DependentUpon>
+      </None>
     </ItemGroup>
 
 </Project>

@@ -1,13 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components;
 
-namespace Benchmarks.InfiniBlazor.Markdown;
+namespace CodeOfChaosBenchmarks.Markdown.Mocks;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class MockJsRuntime : IJSRuntime {
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => default;
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => default;
+public class MockNavigationManager : NavigationManager {
+    public MockNavigationManager() => Initialize("http://localhost/", "http://localhost/");
+    protected override void NavigateToCore(string uri, bool forceLoad) { }
 }

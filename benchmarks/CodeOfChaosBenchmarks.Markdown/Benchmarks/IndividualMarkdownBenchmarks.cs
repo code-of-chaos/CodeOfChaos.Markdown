@@ -6,12 +6,13 @@ using BenchmarkDotNet.Order;
 using CodeOfChaos.Markdown;
 using CodeOfChaos.Markdown.Markdown;
 using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaosBenchmarks.Markdown.Mocks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Text;
 
-namespace Benchmarks.InfiniBlazor.Markdown;
+namespace CodeOfChaosBenchmarks.Markdown.Benchmarks;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

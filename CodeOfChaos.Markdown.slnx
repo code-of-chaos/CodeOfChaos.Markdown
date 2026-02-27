@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/benchmarks/">
-    <Project Path="benchmarks/Benchmarks.InfiniBlazor.Markdown/Benchmarks.InfiniBlazor.Markdown.csproj" />
+    <Project Path="benchmarks/CodeOfChaosBenchmarks.Markdown/CodeOfChaosBenchmarks.Markdown.csproj" />
   </Folder>
   <Folder Name="/devtools/">
     <File Path="CodeOfChaos.Markdown.GitHubActions.slnf" />

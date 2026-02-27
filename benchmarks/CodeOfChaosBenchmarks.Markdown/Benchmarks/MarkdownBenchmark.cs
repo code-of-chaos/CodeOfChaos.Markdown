@@ -6,16 +6,17 @@ using BenchmarkDotNet.Order;
 using CodeOfChaos.Markdown;
 using CodeOfChaos.Markdown.Markdown;
 using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaosBenchmarks.Markdown.Mocks;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 
-namespace Benchmarks.InfiniBlazor.Markdown;
+namespace CodeOfChaosBenchmarks.Markdown.Benchmarks;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.Declared)]
-public class MarkdownBenchmarks {
+public class MarkdownBenchmark {
     private string Markdown { get; set; } = string.Empty;
     
     private IMarkdownParser Parser { get; set; } = null!;
@@ -26,7 +27,7 @@ public class MarkdownBenchmarks {
     [GlobalSetup]
     public async Task Setup() {
         // Read the file content
-        const string filePath = "markdownBenchmark.md";
+        const string filePath = "Benchmarks/MarkdownBenchmark.md";
         Markdown = await File.ReadAllTextAsync(filePath, new UTF8Encoding(encoderShouldEmitUTF8Identifier:false));
         Markdown = Markdown.ReplaceLineEndings("\n");
         

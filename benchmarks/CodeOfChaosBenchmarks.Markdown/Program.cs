@@ -2,14 +2,15 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using BenchmarkDotNet.Running;
+using CodeOfChaosBenchmarks.Markdown.Benchmarks;
 
-namespace Benchmarks.InfiniBlazor.Markdown;
+namespace CodeOfChaosBenchmarks.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public static class Program {
     public static void Main(string[] args) {
-        BenchmarkRunner.Run<MarkdownBenchmarks>();
+        BenchmarkRunner.Run<MarkdownBenchmark>();
         // BenchmarkRunner.Run<IndividualMarkdownBenchmarks>();
     }
 }
