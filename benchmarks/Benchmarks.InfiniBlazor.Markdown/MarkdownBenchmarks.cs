@@ -37,7 +37,7 @@ public class MarkdownBenchmarks {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<Microsoft.AspNetCore.Components.NavigationManager, MockNavigationManager>();
         serviceCollection.AddSingleton<Microsoft.JSInterop.IJSRuntime, MockJsRuntime>();
-        serviceCollection.AddInfiniBlazor(config => configure?.Invoke(config.Markdown));
+        serviceCollection.AddInfiniBlazorMarkdown(config => configure?.Invoke(config));
         serviceCollection.AddLogging();
         return serviceCollection.BuildServiceProvider();
     }

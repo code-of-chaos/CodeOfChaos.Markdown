@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using InfiniBlazor.Markdown.Syntax.Nodes;
 using InfiniBlazor.Pooling;
-using System.Collections.Concurrent;
 using System.Text;
 
 namespace InfiniBlazor.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;

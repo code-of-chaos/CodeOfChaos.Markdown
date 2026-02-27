@@ -1,16 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>InfiniBlazor.Markdown</RootNamespace>
+        <RootNamespace>CodeOfChaos.Markdown</RootNamespace>
 
         <!-- Package metadata -->
-        <PackageId>InfiniLore.InfiniBlazor.Core.Markdown</PackageId>
+        <PackageId>CodeOfChaos.Markdown</PackageId>
         <Description>InfiniLore's Component Library</Description>
         <PackageTags>Blazor;Ui;Design;Components;Library</PackageTags>
     </PropertyGroup>
-
+    
     <ItemGroup>
-        <ProjectReference Include="..\InfiniBlazor.Shared\InfiniBlazor.Shared.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Editors\CodeOfChaos.Markdown.Editors.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Parsers\CodeOfChaos.Markdown.Parsers.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Syntax\CodeOfChaos.Markdown.Syntax.csproj" />
     </ItemGroup>
 
     <ItemGroup>

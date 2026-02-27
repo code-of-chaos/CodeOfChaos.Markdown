@@ -16,8 +16,11 @@
   <Folder Name="/examples/" />
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
-    <Project Path="src/InfiniBlazor.Core.Markdown/InfiniBlazor.Core.Markdown.csproj" />
-    <Project Path="src/InfiniBlazor.Shared/InfiniBlazor.Shared.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown.Editors/CodeOfChaos.Markdown.Editors.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown.Parsers/CodeOfChaos.Markdown.Parsers.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown.Shared/CodeOfChaos.Markdown.Shared.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown.Syntax/CodeOfChaos.Markdown.Syntax.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown/CodeOfChaos.Markdown.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />

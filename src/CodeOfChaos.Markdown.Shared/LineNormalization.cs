@@ -6,7 +6,7 @@ using InfiniBlazor.Pooling;
 using System.Buffers;
 using System.Text;
 
-namespace InfiniBlazor;
+namespace CodeOfChaos.Markdown.Shared;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

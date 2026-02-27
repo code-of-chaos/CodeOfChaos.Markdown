@@ -2,12 +2,13 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using InfiniBlazor.Markdown;
 using InfiniBlazor.Markdown.Parsers.Html;
 using InfiniBlazor.Markdown.Parsers.Json;
 using InfiniBlazor.Markdown.Parsers.Markdown;
 using InfiniBlazor.Markdown.Parsers.Xml;
 
-namespace InfiniBlazor.Markdown;
+namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

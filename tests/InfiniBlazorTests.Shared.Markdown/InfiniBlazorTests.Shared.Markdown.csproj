@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\InfiniBlazor.Core.Markdown\InfiniBlazor.Core.Markdown.csproj" />
+      <ProjectReference Include="..\..\src\CodeOfChaos.Markdown\CodeOfChaos.Markdown.csproj" />
     </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ public class IndividualMarkdownBenchmarks {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<NavigationManager, MockNavigationManager>();
         serviceCollection.AddSingleton<IJSRuntime, MockJsRuntime>();
-        serviceCollection.AddInfiniBlazor();
+        serviceCollection.AddInfiniBlazorMarkdown();
         serviceCollection.AddLogging();
         ServiceProvider provider = serviceCollection.BuildServiceProvider();
 

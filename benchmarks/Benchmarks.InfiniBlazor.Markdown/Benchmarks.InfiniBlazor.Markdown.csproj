@@ -16,9 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\InfiniBlazor.Core.Markdown\InfiniBlazor.Core.Markdown.csproj" />
-      <ProjectReference Include="..\..\src\InfiniBlazor.Shared\InfiniBlazor.Shared.csproj" />
-      <ProjectReference Include="..\..\src\InfiniBlazor\InfiniBlazor.csproj" />
+      <ProjectReference Include="..\..\src\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
+      <ProjectReference Include="..\..\src\CodeOfChaos.Markdown\CodeOfChaos.Markdown.csproj" />
     </ItemGroup>
 
 </Project>

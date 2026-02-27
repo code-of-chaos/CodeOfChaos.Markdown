@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>CodeOfChaos.Markdown</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Syntax"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Parsers"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Editors"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="CodeOfChaos.Extensions" />
+        <PackageReference Include="CodeOfChaos.Extensions.ObjectPool" />
+        <PackageReference Include="JetBrains.Annotations" />
+        <PackageReference Include="Microsoft.AspNetCore.Components" />
+        <PackageReference Include="Microsoft.Extensions.ObjectPool" />
+    </ItemGroup>
+</Project>

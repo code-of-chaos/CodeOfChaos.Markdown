@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Parsers"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Editors"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.ObjectPool" />
+        <PackageReference Include="CodeOfChaos.Extensions" />
+    </ItemGroup>
+
+</Project>

@@ -31,7 +31,10 @@ public sealed class InfiniBlazorMarkdownConfig : IMarkdownConfig {
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
     public InfiniBlazorMarkdownConfig(IServiceCollection serviceCollection) {
-        serviceCollection.RegisterServicesFromInfiniBlazorCoreMarkdown();
+        serviceCollection.RegisterServicesFromCodeOfChaosMarkdown();
+        serviceCollection.RegisterServicesFromCodeOfChaosMarkdownEditors();
+        serviceCollection.RegisterServicesFromCodeOfChaosMarkdownParsers();
+        
         serviceCollection.AddSingleton(TextEditorFactory.CreateTextEditor);
         serviceCollection.AddSingleton(MdStringMdSyntaxDeserializerFactory.CreateDeserializer);
         serviceCollection.AddSingleton<IMarkdownConfig>(this);
