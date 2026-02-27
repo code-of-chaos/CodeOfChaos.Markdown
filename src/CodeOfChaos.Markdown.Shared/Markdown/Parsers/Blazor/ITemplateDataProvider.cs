@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using System.Diagnostics.CodeAnalysis;
 
-namespace InfiniBlazor.Markdown.Parsers.Blazor;
+namespace CodeOfChaos.Markdown.Markdown.Parsers.Blazor;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

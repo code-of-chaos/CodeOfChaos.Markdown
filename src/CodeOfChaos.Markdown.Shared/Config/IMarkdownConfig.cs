@@ -1,10 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Markdown.Parsers.Blazor;
 using System.Collections.Frozen;
 
-namespace InfiniBlazor.Config;
+namespace CodeOfChaos.Markdown.Config;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

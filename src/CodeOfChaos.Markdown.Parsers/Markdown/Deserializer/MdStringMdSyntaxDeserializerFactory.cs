@@ -1,13 +1,14 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
-using InfiniBlazor.Markdown.Syntax;
-using InfiniBlazor.Markdown.Syntax.Nodes;
+using CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
+using CodeOfChaos.Markdown.Syntax.Nodes;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Frozen;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Deserializer;
+namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

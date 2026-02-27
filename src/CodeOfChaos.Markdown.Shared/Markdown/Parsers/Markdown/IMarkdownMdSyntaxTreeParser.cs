@@ -1,9 +1,9 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown.Markdown.Syntax;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown;
+namespace CodeOfChaos.Markdown.Markdown.Parsers.Markdown;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

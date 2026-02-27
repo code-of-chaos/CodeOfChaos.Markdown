@@ -3,8 +3,9 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using InfiniBlazor.Markdown;
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown;
+using CodeOfChaos.Markdown.Markdown;
+using CodeOfChaos.Markdown.Markdown.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 

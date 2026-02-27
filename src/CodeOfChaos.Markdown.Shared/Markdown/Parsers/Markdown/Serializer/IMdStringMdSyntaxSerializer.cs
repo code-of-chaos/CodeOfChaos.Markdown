@@ -1,11 +1,11 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown.Markdown.Syntax;
 using System.Buffers;
 using System.Collections.Immutable;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Serializer;
+namespace CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

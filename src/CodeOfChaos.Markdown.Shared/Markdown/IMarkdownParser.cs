@@ -1,12 +1,12 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Parsers.Html;
-using InfiniBlazor.Markdown.Parsers.Json;
-using InfiniBlazor.Markdown.Parsers.Markdown;
-using InfiniBlazor.Markdown.Parsers.Xml;
+using CodeOfChaos.Markdown.Markdown.Parsers.Html;
+using CodeOfChaos.Markdown.Markdown.Parsers.Json;
+using CodeOfChaos.Markdown.Markdown.Parsers.Markdown;
+using CodeOfChaos.Markdown.Markdown.Parsers.Xml;
 
-namespace InfiniBlazor.Markdown;
+namespace CodeOfChaos.Markdown.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

@@ -2,11 +2,11 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
-using InfiniBlazor.Pooling;
+using CodeOfChaos.Markdown.Pooling;
 using System.Buffers;
 using System.Text;
 
-namespace CodeOfChaos.Markdown.Shared;
+namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

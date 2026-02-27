@@ -1,11 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Parsers.Xml;
-using InfiniBlazor.Markdown.Syntax;
-using InfiniBlazor.Markdown.Syntax.Nodes;
+using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Xml;
+using CodeOfChaos.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 using System.Xml.Linq;
+using ImageMdSyntaxNode = CodeOfChaos.Markdown.Syntax.Nodes.ImageMdSyntaxNode;
 
 namespace InfiniBlazorTests.Core.Markdown.Parsers.Xml;
 // ---------------------------------------------------------------------------------------------------------------------

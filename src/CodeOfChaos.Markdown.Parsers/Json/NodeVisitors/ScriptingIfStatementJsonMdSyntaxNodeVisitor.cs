@@ -2,10 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
-using InfiniBlazor.Markdown.Syntax.Nodes;
+using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
-namespace InfiniBlazor.Markdown.Parsers.Json.NodeVisitors;
+namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

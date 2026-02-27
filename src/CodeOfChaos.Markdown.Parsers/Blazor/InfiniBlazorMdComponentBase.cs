@@ -1,10 +1,11 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Markdown.Syntax;
 using Microsoft.AspNetCore.Components;
 
-namespace InfiniBlazor.Markdown.Parsers.Blazor;
+namespace CodeOfChaos.Markdown.Parsers.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

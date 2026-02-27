@@ -4,7 +4,7 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace InfiniBlazor.Markdown;
+namespace CodeOfChaos.Markdown;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

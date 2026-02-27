@@ -1,7 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
 using System.Text.RegularExpressions;
 
 namespace InfiniBlazorTests.Core.Markdown.RegexLib;

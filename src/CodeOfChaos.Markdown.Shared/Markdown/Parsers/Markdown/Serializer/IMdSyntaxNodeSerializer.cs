@@ -1,11 +1,11 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown.Markdown.Syntax;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Serializer;
+namespace CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Serializer;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

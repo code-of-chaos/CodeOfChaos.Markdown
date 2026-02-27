@@ -1,12 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
-using InfiniBlazor.Markdown.Syntax.Nodes;
-using InfiniBlazor.Pooling;
+using CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Pooling;
+using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
+namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

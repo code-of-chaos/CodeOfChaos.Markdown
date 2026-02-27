@@ -2,11 +2,12 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Serializer;
 using Microsoft.Extensions.Logging;
 using System.Buffers;
 using System.Collections.Immutable;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Serializer;
+namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

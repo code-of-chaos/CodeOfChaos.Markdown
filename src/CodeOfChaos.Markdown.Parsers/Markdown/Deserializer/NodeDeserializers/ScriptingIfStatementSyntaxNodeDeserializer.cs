@@ -1,10 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax.Nodes;
+using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
+namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

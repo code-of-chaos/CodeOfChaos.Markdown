@@ -2,14 +2,16 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
-using InfiniBlazor.Markdown.Parsers.Xml.NodeVisitors;
-using InfiniBlazor.Markdown.Syntax;
-using InfiniBlazor.Markdown.Syntax.Nodes;
+using CodeOfChaos.Markdown.Markdown.Parsers.Xml;
+using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
+using CodeOfChaos.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace InfiniBlazor.Markdown.Parsers.Xml;
+namespace CodeOfChaos.Markdown.Parsers.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

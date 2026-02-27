@@ -1,10 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Pooling;
+using CodeOfChaos.Markdown.Pooling;
 using Microsoft.Extensions.ObjectPool;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Serializer;
+namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

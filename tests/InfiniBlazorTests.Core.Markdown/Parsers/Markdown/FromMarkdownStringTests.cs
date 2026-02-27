@@ -1,8 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown;
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown.Markdown;
+using CodeOfChaos.Markdown.Markdown.Syntax;
 using InfiniBlazorTests.Core.Markdown.DataSources;
 using InfiniBlazorTests.Shared.Markdown;
 

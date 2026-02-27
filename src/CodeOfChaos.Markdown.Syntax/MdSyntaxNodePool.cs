@@ -1,10 +1,11 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Pooling;
+using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Pooling;
 using Microsoft.Extensions.ObjectPool;
 
-namespace InfiniBlazor.Markdown.Syntax;
+namespace CodeOfChaos.Markdown.Syntax;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

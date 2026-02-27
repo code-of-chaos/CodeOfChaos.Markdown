@@ -2,13 +2,14 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
-using InfiniBlazor.Config;
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown.Config;
+using CodeOfChaos.Markdown.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Markdown.Syntax;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Collections.Frozen;
 
-namespace InfiniBlazor.Markdown.Parsers.Blazor;
+namespace CodeOfChaos.Markdown.Parsers.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

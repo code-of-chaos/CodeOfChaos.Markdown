@@ -1,14 +1,15 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
-using InfiniBlazor.Pooling;
+using CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Pooling;
 using Microsoft.Extensions.Logging;
 using System.Collections.Frozen;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace InfiniBlazor.Markdown.Parsers.Markdown.Deserializer;
+namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

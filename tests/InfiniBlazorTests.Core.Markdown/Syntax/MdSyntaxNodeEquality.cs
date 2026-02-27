@@ -1,8 +1,9 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
-using InfiniBlazor.Markdown.Syntax.Nodes;
+using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax.Nodes;
+using ImageMdSyntaxNode = CodeOfChaos.Markdown.Syntax.Nodes.ImageMdSyntaxNode;
 
 namespace InfiniBlazorTests.Core.Markdown.Syntax;
 // ---------------------------------------------------------------------------------------------------------------------

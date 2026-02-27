@@ -4,7 +4,7 @@
 using Microsoft.Extensions.ObjectPool;
 using System.Text;
 
-namespace InfiniBlazor.Pooling;
+namespace CodeOfChaos.Markdown.Pooling;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

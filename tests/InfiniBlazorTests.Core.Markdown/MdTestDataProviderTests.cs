@@ -1,7 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using InfiniBlazor.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax;
 using InfiniBlazorTests.Shared.Markdown;
 #pragma warning disable CS8604 // Possible null reference argument.
 
