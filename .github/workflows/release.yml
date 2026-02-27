@@ -85,6 +85,8 @@ jobs:
     # ------------------------------------------------------------------------------------------------------------------
     # Run tests
     # ------------------------------------------------------------------------------------------------------------------
+    
+    # noinspection UndefinedAction
     test:
         name: Run Tests
         needs: bump-version
@@ -111,13 +113,13 @@ jobs:
                     dotnet-version: '10.x'
 
             -   name: Restore dependencies
-                run: dotnet restore InfiniBlazor.GitHubActions.slnf
+                run: dotnet restore CodeOfChaos.Markdown.GitHubActions.slnf
 
             -   name: Build
-                run: dotnet build InfiniBlazor.GitHubActions.slnf --configuration Release --no-restore
+                run: dotnet build CodeOfChaos.Markdown.GitHubActions.slnf --configuration Release --no-restore
 
             -   name: Pack
-                run: dotnet pack InfiniBlazor.GitHubActions.slnf --configuration Release --no-build -o ./release
+                run: dotnet pack CodeOfChaos.Markdown.GitHubActions.slnf --configuration Release --no-build -o ./release
 
             -   name: Upload NuGet packages as artifact
                 uses: actions/upload-artifact@v6
