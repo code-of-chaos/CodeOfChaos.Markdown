@@ -3,29 +3,31 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Markdown;
 using CodeOfChaos.Markdown.Markdown.Syntax;
-using InfiniBlazorTests.Core.Markdown.DataSources;
-using InfiniBlazorTests.Shared.Markdown;
+using CodeOfChaosTests.Markdown.DataSources;
+using CodeOfChaosTests.Shared;
 
-namespace InfiniBlazorTests.Core.Markdown.Parsers.Markdown;
+namespace CodeOfChaosTests.Markdown.Parsers.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 [InfiniBlazorMarkdownDIDataSource]
-public partial class FromMarkdownTests(IMarkdownParser parser) {
-
+public class ToJsonTests(IMarkdownParser parser) {
     [Test]
     [MethodDataSource<MdTestDataSources>(nameof(MdTestDataSources.GetBlankTest))]
     [MethodDataSource(typeof(MdTestDataSources), nameof(MdTestDataSources.GetTestDataAsync))]
-    public async Task FromMarkdown_ToSyntaxTree_ShouldBeSame(MdTestData data) {
+    public async Task FromSyntaxTree_ToJson_ShouldBeExpected(MdTestData data) {
         // Arrange
-        string input = data.MdString;
-        IMdSyntaxTree expectedOutput = data.MdSyntaxTree;
+        IMdSyntaxTree input = data.MdSyntaxTree;
+        string? expectedOutput = data.ExpectedJsonString?.ReplaceLineEndings("\n");
+        Skip.When(expectedOutput is null, "The expected output is null.");
 
         // Act
-        IMdSyntaxTree foundTree = parser.Markdown.SerializeToSyntaxTree(input);
-
+        string foundOutput = parser.Json.DeserializeToString(input);
+        string foundOutputNormalized = foundOutput.ReplaceLineEndings("\n");
+        
         // Assert
-        await Assert.That(foundTree).IsNotNull();
-        await Assert.That(foundTree).IsEquatableTo(expectedOutput);
+        await Assert.That(foundOutputNormalized)
+            .IsNotNull()
+            .And.IsEqualTo(expectedOutput);
     }
 }

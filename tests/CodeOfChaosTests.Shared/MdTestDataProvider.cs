@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace InfiniBlazorTests.Shared.Markdown;
+namespace CodeOfChaosTests.Shared;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ namespace InfiniBlazorTests.Shared.Markdown;
 [SuppressMessage("ReSharper", "InvertIf")]
 public class MdTestDataProvider(ILogger<MdTestDataProvider> logger) {
     private const string RootFilePath = "../../";
-    private const string TestFolderFromRootPath = "tests/InfiniBlazorTests.Core.Markdown/DataSources/Files";
+    private const string TestFolderFromRootPath = "tests/CodeOfChaosTests.Markdown/DataSources/Files";
 
     internal string TestFolder { get; private init; } = Path.GetFullPath(Path.Combine(RootFilePath, TestFolderFromRootPath));
 

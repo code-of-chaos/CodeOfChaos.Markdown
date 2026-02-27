@@ -41,9 +41,9 @@
         
         <InternalsVisibleTo Include="InfiniBlazorTests" />
         <InternalsVisibleTo Include="InfiniBlazorTests.Shared" />
-        <InternalsVisibleTo Include="InfiniBlazorTests.Shared.Markdown" />
+        <InternalsVisibleTo Include="CodeOfChaosTests.Shared" />
         <InternalsVisibleTo Include="InfiniBlazorTests.Extensions.AutoDocumentation" />
-        <InternalsVisibleTo Include="InfiniBlazorTests.Core.Markdown" />
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown" />
         <InternalsVisibleTo Include="InfiniBlazorTests.Core.Emotes" />
     </ItemGroup>
 

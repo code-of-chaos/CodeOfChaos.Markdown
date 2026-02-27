@@ -2,10 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
-using InfiniBlazorTests.Shared.Markdown;
+using CodeOfChaosTests.Shared;
 #pragma warning disable CS8604 // Possible null reference argument.
 
-namespace InfiniBlazorTests.Core.Markdown;
+namespace CodeOfChaosTests.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

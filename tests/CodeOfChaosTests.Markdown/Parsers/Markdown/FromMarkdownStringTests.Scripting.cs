@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Markdown.Syntax;
 
-namespace InfiniBlazorTests.Core.Markdown.Parsers.Markdown;
+namespace CodeOfChaosTests.Markdown.Parsers.Markdown;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

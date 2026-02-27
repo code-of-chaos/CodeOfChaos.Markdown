@@ -3,9 +3,9 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
 using System.Runtime.CompilerServices;
-using InfiniBlazorTests.Shared.Markdown;
+using CodeOfChaosTests.Shared;
 
-namespace InfiniBlazorTests.Core.Markdown.DataSources;
+namespace CodeOfChaosTests.Markdown.DataSources;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

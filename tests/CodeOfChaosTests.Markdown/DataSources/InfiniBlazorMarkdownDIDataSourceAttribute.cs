@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using NSubstitute;
 
-namespace InfiniBlazorTests.Core.Markdown.DataSources;
+namespace CodeOfChaosTests.Markdown.DataSources;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

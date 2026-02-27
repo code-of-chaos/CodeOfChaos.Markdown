@@ -4,7 +4,7 @@
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
 using System.Text.RegularExpressions;
 
-namespace InfiniBlazorTests.Core.Markdown.RegexLib;
+namespace CodeOfChaosTests.Markdown.RegexLib;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

@@ -5,7 +5,7 @@ using CodeOfChaos.Markdown.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 
-namespace InfiniBlazorTests.Core.Markdown.Syntax;
+namespace CodeOfChaosTests.Markdown.Syntax;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

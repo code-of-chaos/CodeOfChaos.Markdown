@@ -3,31 +3,29 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Markdown;
 using CodeOfChaos.Markdown.Markdown.Syntax;
-using InfiniBlazorTests.Core.Markdown.DataSources;
-using InfiniBlazorTests.Shared.Markdown;
+using CodeOfChaosTests.Markdown.DataSources;
+using CodeOfChaosTests.Shared;
 
-namespace InfiniBlazorTests.Core.Markdown.Parsers.Json;
+namespace CodeOfChaosTests.Markdown.Parsers.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 [InfiniBlazorMarkdownDIDataSource]
-public class ToJsonTests(IMarkdownParser parser) {
+public partial class FromMarkdownTests(IMarkdownParser parser) {
+
     [Test]
     [MethodDataSource<MdTestDataSources>(nameof(MdTestDataSources.GetBlankTest))]
     [MethodDataSource(typeof(MdTestDataSources), nameof(MdTestDataSources.GetTestDataAsync))]
-    public async Task FromSyntaxTree_ToJson_ShouldBeExpected(MdTestData data) {
+    public async Task FromMarkdown_ToSyntaxTree_ShouldBeSame(MdTestData data) {
         // Arrange
-        IMdSyntaxTree input = data.MdSyntaxTree;
-        string? expectedOutput = data.ExpectedJsonString?.ReplaceLineEndings("\n");
-        Skip.When(expectedOutput is null, "The expected output is null.");
+        string input = data.MdString;
+        IMdSyntaxTree expectedOutput = data.MdSyntaxTree;
 
         // Act
-        string foundOutput = parser.Json.DeserializeToString(input);
-        string foundOutputNormalized = foundOutput.ReplaceLineEndings("\n");
-        
+        IMdSyntaxTree foundTree = parser.Markdown.SerializeToSyntaxTree(input);
+
         // Assert
-        await Assert.That(foundOutputNormalized)
-            .IsNotNull()
-            .And.IsEqualTo(expectedOutput);
+        await Assert.That(foundTree).IsNotNull();
+        await Assert.That(foundTree).IsEquatableTo(expectedOutput);
     }
 }

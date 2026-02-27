@@ -4,9 +4,9 @@
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Serialization;
-using InfiniBlazorTests.Shared.Markdown;
+using CodeOfChaosTests.Shared;
 
-namespace InfiniBlazorTests.Core.Markdown.Parsers.Xml;
+namespace CodeOfChaosTests.Markdown.Parsers.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

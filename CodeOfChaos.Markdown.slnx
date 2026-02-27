@@ -28,7 +28,7 @@
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
-    <Project Path="tests/InfiniBlazorTests.Core.Markdown/InfiniBlazorTests.Core.Markdown.csproj" />
-    <Project Path="tests/InfiniBlazorTests.Shared.Markdown/InfiniBlazorTests.Shared.Markdown.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Markdown/CodeOfChaosTests.Markdown.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Shared/CodeOfChaosTests.Shared.csproj" />
   </Folder>
 </Solution>

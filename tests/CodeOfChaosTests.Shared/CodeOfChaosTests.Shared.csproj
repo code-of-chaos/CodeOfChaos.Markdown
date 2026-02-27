@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <InternalsVisibleTo Include="InfiniBlazorTests" />
-        <InternalsVisibleTo Include="InfiniBlazorTests.Core.Markdown" />
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown" />
     </ItemGroup>
 
     <ItemGroup>
