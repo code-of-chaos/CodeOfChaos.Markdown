@@ -31,6 +31,8 @@ public class MarkdownBenchmark {
         Markdown = await File.ReadAllTextAsync(filePath, new UTF8Encoding(encoderShouldEmitUTF8Identifier:false));
         Markdown = Markdown.ReplaceLineEndings("\n");
         
+        if (Markdown.IsNullOrEmpty()) throw new InvalidOperationException("The Markdown input should not be empty.");
+        
         ServiceProvider provider = CreateProvider();
         Parser = provider.GetRequiredService<IMarkdownParser>();
     }

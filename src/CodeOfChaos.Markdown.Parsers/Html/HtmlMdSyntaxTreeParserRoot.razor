@@ -21,9 +21,11 @@
     @ComponentConverter.RenderRootComponents(SyntaxTree.VisitTopLevelNodes())
 
     @if (SyntaxTree.TryGetCachedChildrenByType(out IEnumerable<FootnoteDescriptionMdSyntaxNode>? footnoteDescriptions)) {
-        <DynamicComponent
-            Type="@MarkdownConfig.HtmlRendererFootnoteWrapperType"
-            Parameters="@GetFootnoteWrapperParameters(footnoteDescriptions)"/>
+        if (MarkdownConfig.HtmlRendererFootnoteWrapperType is { } footnoteWrapperType) {
+            <DynamicComponent
+                Type="@footnoteWrapperType"
+                Parameters="@GetFootnoteWrapperParameters(footnoteDescriptions)"/>
+        }
     }
 </CascadingValue>
 @* ------------------------------------------------------------------------------------------------------------------ *@
