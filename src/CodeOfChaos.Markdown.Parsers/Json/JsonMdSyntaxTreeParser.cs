@@ -7,6 +7,7 @@ using CodeOfChaos.Markdown.Markdown.Syntax;
 using CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
+using System.Text;
 using System.Text.Json;
 
 namespace CodeOfChaos.Markdown.Parsers.Json;
@@ -89,6 +90,16 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         JsonElement element = DeserializeToJsonElement(input);
         return JsonSerializer.Serialize(element, SerializerOptions);
     }
+    
+    public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
+        ArgumentNullException.ThrowIfNull(tree);
+        
+        await using var stream = new MemoryStream();
+        await DeserializeToJsonStreamAsync(stream, tree, ct);
+        stream.Position = 0;
+        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
+        return await reader.ReadToEndAsync(ct);
+    } 
 
     public JsonElement DeserializeToJsonElement(IMdSyntaxTree tree) {
         using var stream = new MemoryStream();

@@ -15,6 +15,8 @@ public interface IXmlMdSyntaxTreeParser {
     Task<IMdSyntaxTree> SerializeToSyntaxTreeAsync(string filePath, CancellationToken ct = default);
     
     string DeserializeToString(IMdSyntaxTree tree);
+    Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default);
+    
     XElement DeserializeToXmlElement(IMdSyntaxTree tree);
     Task DeserializeToXmlStreamAsync(Stream stream, IMdSyntaxTree tree, CancellationToken ct = default);
     Task DeserializeToXmlFileAsync(string filePath, IMdSyntaxTree tree, CancellationToken ct = default);

@@ -10,7 +10,7 @@ namespace CodeOfChaosBenchmarks.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 public static class Program {
     public static void Main(string[] args) {
-        BenchmarkRunner.Run<MarkdownBenchmark>();
-        // BenchmarkRunner.Run<IndividualMarkdownBenchmarks>();
+        // BenchmarkRunner.Run<MarkdownBenchmark>();
+        BenchmarkRunner.Run<IndividualMarkdownBenchmarks>();
     }
 }

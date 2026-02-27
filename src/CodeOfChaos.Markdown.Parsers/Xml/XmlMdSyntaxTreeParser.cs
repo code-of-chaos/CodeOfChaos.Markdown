@@ -92,6 +92,17 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
         XElement rootElement = DeserializeToXmlElement(tree);
         return rootElement.ToString();
     }
+    
+    public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
+        ArgumentNullException.ThrowIfNull(tree);
+        
+        await using var stream = new MemoryStream();
+        await DeserializeToXmlStreamAsync(stream, tree, ct);
+        stream.Position = 0;
+        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
+        return await reader.ReadToEndAsync(ct);
+    } 
+    
     public XElement DeserializeToXmlElement(IMdSyntaxTree tree) {
         var rootElement = new XElement("MdSyntaxTree");
 
