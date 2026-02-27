@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/Benchmarks.InfiniBlazor.Markdown/Benchmarks.InfiniBlazor.Markdown.csproj" />
+  </Folder>
+  <Folder Name="/devtools/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/devtools/github/">
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
+  </Folder>
+  <Folder Name="/devtools/py/">
+    <File Path="devtools/bump_version.py" />
+  </Folder>
+  <Folder Name="/docs/" />
+  <Folder Name="/examples/" />
+  <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
+    <Project Path="src/InfiniBlazor.Core.Markdown/InfiniBlazor.Core.Markdown.csproj" />
+    <Project Path="src/InfiniBlazor.Shared/InfiniBlazor.Shared.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <File Path="tests/Directory.Build.props" />
+    <Project Path="tests/InfiniBlazorTests.Core.Markdown/InfiniBlazorTests.Core.Markdown.csproj" />
+    <Project Path="tests/InfiniBlazorTests.Shared.Markdown/InfiniBlazorTests.Shared.Markdown.csproj" />
+  </Folder>
+</Solution>

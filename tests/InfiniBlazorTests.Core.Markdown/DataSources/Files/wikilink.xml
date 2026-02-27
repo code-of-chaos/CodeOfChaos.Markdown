@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="wikilink.xml">
+    <MdString>[[test]]</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <WikiLinkMdSyntaxNode>test</WikiLinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[[test]]</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "WikiLinkMdSyntaxNode",
+          "content": "test"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="wikilink.xml">
+    <MdString>[[]]
+
+[[ ]]</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">[[]]</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">[[ ]]</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[[]]
+
+[[ ]]</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "[[]]"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "[[ ]]"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

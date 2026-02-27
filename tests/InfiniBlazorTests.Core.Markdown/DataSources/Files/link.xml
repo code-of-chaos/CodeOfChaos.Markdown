@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="link.xml">
+    <MdString>[transgenderinfo](https://www.transgenderinfo.be)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be">
+          <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[transgenderinfo](https://www.transgenderinfo.be)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "transgenderinfo"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgecaseUnbound" FileName="link.xml">
+    <MdString>[link](https://example.com</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">[link](https://example.com</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[link](https://example.com</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "[link](https://example.com"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="link.xml">
+    <MdString>[]()</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">[]()</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[]()</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "[]()"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withBold" FileName="link.xml">
+    <MdString>[**transgenderinfo**](https://www.transgenderinfo.be)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be">
+          <BoldMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+          </BoldMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[**transgenderinfo**](https://www.transgenderinfo.be)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "children": [
+            {
+              "type": "BoldMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "transgenderinfo"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEmote" FileName="link.xml">
+    <MdString>[:flag_transgender:](https://www.twitch.tv/annasasdev)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.twitch.tv/annasasdev">
+          <EmoteMdSyntaxNode EmoteKey="flag_transgender" OriginalEmote=":flag_transgender:" />
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[:flag_transgender:](https://www.twitch.tv/annasasdev)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.twitch.tv/annasasdev",
+          "children": [
+            {
+              "type": "EmoteMdSyntaxNode",
+              "emoteKey": "flag_transgender",
+              "originalEmote": ":flag_transgender:"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedBracket" FileName="link.xml">
+    <MdString>[\]](https://localhost:7210/icon.png)
+
+[\[](https://localhost:7210/icon.png)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://localhost:7210/icon.png">
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">]</EscapedCharacterMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://localhost:7210/icon.png">
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">[</EscapedCharacterMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[\]](https://localhost:7210/icon.png)
+
+[\[](https://localhost:7210/icon.png)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://localhost:7210/icon.png",
+          "children": [
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://localhost:7210/icon.png",
+          "children": [
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "["
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withItalic" FileName="link.xml">
+    <MdString>[*transgenderinfo*](https://www.transgenderinfo.be)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be">
+          <ItalicMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+          </ItalicMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[*transgenderinfo*](https://www.transgenderinfo.be)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "children": [
+            {
+              "type": "ItalicMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "transgenderinfo"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withSubscript" FileName="link.xml">
+    <MdString>[~transgenderinfo~](https://www.transgenderinfo.be)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be">
+          <SubScriptMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+          </SubScriptMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[~transgenderinfo~](https://www.transgenderinfo.be)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "children": [
+            {
+              "type": "SubScriptMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "transgenderinfo"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withSuperscript" FileName="link.xml">
+    <MdString>[^transgenderinfo^](https://www.transgenderinfo.be)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be">
+          <SuperScriptMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+          </SuperScriptMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>[^transgenderinfo^](https://www.transgenderinfo.be)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "children": [
+            {
+              "type": "SuperScriptMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "transgenderinfo"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withTitle" FileName="link.xml">
+    <MdString>Modifier Title definition
+[transgenderinfo](https://www.transgenderinfo.be|title="hrt all day!")
+
+Direct Title definition, with space:
+[transgenderinfo](https://www.transgenderinfo.be "hrt all day!")
+
+Direct Title definition, without space: 
+[transgenderinfo](https://www.transgenderinfo.be"hrt all day!")</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Modifier Title definition</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be">
+          <Modifiers>
+            <Attributes>
+              <Entry Key="title" Start="7" End="21" />
+            </Attributes>
+            <OriginalInput>|title="hrt all day!"</OriginalInput>
+          </Modifiers>
+          <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Direct Title definition, with space:</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be" Title="hrt all day!">
+          <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Direct Title definition, without space: </TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be" Title="hrt all day!">
+          <TextMdSyntaxNode xml:space="preserve">transgenderinfo</TextMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Modifier Title definition
+[transgenderinfo](https://www.transgenderinfo.be|title="hrt all day!")
+
+Direct Title definition, with space:
+[transgenderinfo](https://www.transgenderinfo.be "hrt all day!")
+
+Direct Title definition, without space: 
+[transgenderinfo](https://www.transgenderinfo.be "hrt all day!")</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Modifier Title definition"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "Modifiers": {
+            "Attributes": [
+              {
+                "key": "title",
+                "Start": 7,
+                "End": 21
+              }
+            ],
+            "OriginalInput": "|title=\"hrt all day!\""
+          },
+          "href": "https://www.transgenderinfo.be",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "transgenderinfo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Direct Title definition, with space:"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "title": "hrt all day!",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "transgenderinfo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Direct Title definition, without space: "
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "title": "hrt all day!",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "transgenderinfo"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withTrailingSpaceInModfier" FileName="link.xml">
+    <MdString>![image](https://localhost:7210/icon.png|fit )</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ImageMdSyntaxNode Href="https://localhost:7210/icon.png" AltText="image">
+          <Modifiers>
+            <Attributes>
+              <Entry Key="fit" Start="4" End="4" />
+            </Attributes>
+            <OriginalInput>|fit </OriginalInput>
+          </Modifiers>
+        </ImageMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>![image](https://localhost:7210/icon.png|fit )</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ImageMdSyntaxNode",
+          "Modifiers": {
+            "Attributes": [
+              {
+                "key": "fit",
+                "Start": 4,
+                "End": 4
+              }
+            ],
+            "OriginalInput": "|fit "
+          },
+          "href": "https://localhost:7210/icon.png",
+          "altText": "image"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

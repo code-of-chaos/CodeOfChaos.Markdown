@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="italic.xml">
+    <MdString>*italic*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*italic*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "italic"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgeCase_HrTagPossibility" FileName="italic.xml">
+    <MdString>some text ****</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">some text </TextMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">**</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>some text ****</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "some text "
+        },
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "**"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgecaseUnbound" FileName="italic.xml">
+    <MdString>*italic</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">*italic</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*italic</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "*italic"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="italic.xml">
+    <MdString>**</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">**</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>**</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "**"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty_2" FileName="italic.xml">
+    <MdString>****</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">**</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>****</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "**"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withBold" FileName="italic.xml">
+    <MdString>*something **bold** in italic*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">something </TextMdSyntaxNode>
+          <BoldMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
+          </BoldMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> in italic</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*something **bold** in italic*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "something "
+            },
+            {
+              "type": "BoldMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "bold"
+                }
+              ]
+            },
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " in italic"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withBoldAndEscapedAsterix_1" FileName="italic.xml">
+    <MdString>*italic *nested \* bold**</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">italic </TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">nested </TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> bold**</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*italic *nested \* bold**</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "italic "
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "nested "
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " bold**"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedAsterix_1" FileName="italic.xml">
+    <MdString>*\*italic*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*\*italic*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "*"
+            },
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "italic"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedAsterix_2" FileName="italic.xml">
+    <MdString>*italic\**</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*italic\**</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "italic"
+            },
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "*"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedAsterix_3" FileName="italic.xml">
+    <MdString>** \* **</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <BoldMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        </BoldMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>** \* **</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "BoldMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " "
+            },
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "*"
+            },
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " "
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedAsterix_4" FileName="italic.xml">
+    <MdString>\*literal asterisks\*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">literal asterisks</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\*literal asterisks\*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "literal asterisks"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withTag" FileName="italic.xml">
+    <MdString>*#tag*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TagMdSyntaxNode xml:space="preserve">tag</TagMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*#tag*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TagMdSyntaxNode",
+              "content": "tag"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

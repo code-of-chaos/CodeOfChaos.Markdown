@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="backslashEnd" FileName="escaped_char.xml">
+    <MdString>A backslash at the end of a line: This is a line\\</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">A backslash at the end of a line: This is a line</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">\</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>A backslash at the end of a line: This is a line\\</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "A backslash at the end of a line: This is a line"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "\\"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="backslashStart" FileName="escaped_char.xml">
+    <MdString>\\Start</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">\</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Start</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\\Start</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "\\"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Start"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="bold" FileName="escaped_char.xml">
+    <MdString>\*\*not bold\*\*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">not bold</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\*\*not bold\*\*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "not bold"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="code" FileName="escaped_char.xml">
+    <MdString>Escape characters like backticks: \`code\`</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Escape characters like backticks: </TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">`</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">code</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">`</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Escape characters like backticks: \`code\`</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Escape characters like backticks: "
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "`"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "code"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "`"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="italic" FileName="escaped_char.xml">
+    <MdString>\*not italic\*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">not italic</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\*not italic\*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "not italic"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="link" FileName="escaped_char.xml">
+    <MdString>\[link text\]\(https://example.com\)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">[</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">link text</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">]</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">(</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">https://example.com</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">)</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\[link text\]\(https://example.com\)</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "["
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "link text"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "]"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "("
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "https://example.com"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": ")"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="quotedLine" FileName="escaped_char.xml">
+    <MdString>\"She told me that \'he isn't here right *now*\' - so I left.\"</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">"</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">She told me that </TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">'</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">he isn't here right </TextMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">now</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">'</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> - so I left.</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">"</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\"She told me that \'he isn't here right *now*\' - so I left.\"</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "\""
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "She told me that "
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "'"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "he isn't here right "
+        },
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "now"
+            }
+          ]
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "'"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " - so I left."
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "\""
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="special" FileName="escaped_char.xml">
+    <MdString>\!\""\#\$\%\&amp;\'\(\)\*\+\,\-\.\/\:\;\&lt;\=\&gt;\?\@\[\\\]\^\_\`\{\|\}\~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">!</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">"</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">"</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">#</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">$</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">%</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">&amp;</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">'</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">(</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">)</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">*</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">+</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">,</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">-</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">.</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">/</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">:</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">;</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">&lt;</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">=</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">&gt;</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">?</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">@</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">[</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">\</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">]</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">^</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">_</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">`</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">{</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">|</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">}</EscapedCharacterMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\!\""\#\$\%\&amp;\'\(\)\*\+\,\-\.\/\:\;\&lt;\=\&gt;\?\@\[\\\]\^\_\`\{\|\}\~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "!"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "\""
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "\""
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "#"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "$"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "%"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "&amp;"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "'"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "("
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": ")"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "*"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "+"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": ","
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "-"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "."
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "/"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": ":"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": ";"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "&lt;"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "="
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "&gt;"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "?"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "@"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "["
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "\\"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "]"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "^"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "_"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "`"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "{"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "|"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "}"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "~"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="underscore" FileName="escaped_char.xml">
+    <MdString>Escaping underscores:\_This is not underscored\_</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Escaping underscores:</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">_</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">This is not underscored</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">_</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Escaping underscores:\_This is not underscored\_</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Escaping underscores:"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "_"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "This is not underscored"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "_"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

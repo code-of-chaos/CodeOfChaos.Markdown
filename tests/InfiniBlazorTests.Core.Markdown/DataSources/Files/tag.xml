@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="tag.xml">
+    <MdString>#tag</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TagMdSyntaxNode xml:space="preserve">tag</TagMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>#tag</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TagMdSyntaxNode",
+          "content": "tag"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgecasesNonBreakingSpace" FileName="tag.xml">
+    <MdString># </MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"># </TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown># </ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "# "
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="tag.xml">
+    <MdString>#</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">#</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>#</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "#"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="invalid" FileName="tag.xml">
+    <MdString>#this is not a valid tag
+
+#[link](https://www.transgenderinfo.be)</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TagMdSyntaxNode xml:space="preserve">this</TagMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> is not a valid tag</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">#</TextMdSyntaxNode>
+        <LinkMdSyntaxNode Href="https://www.transgenderinfo.be">
+          <TextMdSyntaxNode xml:space="preserve">link</TextMdSyntaxNode>
+        </LinkMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>#this is not a valid tag
+
+#[link](https://www.transgenderinfo.be)</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TagMdSyntaxNode",
+          "content": "this"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " is not a valid tag"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "#"
+        },
+        {
+          "type": "LinkMdSyntaxNode",
+          "href": "https://www.transgenderinfo.be",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "link"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="unicode" FileName="tag.xml">
+    <MdString>#不
+
+#öäüÖÄÜß</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TagMdSyntaxNode xml:space="preserve">不</TagMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TagMdSyntaxNode xml:space="preserve">öäüÖÄÜß</TagMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>#不
+
+#öäüÖÄÜß</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TagMdSyntaxNode",
+          "content": "不"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TagMdSyntaxNode",
+          "content": "öäüÖÄÜß"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withSubTags" FileName="tag.xml">
+    <MdString>#tag/subtag</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TagMdSyntaxNode xml:space="preserve">tag/subtag</TagMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>#tag/subtag</ExpectedMarkdown>
+    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TagMdSyntaxNode",
+          "content": "tag/subtag"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

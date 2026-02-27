@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="code_block.xml">
+    <MdString>```
+const code = sample();
+```
+
+```javascript
+const code = sample();
+```</MdString>
+    <MdSyntaxTree>
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="">const code = sample();
+</CodeBlockMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="javascript">const code = sample();
+</CodeBlockMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>```
+const code = sample();
+```
+
+```javascript
+const code = sample();
+```</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "",
+      "content": "const code = sample();\n"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "javascript",
+      "content": "const code = sample();\n"
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgecase_withTrailingContent" FileName="code_block.xml">
+    <MdString>```
+const code = sample();
+``` with trailing content
+
+```javascript
+const code = sample();
+``` with **bold trailing** content
+
+
+```javascript
+const code = sample();
+``` with ``` weird codeblock ``` as trailing content</MdString>
+    <MdSyntaxTree>
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="">const code = sample();
+</CodeBlockMdSyntaxNode>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> with trailing content</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="javascript">const code = sample();
+</CodeBlockMdSyntaxNode>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> with </TextMdSyntaxNode>
+        <BoldMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">bold trailing</TextMdSyntaxNode>
+        </BoldMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> content</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="javascript">const code = sample();
+</CodeBlockMdSyntaxNode>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> with </TextMdSyntaxNode>
+        <CodeInlineMdSyntaxNode xml:space="preserve" BackTickCount="3"> weird codeblock </CodeInlineMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> as trailing content</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>```
+const code = sample();
+``` with trailing content
+
+```javascript
+const code = sample();
+``` with **bold trailing** content
+
+
+```javascript
+const code = sample();
+``` with ``` weird codeblock ``` as trailing content</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "",
+      "content": "const code = sample();\n"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " with trailing content"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "javascript",
+      "content": "const code = sample();\n"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " with "
+        },
+        {
+          "type": "BoldMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "bold trailing"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " content"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "javascript",
+      "content": "const code = sample();\n"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " with "
+        },
+        {
+          "type": "CodeInlineMdSyntaxNode",
+          "backTickCount": 3,
+          "content": " weird codeblock "
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " as trailing content"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="code_block.xml">
+    <MdString>```
+
+```</MdString>
+    <MdSyntaxTree>
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="">
+</CodeBlockMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>```
+
+```</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "",
+      "content": "\n"
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="languages" FileName="code_block.xml">
+    <MdString>```javascript
+content
+```
+
+```typescript
+content
+```
+
+```python
+content
+```
+
+```csharp
+content
+```</MdString>
+    <MdSyntaxTree>
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="javascript">content
+</CodeBlockMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="typescript">content
+</CodeBlockMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="python">content
+</CodeBlockMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="csharp">content
+</CodeBlockMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>```javascript
+content
+```
+
+```typescript
+content
+```
+
+```python
+content
+```
+
+```csharp
+content
+```</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "javascript",
+      "content": "content\n"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "typescript",
+      "content": "content\n"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "python",
+      "content": "content\n"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "csharp",
+      "content": "content\n"
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withValidMarkdown" FileName="code_block.xml">
+    <MdString>```
+**some valid markdown**
+```</MdString>
+    <MdSyntaxTree>
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="">**some valid markdown**
+</CodeBlockMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>```
+**some valid markdown**
+```</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "",
+      "content": "**some valid markdown**\n"
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withWhiteSpaceInContent" FileName="code_block.xml">
+    <MdString>```
+tell application "Foo"
+    beep
+end tell
+```</MdString>
+    <MdSyntaxTree>
+      <CodeBlockMdSyntaxNode xml:space="preserve" Language="">tell application "Foo"
+    beep
+end tell
+</CodeBlockMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>```
+tell application "Foo"
+    beep
+end tell
+```</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "CodeBlockMdSyntaxNode",
+      "language": "",
+      "content": "tell application \"Foo\"\n    beep\nend tell\n"
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

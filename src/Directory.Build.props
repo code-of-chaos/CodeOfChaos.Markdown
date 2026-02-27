@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Deterministic>true</Deterministic>
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryUrl>https://github.com/InfiniLore/InfiniBlazor.git</RepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        
+        <Version>0.1.0-preview.120</Version>
+        <Authors>Anna Sas</Authors>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageProjectUrl>https://docs.infiniblazor.dev/</PackageProjectUrl>
+
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="InfiniBlazor.Core.Components" />
+        <InternalsVisibleTo Include="InfiniBlazor.Core.Js" />
+        <InternalsVisibleTo Include="InfiniBlazor.Core.Markdown" />
+        <InternalsVisibleTo Include="InfiniBlazor.Core.Theming" />
+        <InternalsVisibleTo Include="InfiniBlazor.Core.Toasting" />
+        
+        <InternalsVisibleTo Include="InfiniBlazor.Extensions.AutoDocumentation" />
+        <InternalsVisibleTo Include="InfiniBlazor.Extensions.ExtraComponents" />
+        <InternalsVisibleTo Include="InfiniBlazor.Extensions.Maui" />
+        
+        <InternalsVisibleTo Include="InfiniBlazorTests" />
+        <InternalsVisibleTo Include="InfiniBlazorTests.Shared" />
+        <InternalsVisibleTo Include="InfiniBlazorTests.Shared.Markdown" />
+        <InternalsVisibleTo Include="InfiniBlazorTests.Extensions.AutoDocumentation" />
+        <InternalsVisibleTo Include="InfiniBlazorTests.Core.Markdown" />
+        <InternalsVisibleTo Include="InfiniBlazorTests.Core.Emotes" />
+    </ItemGroup>
+
+    
+    <ItemGroup>
+        <None Include="../../LICENSE" Pack="true" PackagePath="" Visible="false" />
+        <None Include="../../README.md" Pack="true" PackagePath="" Visible="false" />
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
+    </ItemGroup>
+</Project>

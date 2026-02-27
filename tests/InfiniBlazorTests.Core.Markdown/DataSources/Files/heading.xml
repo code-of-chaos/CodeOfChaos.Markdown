@@ -1,0 +1,737 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="all_1-7" FileName="heading.xml">
+    <MdString># Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+####### Not A Heading</MdString>
+    <MdSyntaxTree>
+      <HeadingMdSyntaxNode Level="1">
+        <TextMdSyntaxNode xml:space="preserve">Heading 1</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <HeadingMdSyntaxNode Level="2">
+        <TextMdSyntaxNode xml:space="preserve">Heading 2</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <HeadingMdSyntaxNode Level="3">
+        <TextMdSyntaxNode xml:space="preserve">Heading 3</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <HeadingMdSyntaxNode Level="4">
+        <TextMdSyntaxNode xml:space="preserve">Heading 4</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <HeadingMdSyntaxNode Level="5">
+        <TextMdSyntaxNode xml:space="preserve">Heading 5</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <HeadingMdSyntaxNode Level="6">
+        <TextMdSyntaxNode xml:space="preserve">Heading 6</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">####### Not A Heading</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown># Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+####### Not A Heading</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 1,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading 1"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 2,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading 2"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 3,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading 3"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 4,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading 4"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 5,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading 5"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 6,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading 6"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "####### Not A Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgeCase_EmptyLine" FileName="heading.xml">
+    <MdString>#
+Something</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">#</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Something</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>#
+Something</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "#"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Something"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgeCase_TrailingNewLine" FileName="heading.xml">
+    <MdString># Heading
+</MdString>
+    <MdSyntaxTree>
+      <HeadingMdSyntaxNode Level="1">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+    </MdSyntaxTree>
+    <ExpectedMarkdown># Heading
+</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 1,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgecaseMultipleHashtags" FileName="heading.xml">
+    <MdString># Heading 1 # Not a heading</MdString>
+    <MdSyntaxTree>
+      <HeadingMdSyntaxNode Level="1">
+        <TextMdSyntaxNode xml:space="preserve">Heading 1 # Not a heading</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown># Heading 1 # Not a heading</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 1,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading 1 # Not a heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Equals1" FileName="heading.xml">
+    <MdString>Not A Heading
+=</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Not A Heading</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">=</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Not A Heading
+=</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Not A Heading"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "="
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Equals2" FileName="heading.xml">
+    <MdString>Not A Heading
+==</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Not A Heading</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">==</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Not A Heading
+==</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Not A Heading"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "=="
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Equals3" FileName="heading.xml">
+    <MdString>Heading
+===</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="===">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+===</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "===",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Equals4" FileName="heading.xml">
+    <MdString>Heading
+====</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="====">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+====</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "====",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Equals5" FileName="heading.xml">
+    <MdString>Heading
+=====</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="=====">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+=====</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "=====",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Equals6" FileName="heading.xml">
+    <MdString>Heading
+======</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="======">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+======</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "======",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Equals7" FileName="heading.xml">
+    <MdString>Heading
+=======</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="=======">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+=======</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "=======",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Minus1" FileName="heading.xml">
+    <MdString>Not A Heading
+-</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Not A Heading</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">-</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Not A Heading
+-</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Not A Heading"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "-"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Minus2" FileName="heading.xml">
+    <MdString>Not A Heading
+--</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Not A Heading</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">--</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Not A Heading
+--</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Not A Heading"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "--"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Minus3" FileName="heading.xml">
+    <MdString>Heading
+---</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="---">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+---</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "---",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Minus4" FileName="heading.xml">
+    <MdString>Heading
+----</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="----">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+----</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "----",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Minus5" FileName="heading.xml">
+    <MdString>Heading
+-----</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="-----">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+-----</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "-----",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Minus6" FileName="heading.xml">
+    <MdString>Heading
+------</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="------">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+------</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "------",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="simple_Minus7" FileName="heading.xml">
+    <MdString>Heading
+-------</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="-------">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+-------</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "-------",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withSpacing" FileName="heading.xml">
+    <MdString>Heading
+                ========</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="                ========">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+                ========</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "                ========",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withSpacing_Equals" FileName="heading.xml">
+    <MdString>Heading
+                ========</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="                ========">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+                ========</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "                ========",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withSpacing_Minus" FileName="heading.xml">
+    <MdString>Heading
+                --------</MdString>
+    <MdSyntaxTree>
+      <HeadingSimpleMdSyntaxNode Identifier="                --------">
+        <TextMdSyntaxNode xml:space="preserve">Heading</TextMdSyntaxNode>
+      </HeadingSimpleMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>Heading
+                --------</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "HeadingSimpleMdSyntaxNode",
+      "identifier": "                --------",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Heading"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

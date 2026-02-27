@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="span.xml">
+    <MdString>&lt;span style=\"color: red\"&gt;sometext&lt;/span&gt;</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <HtmlSpanMdSyntaxNode Attributes="style=\&quot;color: red\&quot;">
+          <TextMdSyntaxNode xml:space="preserve">sometext</TextMdSyntaxNode>
+        </HtmlSpanMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>&lt;span style=\"color: red\"&gt;sometext&lt;/span&gt;</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "HtmlSpanMdSyntaxNode",
+          "attributes": "style=\\\"color: red\\\"",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "sometext"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="span.xml">
+    <MdString>&lt;span style=\"color: red\"&gt;&lt;/span&gt;
+
+&lt;span style=\"color: red\"&gt; &lt;/span&gt;</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <HtmlSpanMdSyntaxNode Attributes="style=\&quot;color: red\&quot;" />
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <HtmlSpanMdSyntaxNode Attributes="style=\&quot;color: red\&quot;">
+          <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        </HtmlSpanMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>&lt;span style=\"color: red\"&gt;&lt;/span&gt;
+
+&lt;span style=\"color: red\"&gt; &lt;/span&gt;</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "HtmlSpanMdSyntaxNode",
+          "attributes": "style=\\\"color: red\\\""
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "HtmlSpanMdSyntaxNode",
+          "attributes": "style=\\\"color: red\\\"",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " "
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="inlineEmpty" FileName="span.xml">
+    <MdString>*test* &lt;span&gt; something &lt;/span&gt; **bold this**</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">test</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        <HtmlSpanMdSyntaxNode Attributes="">
+          <TextMdSyntaxNode xml:space="preserve"> something </TextMdSyntaxNode>
+        </HtmlSpanMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        <BoldMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">bold this</TextMdSyntaxNode>
+        </BoldMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*test* &lt;span&gt; something &lt;/span&gt; **bold this**</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "test"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " "
+        },
+        {
+          "type": "HtmlSpanMdSyntaxNode",
+          "attributes": "",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " something "
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " "
+        },
+        {
+          "type": "BoldMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "bold this"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="inlineWithMarkdown" FileName="span.xml">
+    <MdString>*test* &lt;span class="text-red-500"&gt; something &lt;/span&gt; **bold this**</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">test</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        <HtmlSpanMdSyntaxNode Attributes="class=&quot;text-red-500&quot;">
+          <TextMdSyntaxNode xml:space="preserve"> something </TextMdSyntaxNode>
+        </HtmlSpanMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        <BoldMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">bold this</TextMdSyntaxNode>
+        </BoldMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>*test* &lt;span class="text-red-500"&gt; something &lt;/span&gt; **bold this**</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "test"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " "
+        },
+        {
+          "type": "HtmlSpanMdSyntaxNode",
+          "attributes": "class=\"text-red-500\"",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " something "
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " "
+        },
+        {
+          "type": "BoldMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "bold this"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withBold" FileName="span.xml">
+    <MdString>&lt;span style=\"color: red\"&gt;**red bold?**&lt;/span&gt;</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <HtmlSpanMdSyntaxNode Attributes="style=\&quot;color: red\&quot;">
+          <BoldMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">red bold?</TextMdSyntaxNode>
+          </BoldMdSyntaxNode>
+        </HtmlSpanMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>&lt;span style=\"color: red\"&gt;**red bold?**&lt;/span&gt;</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "HtmlSpanMdSyntaxNode",
+          "attributes": "style=\\\"color: red\\\"",
+          "children": [
+            {
+              "type": "BoldMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "red bold?"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>
