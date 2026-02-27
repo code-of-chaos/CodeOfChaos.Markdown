@@ -1,0 +1,15 @@
+﻿{
+  "solution": {
+    "path": "CodeOfChaos.Markdown.slnx",
+    "projects": [
+      "benchmarks\\Benchmarks.InfiniBlazor.Markdown\\Benchmarks.InfiniBlazor.Markdown.csproj",
+      "src\\CodeOfChaos.Markdown.Editors\\CodeOfChaos.Markdown.Editors.csproj",
+      "src\\CodeOfChaos.Markdown.Parsers\\CodeOfChaos.Markdown.Parsers.csproj",
+      "src\\CodeOfChaos.Markdown.Shared\\CodeOfChaos.Markdown.Shared.csproj",
+      "src\\CodeOfChaos.Markdown.Syntax\\CodeOfChaos.Markdown.Syntax.csproj",
+      "src\\CodeOfChaos.Markdown\\CodeOfChaos.Markdown.csproj",
+      "tests\\InfiniBlazorTests.Core.Markdown\\InfiniBlazorTests.Core.Markdown.csproj",
+      "tests\\InfiniBlazorTests.Shared.Markdown\\InfiniBlazorTests.Shared.Markdown.csproj"
+    ]
+  }
+}

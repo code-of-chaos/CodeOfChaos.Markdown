@@ -3,11 +3,15 @@
     <Project Path="benchmarks/Benchmarks.InfiniBlazor.Markdown/Benchmarks.InfiniBlazor.Markdown.csproj" />
   </Folder>
   <Folder Name="/devtools/">
+    <File Path="CodeOfChaos.Markdown.GitHubActions.slnf" />
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/devtools/github/">
     <File Path=".github/dependabot.yml" />
     <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
+    <File Path=".github/workflows/onPullRequest-TestDotnet.yml" />
+    <File Path=".github/workflows/release.yml" />
+    <File Path=".github/workflows/workflow-todo.yml" />
   </Folder>
   <Folder Name="/devtools/py/">
     <File Path="devtools/bump_version.py" />
