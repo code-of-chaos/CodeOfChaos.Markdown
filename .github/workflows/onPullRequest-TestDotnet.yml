@@ -1,0 +1,26 @@
+﻿
+name: Dotnet Testing
+
+on:
+    workflow_call:
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+        branches: [ core ]
+
+jobs:
+    testing:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v5
+              with:
+                  dotnet-version: '10.x'
+
+            - name: Restore dependencies
+              run: dotnet restore CodeOfChaos.Markdown.GitHubActions.slnf
+
+            - name: Run tests
+              run: dotnet test --solution CodeOfChaos.Markdown.GitHubActions.slnf --configuration Release

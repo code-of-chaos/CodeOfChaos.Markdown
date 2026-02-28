@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+    <ItemGroup>
+        <PackageReference Include="CodeOfChaos.Extensions"/>
+        <PackageReference Include="CodeOfChaos.Extensions.AspNetCore" />
+        <PackageReference Include="CodeOfChaos.Testing.TUnit" />
+        <PackageReference Include="JetBrains.Annotations"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+        <PackageReference Include="NSubstitute" />
+        <PackageReference Include="TUnit" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CodeOfChaosTests.Shared\CodeOfChaosTests.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="RegexLib\" />
+    </ItemGroup>
+</Project>

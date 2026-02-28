@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="strike.xml">
+    <MdString>~~something~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">something</TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~something~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "something"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="strike.xml">
+    <MdString>~~~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">~~</TextMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "~~"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="multiple" FileName="strike.xml">
+    <MdString>~~one~~ and ~~two~~
+
+
+~~one~~ and ~~two~~ and ~~three~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">one</TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> and </TextMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">two</TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">one</TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> and </TextMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">two</TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> and </TextMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">three</TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~one~~ and ~~two~~
+
+
+~~one~~ and ~~two~~ and ~~three~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "one"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " and "
+        },
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "two"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "one"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " and "
+        },
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "two"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " and "
+        },
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "three"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="nestedInvalid" FileName="strike.xml">
+    <MdString>~~nested ~~strikethrough~~ does not work~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">nested </TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">strikethrough</TextMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> does not work</TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~nested ~~strikethrough~~ does not work~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "nested "
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "strikethrough"
+        },
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " does not work"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withBold" FileName="strike.xml">
+    <MdString>~~**bold and strike-through**~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <BoldMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">bold and strike-through</TextMdSyntaxNode>
+          </BoldMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~**bold and strike-through**~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "BoldMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "bold and strike-through"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedEnd" FileName="strike.xml">
+    <MdString>~~escaped\~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">~</TextMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">escaped</TextMdSyntaxNode>
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~escaped\~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "~"
+        },
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "escaped"
+            },
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "~"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedFront" FileName="strike.xml">
+    <MdString>\~~escaped~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">escaped</TextMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">~</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\~~escaped~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "~"
+        },
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "escaped"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "~"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

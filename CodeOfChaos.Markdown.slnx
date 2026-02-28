@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/CodeOfChaosBenchmarks.Markdown/CodeOfChaosBenchmarks.Markdown.csproj" />
+  </Folder>
+  <Folder Name="/devtools/">
+    <File Path="CodeOfChaos.Markdown.GitHubActions.slnf" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/devtools/github/">
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
+    <File Path=".github/workflows/onPullRequest-TestDotnet.yml" />
+    <File Path=".github/workflows/release.yml" />
+    <File Path=".github/workflows/workflow-todo.yml" />
+  </Folder>
+  <Folder Name="/devtools/py/">
+    <File Path="devtools/bump_version.py" />
+  </Folder>
+  <Folder Name="/docs/" />
+  <Folder Name="/examples/" />
+  <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
+    <Project Path="src/CodeOfChaos.Markdown.Editors/CodeOfChaos.Markdown.Editors.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown.Parsers/CodeOfChaos.Markdown.Parsers.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown.Shared/CodeOfChaos.Markdown.Shared.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown.Syntax/CodeOfChaos.Markdown.Syntax.csproj" />
+    <Project Path="src/CodeOfChaos.Markdown/CodeOfChaos.Markdown.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <File Path="tests/Directory.Build.props" />
+    <Project Path="tests/CodeOfChaosTests.Markdown.Editors/CodeOfChaosTests.Markdown.Editors.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Markdown.Parsers/CodeOfChaosTests.Markdown.Parsers.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Markdown.Syntax/CodeOfChaosTests.Markdown.Syntax.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Markdown/CodeOfChaosTests.Markdown.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Shared/CodeOfChaosTests.Shared.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>CodeOfChaos.Markdown.Syntax</RootNamespace>
+
+        <!-- Package metadata -->
+        <PackageId>CodeOfChaos.Markdown.Syntax</PackageId>
+        <Description>Markdown Parsers for C# and DotNet</Description>
+        <PackageTags>Markdown;Parsing;Library</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.ObjectPool" />
+        <PackageReference Include="CodeOfChaos.Extensions" />
+    </ItemGroup>
+
+</Project>

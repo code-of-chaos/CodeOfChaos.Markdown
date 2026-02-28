@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Package metadata -->
+        <PackageId>CodeOfChaos.Markdown</PackageId>
+        <Description>Markdown Parsers for C# and DotNet</Description>
+        <PackageTags>Markdown;Parsing;Library</PackageTags>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Editors\CodeOfChaos.Markdown.Editors.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Parsers\CodeOfChaos.Markdown.Parsers.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Markdown.Syntax\CodeOfChaos.Markdown.Syntax.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CodeOfChaos.Extensions.AspNetCore.Components" />
+        <PackageReference Include="CodeOfChaos.Extensions.MicrosoftLogging" />
+        <PackageReference Include="CodeOfChaos.Extensions.ObjectPool" />
+        <PackageReference Include="InfiniLore.Lucide" />
+        <PackageReference Include="CodeOfChaos.Extensions" />
+        <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection" />
+        <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection.Generators">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="JetBrains.Annotations" />    
+        <PackageReference Include="Microsoft.AspNetCore.Components" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+        <PackageReference Include="Microsoft.AspNetCore.WebUtilities" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    </ItemGroup>
+</Project>

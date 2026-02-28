@@ -1,0 +1,18 @@
+﻿{
+  "solution": {
+    "path": "CodeOfChaos.Markdown.slnx",
+    "projects": [
+      "src\\CodeOfChaos.Markdown.Editors\\CodeOfChaos.Markdown.Editors.csproj",
+      "src\\CodeOfChaos.Markdown.Parsers\\CodeOfChaos.Markdown.Parsers.csproj",
+      "src\\CodeOfChaos.Markdown.Shared\\CodeOfChaos.Markdown.Shared.csproj",
+      "src\\CodeOfChaos.Markdown.Syntax\\CodeOfChaos.Markdown.Syntax.csproj",
+      "src\\CodeOfChaos.Markdown\\CodeOfChaos.Markdown.csproj",
+        
+      "tests\\CodeOfChaosTests.Markdown\\CodeOfChaosTests.Markdown.csproj",
+      "tests\\CodeOfChaosTests.Markdown.Editors\\CodeOfChaosTests.Markdown.Editors.csproj",
+      "tests\\CodeOfChaosTests.Markdown.Parsers\\CodeOfChaosTests.Markdown.Parsers.csproj",
+      "tests\\CodeOfChaosTests.Markdown.Syntax\\CodeOfChaosTests.Markdown.Syntax.csproj",
+      "tests\\CodeOfChaosTests.Shared\\CodeOfChaosTests.Shared.csproj"
+    ]
+  }
+}

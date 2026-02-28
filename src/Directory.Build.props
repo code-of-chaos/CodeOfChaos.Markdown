@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Deterministic>true</Deterministic>
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryUrl>https://github.com/code-of-chaos/Markdown.git</RepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        
+        <Version>0.1.0-preview.0</Version>
+        <Authors>Anna Sas</Authors>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/code-of-chaos/Markdown/</PackageProjectUrl>
+
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Syntax"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Parsers"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Editors"/>
+
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Editors"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Parsers"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Syntax"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Shared"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <None Include="../../LICENSE" Pack="true" PackagePath="" Visible="false" />
+        <None Include="../../README.md" Pack="true" PackagePath="" Visible="false" />
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
+    </ItemGroup>
+</Project>

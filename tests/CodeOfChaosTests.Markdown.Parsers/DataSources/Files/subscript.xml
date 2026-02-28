@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="subscript.xml">
+    <MdString>~subscript~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">subscript</TextMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~subscript~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "subscript"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgeCase_HrTagPossibility" FileName="subscript.xml">
+    <DeveloperNote>I Don't know if this is possible anymore</DeveloperNote>
+    <MdString>some text ~~~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">some text </TextMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">~~</TextMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>some text ~~~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "some text "
+        },
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "~~"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="edgecaseUnbound" FileName="subscript.xml">
+    <MdString>~subscript</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">~subscript</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~subscript</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "~subscript"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty" FileName="subscript.xml">
+    <MdString>~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">~~</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "~~"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="empty_2" FileName="subscript.xml">
+    <MdString>~~~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">~~</TextMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "~~"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withBold" FileName="subscript.xml">
+    <MdString>~something **bold** in subscript~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">something </TextMdSyntaxNode>
+          <BoldMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
+          </BoldMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> in subscript</TextMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~something **bold** in subscript~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "something "
+            },
+            {
+              "type": "BoldMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "bold"
+                }
+              ]
+            },
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " in subscript"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withBoldAndEscapedTilde_1" FileName="subscript.xml">
+    <MdString>~subscript **nested \~ bold**~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">subscript </TextMdSyntaxNode>
+          <BoldMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">nested </TextMdSyntaxNode>
+            <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve"> bold</TextMdSyntaxNode>
+          </BoldMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~subscript **nested \~ bold**~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "subscript "
+            },
+            {
+              "type": "BoldMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "nested "
+                },
+                {
+                  "type": "EscapedCharacterMdSyntaxNode",
+                  "content": "~"
+                },
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": " bold"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedTilde_1" FileName="subscript.xml">
+    <MdString>~\~subscript~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">subscript</TextMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~\~subscript~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "~"
+            },
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "subscript"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedTilde_2" FileName="subscript.xml">
+    <MdString>~subscript\~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">subscript</TextMdSyntaxNode>
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~subscript\~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "subscript"
+            },
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "~"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedTilde_3" FileName="subscript.xml">
+    <MdString>~~ \~ ~~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <StrikeMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+          <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        </StrikeMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~~ \~ ~~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "StrikeMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " "
+            },
+            {
+              "type": "EscapedCharacterMdSyntaxNode",
+              "content": "~"
+            },
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " "
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withEscapedTilde_4" FileName="subscript.xml">
+    <MdString>\~literal little tilde\~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">literal little tilde</TextMdSyntaxNode>
+        <EscapedCharacterMdSyntaxNode xml:space="preserve">~</EscapedCharacterMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>\~literal little tilde\~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "~"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "literal little tilde"
+        },
+        {
+          "type": "EscapedCharacterMdSyntaxNode",
+          "content": "~"
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+  <MdTestData Id="withTag" FileName="subscript.xml">
+    <MdString>~#tag~</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <SubScriptMdSyntaxNode>
+          <TagMdSyntaxNode xml:space="preserve">tag</TagMdSyntaxNode>
+        </SubScriptMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>~#tag~</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "SubScriptMdSyntaxNode",
+          "children": [
+            {
+              "type": "TagMdSyntaxNode",
+              "content": "tag"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>

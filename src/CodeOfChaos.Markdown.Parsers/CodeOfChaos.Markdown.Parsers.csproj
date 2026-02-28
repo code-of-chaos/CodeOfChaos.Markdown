@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <!-- Package metadata -->
+        <PackageId>CodeOfChaos.Markdown.Parsers</PackageId>
+        <Description>Markdown Parsers for C# and DotNet</Description>
+        <PackageTags>Markdown;Parsing;Library</PackageTags>
+    </PropertyGroup>
+    
+  <ItemGroup>
+      <PackageReference Include="CodeOfChaos.Extensions.MicrosoftLogging" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+      <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection" />
+      <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection.Generators">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>analyzers</IncludeAssets>
+      </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
+    <ProjectReference Include="..\CodeOfChaos.Markdown.Syntax\CodeOfChaos.Markdown.Syntax.csproj" />
+  </ItemGroup>
+</Project>

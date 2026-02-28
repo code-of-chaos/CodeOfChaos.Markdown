@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <ItemGroup>
+        <PackageReference Include="CodeOfChaos.Extensions"/>
+        <PackageReference Include="CodeOfChaos.Extensions.AspNetCore" />
+        <PackageReference Include="CodeOfChaos.Testing.TUnit" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+        <PackageReference Include="NSubstitute" />
+        <PackageReference Include="TUnit" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\CodeOfChaos.Markdown.Parsers\CodeOfChaos.Markdown.Parsers.csproj" />
+      <ProjectReference Include="..\CodeOfChaosTests.Shared\CodeOfChaosTests.Shared.csproj" />
+    </ItemGroup>
+
+</Project>
