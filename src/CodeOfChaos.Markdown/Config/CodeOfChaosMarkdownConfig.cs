@@ -4,6 +4,7 @@
 using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Editors;
 using CodeOfChaos.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;

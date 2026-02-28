@@ -36,10 +36,10 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
                 bool matched = false;
 
                 // Get serializers that can trigger on this specific line-start character
-                ImmutableArray<IMdSyntaxNodeSerializer> candidates = SerializerReference.GetMultiLineSerializersForChar(currentChar);
+                ImmutableArray<IMarkdownSyntaxNodeVisitor> candidates = SerializerReference.GetMultiLineSerializersForChar(currentChar);
 
-                foreach (IMdSyntaxNodeSerializer serializer in candidates) {
-                    if (!serializer.TryGetMatch(input, out Match? match, scanPos)) continue;
+                foreach (IMarkdownSyntaxNodeVisitor serializer in candidates) {
+                    if (!serializer.TryGetSerializationMatch(input, out Match? match, scanPos)) continue;
                     if (match.Index != scanPos) continue;
 
                     EnsureCapacity(ref fragments, ref index, 1);
@@ -93,12 +93,12 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
                 scanPos += offset;
                 char currentChar = span[scanPos];
                 
-                ImmutableArray<IMdSyntaxNodeSerializer> candidates = SerializerReference.GetSingleLineSerializersForChar(currentChar);
-                IMdSyntaxNodeSerializer? winner = null;
+                ImmutableArray<IMarkdownSyntaxNodeVisitor> candidates = SerializerReference.GetSingleLineSerializersForChar(currentChar);
+                IMarkdownSyntaxNodeVisitor? winner = null;
                 Match? winningMatch = null;
 
-                foreach (IMdSyntaxNodeSerializer serializer in candidates) {
-                    if (!serializer.TryGetMatch(input, out Match? match, scanPos)) continue;
+                foreach (IMarkdownSyntaxNodeVisitor serializer in candidates) {
+                    if (!serializer.TryGetSerializationMatch(input, out Match? match, scanPos)) continue;
                     if (match.Index != scanPos) continue;
 
                     winner = serializer;

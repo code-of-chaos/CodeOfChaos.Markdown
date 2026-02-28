@@ -12,13 +12,13 @@ public readonly record struct MdSyntaxFragment(
     IMdSyntaxNode? ParentNode,
     IMdSyntaxNode? ChildNode,
     Match? Match,
-    IMdSyntaxNodeSerializer? NodeSerializer
+    IMarkdownSyntaxNodeVisitor? NodeSerializer
 ) {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
-    public static MdSyntaxFragment AsUnhandledMatch(Match match, IMdSyntaxNode node, IMdSyntaxNodeSerializer nodeSerializer)
+    public static MdSyntaxFragment AsUnhandledMatch(Match match, IMdSyntaxNode node, IMarkdownSyntaxNodeVisitor nodeSerializer)
         => new(node, null, match, nodeSerializer);
 
     public static MdSyntaxFragment AsProcessedNode(IMdSyntaxNode parentNode, IMdSyntaxNode childNode)

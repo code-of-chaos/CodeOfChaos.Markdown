@@ -12,16 +12,16 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 public interface IMdStringMdSyntaxSerializer {
     SearchValues<char> SingleLineTriggerSearchValues { get; }
     
-    ImmutableArray<IMdSyntaxNodeSerializer>[] SingleLineLookup { get; init; }
-    ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>> SingleLineNonAsciiLookup { get; init; }
+    ImmutableArray<IMarkdownSyntaxNodeVisitor>[] SingleLineLookup { get; init; }
+    ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> SingleLineNonAsciiLookup { get; init; }
 
-    ImmutableArray<IMdSyntaxNodeSerializer>[] MultiLineLookup { get; init; }
-    ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>> MultiLineNonAsciiLookup { get; init; }
+    ImmutableArray<IMarkdownSyntaxNodeVisitor>[] MultiLineLookup { get; init; }
+    ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> MultiLineNonAsciiLookup { get; init; }
     
-    IMdSyntaxNodeSerializer? FrontMatterSerializer { get; }
+    IMarkdownSyntaxNodeVisitor? FrontMatterSerializer { get; }
 
-    ImmutableArray<IMdSyntaxNodeSerializer> GetSingleLineSerializersForChar(char c);
-    ImmutableArray<IMdSyntaxNodeSerializer> GetMultiLineSerializersForChar(char c);
+    ImmutableArray<IMarkdownSyntaxNodeVisitor> GetSingleLineSerializersForChar(char c);
+    ImmutableArray<IMarkdownSyntaxNodeVisitor> GetMultiLineSerializersForChar(char c);
     IMdSyntaxTree SerializeToTree(string markdown);
     void SerializeToTree(string markdown, IMdSyntaxTree nodeTree);
 }

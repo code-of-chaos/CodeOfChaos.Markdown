@@ -1,0 +1,64 @@
+﻿// ---------------------------------------------------------------------------------------------------------------------
+// Imports
+// ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
+using CodeOfChaos.Markdown.Syntax;
+using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Code
+// ---------------------------------------------------------------------------------------------------------------------
+public abstract class BaseMarkdownSyntaxNodeVisitor<TNode> : IMarkdownSyntaxNodeVisitor
+    where TNode : MdSyntaxNode<TNode>, new() {
+    protected const RegexOptions DefaultSingleLineRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;
+    protected const RegexOptions DefaultMultiLineRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline;
+    
+    protected abstract Regex Syntax { get; }
+    public virtual ReadOnlySpan<char> SerializationTriggerCharacters => default;
+
+    // ReSharper disable once StaticMemberInGenericType
+    protected static ConcurrentDictionary<int, string> LeadingSpacesCache { get; } = new() {
+        [0] = string.Empty,
+        [1] = " ",
+        [2] = "  ",
+        [3] = "   ",
+        [4] = "    ",
+        [5] = "     ",
+        [6] = "      ",
+        [7] = "       ",
+        [8] = "        ",
+        [9] = "         "
+    };
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
+    #region Serialize
+    public bool TryGetSerializationMatch(string input, [NotNullWhen(true)] out Match? match, int startPosition = 0) {
+        match = null;
+        if (startPosition >= input.Length) return false;
+        if (input.IsNullOrEmpty()) return false;
+        
+        match = Syntax.Match(input, startPosition);
+        return match.Success;
+    }
+    public abstract void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match);
+    #endregion
+    
+    #region Deserialize
+    public void Deserialize(IMdStringDeserializerQueue queue, IMdSyntaxNode node, StringBuilder builder) {
+        if (node is not TNode typedNode) throw new ArgumentException($"Invalid node type of {node.GetType()} did adhere to {typeof(TNode)}");
+
+        Deserialize(queue, typedNode, builder);
+    }
+
+    protected abstract void Deserialize(IMdStringDeserializerQueue queue, TNode node, StringBuilder builder);
+    #endregion
+}

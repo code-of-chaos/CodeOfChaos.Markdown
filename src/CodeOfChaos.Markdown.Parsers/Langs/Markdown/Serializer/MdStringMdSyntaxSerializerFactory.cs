@@ -18,11 +18,11 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
     // -----------------------------------------------------------------------------------------------------------------
     public IMdStringMdSyntaxSerializer Create(MarkdownSerializerOptions options) {
         // ReSharper disable twice UseCollectionExpression
-        ImmutableArray<IMdSyntaxNodeSerializer> singleLineSerializers = options.SingleLine.ToImmutableArray();
-        ImmutableArray<IMdSyntaxNodeSerializer> multiLineSerializers = options.MultiLine.ToImmutableArray();
+        ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLineSerializers = options.SingleLine.ToImmutableArray();
+        ImmutableArray<IMarkdownSyntaxNodeVisitor> multiLineSerializers = options.MultiLine.ToImmutableArray();
 
-        (ImmutableArray<IMdSyntaxNodeSerializer>[] singleAscii, ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>> singleNonAscii) = BuildLookup(singleLineSerializers);
-        (ImmutableArray<IMdSyntaxNodeSerializer>[] multiAscii, ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>> multiNonAscii) = BuildLookup(multiLineSerializers);
+        (ImmutableArray<IMarkdownSyntaxNodeVisitor>[] singleAscii, ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> singleNonAscii) = BuildLookup(singleLineSerializers);
+        (ImmutableArray<IMarkdownSyntaxNodeVisitor>[] multiAscii, ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> multiNonAscii) = BuildLookup(multiLineSerializers);
 
         Span<bool> seen = stackalloc bool[256];
         Span<char> buffer = stackalloc char[256];
@@ -30,8 +30,8 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
         int count = 0;
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (IMdSyntaxNodeSerializer serializer in singleLineSerializers) {
-            foreach (char ch in serializer.TriggerCharacters) {
+        foreach (IMarkdownSyntaxNodeVisitor serializer in singleLineSerializers) {
+            foreach (char ch in serializer.SerializationTriggerCharacters) {
                 if (ch >= 256) {
                     nonAscii ??= new HashSet<char>();
                     nonAscii.Add(ch);
@@ -65,18 +65,18 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
         };
     }
 
-    private static (ImmutableArray<IMdSyntaxNodeSerializer>[] ascii,
-        ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>> nonAscii)
-        BuildLookup(ImmutableArray<IMdSyntaxNodeSerializer> serializers) {
-        var buckets = new List<IMdSyntaxNodeSerializer>?[256];
-        var nonAsciiBuckets = new Dictionary<char, List<IMdSyntaxNodeSerializer>>();
-        var globals = new List<IMdSyntaxNodeSerializer>();
+    private static (ImmutableArray<IMarkdownSyntaxNodeVisitor>[] ascii,
+        ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> nonAscii)
+        BuildLookup(ImmutableArray<IMarkdownSyntaxNodeVisitor> serializers) {
+        var buckets = new List<IMarkdownSyntaxNodeVisitor>?[256];
+        var nonAsciiBuckets = new Dictionary<char, List<IMarkdownSyntaxNodeVisitor>>();
+        var globals = new List<IMarkdownSyntaxNodeVisitor>();
 
         Span<bool> localSeen = stackalloc bool[256];
         HashSet<char>? localNonAscii = null;
 
-        foreach (IMdSyntaxNodeSerializer s in serializers) {
-            ReadOnlySpan<char> triggers = s.TriggerCharacters;
+        foreach (IMarkdownSyntaxNodeVisitor s in serializers) {
+            ReadOnlySpan<char> triggers = s.SerializationTriggerCharacters;
             if (triggers.IsEmpty) {
                 globals.Add(s);
                 continue;
@@ -90,8 +90,8 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
                     if (localSeen[ch]) continue;
                     localSeen[ch] = true;
 
-                    List<IMdSyntaxNodeSerializer>? list = buckets[ch];
-                    if (list is null) buckets[ch] = list = new List<IMdSyntaxNodeSerializer>();
+                    List<IMarkdownSyntaxNodeVisitor>? list = buckets[ch];
+                    if (list is null) buckets[ch] = list = new List<IMarkdownSyntaxNodeVisitor>();
                     list.Add(s);
                 }
                 else {
@@ -99,7 +99,7 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
                     if (!localNonAscii.Add(ch)) continue;
 
                     if (!nonAsciiBuckets.TryGetValue(ch, out var list)) {
-                        list = new List<IMdSyntaxNodeSerializer>();
+                        list = new List<IMarkdownSyntaxNodeVisitor>();
                         nonAsciiBuckets[ch] = list;
                     }
                     list.Add(s);
@@ -107,17 +107,17 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
             }
         }
 
-        var table = new ImmutableArray<IMdSyntaxNodeSerializer>[256];
+        var table = new ImmutableArray<IMarkdownSyntaxNodeVisitor>[256];
         for (int c = 0; c < 256; c++) {
-            List<IMdSyntaxNodeSerializer>? list = buckets[c];
+            List<IMarkdownSyntaxNodeVisitor>? list = buckets[c];
             int total = (list?.Count ?? 0) + globals.Count;
 
             if (total == 0) {
-                table[c] = ImmutableArray<IMdSyntaxNodeSerializer>.Empty;
+                table[c] = ImmutableArray<IMarkdownSyntaxNodeVisitor>.Empty;
                 continue;
             }
 
-            var arr = new IMdSyntaxNodeSerializer[total];
+            var arr = new IMarkdownSyntaxNodeVisitor[total];
             int offset = 0;
 
             if (list is not null) {
@@ -132,10 +132,10 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
             table[c] = ImmutableArray.Create(arr);
         }
 
-        ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>>.Builder nonAscii = ImmutableDictionary.CreateBuilder<char, ImmutableArray<IMdSyntaxNodeSerializer>>();
-        foreach ((char ch, List<IMdSyntaxNodeSerializer> list) in nonAsciiBuckets) {
+        ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>>.Builder nonAscii = ImmutableDictionary.CreateBuilder<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>>();
+        foreach ((char ch, List<IMarkdownSyntaxNodeVisitor> list) in nonAsciiBuckets) {
             int total = list.Count + globals.Count;
-            var arr = new IMdSyntaxNodeSerializer[total];
+            var arr = new IMarkdownSyntaxNodeVisitor[total];
             list.CopyTo(arr, 0);
             if (globals.Count > 0) globals.CopyTo(arr, list.Count);
             nonAscii[ch] = ImmutableArray.Create(arr);

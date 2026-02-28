@@ -13,26 +13,26 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed class MdStringMdSyntaxSerializer(ILogger<MdStringMdSyntaxSerializer> logger) : IMdStringMdSyntaxSerializer {
-    public required ImmutableArray<IMdSyntaxNodeSerializer> SingleLineSerializers { get; init; }
+    public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineSerializers { get; init; }
     public required SearchValues<char> SingleLineTriggerSearchValues { get; init; }
-    public required ImmutableArray<IMdSyntaxNodeSerializer>[] SingleLineLookup { get; init; }
-    public required ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>> SingleLineNonAsciiLookup { get; init; }
+    public required ImmutableArray<IMarkdownSyntaxNodeVisitor>[] SingleLineLookup { get; init; }
+    public required ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> SingleLineNonAsciiLookup { get; init; }
     
-    public required ImmutableArray<IMdSyntaxNodeSerializer> MultiLineSerializers { get; init; }
-    public required ImmutableArray<IMdSyntaxNodeSerializer>[] MultiLineLookup { get; init; }
-    public required ImmutableDictionary<char, ImmutableArray<IMdSyntaxNodeSerializer>> MultiLineNonAsciiLookup { get; init; }
+    public required ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineSerializers { get; init; }
+    public required ImmutableArray<IMarkdownSyntaxNodeVisitor>[] MultiLineLookup { get; init; }
+    public required ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> MultiLineNonAsciiLookup { get; init; }
     
-    public required IMdSyntaxNodeSerializer? FrontMatterSerializer { get; init; }
+    public required IMarkdownSyntaxNodeVisitor? FrontMatterSerializer { get; init; }
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public ImmutableArray<IMdSyntaxNodeSerializer> GetSingleLineSerializersForChar(char c)
+    public ImmutableArray<IMarkdownSyntaxNodeVisitor> GetSingleLineSerializersForChar(char c)
         => c < 256
             ? SingleLineLookup[c]
             : CollectionExtensions.GetValueOrDefault(SingleLineNonAsciiLookup, c, SingleLineSerializers);
 
-    public ImmutableArray<IMdSyntaxNodeSerializer> GetMultiLineSerializersForChar(char c)
+    public ImmutableArray<IMarkdownSyntaxNodeVisitor> GetMultiLineSerializersForChar(char c)
         => c < 256
             ? MultiLineLookup[c]
             : CollectionExtensions.GetValueOrDefault(MultiLineNonAsciiLookup, c, MultiLineSerializers);
@@ -89,7 +89,7 @@ public sealed class MdStringMdSyntaxSerializer(ILogger<MdStringMdSyntaxSerialize
     private void TryExtractFrontMatter(MdSyntaxFragmentStack fragmentStack, string markdown, IMdSyntaxTree nodeTree, out int newStartAtIndex) {
         newStartAtIndex = 0;
         if (FrontMatterSerializer is null) return;
-        if (!FrontMatterSerializer.TryGetMatch(markdown, out Match? match)) return;
+        if (!FrontMatterSerializer.TryGetSerializationMatch(markdown, out Match? match)) return;
         
         newStartAtIndex = match.Index + match.Length;
         FrontMatterSerializer.Serialize(fragmentStack, nodeTree.RootNode, match);

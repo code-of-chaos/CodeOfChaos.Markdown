@@ -1,0 +1,17 @@
+﻿// ---------------------------------------------------------------------------------------------------------------------
+// Imports
+// ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Syntax.Nodes;
+using System.Text;
+
+namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
+// ---------------------------------------------------------------------------------------------------------------------
+// Code
+// ---------------------------------------------------------------------------------------------------------------------
+public sealed class TemplateSyntaxNodeDeserializer : BaseMarkdownNodeSerializer<TemplateMdSyntaxNode> {
+    protected override void Deserialize(TemplateMdSyntaxNode node, StringBuilder builder) {
+        builder.Append('{', Math.Max(node.BracesCount, 1));
+        builder.Append(node.Content);
+        builder.Append('}', Math.Max(node.BracesCount, 1));
+    }
+}

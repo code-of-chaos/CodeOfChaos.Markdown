@@ -2,6 +2,8 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown.Parsers.Langs.Xml;
+using CodeOfChaos.Markdown.Parsers.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax.Nodes;
@@ -15,7 +17,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 [InjectableSingleton<IXmlMdSyntaxTreeParser>]
 public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
-    private readonly Dictionary<Type, IXmlMdSyntaxNodeVisitor> _visitors = new();
+    private readonly Dictionary<Type, IXmlSyntaxNodeVisitor> _visitors = new();
     private readonly Dictionary<string, Type> _nodeTypes = new();
 
     public static IXmlMdSyntaxTreeParser Instance { get; } = new XmlMdSyntaxTreeParser();
@@ -31,7 +33,7 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
     public XmlMdSyntaxTreeParser() {
-        RegisterVisitor<BlockQuoteMdSyntaxNode, BlockQuoteXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<BlockQuoteMdSyntaxNode, BlockQuoteXmlSyntaxNodeVisitor>();
         RegisterVisitor<BoldMdSyntaxNode, BoldXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<CalloutBodyMdSyntaxNode, CalloutBodyXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<CalloutTitleMdSyntaxNode, CalloutTitleXmlMdSyntaxNodeVisitor>();
@@ -77,7 +79,7 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
         RegisterVisitor<ScriptingIfStatementSyntaxNode, ScriptingIfStatementXmlMdSyntaxNodeVisitor>();
     }
 
-    private void RegisterVisitor<TNode, TVisitor>() where TNode : MdSyntaxNode<TNode>, new() where TVisitor : XmlMdSyntaxNodeVisitor<TNode>, new() {
+    private void RegisterVisitor<TNode, TVisitor>() where TNode : MdSyntaxNode<TNode>, new() where TVisitor : BaseXmlSyntaxNodeVisitor<TNode>, new() {
         _visitors[typeof(TNode)] = new TVisitor();
         _nodeTypes[typeof(TNode).Name] = typeof(TNode);
     }
@@ -134,7 +136,7 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
     }
 
     private void DeserializeNode(IMdSyntaxNode node, XElement parentElement) {
-        if (_visitors.TryGetValue(node.GetType(), out IXmlMdSyntaxNodeVisitor? visitor)) {
+        if (_visitors.TryGetValue(node.GetType(), out IXmlSyntaxNodeVisitor? visitor)) {
             parentElement = visitor.DeserializeToXml(node, parentElement);
         }
 
@@ -182,7 +184,7 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
     private void SerializeNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode) {
         if (element.Name.LocalName.IsNotNullOrWhiteSpace()
             && _nodeTypes.TryGetValue(element.Name.LocalName, out Type? nodeType)
-            && _visitors.TryGetValue(nodeType, out IXmlMdSyntaxNodeVisitor? visitor)) {
+            && _visitors.TryGetValue(nodeType, out IXmlSyntaxNodeVisitor? visitor)) {
             parentNode = visitor.SerializeToNode(tree, element, parentNode);
         }
 

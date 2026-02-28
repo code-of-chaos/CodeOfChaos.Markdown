@@ -1,13 +1,17 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
+using CodeOfChaos.Markdown.Parsers.NodeVisitors;
+using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Frozen;
+using BoldMarkdownSyntaxNodeVisitor = CodeOfChaos.Markdown.Parsers.NodeVisitors.BoldMarkdownSyntaxNodeVisitor;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -15,9 +19,9 @@ public static class MdStringMdSyntaxDeserializerFactory {
     public static IMdStringMdSyntaxDeserializer CreateDeserializer(IServiceProvider provider) {
         var instance = ActivatorUtilities.CreateInstance<MdStringMdSyntaxDeserializer>(provider);
 
-        Dictionary<Type, IMdStringMdSyntaxNodeDeserializer> deserializers = new Dictionary<Type, IMdStringMdSyntaxNodeDeserializer>()
-            .Register<BlockQuoteMdSyntaxNode, BlockQuoteSyntaxNodeDeserializer>(instance)
-            .Register<BoldMdSyntaxNode, BoldSyntaxNodeDeserializer>(instance)
+        Dictionary<Type, IMarkdownSyntaxNodeVisitor> deserializers = new Dictionary<Type, IMarkdownSyntaxNodeVisitor>()
+            .Register<BlockQuoteMdSyntaxNode, BlockQuoteMarkdownSyntaxNodeVisitor>(instance)
+            .Register<BoldMdSyntaxNode, BoldMarkdownSyntaxNodeVisitor>(instance)
             // .Register<CalloutBodyMdSyntaxNode, CalloutBodySyntaxNodeDeserializer>(instance) // Not implemented due to the CalloutSyntaxNodeDeserializer handling them directly
             // .Register<CalloutTitleMdSyntaxNode, CalloutTitleSyntaxNodeDeserializer>(instance) // Not implemented due to the CalloutSyntaxNodeDeserializer handling them directly
             .Register<CalloutMdSyntaxNode, CalloutSyntaxNodeDeserializer>(instance)
@@ -69,10 +73,10 @@ public static class MdStringMdSyntaxDeserializerFactory {
     // -----------------------------------------------------------------------------------------------------------------
     // Helper Methods
     // -----------------------------------------------------------------------------------------------------------------
-    private static Dictionary<Type, IMdStringMdSyntaxNodeDeserializer> Register<TNode, TDeserializer>(
-        this Dictionary<Type, IMdStringMdSyntaxNodeDeserializer> deserializers,
+    private static Dictionary<Type, IMarkdownSyntaxNodeVisitor> Register<TNode, TDeserializer>(
+        this Dictionary<Type, IMarkdownSyntaxNodeVisitor> deserializers,
         IMdStringMdSyntaxDeserializer instance
-    ) where TDeserializer : MdStringMdSyntaxNodeDeserializerBase<TNode>, new() where TNode : IMdSyntaxNode {
+    ) where TDeserializer : BaseMarkdownSyntaxNodeVisitor<TNode>, new() where TNode : IMdSyntaxNode {
         deserializers.AddOrUpdate(typeof(TNode), new TDeserializer {
             Deserializer = instance
         });
