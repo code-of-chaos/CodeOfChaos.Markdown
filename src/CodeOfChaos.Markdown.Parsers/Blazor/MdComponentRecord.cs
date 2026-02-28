@@ -1,8 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown.Parsers.Blazor;
-using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Runtime.CompilerServices;
 

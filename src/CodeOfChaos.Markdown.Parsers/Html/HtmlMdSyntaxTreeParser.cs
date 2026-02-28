@@ -2,8 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
-using CodeOfChaos.Markdown.Markdown.Parsers.Html;
-using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.HtmlRendering;

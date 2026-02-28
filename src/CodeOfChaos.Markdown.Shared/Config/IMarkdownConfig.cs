@@ -1,7 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Parsers.Blazor;
 using System.Collections.Frozen;
 
 namespace CodeOfChaos.Markdown.Config;

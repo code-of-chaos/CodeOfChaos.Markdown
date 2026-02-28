@@ -1,8 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Deserializer;
-using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using Microsoft.Extensions.DependencyInjection;

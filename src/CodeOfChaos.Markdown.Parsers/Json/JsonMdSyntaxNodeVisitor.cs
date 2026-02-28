@@ -1,8 +1,6 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown.Parsers.Json;
-using CodeOfChaos.Markdown.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax;
 using System.Runtime.CompilerServices;
 using System.Text.Json;

@@ -1,8 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown.Parsers.Markdown.Deserializer;
-using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Pooling;
 using Microsoft.Extensions.Logging;
 using System.Collections.Frozen;

@@ -1,7 +1,6 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown.Syntax;
 using CodeOfChaos.Markdown.Pooling;
 using Microsoft.Extensions.ObjectPool;
 using System.Collections.Frozen;

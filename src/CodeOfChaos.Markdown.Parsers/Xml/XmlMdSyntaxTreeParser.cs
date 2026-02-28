@@ -2,10 +2,8 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
-using CodeOfChaos.Markdown.Markdown.Parsers.Xml;
-using CodeOfChaos.Markdown.Markdown.Syntax;
-using CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 using System.Xml;
@@ -147,6 +145,10 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
     #endregion
 
     #region Serialize
+    public IMdSyntaxTree SerializeStringToSyntaxTree(string input) {
+        XElement element = XElement.Parse(input);
+        return SerializeToSyntaxTree(element);
+    }
     public IMdSyntaxTree SerializeToSyntaxTree(XElement element) {
         if (element.Name != "MdSyntaxTree") throw new InvalidOperationException("Invalid XML root element");
 
@@ -169,7 +171,7 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
         return SerializeToSyntaxTree(rootElement);
     }
 
-    public async Task<IMdSyntaxTree> SerializeToSyntaxTreeAsync(string filePath, CancellationToken ct = default) {
+    public async Task<IMdSyntaxTree> SerializeFileToSyntaxTreeAsync(string filePath, CancellationToken ct = default) {
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentException("File path cannot be null or whitespace.", nameof(filePath));
 

@@ -2,11 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
-using CodeOfChaos.Markdown.Markdown;
-using CodeOfChaos.Markdown.Markdown.Parsers.Html;
-using CodeOfChaos.Markdown.Markdown.Parsers.Json;
-using CodeOfChaos.Markdown.Markdown.Parsers.Markdown;
-using CodeOfChaos.Markdown.Markdown.Parsers.Xml;
+using CodeOfChaos.Markdown.Parsers.Html;
+using CodeOfChaos.Markdown.Parsers.Json;
+using CodeOfChaos.Markdown.Parsers.Markdown;
+using CodeOfChaos.Markdown.Parsers.Xml;
 
 namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------

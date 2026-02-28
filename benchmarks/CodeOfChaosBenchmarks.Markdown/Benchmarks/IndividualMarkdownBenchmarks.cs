@@ -4,8 +4,7 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using CodeOfChaos.Markdown;
-using CodeOfChaos.Markdown.Markdown;
-using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaosBenchmarks.Markdown.Mocks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;

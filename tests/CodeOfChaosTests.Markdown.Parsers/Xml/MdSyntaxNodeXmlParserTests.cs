@@ -1,9 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown.Syntax;
-using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 using System.Xml.Linq;
@@ -126,7 +125,7 @@ public class MdSyntaxTreeXmlParserTests {
         await File.WriteAllTextAsync(FilePathInput, Xml);
 
         // Act
-        IMdSyntaxTree tree = await _parser.SerializeToSyntaxTreeAsync(FilePathInput);
+        IMdSyntaxTree tree = await _parser.SerializeFileToSyntaxTreeAsync(FilePathInput);
 
         // Assert
         await Assert.That(tree.RootNode).IsNotNull();

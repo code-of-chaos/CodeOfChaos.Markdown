@@ -1,8 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Markdown;
-using CodeOfChaos.Markdown.Markdown.Syntax;
+using CodeOfChaos.Markdown;
+using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaosTests.Markdown.Parsers.DataSources;
 using CodeOfChaosTests.Shared;
 

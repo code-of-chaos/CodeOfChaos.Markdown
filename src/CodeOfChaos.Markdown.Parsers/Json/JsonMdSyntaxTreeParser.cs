@@ -2,10 +2,8 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
-using CodeOfChaos.Markdown.Markdown.Parsers.Json;
-using CodeOfChaos.Markdown.Markdown.Syntax;
-using CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 using System.Text.Json;
@@ -161,6 +159,12 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
     #endregion
 
     #region Serialize
+    
+    public IMdSyntaxTree SerializeToSyntaxTree(string input) {
+        JsonElement element = JsonDocument.Parse(input).RootElement;
+        return SerializeToSyntaxTree(element);
+    }
+    
     public IMdSyntaxTree SerializeToSyntaxTree(JsonElement element) {
         if (!element.TryGetProperty("type", out JsonElement typeProperty) || typeProperty.GetString() != "MdSyntaxTree") {
             throw new InvalidOperationException("Invalid JSON root element");
