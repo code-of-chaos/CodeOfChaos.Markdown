@@ -8,8 +8,8 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ContentSyntaxNodeDeserializer : MdStringMdSyntaxNodeDeserializerBase<TextMdSyntaxNode> {
-    protected override void Deserialize(TextMdSyntaxNode node, StringBuilder builder) {
+public sealed class HtmlSyntaxNodeDeserializer : MdStringMdSyntaxNodeDeserializerBase<HtmlMdSyntaxNode> {
+    protected override void Deserialize(HtmlMdSyntaxNode node, StringBuilder builder) {
         builder.Append(node.Content);
     }
 }
