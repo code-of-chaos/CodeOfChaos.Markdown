@@ -37,11 +37,11 @@ public class MarkdownBenchmark {
         Parser = provider.GetRequiredService<IMarkdownParser>();
     }
 
-    private static ServiceProvider CreateProvider(Action<InfiniBlazorMarkdownConfig>? configure = null) {
+    private static ServiceProvider CreateProvider(Action<CodeOfChaosMarkdownConfig>? configure = null) {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<Microsoft.AspNetCore.Components.NavigationManager, MockNavigationManager>();
         serviceCollection.AddSingleton<Microsoft.JSInterop.IJSRuntime, MockJsRuntime>();
-        serviceCollection.AddInfiniBlazorMarkdown(config => configure?.Invoke(config));
+        serviceCollection.AddCodeOfChaosMarkdown(config => configure?.Invoke(config));
         serviceCollection.AddLogging();
         return serviceCollection.BuildServiceProvider();
     }

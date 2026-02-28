@@ -26,7 +26,7 @@ public class MarkdownDiDataSourceAttribute : DependencyInjectionDataSourceAttrib
 
         services.AddLogging();
         services.AddLucideIcons();
-        services.AddInfiniBlazorMarkdown();
+        services.AddCodeOfChaosMarkdown();
         
         // Resolves and issue with the JSRuntime dependency on the HtmlRenderer for Markdown
         services.AddSingleton(Substitute.For<IJSRuntime>());

@@ -9,7 +9,7 @@ namespace CodeOfChaos.Markdown.Parsers.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class InfiniBlazorMdComponentBase<T> : ComponentBase
+public abstract class MarkdownComponentBase<T> : ComponentBase
     where T : class, IMdSyntaxNode {
     [Parameter] public required T SyntaxNode { get; set; }
     [Inject] public IBlazorMdComponentConverter ComponentConverter { get; set; } = null!;

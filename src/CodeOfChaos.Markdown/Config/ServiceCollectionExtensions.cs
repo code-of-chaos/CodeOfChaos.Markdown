@@ -13,8 +13,8 @@ public static class ServiceCollectionExtensions {
     
     // Used for the standalone version of the library
     [UsedImplicitly]
-    public static IServiceCollection AddInfiniBlazorMarkdown(this IServiceCollection serviceCollection, Action<InfiniBlazorMarkdownConfig>? configure = null) {
-        var themingConfig = new InfiniBlazorMarkdownConfig(serviceCollection);
+    public static IServiceCollection AddCodeOfChaosMarkdown(this IServiceCollection serviceCollection, Action<CodeOfChaosMarkdownConfig>? configure = null) {
+        var themingConfig = new CodeOfChaosMarkdownConfig(serviceCollection);
         
         configure?.Invoke(themingConfig);
         

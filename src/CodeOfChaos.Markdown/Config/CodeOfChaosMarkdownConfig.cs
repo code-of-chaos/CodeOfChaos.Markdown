@@ -17,7 +17,7 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class InfiniBlazorMarkdownConfig : IMarkdownConfig {
+public sealed class CodeOfChaosMarkdownConfig : IMarkdownConfig {
     private Dictionary<Type, MdComponentRecord> ComponentRecords { get; } = new(32);
     private HashSet<Type> SkippedBlazorComponentTypes { get; } = [typeof(FootnoteDescriptionMdSyntaxNode)]; 
     public bool RenderUnknownBlazorComponents { get; set; }
@@ -30,7 +30,7 @@ public sealed class InfiniBlazorMarkdownConfig : IMarkdownConfig {
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
-    public InfiniBlazorMarkdownConfig(IServiceCollection serviceCollection) {
+    public CodeOfChaosMarkdownConfig(IServiceCollection serviceCollection) {
         serviceCollection.RegisterServicesFromCodeOfChaosMarkdown();
         serviceCollection.RegisterServicesFromCodeOfChaosMarkdownEditors();
         serviceCollection.RegisterServicesFromCodeOfChaosMarkdownParsers();
@@ -99,7 +99,7 @@ public sealed class InfiniBlazorMarkdownConfig : IMarkdownConfig {
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public InfiniBlazorMarkdownConfig RegisterMdBlazorComponent<TNode, TComponent>() where TComponent : InfiniBlazorMdComponentBase<TNode> where TNode : class, IMdSyntaxNode {
+    public CodeOfChaosMarkdownConfig RegisterMdBlazorComponent<TNode, TComponent>() where TComponent : MarkdownComponentBase<TNode> where TNode : class, IMdSyntaxNode {
         int count = ComponentRecords.Count;
         if (ComponentRecords.Capacity < count + 1) ComponentRecords.EnsureCapacity(count * 2);
         
@@ -107,7 +107,7 @@ public sealed class InfiniBlazorMarkdownConfig : IMarkdownConfig {
         return this;
     }
     
-    public InfiniBlazorMarkdownConfig SkipBlazorRenderingOnComponent<TNode>() where TNode : class, IMdSyntaxNode {
+    public CodeOfChaosMarkdownConfig SkipBlazorRenderingOnComponent<TNode>() where TNode : class, IMdSyntaxNode {
         SkippedBlazorComponentTypes.Add(typeof(TNode));
         return this;   
     }
