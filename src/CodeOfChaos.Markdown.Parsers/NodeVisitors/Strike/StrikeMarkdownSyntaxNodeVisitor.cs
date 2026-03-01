@@ -35,12 +35,12 @@ public sealed partial class StrikeMarkdownSyntaxNodeVisitor : BaseMarkdownSyntax
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> strikeValue = match.Groups[StrikeContentId].ValueSpan;
+        string strikeValue = match.Groups[StrikeContentId].Value;
 
         StrikeMdSyntaxNode node = MdSyntaxNodePool<StrikeMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
 
-        stack.PushSingleLineMatchesToStack(strikeValue.ToString(), node);
+        stack.PushSingleLineMatchesToStack(strikeValue, node);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, StrikeMdSyntaxNode node) {

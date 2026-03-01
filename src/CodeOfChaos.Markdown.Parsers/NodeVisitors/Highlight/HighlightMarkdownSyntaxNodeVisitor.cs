@@ -35,11 +35,11 @@ public sealed partial class HighlightMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> highlightValue = match.Groups[HId].ValueSpan;
+        string highlightValue = match.Groups[HId].Value;
 
         HighlightMdSyntaxNode node = MdSyntaxNodePool<HighlightMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(highlightValue.ToString(), node);
+        stack.PushSingleLineMatchesToStack(highlightValue, node);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, HighlightMdSyntaxNode node) {

@@ -38,17 +38,17 @@ public sealed partial class ImageMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> altText = match.Groups[ImgTextId].ValueSpan;
-        ReadOnlySpan<char> href = match.Groups[ImgHrefId].ValueSpan;
-        ReadOnlySpan<char> mods = match.Groups[ImgModsId].ValueSpan;
-        ReadOnlySpan<char> title = match.Groups[ImgTitleId].ValueSpan;
+        string altText = match.Groups[ImgTextId].Value;
+        string href = match.Groups[ImgHrefId].Value;
+        string mods = match.Groups[ImgModsId].Value;
+        string title = match.Groups[ImgTitleId].Value;
 
         ImageMdSyntaxNode imgNode = MdSyntaxNodePool<ImageMdSyntaxNode>.Shared.Get();
-        imgNode.WithAltText(altText.ToString());
-        imgNode.WithHref(href.ToString());
+        imgNode.WithAltText(altText);
+        imgNode.WithHref(href);
 
-        if (!mods.IsWhiteSpace()) imgNode.WithModifier(MdSyntaxNodeModifier.FromString(mods.ToString()));
-        if (!title.IsEmpty) imgNode.WithTitle(title.ToString());
+        if (mods.IsNotNullOrWhiteSpace()) imgNode.WithModifier(MdSyntaxNodeModifier.FromString(mods));
+        if (title.IsNotNullOrEmpty()) imgNode.WithTitle(title);
 
         parentNode.AddChildNode(imgNode);
     }

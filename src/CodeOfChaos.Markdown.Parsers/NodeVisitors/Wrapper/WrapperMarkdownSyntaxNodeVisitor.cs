@@ -27,13 +27,13 @@ public sealed partial class WrapperMarkdownSyntaxNodeVisitor : BaseMarkdownSynta
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> wrapperValue = match.Groups[WId].ValueSpan;
-        ReadOnlySpan<char> mods = match.Groups[WModsId].ValueSpan;// Mods are required for this match
+        string wrapperValue = match.Groups[WId].Value;
+        string mods = match.Groups[WModsId].Value;// Mods are required for this match
 
         WrapperMdSyntaxNode node = MdSyntaxNodePool<WrapperMdSyntaxNode>.Shared.Get();
-        node.WithModifier(MdSyntaxNodeModifier.FromString(mods.ToString()));
+        node.WithModifier(MdSyntaxNodeModifier.FromString(mods));
         parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(wrapperValue.ToString(), node);
+        stack.PushSingleLineMatchesToStack(wrapperValue, node);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, WrapperMdSyntaxNode node) {

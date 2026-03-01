@@ -26,11 +26,11 @@ public sealed partial class UnderlineMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> underlineValue = match.Groups[UId].ValueSpan;
+        string underlineValue = match.Groups[UId].Value;
 
         UnderlineMdSyntaxNode node = MdSyntaxNodePool<UnderlineMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(underlineValue.ToString(), node);
+        stack.PushSingleLineMatchesToStack(underlineValue, node);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, UnderlineMdSyntaxNode node) {

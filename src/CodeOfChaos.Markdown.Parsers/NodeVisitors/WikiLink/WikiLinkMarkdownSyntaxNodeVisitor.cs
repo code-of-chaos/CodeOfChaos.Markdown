@@ -26,10 +26,10 @@ public sealed partial class WikiLinkMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> href = match.Groups[WikiLinkHrefId].ValueSpan;
+        string href = match.Groups[WikiLinkHrefId].Value;
 
         WikiLinkMdSyntaxNode node = MdSyntaxNodePool<WikiLinkMdSyntaxNode>.Shared.Get();
-        node.WithContent(href.ToString());
+        node.WithContent(href);
         parentNode.AddChildNode(node);
     }
 

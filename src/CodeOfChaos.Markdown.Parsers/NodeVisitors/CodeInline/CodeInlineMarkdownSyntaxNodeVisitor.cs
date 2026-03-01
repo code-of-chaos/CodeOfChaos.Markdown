@@ -25,11 +25,11 @@ public sealed partial class CodeInlineMarkdownSyntaxNodeVisitor : BaseMarkdownSy
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> codeValue = match.Groups[CodeContentId].ValueSpan;
+        string codeValue = match.Groups[CodeContentId].Value;
         ReadOnlySpan<char> fullOriginalString = match.ValueSpan;
 
         CodeInlineMdSyntaxNode node = MdSyntaxNodePool<CodeInlineMdSyntaxNode>.Shared.Get();
-        node.WithContent(codeValue.ToString());
+        node.WithContent(codeValue);
 
         // Calculate backtick count by comparing full string length to content length
         int totalLength = fullOriginalString.Length;

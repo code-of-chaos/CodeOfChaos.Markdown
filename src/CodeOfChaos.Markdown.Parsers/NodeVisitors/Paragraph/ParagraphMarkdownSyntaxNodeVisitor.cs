@@ -24,16 +24,16 @@ public sealed partial class ParagraphMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> paragraph = match.Groups[PId].ValueSpan;
+        string paragraph = match.Groups[PId].Value;
 
         if (parentNode is HtmlSpanMdSyntaxNode) {
-            stack.PushSingleLineMatchesToStack(paragraph.ToString(), parentNode);
+            stack.PushSingleLineMatchesToStack(paragraph, parentNode);
             return;
         }
 
         ParagraphMdSyntaxNode node = MdSyntaxNodePool<ParagraphMdSyntaxNode>.Shared.Get();
         parentNode = parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(paragraph.ToString(), parentNode);
+        stack.PushSingleLineMatchesToStack(paragraph, parentNode);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, ParagraphMdSyntaxNode node) {

@@ -26,10 +26,10 @@ public sealed partial class UserMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> username = match.Groups[UsernameId].ValueSpan;
+        string username = match.Groups[UsernameId].Value;
 
         UserMdSyntaxNode node = MdSyntaxNodePool<UserMdSyntaxNode>.Shared.Get();
-        node.WithContent(username.ToString());
+        node.WithContent(username);
         parentNode.AddChildNode(node);
     }
 

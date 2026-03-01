@@ -37,18 +37,18 @@ public sealed partial class LinkMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ReadOnlySpan<char> linkText = match.Groups[LnTextId].ValueSpan;
-        ReadOnlySpan<char> linkHref = match.Groups[LnHrefId].ValueSpan;
-        ReadOnlySpan<char> mods = match.Groups[LnModsId].ValueSpan;
-        ReadOnlySpan<char> title = match.Groups[LnTitleId].ValueSpan;
+        string linkText = match.Groups[LnTextId].Value;
+        string linkHref = match.Groups[LnHrefId].Value;
+        string mods = match.Groups[LnModsId].Value;
+        string title = match.Groups[LnTitleId].Value;
 
         LinkMdSyntaxNode linkNode = MdSyntaxNodePool<LinkMdSyntaxNode>.Shared.Get();
-        linkNode.WithHref(linkHref.ToString());
-        if (!mods.IsWhiteSpace()) linkNode.WithModifier(MdSyntaxNodeModifier.FromString(mods.ToString()));
-        if (!title.IsEmpty) linkNode.WithTitle(title.ToString());
+        linkNode.WithHref(linkHref);
+        if (mods.IsNotNullOrWhiteSpace()) linkNode.WithModifier(MdSyntaxNodeModifier.FromString(mods));
+        if (title.IsNotNullOrEmpty()) linkNode.WithTitle(title);
 
         parentNode.AddChildNode(linkNode);
-        stack.PushSingleLineMatchesToStack(linkText.ToString(), linkNode);
+        stack.PushSingleLineMatchesToStack(linkText, linkNode);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, LinkMdSyntaxNode node) {
