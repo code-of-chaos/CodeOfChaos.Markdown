@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class HtmlSpanXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<HtmlSpanMdSyntaxNode> {
+public sealed class HtmlSpanXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlSpanMdSyntaxNode> {
     private const string Attributes = nameof(HtmlSpanMdSyntaxNode.Attributes);
 
     // -----------------------------------------------------------------------------------------------------------------

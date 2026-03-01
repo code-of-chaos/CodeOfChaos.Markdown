@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class WikiLinkXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<WikiLinkMdSyntaxNode> {
+public sealed class WikiLinkXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<WikiLinkMdSyntaxNode> {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods

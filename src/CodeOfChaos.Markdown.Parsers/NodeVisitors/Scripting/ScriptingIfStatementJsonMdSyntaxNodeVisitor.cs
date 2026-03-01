@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -10,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingIfStatementJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<ScriptingIfStatementSyntaxNode> {
+public sealed class ScriptingIfStatementJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ScriptingIfStatementSyntaxNode> {
     private static readonly string ElseConditionIndex = nameof(ScriptingIfStatementSyntaxNode.ElseConditionIndex).ToCamelCase();
     // -----------------------------------------------------------------------------------------------------------------
     // Methods

@@ -11,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingExpressionXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<ScriptingExpressionSyntaxNode> {
+public sealed class ScriptingExpressionXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingExpressionSyntaxNode> {
     private const string FullStatement = nameof(ScriptingExpressionSyntaxNode.FullStatement);
     private const string ExpressionStart = nameof(ScriptingExpressionSyntaxNode.ExpressionStart);
     private const string ExpressionLength = nameof(ScriptingExpressionSyntaxNode.ExpressionLength);

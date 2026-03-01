@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class EscapedCharacterJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<EscapedCharacterMdSyntaxNode> {
+public sealed class EscapedCharacterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<EscapedCharacterMdSyntaxNode> {
     private static readonly string Content = nameof(EscapedCharacterMdSyntaxNode.Content).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------

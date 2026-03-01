@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class BaseXmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : MdSyntaxNode<TNode>, new() {
+public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : MdSyntaxNode<TNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);
     private const string Attributes = nameof(Attributes);

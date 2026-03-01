@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class BlockQuoteXmlSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<BlockQuoteMdSyntaxNode> {
+public sealed class BlockQuoteXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<BlockQuoteMdSyntaxNode> {
     private const string LeadingSpaces = nameof(BlockQuoteMdSyntaxNode.LeadingSpaces);
 
     // -----------------------------------------------------------------------------------------------------------------

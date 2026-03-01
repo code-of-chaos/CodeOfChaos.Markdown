@@ -22,39 +22,39 @@ public class NodeDeserializerFragmentQueue : INodeDeserializerFragmentQueue, IRe
         => _queue.TryDequeue(out fragment);
     
     
-    public void Enqueue(string s) {
+    public void Enqueue(string? value) {
         ArgumentNullException.ThrowIfNull(BuilderReference);
-        if (s.IsNullOrEmpty()) return;
+        if (value.IsNullOrEmpty()) return;
 
         if (_queue.IsEmpty()) {
-            BuilderReference.Append(s);
+            BuilderReference.Append(value);
             return;
         }
         
-        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(s);
+        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(value);
         _queue.Enqueue(fragment);
     }
     
-    public void Enqueue(char s) {
+    public void Enqueue(char value) {
         ArgumentNullException.ThrowIfNull(BuilderReference);
         
         if (_queue.IsEmpty()) {
-            BuilderReference.Append(s);
+            BuilderReference.Append(value);
             return;
         }
         
-        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsCharacterToBeProcessed(s);
+        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsCharacterToBeProcessed(value);
         _queue.Enqueue(fragment);
     }
-    public void Enqueue(ReadOnlySpan<char> line) {
+    public void Enqueue(ReadOnlySpan<char> value) {
         ArgumentNullException.ThrowIfNull(BuilderReference);
         
         if (_queue.IsEmpty()) {
-            BuilderReference.Append(line);
+            BuilderReference.Append(value);
             return;
         }
         
-        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(line.ToString());
+        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(value.ToString());
         _queue.Enqueue(fragment);
     }
 

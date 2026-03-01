@@ -3,13 +3,11 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Markdown;
 using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
-using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
 using CodeOfChaos.Markdown.Parsers.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Frozen;
-using BoldMarkdownSyntaxNodeVisitor = CodeOfChaos.Markdown.Parsers.NodeVisitors.BoldMarkdownSyntaxNodeVisitor;
 
 namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -22,48 +20,48 @@ public static class MdStringMdSyntaxDeserializerFactory {
         Dictionary<Type, IMarkdownSyntaxNodeVisitor> deserializers = new Dictionary<Type, IMarkdownSyntaxNodeVisitor>()
             .Register<BlockQuoteMdSyntaxNode, BlockQuoteMarkdownSyntaxNodeVisitor>(instance)
             .Register<BoldMdSyntaxNode, BoldMarkdownSyntaxNodeVisitor>(instance)
-            // .Register<CalloutBodyMdSyntaxNode, CalloutBodySyntaxNodeDeserializer>(instance) // Not implemented due to the CalloutSyntaxNodeDeserializer handling them directly
-            // .Register<CalloutTitleMdSyntaxNode, CalloutTitleSyntaxNodeDeserializer>(instance) // Not implemented due to the CalloutSyntaxNodeDeserializer handling them directly
-            .Register<CalloutMdSyntaxNode, CalloutSyntaxNodeDeserializer>(instance)
-            .Register<CodeBlockMdSyntaxNode, CodeBlockSyntaxNodeDeserializer>(instance)
-            .Register<CodeInlineMdSyntaxNode, CodeInlineSyntaxNodeDeserializer>(instance)
-            .Register<HtmlMdSyntaxNode, HtmlSyntaxNodeDeserializer>(instance)
-            .Register<TextMdSyntaxNode, TextSyntaxNodeDeserializer>(instance)
-            .Register<EmoteMdSyntaxNode, EmoteSyntaxNodeDeserializer>(instance)
-            .Register<NewLineMdSyntaxNode, NewLineSyntaxNodeDeserializer>(instance)
-            .Register<EscapedCharacterMdSyntaxNode, EscapedCharacterSyntaxNodeDeserializer>(instance)
-            .Register<HeadingMdSyntaxNode, HeadingSyntaxNodeDeserializer>(instance)
-            .Register<HeadingSimpleMdSyntaxNode, HeadingSimpleSyntaxNodeDeserializer>(instance)
-            .Register<HorizontalRuleMdSyntaxNode, HorizontalRuleSyntaxNodeDeserializer>(instance)
-            .Register<HtmlSpanMdSyntaxNode, HtmlSpanSyntaxNodeDeserializer>(instance)
-            .Register<ImageMdSyntaxNode, ImageSyntaxNodeDeserializer>(instance)
-            .Register<ItalicMdSyntaxNode, ItalicSyntaxNodeDeserializer>(instance)
-            .Register<LinkMdSyntaxNode, LinkSyntaxNodeDeserializer>(instance)
-            .Register<ListItemMdSyntaxNode, ListItemSyntaxNodeDeserializer>(instance)
-            .Register<ListOrderedMdSyntaxNode, ListOrderedSyntaxNodeDeserializer>(instance)
-            .Register<ListUnOrderedMdSyntaxNode, ListUnOrderedSyntaxNodeDeserializer>(instance)
-            .Register<ParagraphMdSyntaxNode, ParagraphSyntaxNodeDeserializer>(instance)
-            // Register<RootMdSyntaxNode, RootSyntaxNodeDeserializer>(instance) // Is a semantic node and cannot be processed
-            .Register<StrikeMdSyntaxNode, StrikeSyntaxNodeDeserializer>(instance)
-            .Register<SubScriptMdSyntaxNode, SubScriptSyntaxNodeDeserializer>(instance)
-            .Register<SuperScriptMdSyntaxNode, SuperScriptSyntaxNodeDeserializer>(instance)
-            // .Register<TableCellMdSyntaxNode, TableCellSyntaxNodeDeserializer>(instance) // Not implemented due to the TableSyntaxNodeDeserializer handling them directly
-            // .Register<TableRowMdSyntaxNode, TableRowSyntaxNodeDeserializer>(instance) // Not implemented due to the TableSyntaxNodeDeserializer handling them directly
-            .Register<TableMdSyntaxNode, TableSyntaxNodeDeserializer>(instance)
-            .Register<TagMdSyntaxNode, TagSyntaxNodeDeserializer>(instance)
-            .Register<UnderlineMdSyntaxNode, UnderlineSyntaxNodeDeserializer>(instance)
-            .Register<UserMdSyntaxNode, UserSyntaxNodeDeserializer>(instance)
-            .Register<WikiLinkMdSyntaxNode, WikiLinkSyntaxNodeDeserializer>(instance)
-            .Register<TemplateMdSyntaxNode, TemplateSyntaxNodeDeserializer>(instance)
-            .Register<FootnoteReferenceMdSyntaxNode, FootnoteReferenceSyntaxNodeDeserializer>(instance)
-            .Register<FootnoteDescriptionMdSyntaxNode, FootnoteDescriptionSyntaxNodeDeserializer>(instance)
-            .Register<HighlightMdSyntaxNode, HighlightSyntaxNodeDeserializer>(instance)
-            .Register<WrapperMdSyntaxNode, WrapperSyntaxNodeDeserializer>(instance)
-            .Register<FrontMatterMdSyntaxNode, FrontMatterSyntaxNodeDeserializer>(instance)
-            .Register<BreakMdSyntaxNode, BreakSyntaxNodeDeserializer>(instance)
-            .Register<ScriptingIfStatementSyntaxNode, ScriptingIfStatementSyntaxNodeDeserializer>(instance)
-            .Register<ScriptingExpressionSyntaxNode, ScriptingExpressionSyntaxNodeDeserializer>(instance)
-            .Register<ScriptingBodySyntaxNode, ScriptingBodySyntaxNodeDeserializer>(instance)
+            .Register<BreakMdSyntaxNode, BreakMarkdownSyntaxNodeVisitor>(instance)
+            // .Register<CalloutBodyMdSyntaxNode, CalloutBodyMarkdownSyntaxNodeVisitor>(instance) // Not implemented due to the CalloutMarkdownSyntaxNodeVisitor handling them directly
+            .Register<CalloutMdSyntaxNode, CalloutMarkdownSyntaxNodeVisitor>(instance)
+            // .Register<CalloutTitleMdSyntaxNode, CalloutTitleMarkdownSyntaxNodeVisitor>(instance) // Not implemented due to the CalloutMarkdownSyntaxNodeVisitor handling them directly
+            .Register<CodeBlockMdSyntaxNode, CodeBlockMarkdownSyntaxNodeVisitor>(instance)
+            .Register<CodeInlineMdSyntaxNode, CodeInlineMarkdownSyntaxNodeVisitor>(instance)
+            .Register<EmoteMdSyntaxNode, EmoteMarkdownSyntaxNodeVisitor>(instance)
+            .Register<EscapedCharacterMdSyntaxNode, EscapedCharacterMarkdownSyntaxNodeVisitor>(instance)
+            .Register<FootnoteDescriptionMdSyntaxNode, FootnoteDescriptionMarkdownSyntaxNodeVisitor>(instance)
+            .Register<FootnoteReferenceMdSyntaxNode, FootnoteReferenceMarkdownSyntaxNodeVisitor>(instance)
+            .Register<FrontMatterMdSyntaxNode, FrontMatterMarkdownSyntaxNodeVisitor>(instance)
+            .Register<HeadingMdSyntaxNode, HeadingMarkdownSyntaxNodeVisitor>(instance)
+            .Register<HeadingSimpleMdSyntaxNode, HeadingSimpleMarkdownSyntaxNodeVisitor>(instance)
+            .Register<HighlightMdSyntaxNode, HighlightMarkdownSyntaxNodeVisitor>(instance)
+            .Register<HorizontalRuleMdSyntaxNode, HorizontalRuleMarkdownSyntaxNodeVisitor>(instance)
+            .Register<HtmlMdSyntaxNode, HtmlMarkdownSyntaxNodeVisitor>(instance)
+            .Register<HtmlSpanMdSyntaxNode, HtmlSpanMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ImageMdSyntaxNode, ImageMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ItalicMdSyntaxNode, ItalicMarkdownSyntaxNodeVisitor>(instance)
+            .Register<LinkMdSyntaxNode, LinkMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ListItemMdSyntaxNode, ListItemMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ListOrderedMdSyntaxNode, ListOrderedMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ListUnOrderedMdSyntaxNode, ListUnOrderedMarkdownSyntaxNodeVisitor>(instance)
+            .Register<NewLineMdSyntaxNode, NewLineMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ParagraphMdSyntaxNode, ParagraphMarkdownSyntaxNodeVisitor>(instance)
+            // .Register<RootMdSyntaxNode, RootMarkdownSyntaxNodeVisitor>(instance) // Is a semantic node and cannot be processed
+            .Register<ScriptingBodySyntaxNode, ScriptingBodyMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ScriptingExpressionSyntaxNode, ScriptingExpressionMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ScriptingIfStatementSyntaxNode, ScriptingIfStatementMarkdownSyntaxNodeVisitor>(instance)
+            .Register<StrikeMdSyntaxNode, StrikeMarkdownSyntaxNodeVisitor>(instance)
+            .Register<SubScriptMdSyntaxNode, SubScriptMarkdownSyntaxNodeVisitor>(instance)
+            .Register<SuperScriptMdSyntaxNode, SuperScriptMarkdownSyntaxNodeVisitor>(instance)
+            // .Register<TableCellMdSyntaxNode, TableCellMarkdownSyntaxNodeVisitor>(instance) // Not implemented due to the TableMarkdownSyntaxNodeVisitor handling them directly
+            .Register<TableMdSyntaxNode, TableMarkdownSyntaxNodeVisitor>(instance)
+            // .Register<TableRowMdSyntaxNode, TableRowMarkdownSyntaxNodeVisitor>(instance) // Not implemented due to the TableMarkdownSyntaxNodeVisitor handling them directly
+            .Register<TagMdSyntaxNode, TagMarkdownSyntaxNodeVisitor>(instance)
+            .Register<TemplateMdSyntaxNode, TemplateMarkdownSyntaxNodeVisitor>(instance)
+            .Register<TextMdSyntaxNode, TextMarkdownSyntaxNodeVisitor>(instance)
+            .Register<UnderlineMdSyntaxNode, UnderlineMarkdownSyntaxNodeVisitor>(instance)
+            .Register<UserMdSyntaxNode, UserMarkdownSyntaxNodeVisitor>(instance)
+            .Register<WikiLinkMdSyntaxNode, WikiLinkMarkdownSyntaxNodeVisitor>(instance)
+            .Register<WrapperMdSyntaxNode, WrapperMarkdownSyntaxNodeVisitor>(instance)
             ;
 
         instance.Deserializers = deserializers.ToFrozenDictionary();

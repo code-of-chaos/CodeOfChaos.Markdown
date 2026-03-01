@@ -2,8 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 
@@ -11,12 +9,12 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public interface INodeDeserializerFragmentQueue {
-    void Enqueue(string s);
-    void Enqueue(char s);
-    void Enqueue(ReadOnlySpan<char> line);
+    void Enqueue(string? value);
+    void Enqueue(char value);
+    void Enqueue(ReadOnlySpan<char> value);
     
-    void Enqueue(IMdSyntaxNode node);
-    void EnqueueChildren(IMdSyntaxNode node);
+    void Enqueue(IMdSyntaxNode value);
+    void EnqueueChildren(IMdSyntaxNode value);
 
     string ProcessAsStandaloneContent(IMdSyntaxNode node);
 }

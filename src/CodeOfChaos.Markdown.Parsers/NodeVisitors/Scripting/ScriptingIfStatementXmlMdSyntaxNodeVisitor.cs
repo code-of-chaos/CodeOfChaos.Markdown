@@ -11,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingIfStatementXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<ScriptingIfStatementSyntaxNode> {
+public sealed class ScriptingIfStatementXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingIfStatementSyntaxNode> {
     private const string ElseConditionIndex = nameof(ScriptingIfStatementSyntaxNode.ElseConditionIndex);
 
     // -----------------------------------------------------------------------------------------------------------------

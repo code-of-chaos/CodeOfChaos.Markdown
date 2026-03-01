@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TableJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<TableMdSyntaxNode> {
+public sealed class TableJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<TableMdSyntaxNode> {
     private static readonly string Alignments = nameof(TableMdSyntaxNode.Alignments).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------

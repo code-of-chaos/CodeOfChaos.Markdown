@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class FootnoteReferenceXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<FootnoteReferenceMdSyntaxNode> {
+public sealed class FootnoteReferenceXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<FootnoteReferenceMdSyntaxNode> {
     private const string Identifier = nameof(FootnoteReferenceMdSyntaxNode.Identifier);
 
     // -----------------------------------------------------------------------------------------------------------------

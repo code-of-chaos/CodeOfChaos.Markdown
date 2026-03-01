@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TemplateJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<TemplateMdSyntaxNode> {
+public sealed class TemplateJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<TemplateMdSyntaxNode> {
     private static readonly string BracesCount = nameof(TemplateMdSyntaxNode.BracesCount).ToCamelCase();
     private static readonly string Content = nameof(TemplateMdSyntaxNode.Content).ToCamelCase();
 

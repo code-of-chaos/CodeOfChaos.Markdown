@@ -1,10 +1,11 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 
 namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class NewLineJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<NewLineMdSyntaxNode>;
+public sealed class NewLineJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<NewLineMdSyntaxNode>;

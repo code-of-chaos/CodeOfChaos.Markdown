@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class FrontMatterJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<FrontMatterMdSyntaxNode> {
+public sealed class FrontMatterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<FrontMatterMdSyntaxNode> {
     private static readonly string Language = nameof(FrontMatterMdSyntaxNode.Language).ToCamelCase();
     private static readonly string Content = nameof(FrontMatterMdSyntaxNode.Content).ToCamelCase();
     private static readonly string LeadingSpaces = nameof(FrontMatterMdSyntaxNode.LeadingSpaces).ToCamelCase();

@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ImageJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<ImageMdSyntaxNode> {
+public sealed class ImageJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ImageMdSyntaxNode> {
     private static readonly string Href = nameof(ImageMdSyntaxNode.Href).ToCamelCase();
     private static readonly string Title = nameof(ImageMdSyntaxNode.Title).ToCamelCase();
     private static readonly string AltText = nameof(AltText).ToCamelCase();

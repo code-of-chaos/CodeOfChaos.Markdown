@@ -2,14 +2,16 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Json;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
-namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CalloutJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<CalloutMdSyntaxNode> {
+public sealed class CalloutJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CalloutMdSyntaxNode> {
     private static readonly string CalloutType = nameof(CalloutMdSyntaxNode.CalloutType).ToCamelCase();
     private static readonly string CollapsedState = nameof(CalloutMdSyntaxNode.CollapsedState).ToCamelCase();
     private static readonly string LeadingSpaces = nameof(CalloutMdSyntaxNode.LeadingSpaces).ToCamelCase();

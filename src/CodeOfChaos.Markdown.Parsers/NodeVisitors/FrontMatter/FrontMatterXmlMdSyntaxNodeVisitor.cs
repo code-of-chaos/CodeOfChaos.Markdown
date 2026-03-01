@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class FrontMatterXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<FrontMatterMdSyntaxNode> {
+public sealed class FrontMatterXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<FrontMatterMdSyntaxNode> {
     private const string Language = nameof(FrontMatterMdSyntaxNode.Language);
     private const string DashesCount = nameof(FrontMatterMdSyntaxNode.DashesCount);
     private const string LeadingSpaces = nameof(FrontMatterMdSyntaxNode.LeadingSpaces);

@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TemplateXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<TemplateMdSyntaxNode> {
+public sealed class TemplateXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TemplateMdSyntaxNode> {
     private const string BracesCount = nameof(TemplateMdSyntaxNode.BracesCount);
 
     // -----------------------------------------------------------------------------------------------------------------

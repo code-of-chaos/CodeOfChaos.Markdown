@@ -1,15 +1,16 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Json;
 using CodeOfChaos.Markdown.Syntax;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
-namespace CodeOfChaos.Markdown.Parsers.Json;
+namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class BaseJsonSyntaxNodeVisitor<TNode> : IJsonSyntaxNodeVisitor where TNode : MdSyntaxNode<TNode>, new() {
+public class JsonSyntaxNodeVisitor<TNode> : IJsonSyntaxNodeVisitor where TNode : MdSyntaxNode<TNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);
     private const string Attributes = nameof(Attributes);

@@ -1,15 +1,18 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class CalloutSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class CalloutMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<CalloutMdSyntaxNode> {
     [GeneratedRegex("""
         \G
         ^>(?:\[!(?<type>[^\|\n]+)(?<mod>\|[^\n]*)?\](?<option>\+|\-)?)[\ ]*(?<title>[^\n]*)$
@@ -26,15 +29,11 @@ public sealed partial class CalloutSyntaxNodeSerializer : BaseMdSyntaxNodeSerial
     private static readonly int CalloutOptionId = RegexRule.GroupNumberFromName("option");
     private static readonly int CalloutTitleId = RegexRule.GroupNumberFromName("title");
     private static readonly int CalloutBodyId = RegexRule.GroupNumberFromName("body");
-
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(
-        INodeSerializerFragmentStack stack,
-        IMdSyntaxNode parentNode,
-        Match match
-    ) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         CalloutMdSyntaxNode node = MdSyntaxNodePool<CalloutMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
 
@@ -66,6 +65,58 @@ public sealed partial class CalloutSyntaxNodeSerializer : BaseMdSyntaxNodeSerial
                 LineNormalization.NormalizeBlockQuote(calloutBody, out _),
                 bodyNode
             );
+        }
+    }
+
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, CalloutMdSyntaxNode node) {
+        queue.Enqueue(">[!");
+        queue.Enqueue(node.CalloutType);
+        if (node.Modifier is { OriginalInputSpan: var inputSpan }) {
+            queue.Enqueue(inputSpan);
+        }
+
+        queue.Enqueue(']');
+
+        // Add a collapsed state when present
+        string collapsedState = node.CollapsedState switch {
+            CalloutMdSyntaxNode.CollapseStateOptions.Closed => "-",
+            CalloutMdSyntaxNode.CollapseStateOptions.Open => "+",
+            CalloutMdSyntaxNode.CollapseStateOptions.None => string.Empty,
+            _ => throw new ArgumentOutOfRangeException(nameof(node), node.CollapsedState, null)
+        };
+        queue.Enqueue(collapsedState);
+
+        // Title does not contain any multiline structure, so we can deserialize it directly
+        if (node.TryGetTitleNode(out CalloutTitleMdSyntaxNode? titleNode)) {
+            queue.Enqueue(' ');
+            queue.Enqueue(titleNode);
+        }
+
+        // Body contains a multiline structure, so we need to deserialize it separately
+        if (!node.TryGetBodyNode(out CalloutBodyMdSyntaxNode? bodyNode)) return;
+
+        ReadOnlySpan<IMdSyntaxNode> span = bodyNode.GetChildrenSpan();
+        if (span.Length == 0) return;
+
+        // Process content line by line without creating an array
+        string content = queue.ProcessAsStandaloneContent(node);
+        ReadOnlySpan<char> contentValue = content.AsSpan();
+        int lineStart = 0;
+        string leadingSpaces = LeadingSpacesCache.GetOrAdd(node.LeadingSpaces, static i => new string(' ', i));
+
+        for (int i = 0; i <= contentValue.Length; i++) {
+            if (i != contentValue.Length && contentValue[i] != '\n') continue;
+
+            ReadOnlySpan<char> line = contentValue.Slice(lineStart, i - lineStart);
+            queue.Enqueue('\n');
+
+            queue.Enqueue('>');
+            queue.Enqueue(leadingSpaces);
+            if (leadingSpaces.Length == 0) queue.Enqueue(' ');
+            queue.Enqueue(line);
+
+            // Move to the next line
+            lineStart = i + 1;
         }
     }
 }

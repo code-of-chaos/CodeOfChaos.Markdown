@@ -8,4 +8,4 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class StrikeXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<StrikeMdSyntaxNode>;
+public sealed class StrikeXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<StrikeMdSyntaxNode>;

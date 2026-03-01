@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class LinkXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<LinkMdSyntaxNode> {
+public sealed class LinkXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<LinkMdSyntaxNode> {
     private const string Href = nameof(ImageMdSyntaxNode.Href);
     private const string Title = nameof(ImageMdSyntaxNode.Title);
 

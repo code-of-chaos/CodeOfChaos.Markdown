@@ -1,15 +1,18 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class BreakSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class BreakMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<BreakMdSyntaxNode> {
     [GeneratedRegex(@"\G<[Bb][Rr]/?>", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
@@ -22,5 +25,9 @@ public sealed partial class BreakSyntaxNodeSerializer : BaseMdSyntaxNodeSerializ
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         BreakMdSyntaxNode node = MdSyntaxNodePool<BreakMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
+    }
+
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, BreakMdSyntaxNode node) {
+        queue.Enqueue("<br/>");
     }
 }

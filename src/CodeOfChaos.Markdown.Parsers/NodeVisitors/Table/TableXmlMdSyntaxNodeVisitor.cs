@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TableXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<TableMdSyntaxNode> {
+public sealed class TableXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSyntaxNode> {
     private const string Alignments = nameof(TableMdSyntaxNode.Alignments);
     private const string Alignment = nameof(Alignment);
 

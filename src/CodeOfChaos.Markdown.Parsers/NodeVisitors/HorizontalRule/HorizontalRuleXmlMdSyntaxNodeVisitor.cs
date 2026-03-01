@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class HorizontalRuleXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<HorizontalRuleMdSyntaxNode> {
+public sealed class HorizontalRuleXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HorizontalRuleMdSyntaxNode> {
     private const string Identifier = nameof(HorizontalRuleMdSyntaxNode.Identifier);
 
     // -----------------------------------------------------------------------------------------------------------------

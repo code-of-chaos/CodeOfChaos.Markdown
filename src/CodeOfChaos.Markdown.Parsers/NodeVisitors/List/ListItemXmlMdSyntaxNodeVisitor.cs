@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ListItemXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<ListItemMdSyntaxNode> {
+public sealed class ListItemXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListItemMdSyntaxNode> {
     private const string LeadingSpaces = nameof(ListItemMdSyntaxNode.LeadingSpaces);
     private const string CheckLeadingSpaces = nameof(ListItemMdSyntaxNode.CheckLeadingSpaces);
     private const string Index = nameof(ListItemMdSyntaxNode.Index);

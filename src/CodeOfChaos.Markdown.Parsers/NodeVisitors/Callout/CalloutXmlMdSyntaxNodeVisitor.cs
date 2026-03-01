@@ -6,11 +6,11 @@ using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
-namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CalloutXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<CalloutMdSyntaxNode> {
+public sealed class CalloutXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CalloutMdSyntaxNode> {
     private const string CalloutType = nameof(CalloutMdSyntaxNode.CalloutType);
     private const string CollapsedState = nameof(CalloutMdSyntaxNode.CollapsedState);
     private const string LeadingSpaces = nameof(CalloutMdSyntaxNode.LeadingSpaces);

@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class HeadingSimpleXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<HeadingSimpleMdSyntaxNode> {
+public sealed class HeadingSimpleXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HeadingSimpleMdSyntaxNode> {
     private const string Identifier = nameof(HeadingSimpleMdSyntaxNode.Identifier);
 
     // -----------------------------------------------------------------------------------------------------------------

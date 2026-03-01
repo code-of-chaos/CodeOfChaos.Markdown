@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CodeInlineXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<CodeInlineMdSyntaxNode> {
+public sealed class CodeInlineXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeInlineMdSyntaxNode> {
     private const string BackTickCount = nameof(CodeInlineMdSyntaxNode.BackTickCount);
 
     // -----------------------------------------------------------------------------------------------------------------

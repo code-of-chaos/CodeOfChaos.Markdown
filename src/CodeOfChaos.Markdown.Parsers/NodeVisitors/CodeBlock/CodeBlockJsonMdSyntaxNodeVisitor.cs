@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CodeBlockJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
+public sealed class CodeBlockJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
     private static readonly string Language = nameof(CodeBlockMdSyntaxNode.Language).ToCamelCase();
     private static readonly string Content = nameof(CodeBlockMdSyntaxNode.Content).ToCamelCase();
 

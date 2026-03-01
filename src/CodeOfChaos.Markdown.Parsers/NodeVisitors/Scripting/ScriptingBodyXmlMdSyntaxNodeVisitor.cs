@@ -11,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingBodyXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<ScriptingBodySyntaxNode> {
+public sealed class ScriptingBodyXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingBodySyntaxNode> {
     private const string LeadingSpaces = nameof(ScriptingBodySyntaxNode.LeadingSpaces);
 
     // -----------------------------------------------------------------------------------------------------------------

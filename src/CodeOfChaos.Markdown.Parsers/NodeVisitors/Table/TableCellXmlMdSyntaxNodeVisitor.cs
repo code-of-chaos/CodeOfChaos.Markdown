@@ -8,4 +8,4 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TableCellXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<TableCellMdSyntaxNode>;
+public sealed class TableCellXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableCellMdSyntaxNode>;

@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
 using CodeOfChaos.Markdown.Parsers.Json;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -10,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class BlockQuoteJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<BlockQuoteMdSyntaxNode> {
+public sealed class BlockQuoteJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<BlockQuoteMdSyntaxNode> {
     private static readonly string LeadingSpaces = nameof(BlockQuoteMdSyntaxNode.LeadingSpaces).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------

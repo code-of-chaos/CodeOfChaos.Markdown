@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CodeBlockXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
+public sealed class CodeBlockXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
     private const string Language = nameof(CodeBlockMdSyntaxNode.Language);
 
     // -----------------------------------------------------------------------------------------------------------------

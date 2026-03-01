@@ -8,4 +8,4 @@ namespace CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class SuperScriptXmlMdSyntaxNodeVisitor : BaseXmlSyntaxNodeVisitor<SuperScriptMdSyntaxNode>;
+public sealed class SuperScriptXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<SuperScriptMdSyntaxNode>;

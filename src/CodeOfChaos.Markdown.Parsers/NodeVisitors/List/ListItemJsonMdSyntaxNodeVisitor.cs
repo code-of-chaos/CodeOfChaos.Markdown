@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ListItemJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<ListItemMdSyntaxNode> {
+public sealed class ListItemJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListItemMdSyntaxNode> {
     private static readonly string LeadingSpaces = nameof(ListItemMdSyntaxNode.LeadingSpaces).ToCamelCase();
     private static readonly string CheckLeadingSpaces = nameof(ListItemMdSyntaxNode.CheckLeadingSpaces).ToCamelCase();
     private static readonly string Index = nameof(ListItemMdSyntaxNode.Index).ToCamelCase();

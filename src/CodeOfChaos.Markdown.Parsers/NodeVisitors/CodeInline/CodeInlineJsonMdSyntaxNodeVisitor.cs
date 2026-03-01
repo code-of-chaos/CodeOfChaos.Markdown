@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -9,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CodeInlineJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<CodeInlineMdSyntaxNode> {
+public sealed class CodeInlineJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeInlineMdSyntaxNode> {
     private static readonly string BackTickCount = nameof(CodeInlineMdSyntaxNode.BackTickCount).ToCamelCase();
     private static readonly string Content = nameof(CodeInlineMdSyntaxNode.Content).ToCamelCase();
 

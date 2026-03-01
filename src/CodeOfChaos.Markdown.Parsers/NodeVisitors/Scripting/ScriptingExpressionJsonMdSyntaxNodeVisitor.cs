@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
@@ -10,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingExpressionJsonSyntaxNodeVisitor : BaseJsonSyntaxNodeVisitor<ScriptingExpressionSyntaxNode> {
+public sealed class ScriptingExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ScriptingExpressionSyntaxNode> {
     private static readonly string FullStatement = nameof(ScriptingExpressionSyntaxNode.FullStatement).ToCamelCase();
     private static readonly string ExpressionStart = nameof(ScriptingExpressionSyntaxNode.ExpressionStart).ToCamelCase();
     private static readonly string ExpressionLength = nameof(ScriptingExpressionSyntaxNode.ExpressionLength).ToCamelCase();
