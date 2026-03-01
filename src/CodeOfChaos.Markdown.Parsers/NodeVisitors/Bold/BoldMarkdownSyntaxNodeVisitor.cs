@@ -6,7 +6,6 @@ using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
@@ -35,7 +34,7 @@ public sealed partial class BoldMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string boldValue = match.Groups[BoldContentId].Value;
 
         BoldMdSyntaxNode node = MdSyntaxNodePool<BoldMdSyntaxNode>.Shared.Get();
@@ -43,9 +42,9 @@ public sealed partial class BoldMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
         stack.PushSingleLineMatchesToStack(boldValue, node);
     }
     
-    protected override void Deserialize(IMdStringDeserializerQueue queue, BoldMdSyntaxNode node, StringBuilder builder) {
-        builder.Append("**");
-        DeserializeChildren(node, builder);
-        builder.Append("**");
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, BoldMdSyntaxNode node) {
+        queue.Enqueue("**");
+        queue.EnqueueChildren(node);
+        queue.Enqueue("**");
     }
 }

@@ -23,7 +23,7 @@ public sealed partial class FrontmatterSyntaxNodeSerializer : BaseMdSyntaxNodeSe
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         FrontMatterMdSyntaxNode node = MdSyntaxNodePool<FrontMatterMdSyntaxNode>.Shared.Get();
         if (match.Groups[LangId].TryGetValue(out string? lang)) node.WithLanguage(lang);
         if (match.Groups[BodyId].TryGetValue(out string? body)) node.WithContent(body);

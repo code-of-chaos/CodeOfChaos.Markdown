@@ -21,27 +21,65 @@ public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> 
     // -----------------------------------------------------------------------------------------------------------------
     public string DeserializeToString(IMdSyntaxTree tree) {
         StringBuilder builder = GlobalPools.StringBuilder.Get();
-        MdStringDeserializerQueue queue = MdStringDeserializerQueuePool.Shared.Get();
-        
+        NodeDeserializerFragmentQueue queue = NodeDeserializerFragmentQueuePool.Shared.Get(this, builder);
+
         try {
             foreach (IMdSyntaxNode node in tree.VisitTopLevelNodes()) {
-                queue.Enqueue(node, builder);
-
-                while (queue.TryDequeue(out IMdSyntaxNode? dequeuedNode, out StringBuilder? dequeuedBuilder)) {
-                    if (!Deserializers.TryGetValue(node.Type, out IMarkdownSyntaxNodeVisitor? deserializer)) {
-                        logger.Error("No deserializer found for node type {NodeType}", node.Type);
-                        continue;
-                    }
-                    
-                    deserializer.Deserialize(queue, dequeuedNode, dequeuedBuilder);
-                }
+                queue.Enqueue(node);
+                ProcessFragmentQueue(queue, builder);
             }
 
             return builder.ToString();
         }
         finally {
             GlobalPools.StringBuilder.Return(builder);
-            MdStringDeserializerQueuePool.Shared.Return(queue);
+            NodeDeserializerFragmentQueuePool.Shared.Return(queue);
+        }
+    }
+    
+    public string DeserializeToString(IMdSyntaxNode node) {
+        StringBuilder builder = GlobalPools.StringBuilder.Get();
+        NodeDeserializerFragmentQueue queue = NodeDeserializerFragmentQueuePool.Shared.Get(this, builder);
+
+        try {
+            foreach (IMdSyntaxNode child in node.GetChildrenSpan()) {
+                queue.Enqueue(child);
+                ProcessFragmentQueue(queue, builder);
+            }
+
+            return builder.ToString();
+        }
+        finally {
+            GlobalPools.StringBuilder.Return(builder);
+            NodeDeserializerFragmentQueuePool.Shared.Return(queue);
+        }
+    }
+
+    private void ProcessFragmentQueue(NodeDeserializerFragmentQueue queue, StringBuilder builder) {
+        while (queue.TryDequeue(out NodeDeserializerFragment fragment)) {
+            switch (fragment) {
+                case { Node: {} dequeuedNode }: {
+                    if (!Deserializers.TryGetValue(dequeuedNode.Type, out IMarkdownSyntaxNodeVisitor? deserializer)) {
+                        logger.Error("No deserializer found for node type {NodeType}", dequeuedNode.Type);
+                        continue;
+                    }
+
+                    deserializer.Deserialize(queue, dequeuedNode);
+                    break;
+                }
+
+                case { ContentCharacter: {} dequeuedCharacter }: {
+                    builder.Append(dequeuedCharacter);
+                    break;
+                }
+
+                case { ContentString: {} dequeuedString }: {
+                    builder.Append(dequeuedString);
+                    break;
+                }
+            }
+
+
         }
     }
 }

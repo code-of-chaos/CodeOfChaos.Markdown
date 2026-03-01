@@ -21,7 +21,7 @@ public sealed partial class HeadingSimpleSyntaxNodeSerializer : BaseMdSyntaxNode
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(
-        IMdSyntaxFragmentStack stack,
+        INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
         Match match
     ) {

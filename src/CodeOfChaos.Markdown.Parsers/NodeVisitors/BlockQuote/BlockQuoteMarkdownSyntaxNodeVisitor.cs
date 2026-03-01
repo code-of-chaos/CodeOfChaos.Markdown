@@ -2,10 +2,8 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
-using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
-using CodeOfChaos.Markdown.Pooling;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
@@ -26,7 +24,7 @@ public sealed partial class BlockQuoteMarkdownSyntaxNodeVisitor : BaseMarkdownSy
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         ReadOnlySpan<char> blockQuoteBody = match.ValueSpan;
         string adjustedBlockquote = LineNormalization.NormalizeBlockQuote(blockQuoteBody, out int leadingSpaces);
 
@@ -37,47 +35,34 @@ public sealed partial class BlockQuoteMarkdownSyntaxNodeVisitor : BaseMarkdownSy
         stack.PushMultiLineMatchesToStack(adjustedBlockquote, blockQuoteNode);
     }
 
-    protected override void Deserialize(IMdStringDeserializerQueue _, BlockQuoteMdSyntaxNode node, StringBuilder builder) {
-        StringBuilder contentBuilder = GlobalPools.StringBuilder.Get();
-        MdStringDeserializerQueue queue = MdStringDeserializerQueuePool.Shared.Get();
-
-        try {
-            if (node.ChildCount == 0) {
-                builder.Append('>');
-                builder.Append(' ');
-                return;
-            }
-
-            // First, deserialize all children to get the raw content
-            queue.EnqueueChildren(node, contentBuilder);
-
-            if (contentBuilder.Length == 0) return;
-
-            // Process content line by line without creating an array
-            ReadOnlySpan<char> content = contentBuilder.ToString().AsSpan();
-            int lineStart = 0;
-            bool isFirstLine = true;
-            string leadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(node.LeadingSpaces, 0), static i => new string(' ', i));
-
-            for (int i = 0; i <= content.Length; i++) {
-                if (i != content.Length && content[i] != '\n') continue;
-
-                ReadOnlySpan<char> line = content.Slice(lineStart, i - lineStart);
-                if (!isFirstLine) builder.Append('\n');
-                builder.Append('>');
-                builder.Append(leadingSpaces);
-
-                if (line.IsEmpty) builder.Append(' ');
-                else builder.Append(line);
-
-                // Move to the next line
-                lineStart = i + 1;
-                isFirstLine = false;
-            }
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, BlockQuoteMdSyntaxNode node) {
+        if (node.ChildCount == 0) {
+            queue.Enqueue('>');
+            queue.Enqueue(' ');
+            return;
         }
-        finally {
-            GlobalPools.StringBuilder.Return(contentBuilder);
-            MdStringDeserializerQueuePool.Shared.Return(queue);
+
+        // Process content line by line without creating an array
+        string content = queue.ProcessAsStandaloneContent(node);
+        ReadOnlySpan<char> contentValue = content.AsSpan();
+        int lineStart = 0;
+        bool isFirstLine = true;
+        string leadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(node.LeadingSpaces, 0), static i => new string(' ', i));
+
+        for (int i = 0; i <= contentValue.Length; i++) {
+            if (i != contentValue.Length && contentValue[i] != '\n') continue;
+
+            ReadOnlySpan<char> line = contentValue.Slice(lineStart, i - lineStart);
+            if (!isFirstLine) queue.Enqueue('\n');
+            queue.Enqueue('>');
+            queue.Enqueue(leadingSpaces);
+
+            if (line.IsEmpty) queue.Enqueue(' ');
+            else queue.Enqueue(line);
+
+            // Move to the next line
+            lineStart = i + 1;
+            isFirstLine = false;
         }
     }
 }

@@ -20,7 +20,7 @@ public interface IMarkdownSyntaxNodeVisitor {
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     bool TryGetSerializationMatch(string input, [NotNullWhen(true)] out Match? match, int startPosition = 0);
-    void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match);
+    void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match);
     
-    void Deserialize(IMdStringDeserializerQueue queue, IMdSyntaxNode node, StringBuilder builder);
+    void Deserialize(INodeDeserializerFragmentQueue queue, IMdSyntaxNode node);
 }

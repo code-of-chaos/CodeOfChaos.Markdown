@@ -1,6 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using Microsoft.Extensions.ObjectPool;
@@ -8,14 +10,14 @@ using System.Buffers;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
+namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable {
+public sealed class NodeSerializerFragmentStack : INodeSerializerFragmentStack, IResettable {
     public IMdStringMdSyntaxSerializer SerializerReference { get; set; } = null!;
     
-    private readonly Stack<MdSyntaxFragment> _stack = new();
+    private readonly Stack<NodeSerializerFragment> _stack = new();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -28,7 +30,7 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
         int inputLength = input.Length;
         int index = 0;
 
-        MdSyntaxFragment[] fragments = ArrayPool<MdSyntaxFragment>.Shared.Rent(32);
+        NodeSerializerFragment[] fragments = ArrayPool<NodeSerializerFragment>.Shared.Rent(32);
 
         try {
             while (scanPos < inputLength) {
@@ -43,7 +45,7 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
                     if (match.Index != scanPos) continue;
 
                     EnsureCapacity(ref fragments, ref index, 1);
-                    fragments[index++] = MdSyntaxFragment.AsUnhandledMatch(match, node, serializer);
+                    fragments[index++] = NodeSerializerFragment.AsUnhandledMatch(match, node, serializer);
 
                     scanPos += Math.Max(1, match.Length);
                     matched = true;
@@ -66,7 +68,7 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
             }
         }
         finally {
-            ArrayPool<MdSyntaxFragment>.Shared.Return(fragments, clearArray: false);
+            ArrayPool<NodeSerializerFragment>.Shared.Return(fragments, clearArray: false);
         }
     }
 
@@ -81,7 +83,7 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
         SearchValues<char> searchValues = SerializerReference.SingleLineTriggerSearchValues;
         ReadOnlySpan<char> span = input.AsSpan();
         
-        MdSyntaxFragment[] fragments = ArrayPool<MdSyntaxFragment>.Shared.Rent(128);
+        NodeSerializerFragment[] fragments = ArrayPool<NodeSerializerFragment>.Shared.Rent(128);
         
         try {
             while (scanPos < length) {
@@ -112,12 +114,12 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
                         TextMdSyntaxNode contentNode = MdSyntaxNodePool<TextMdSyntaxNode>.Shared.Get();
                         contentNode.WithContent(input[textStart..scanPos]);
                         EnsureCapacity(ref fragments, ref index, 1);
-                        fragments[index++] = MdSyntaxFragment.AsProcessedNode(node, contentNode);
+                        fragments[index++] = NodeSerializerFragment.AsProcessedNode(node, contentNode);
                     }
 
                     // Push the actual Tag/Match
                     EnsureCapacity(ref fragments, ref index, 1);
-                    fragments[index++] = MdSyntaxFragment.AsUnhandledMatch(winningMatch, node, winner);
+                    fragments[index++] = NodeSerializerFragment.AsUnhandledMatch(winningMatch, node, winner);
 
                     scanPos += Math.Max(1, winningMatch.Length);
                     textStart = scanPos; 
@@ -134,7 +136,7 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
                 TextMdSyntaxNode tail = MdSyntaxNodePool<TextMdSyntaxNode>.Shared.Get();
                 tail.WithContent(input[textStart..]);
                 EnsureCapacity(ref fragments, ref index, 1);
-                fragments[index++] = MdSyntaxFragment.AsProcessedNode(node, tail);
+                fragments[index++] = NodeSerializerFragment.AsProcessedNode(node, tail);
             }
 
             _stack.EnsureCapacity(_stack.Count + index);
@@ -143,25 +145,25 @@ public sealed class MdSyntaxFragmentStack : IMdSyntaxFragmentStack, IResettable 
             }
         }
         finally {
-            ArrayPool<MdSyntaxFragment>.Shared.Return(fragments, clearArray: false);
+            ArrayPool<NodeSerializerFragment>.Shared.Return(fragments, clearArray: false);
         }
     }
 
-    private static void EnsureCapacity(ref MdSyntaxFragment[] arr, ref int index, int required) {
+    private static void EnsureCapacity(ref NodeSerializerFragment[] arr, ref int index, int required) {
         if (index + required <= arr.Length) return;
 
         int newSize = arr.Length * 2;
-        MdSyntaxFragment[] newArr = ArrayPool<MdSyntaxFragment>.Shared.Rent(newSize);
+        NodeSerializerFragment[] newArr = ArrayPool<NodeSerializerFragment>.Shared.Rent(newSize);
         Array.Copy(arr, newArr, index);
-        ArrayPool<MdSyntaxFragment>.Shared.Return(arr, clearArray: false);
+        ArrayPool<NodeSerializerFragment>.Shared.Return(arr, clearArray: false);
         arr = newArr;
     }
 
     public void PushProcessedNodeToStack(IMdSyntaxNode parentNode, IMdSyntaxNode childNode)
-        => _stack.Push(MdSyntaxFragment.AsProcessedNode(parentNode, childNode));
+        => _stack.Push(NodeSerializerFragment.AsProcessedNode(parentNode, childNode));
     #endregion
 
-    public bool TryPopDto(out MdSyntaxFragment dto) {
+    public bool TryPopDto(out NodeSerializerFragment dto) {
         return _stack.TryPop(out dto);
     }
 

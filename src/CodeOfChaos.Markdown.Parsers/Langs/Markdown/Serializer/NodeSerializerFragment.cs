@@ -8,7 +8,7 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public readonly record struct MdSyntaxFragment(
+public readonly record struct NodeSerializerFragment(
     IMdSyntaxNode? ParentNode,
     IMdSyntaxNode? ChildNode,
     Match? Match,
@@ -18,9 +18,9 @@ public readonly record struct MdSyntaxFragment(
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
-    public static MdSyntaxFragment AsUnhandledMatch(Match match, IMdSyntaxNode node, IMarkdownSyntaxNodeVisitor nodeSerializer)
+    public static NodeSerializerFragment AsUnhandledMatch(Match match, IMdSyntaxNode node, IMarkdownSyntaxNodeVisitor nodeSerializer)
         => new(node, null, match, nodeSerializer);
 
-    public static MdSyntaxFragment AsProcessedNode(IMdSyntaxNode parentNode, IMdSyntaxNode childNode)
+    public static NodeSerializerFragment AsProcessedNode(IMdSyntaxNode parentNode, IMdSyntaxNode childNode)
         => new(parentNode, childNode, null, null);
 }

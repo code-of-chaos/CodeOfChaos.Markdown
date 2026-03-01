@@ -22,7 +22,7 @@ public sealed partial class CodeInlineSyntaxNodeSerializer : BaseMdSyntaxNodeSer
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string codeValue = match.Groups[CodeContentId].Value;
         ReadOnlySpan<char> fullOriginalString = match.ValueSpan;
 

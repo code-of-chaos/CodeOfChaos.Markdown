@@ -23,7 +23,7 @@ public sealed partial class ItalicSyntaxNodeSerializer : BaseMdSyntaxNodeSeriali
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(
-        IMdSyntaxFragmentStack stack,
+        INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
         Match match
     ) {

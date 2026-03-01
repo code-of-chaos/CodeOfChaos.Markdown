@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 using CodeOfChaos.Markdown.Pooling;
 using Microsoft.Extensions.ObjectPool;
 
@@ -12,11 +13,11 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 public class MdSyntaxFragmentStackPool {
     public static MdSyntaxFragmentStackPool Shared { get; } = new();
     
-    private ObjectPool<MdSyntaxFragmentStack> Pool { get; } = PoolingHelpers.CreateResettablePool<MdSyntaxFragmentStack>(16);
+    private ObjectPool<NodeSerializerFragmentStack> Pool { get; } = PoolingHelpers.CreateResettablePool<NodeSerializerFragmentStack>(16);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public MdSyntaxFragmentStack Get() => Pool.Get();
-    public void Return(MdSyntaxFragmentStack stack) => Pool.Return(stack);
+    public NodeSerializerFragmentStack Get() => Pool.Get();
+    public void Return(NodeSerializerFragmentStack stack) => Pool.Return(stack);
 }

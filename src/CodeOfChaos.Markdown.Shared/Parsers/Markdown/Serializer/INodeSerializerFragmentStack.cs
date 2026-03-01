@@ -7,7 +7,7 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface IMdSyntaxFragmentStack {
+public interface INodeSerializerFragmentStack {
     void PushMultiLineMatchesToStack(string input, IMdSyntaxNode parentNode, int startIndex = 0);
     void PushSingleLineMatchesToStack(string input, IMdSyntaxNode parentNode);
     

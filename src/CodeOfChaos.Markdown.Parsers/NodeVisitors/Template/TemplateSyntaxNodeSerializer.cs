@@ -22,7 +22,7 @@ public sealed partial class TemplateSyntaxNodeSerializer : BaseMdSyntaxNodeSeria
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(
-        IMdSyntaxFragmentStack stack,
+        INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
         Match match
     ) {

@@ -55,7 +55,7 @@ public sealed partial class HtmlBlockSyntaxNodeSerializer : BaseMdSyntaxNodeSeri
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(
-        IMdSyntaxFragmentStack stack,
+        INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
         Match match
     ) {

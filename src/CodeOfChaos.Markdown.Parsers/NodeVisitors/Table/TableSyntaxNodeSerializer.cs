@@ -32,7 +32,7 @@ public sealed partial class TableSyntaxNodeSerializer : BaseMdSyntaxNodeSerializ
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(
-        IMdSyntaxFragmentStack stack,
+        INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
         Match match
     ) {

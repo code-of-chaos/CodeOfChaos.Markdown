@@ -23,7 +23,7 @@ public sealed partial class WrapperSyntaxNodeSerializer : BaseMdSyntaxNodeSerial
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string wrapperValue = match.Groups[WId].Value;
         string mods = match.Groups[WModsId].Value;// Mods are required for this match
 

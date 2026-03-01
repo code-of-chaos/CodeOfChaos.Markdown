@@ -10,8 +10,13 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface IMdStringDeserializerQueue {
-    bool TryDequeue([NotNullWhen(true)] out IMdSyntaxNode? node, [NotNullWhen(true)] out StringBuilder? builder);
-    void Enqueue(IMdSyntaxNode node, StringBuilder builder);
-    void EnqueueChildren(IMdSyntaxNode node, StringBuilder builder);
+public interface INodeDeserializerFragmentQueue {
+    void Enqueue(string s);
+    void Enqueue(char s);
+    void Enqueue(ReadOnlySpan<char> line);
+    
+    void Enqueue(IMdSyntaxNode node);
+    void EnqueueChildren(IMdSyntaxNode node);
+
+    string ProcessAsStandaloneContent(IMdSyntaxNode node);
 }

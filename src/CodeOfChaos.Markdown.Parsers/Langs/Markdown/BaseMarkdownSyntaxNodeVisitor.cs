@@ -49,16 +49,16 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TNode> : IMarkdownSyntaxNode
         match = Syntax.Match(input, startPosition);
         return match.Success;
     }
-    public abstract void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match);
+    public abstract void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match);
     #endregion
     
     #region Deserialize
-    public void Deserialize(IMdStringDeserializerQueue queue, IMdSyntaxNode node, StringBuilder builder) {
+    public void Deserialize(INodeDeserializerFragmentQueue queue, IMdSyntaxNode node) {
         if (node is not TNode typedNode) throw new ArgumentException($"Invalid node type of {node.GetType()} did adhere to {typeof(TNode)}");
 
-        Deserialize(queue, typedNode, builder);
+        Deserialize(queue, typedNode);
     }
 
-    protected abstract void Deserialize(IMdStringDeserializerQueue queue, TNode node, StringBuilder builder);
+    protected abstract void Deserialize(INodeDeserializerFragmentQueue queue, TNode node);
     #endregion
 }

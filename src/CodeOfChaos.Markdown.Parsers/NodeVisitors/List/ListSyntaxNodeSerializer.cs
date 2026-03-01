@@ -36,7 +36,7 @@ public partial class ListSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(
-        IMdSyntaxFragmentStack stack,
+        INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
         Match match
     ) {

@@ -20,7 +20,7 @@ public sealed partial class EscapedCharacterSyntaxNodeSerializer : BaseMdSyntaxN
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(
-        IMdSyntaxFragmentStack stack,
+        INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
         Match match
     ) {

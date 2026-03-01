@@ -10,4 +10,5 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 // ---------------------------------------------------------------------------------------------------------------------
 public interface IMdStringMdSyntaxDeserializer {
     string DeserializeToString(IMdSyntaxTree tree);
+    string DeserializeToString(IMdSyntaxNode node);
 }

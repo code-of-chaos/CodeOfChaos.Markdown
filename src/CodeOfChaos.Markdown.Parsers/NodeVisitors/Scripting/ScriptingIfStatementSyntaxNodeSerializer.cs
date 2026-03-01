@@ -47,7 +47,7 @@ public sealed partial class ScriptingIfStatementSyntaxNodeSerializer : BaseMdSyn
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(IMdSyntaxFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         ScriptingIfStatementSyntaxNode statementNode = MdSyntaxNodePool<ScriptingIfStatementSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(statementNode);
         

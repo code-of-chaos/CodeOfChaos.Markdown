@@ -28,7 +28,7 @@ public sealed class TableSyntaxNodeDeserializer : BaseMarkdownNodeSerializer<Tab
                 foreach (IMdSyntaxNode child in cell.GetChildrenSpan()) {
                     if (!Deserializer.TryGetNodeDeserializer(child, out IMarkdownSyntaxNodeVisitor? deserializer)) continue;
 
-                    deserializer.Deserialize(TODO, child, headCellBuilder);// Use headCellBuilder, not builder
+                    deserializer.Deserialize(TODO, child);// Use headCellBuilder, not builder
                 }
 
                 tableGrid[0, col] = headCellBuilder.ToString();
@@ -48,7 +48,7 @@ public sealed class TableSyntaxNodeDeserializer : BaseMarkdownNodeSerializer<Tab
                     foreach (IMdSyntaxNode childNode in cell.GetChildrenSpan()) {
                         if (!Deserializer.TryGetNodeDeserializer(childNode, out IMarkdownSyntaxNodeVisitor? deserializer)) continue;
 
-                        deserializer.Deserialize(TODO, childNode, cellBuilder);// Use cellBuilder, not builder
+                        deserializer.Deserialize(TODO, childNode);// Use cellBuilder, not builder
                     }
 
                     tableGrid[row + 1, col] = cellBuilder.ToString();

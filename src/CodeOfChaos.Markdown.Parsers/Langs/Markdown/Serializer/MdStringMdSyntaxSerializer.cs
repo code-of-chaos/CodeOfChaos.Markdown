@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using Microsoft.Extensions.Logging;
 using System.Buffers;
@@ -44,7 +45,7 @@ public sealed class MdStringMdSyntaxSerializer(ILogger<MdStringMdSyntaxSerialize
     }
 
     public void SerializeToTree(string markdown, IMdSyntaxTree nodeTree) {
-        MdSyntaxFragmentStack fragmentStack = MdSyntaxFragmentStackPool.Shared.Get();
+        NodeSerializerFragmentStack fragmentStack = MdSyntaxFragmentStackPool.Shared.Get();
         fragmentStack.SerializerReference = this;
 
         string normalized = markdown.Contains('\r')
@@ -55,7 +56,7 @@ public sealed class MdStringMdSyntaxSerializer(ILogger<MdStringMdSyntaxSerialize
             TryExtractFrontMatter(fragmentStack, normalized, nodeTree, out int newStartAtIndex);
             fragmentStack.PushMultiLineMatchesToStack(normalized, nodeTree.RootNode, newStartAtIndex);
 
-            while (fragmentStack.TryPopDto(out MdSyntaxFragment fragment)) {
+            while (fragmentStack.TryPopDto(out NodeSerializerFragment fragment)) {
                 switch (fragment) {
                     // Not yet processed
                     case { ParentNode: { } parentNode, Match: { } match, NodeSerializer: { } serializer }: {
@@ -86,7 +87,7 @@ public sealed class MdStringMdSyntaxSerializer(ILogger<MdStringMdSyntaxSerialize
         }
     }
 
-    private void TryExtractFrontMatter(MdSyntaxFragmentStack fragmentStack, string markdown, IMdSyntaxTree nodeTree, out int newStartAtIndex) {
+    private void TryExtractFrontMatter(NodeSerializerFragmentStack fragmentStack, string markdown, IMdSyntaxTree nodeTree, out int newStartAtIndex) {
         newStartAtIndex = 0;
         if (FrontMatterSerializer is null) return;
         if (!FrontMatterSerializer.TryGetSerializationMatch(markdown, out Match? match)) return;

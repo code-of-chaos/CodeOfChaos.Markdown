@@ -17,7 +17,7 @@ public sealed class ListOrderedSyntaxNodeDeserializer : BaseMarkdownNodeSerializ
 
             StringBuilder localBuilder = GlobalPools.StringBuilder.Get();
             try {
-                deserializer.Deserialize(TODO, child, localBuilder);
+                deserializer.Deserialize(TODO, child);
 
                 localBuilder.Replace("\n", node.LeadingSpaces > 0
                     ? $"\n{new string(' ', node.LeadingSpaces)}"
