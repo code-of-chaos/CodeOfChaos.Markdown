@@ -77,6 +77,22 @@ public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> 
                     builder.Append(dequeuedString);
                     break;
                 }
+
+                case { ChildrenToProcessDirectly: {} parentNode }: {
+                    // Process all children with a temporary queue to avoid queue ordering issues
+                    // This ensures children content is written before any subsequent markers
+                    NodeDeserializerFragmentQueue tempQueue = NodeDeserializerFragmentQueuePool.Shared.Get(this, builder);
+                    try {
+                        foreach (IMdSyntaxNode child in parentNode.GetChildrenSpan()) {
+                            tempQueue.Enqueue(child);
+                            ProcessFragmentQueue(tempQueue, builder);
+                        }
+                    }
+                    finally {
+                        NodeDeserializerFragmentQueuePool.Shared.Return(tempQueue);
+                    }
+                    break;
+                }
             }
 
 

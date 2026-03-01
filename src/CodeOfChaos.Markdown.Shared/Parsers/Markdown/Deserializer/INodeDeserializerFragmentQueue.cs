@@ -13,7 +13,7 @@ public interface INodeDeserializerFragmentQueue {
     void Enqueue(char value);
     void Enqueue(char value, int repeatCount);
     void Enqueue(ReadOnlySpan<char> value);
-    
+
     void Enqueue(IMdSyntaxNode value);
     void EnqueueChildren(IMdSyntaxNode value);
 

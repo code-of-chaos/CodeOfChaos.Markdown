@@ -11,14 +11,18 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 public readonly record struct NodeDeserializerFragment(
     IMdSyntaxNode? Node,
     string? ContentString,
-    char? ContentCharacter
+    char? ContentCharacter,
+    IMdSyntaxNode? ChildrenToProcessDirectly
 ) {
     public static NodeDeserializerFragment AsNodeToBeProcessed(IMdSyntaxNode node)
-        => new(node, null, null);
-    
+        => new(node, null, null, null);
+
     public static NodeDeserializerFragment AsContentToBeProcessed(string content)
-        => new(null, content, null);
-    
+        => new(null, content, null, null);
+
     public static NodeDeserializerFragment AsCharacterToBeProcessed(char content)
-        => new(null, null, content);
+        => new(null, null, content, null);
+
+    public static NodeDeserializerFragment AsChildrenToProcessDirectly(IMdSyntaxNode parentNode)
+        => new(null, null, null, parentNode);
 }

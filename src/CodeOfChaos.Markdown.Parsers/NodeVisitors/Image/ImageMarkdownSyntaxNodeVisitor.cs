@@ -26,6 +26,9 @@ public sealed partial class ImageMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
 
+    private static readonly char[] STriggerCharacters = ['!'];
+    public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
+
     private static readonly int ImgTextId = RegexRule.GroupNumberFromName("text");
     private static readonly int ImgHrefId = RegexRule.GroupNumberFromName("href");
     private static readonly int ImgTitleId = RegexRule.GroupNumberFromName("title");

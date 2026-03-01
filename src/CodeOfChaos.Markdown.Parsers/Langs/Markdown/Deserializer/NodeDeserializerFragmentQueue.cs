@@ -78,10 +78,8 @@ public class NodeDeserializerFragmentQueue : INodeDeserializerFragmentQueue, IRe
     }
 
     public void EnqueueChildren(IMdSyntaxNode node) {
-        foreach (IMdSyntaxNode child in node.GetChildrenSpan()) {
-            NodeDeserializerFragment fragment = NodeDeserializerFragment.AsNodeToBeProcessed(child);
-            _queue.Enqueue(fragment);
-        }
+        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsChildrenToProcessDirectly(node);
+        _queue.Enqueue(fragment);
     }
 
     public string ProcessAsStandaloneContent(IMdSyntaxNode node) {
