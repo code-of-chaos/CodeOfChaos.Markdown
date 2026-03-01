@@ -10,29 +10,27 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CodeBlockJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
-    private static readonly string Language = nameof(CodeBlockMdSyntaxNode.Language).ToCamelCase();
-    private static readonly string Content = nameof(CodeBlockMdSyntaxNode.Content).ToCamelCase();
+public sealed class FootnoteDescriptionJsonMdSyntaxNodeVisitor : JsonSyntaxNodeVisitor<FootnoteDescriptionMdSyntaxNode> {
+    private static readonly string Identifier = nameof(FootnoteDescriptionMdSyntaxNode.Identifier).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(CodeBlockMdSyntaxNode node, Utf8JsonWriter writer) {
+    protected override void DeserializeDetails(FootnoteDescriptionMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
-        writer.WriteString(Language, node.Language);
-        writer.WriteString(Content, node.Content);
+        writer.WriteString(Identifier, node.Identifier);
     }
 
-    protected override void SerializeDetails(JsonElement element, CodeBlockMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(JsonElement element, FootnoteDescriptionMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Language, out JsonElement languageProperty)) {
-            targetNode.WithLanguage(languageProperty.GetString() ?? string.Empty);
-        }
-
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            targetNode.WithContent(contentProperty.GetString() ?? string.Empty);
+        // ReSharper disable once InvertIf
+        if (element.TryGetProperty(Identifier, out JsonElement contentProperty)) {
+            string? contentValue = contentProperty.GetString();
+            if (!string.IsNullOrEmpty(contentValue)) {
+                targetNode.WithIdentifier(contentValue);
+            }
         }
     }
 }

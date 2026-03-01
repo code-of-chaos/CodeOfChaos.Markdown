@@ -46,6 +46,20 @@ public class NodeDeserializerFragmentQueue : INodeDeserializerFragmentQueue, IRe
         NodeDeserializerFragment fragment = NodeDeserializerFragment.AsCharacterToBeProcessed(value);
         _queue.Enqueue(fragment);
     }
+    
+    public void Enqueue(char value, int repeatCount) {
+        ArgumentNullException.ThrowIfNull(BuilderReference);
+        
+        if (_queue.IsEmpty()) {
+            BuilderReference.Append(value, repeatCount);
+            return;
+        }
+        
+        string stringValue = new(value, repeatCount);
+        NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(stringValue);
+        _queue.Enqueue(fragment);
+    }
+    
     public void Enqueue(ReadOnlySpan<char> value) {
         ArgumentNullException.ThrowIfNull(BuilderReference);
         

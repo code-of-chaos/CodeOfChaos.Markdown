@@ -1,36 +1,35 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class FootnoteReferenceSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
-    [GeneratedRegex(@"\G\[\^(?<id>[\d\p{L}\p{N}]+)\]", DefaultSingleLineRegexOptions)]
+public sealed partial class EscapedCharacterMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<EscapedCharacterMdSyntaxNode> {
+    [GeneratedRegex(@"\G\\\S")]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
 
-    private static readonly char[] STriggerCharacters = ['['];
-    public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
-
-    private static readonly int FootnoteIdentifierId = RegexRule.GroupNumberFromName("id");
-
+    public override ReadOnlySpan<char> SerializationTriggerCharacters => ['\\'];
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(
-        INodeSerializerFragmentStack stack,
-        IMdSyntaxNode parentNode,
-        Match match
-    ) {
-        string footnoteId = match.Groups[FootnoteIdentifierId].Value;
-
-        FootnoteReferenceMdSyntaxNode node = MdSyntaxNodePool<FootnoteReferenceMdSyntaxNode>.Shared.Get();
-        node.WithIdentifier(footnoteId);
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+        char value = match.ValueSpan[1];
+        EscapedCharacterMdSyntaxNode node = MdSyntaxNodePool<EscapedCharacterMdSyntaxNode>.Shared.Get();
+        node.WithContent(value);
         parentNode.AddChildNode(node);
+    }
+
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, EscapedCharacterMdSyntaxNode node) {
+        queue.Enqueue('\\');
+        queue.Enqueue(node.Content);
     }
 }

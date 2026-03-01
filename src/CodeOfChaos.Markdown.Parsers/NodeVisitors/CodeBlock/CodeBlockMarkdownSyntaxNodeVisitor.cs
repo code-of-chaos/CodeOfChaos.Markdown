@@ -1,16 +1,19 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Buffers;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class CodeBlockSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class CodeBlockMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
     [GeneratedRegex(@"\G^(?<open>`{3,})[\ ]*(?<lang>.*?)?\n(?<body>(?>[\s\S]|(?!\k<open>))*?)\k<open>(?<tail>[^\n]+)?$", DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
@@ -21,15 +24,10 @@ public sealed partial class CodeBlockSyntaxNodeSerializer : BaseMdSyntaxNodeSeri
     private static readonly int CBodyId = RegexRule.GroupNumberFromName("body");
     private static readonly int CLangId = RegexRule.GroupNumberFromName("lang");
     private static readonly int CTrailId = RegexRule.GroupNumberFromName("tail");
-
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(
-        INodeSerializerFragmentStack stack,
-        IMdSyntaxNode parentNode,
-        Match match
-    ) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         ReadOnlySpan<char> codeBlockBody = match.Groups[CBodyId].ValueSpan;
         CodeBlockMdSyntaxNode codeNode = MdSyntaxNodePool<CodeBlockMdSyntaxNode>.Shared.Get();
 
@@ -95,4 +93,11 @@ public sealed partial class CodeBlockSyntaxNodeSerializer : BaseMdSyntaxNodeSeri
         return destinationIndex;
     }
 
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, CodeBlockMdSyntaxNode node) {
+        queue.Enqueue("```");
+        queue.Enqueue(node.Language);
+        queue.Enqueue('\n');
+        queue.Enqueue(node.Content);
+        queue.Enqueue("```");
+    }
 }

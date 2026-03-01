@@ -1,15 +1,18 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class CodeInlineSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class CodeInlineMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<CodeInlineMdSyntaxNode> {
     [GeneratedRegex(@"\G(?<open>`+)(?<c>(?>[^`\\]+|\\.|`(?!\k<open>))+?)\k<open>", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
@@ -18,7 +21,6 @@ public sealed partial class CodeInlineSyntaxNodeSerializer : BaseMdSyntaxNodeSer
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int CodeContentId = RegexRule.GroupNumberFromName("c");
-
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
@@ -37,5 +39,11 @@ public sealed partial class CodeInlineSyntaxNodeSerializer : BaseMdSyntaxNodeSer
 
         node.WithBackTickCount(backtickCount);
         parentNode.AddChildNode(node);
+    }
+
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, CodeInlineMdSyntaxNode node) {
+        queue.Enqueue('`', Math.Max(node.BackTickCount, 1));
+        queue.Enqueue(node.Content);
+        queue.Enqueue('`', Math.Max(node.BackTickCount, 1));
     }
 }
