@@ -12,7 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class ScriptingBodyMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ScriptingBodySyntaxNode> {
+public sealed class ScriptingBodyMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ScriptingBodySyntaxNode> {
     // ScriptingBody nodes don't have a regex pattern - they're created programmatically
     protected override Regex Syntax => null!;
 

@@ -4,7 +4,7 @@
 using CodeOfChaos.Markdown.Parsers.NodeVisitors;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaosTests.Markdown.RegexLib;
+namespace CodeOfChaosTests.Markdown.Parsers.Markdown.Serializers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
