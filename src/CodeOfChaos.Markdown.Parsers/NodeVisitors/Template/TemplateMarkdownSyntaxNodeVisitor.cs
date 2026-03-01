@@ -26,11 +26,11 @@ public sealed partial class TemplateMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        string variableContent = match.Groups[TemplateContentId].Value;
+        ReadOnlySpan<char> variableContent = match.Groups[TemplateContentId].ValueSpan;
         int variableLength = match.Length;
 
         TemplateMdSyntaxNode node = MdSyntaxNodePool<TemplateMdSyntaxNode>.Shared.Get();
-        node.WithContent(variableContent)
+        node.WithContent(variableContent.ToString())
             .WithBracesCount((variableLength - variableContent.Length) / 2);
         parentNode.AddChildNode(node);
     }

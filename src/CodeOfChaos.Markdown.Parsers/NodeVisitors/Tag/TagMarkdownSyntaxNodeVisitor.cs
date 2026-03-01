@@ -26,10 +26,10 @@ public sealed partial class TagMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNod
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        string tagValue = match.Groups[TextId].Value;
+        ReadOnlySpan<char> tagValue = match.Groups[TextId].ValueSpan;
 
         TagMdSyntaxNode node = MdSyntaxNodePool<TagMdSyntaxNode>.Shared.Get();
-        node.WithContent(tagValue);
+        node.WithContent(tagValue.ToString());
         parentNode.AddChildNode(node);
     }
 

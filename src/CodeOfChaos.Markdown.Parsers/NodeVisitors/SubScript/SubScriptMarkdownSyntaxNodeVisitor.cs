@@ -26,11 +26,11 @@ public sealed partial class SubScriptMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        string subValue = match.Groups[SbId].Value;
+        ReadOnlySpan<char> subValue = match.Groups[SbId].ValueSpan;
 
         SubScriptMdSyntaxNode node = MdSyntaxNodePool<SubScriptMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(subValue, node);
+        stack.PushSingleLineMatchesToStack(subValue.ToString(), node);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, SubScriptMdSyntaxNode node) {

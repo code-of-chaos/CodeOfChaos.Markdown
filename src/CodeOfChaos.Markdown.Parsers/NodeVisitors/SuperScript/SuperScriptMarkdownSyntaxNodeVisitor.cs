@@ -26,11 +26,11 @@ public sealed partial class SuperScriptMarkdownSyntaxNodeVisitor : BaseMarkdownS
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        string superValue = match.Groups[SpId].Value;
+        ReadOnlySpan<char> superValue = match.Groups[SpId].ValueSpan;
 
         SuperScriptMdSyntaxNode node = MdSyntaxNodePool<SuperScriptMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(superValue, node);
+        stack.PushSingleLineMatchesToStack(superValue.ToString(), node);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, SuperScriptMdSyntaxNode node) {

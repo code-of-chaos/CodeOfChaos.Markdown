@@ -27,14 +27,14 @@ public sealed partial class HeadingMarkdownSyntaxNodeVisitor : BaseMarkdownSynta
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        string headerText = match.Groups[HTextId].Value;
+        ReadOnlySpan<char> headerText = match.Groups[HTextId].ValueSpan;
         int headingLevel = match.Groups[HLevelId].Length;
 
         HeadingMdSyntaxNode headingNode = MdSyntaxNodePool<HeadingMdSyntaxNode>.Shared.Get();
         headingNode.WithLevel(headingLevel);
         parentNode.AddChildNode(headingNode);
 
-        stack.PushSingleLineMatchesToStack(headerText, headingNode);
+        stack.PushSingleLineMatchesToStack(headerText.ToString(), headingNode);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, HeadingMdSyntaxNode node) {

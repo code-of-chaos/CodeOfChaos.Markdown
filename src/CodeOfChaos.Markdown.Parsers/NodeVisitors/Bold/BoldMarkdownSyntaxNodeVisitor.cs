@@ -35,11 +35,11 @@ public sealed partial class BoldMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        string boldValue = match.Groups[BoldContentId].Value;
+        ReadOnlySpan<char> boldValue = match.Groups[BoldContentId].ValueSpan;
 
         BoldMdSyntaxNode node = MdSyntaxNodePool<BoldMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(boldValue, node);
+        stack.PushSingleLineMatchesToStack(boldValue.ToString(), node);
     }
     
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, BoldMdSyntaxNode node) {
