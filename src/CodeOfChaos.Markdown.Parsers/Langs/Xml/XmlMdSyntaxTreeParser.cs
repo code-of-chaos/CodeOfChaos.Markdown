@@ -65,9 +65,9 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
         RegisterVisitor<StrikeMdSyntaxNode, XmlSyntaxNodeVisitor<StrikeMdSyntaxNode>>();
         RegisterVisitor<SubScriptMdSyntaxNode, XmlSyntaxNodeVisitor<SubScriptMdSyntaxNode>>();
         RegisterVisitor<SuperScriptMdSyntaxNode, XmlSyntaxNodeVisitor<SuperScriptMdSyntaxNode>>();
-        RegisterVisitor<TableCellMdSyntaxNode, TableCellXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<TableCellMdSyntaxNode, XmlSyntaxNodeVisitor<TableCellMdSyntaxNode>>();
         RegisterVisitor<TableMdSyntaxNode, TableXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<TableRowMdSyntaxNode, TableRowXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<TableRowMdSyntaxNode, XmlSyntaxNodeVisitor<TableRowMdSyntaxNode>>();
         RegisterVisitor<TagMdSyntaxNode, TagXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<TemplateMdSyntaxNode, TemplateXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<TextMdSyntaxNode, TextXmlMdSyntaxNodeVisitor>();

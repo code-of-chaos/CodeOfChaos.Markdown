@@ -78,7 +78,7 @@ public sealed class CodeOfChaosMarkdownConfig : IMarkdownConfig {
                     new ParagraphMarkdownSyntaxNodeVisitor(),
                     new NewLineMarkdownSyntaxNodeVisitor()
                 ],
-                FrontMatter = new FrontmatterSyntaxNodeSerializer()
+                FrontMatter = new FrontMatterMarkdownSyntaxNodeVisitor()
             };
 
             var factory = sp.GetRequiredService<IMdStringMdSyntaxSerializerFactory>();

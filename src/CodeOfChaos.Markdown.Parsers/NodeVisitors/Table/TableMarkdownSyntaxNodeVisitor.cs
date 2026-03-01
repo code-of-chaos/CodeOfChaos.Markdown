@@ -1,6 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
@@ -11,7 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class TableSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TableMdSyntaxNode> {
     [GeneratedRegex("""
         \G
         ^\|(?<head>.+)\|[\ ]*\n
@@ -29,6 +31,7 @@ public sealed partial class TableSyntaxNodeSerializer : BaseMdSyntaxNodeSerializ
     private static readonly int HeadId = RegexRule.GroupNumberFromName("head");
     private static readonly int SepId = RegexRule.GroupNumberFromName("sep");
     private static readonly int BodyId = RegexRule.GroupNumberFromName("body");
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
@@ -52,7 +55,7 @@ public sealed partial class TableSyntaxNodeSerializer : BaseMdSyntaxNodeSerializ
         Span<Range> rowRanges = stackalloc Range[rows.Length];
         int rowCount = rows.Split(rowRanges, '\n', StringSplitOptions.TrimEntries);
 
-        // Construct table HTML
+        // Construct table
         TableMdSyntaxNode tableNode = MdSyntaxNodePool<TableMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(tableNode);
         if (hasSeparatorData) tableNode.WithAlignments(separatorColumData);
@@ -101,20 +104,97 @@ public sealed partial class TableSyntaxNodeSerializer : BaseMdSyntaxNodeSerializ
         }
     }
 
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, TableMdSyntaxNode node) {
+        ReadOnlySpan<TableCellMdSyntaxNode> headerCells = node.GetHeaderCells();
+        ReadOnlySpan<TableRowMdSyntaxNode> rows = node.GetRows();
+        int totalColumns = headerCells.Length;
+        int totalRows = rows.Length;
+
+        // Array is [rows, columns] - header row + data rows × columns
+        string[,] tableGrid = new string[totalRows + 1, totalColumns];
+
+        // Process header cells (row 0)
+        for (int col = 0; col < totalColumns; col++) {
+            TableCellMdSyntaxNode cell = headerCells[col];
+            tableGrid[0, col] = queue.ProcessAsStandaloneContent(cell);
+        }
+
+        // Process data rows (rows 1 and up)
+        for (int row = 0; row < totalRows; row++) {
+            ReadOnlySpan<IMdSyntaxNode> cells = rows[row].GetChildrenSpan();
+            for (int col = 0; col < Math.Min(cells.Length, totalColumns); col++) {
+                IMdSyntaxNode cell = cells[col];
+                tableGrid[row + 1, col] = queue.ProcessAsStandaloneContent(cell);
+            }
+        }
+
+        // Calculate the max width for each column
+        for (int col = 0; col < totalColumns; col++) {
+            int maxCellWidth = 0;
+            for (int row = 0; row <= totalRows; row++) {
+                maxCellWidth = Math.Max(maxCellWidth, tableGrid[row, col].Trim().Length);
+            }
+
+            // Pad all cells in this column
+            for (int row = 0; row <= totalRows; row++) {
+                tableGrid[row, col] = tableGrid[row, col].Trim().PadRight(maxCellWidth);
+            }
+        }
+
+        // Write header row
+        for (int col = 0; col < totalColumns; col++) {
+            queue.Enqueue('|');
+            queue.Enqueue(' ');
+            queue.Enqueue(tableGrid[0, col]);
+            queue.Enqueue(' ');
+        }
+
+        queue.Enqueue('|');
+        queue.Enqueue('\n');
+
+        // Write header separator
+        for (int col = 0; col < totalColumns; col++) {
+            TableMdSyntaxNode.Alignment alignment = node.HasAlignments
+                ? node.Alignments[col]
+                : TableMdSyntaxNode.Alignment.Unknown;
+            (char left, char right) = alignment switch {
+                TableMdSyntaxNode.Alignment.Left => (':', '-'),
+                TableMdSyntaxNode.Alignment.Right => ('-', ':'),
+                TableMdSyntaxNode.Alignment.Center => (':', ':'),
+                _ => ('-', '-')
+            };
+
+            queue.Enqueue('|');
+            queue.Enqueue(' ');
+            queue.Enqueue(left);
+            queue.Enqueue('-', Math.Max(tableGrid[0, col].Length - 2, 1));
+            queue.Enqueue(right);
+            queue.Enqueue(' ');
+        }
+
+        queue.Enqueue('|');
+
+        // Write data rows
+        for (int row = 1; row <= totalRows; row++) {
+            queue.Enqueue('\n');
+            for (int col = 0; col < totalColumns; col++) {
+                queue.Enqueue('|');
+                queue.Enqueue(' ');
+                queue.Enqueue(tableGrid[row, col]);
+                queue.Enqueue(' ');
+            }
+
+            queue.Enqueue('|');
+        }
+
+        if (node.TryGetNextSibling(out IMdSyntaxNode? syntaxNode) && syntaxNode.Type != typeof(NewLineMdSyntaxNode)) {
+            queue.Enqueue('\n');
+        }
+    }
+
     /// <summary>
     /// Parses separator data from a line of input and determines column alignments.
     /// </summary>
-    /// <param name="lineInput">The input line containing separator information.</param>
-    /// <param name="columnRanges">The ranges of each column in the input line.</param>
-    /// <param name="target">
-    /// A span to store the alignment for each column.
-    /// Alignments are represented as integers: -1 for left-aligned,
-    /// 0 for center-aligned, and 1 for right-aligned.
-    /// </param>
-    /// <returns>
-    /// A boolean indicating whether separator data was successfully parsed.
-    /// Returns true if valid separator data is found; otherwise, false.
-    /// </returns>
     private static bool ParseSeparatorData(ReadOnlySpan<char> lineInput, Span<Range> columnRanges, Span<TableMdSyntaxNode.Alignment> target) {
         if (lineInput.IsEmpty) return false;
         if (columnRanges.IsEmpty) return false;
@@ -136,7 +216,6 @@ public sealed partial class TableSyntaxNodeSerializer : BaseMdSyntaxNodeSerializ
             if (alignment is not TableMdSyntaxNode.Alignment.Unknown) hasSeparatorData = true;
             target[index] = alignment;
         }
-
 
         return hasSeparatorData;
     }
