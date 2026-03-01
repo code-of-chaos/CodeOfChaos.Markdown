@@ -2,16 +2,15 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
-using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Parsers.NodeVisitors;
+using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
-using CodeOfChaos.Markdown.Parsers.Xml.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace CodeOfChaos.Markdown.Parsers.Xml;
+namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -53,29 +52,29 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
         RegisterVisitor<HtmlMdSyntaxNode, HtmlXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<HtmlSpanMdSyntaxNode, HtmlSpanXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<ImageMdSyntaxNode, ImageXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<ItalicMdSyntaxNode, ItalicXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<ItalicMdSyntaxNode, XmlSyntaxNodeVisitor<ItalicMdSyntaxNode>>();
         RegisterVisitor<LinkMdSyntaxNode, LinkXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<ListItemMdSyntaxNode, ListItemXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<ListOrderedMdSyntaxNode, ListOrderedXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<ListUnOrderedMdSyntaxNode, ListUnOrderedXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<NewLineMdSyntaxNode, NewLineXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<ParagraphMdSyntaxNode, ParagraphXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<NewLineMdSyntaxNode, XmlSyntaxNodeVisitor<NewLineMdSyntaxNode>>();
+        RegisterVisitor<ParagraphMdSyntaxNode, XmlSyntaxNodeVisitor<ParagraphMdSyntaxNode>>();
         RegisterVisitor<ScriptingBodySyntaxNode, ScriptingBodyXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<ScriptingExpressionSyntaxNode, ScriptingExpressionXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<ScriptingIfStatementSyntaxNode, ScriptingIfStatementXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<StrikeMdSyntaxNode, StrikeXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<SubScriptMdSyntaxNode, SubScriptXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<SuperScriptMdSyntaxNode, SuperScriptXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<StrikeMdSyntaxNode, XmlSyntaxNodeVisitor<StrikeMdSyntaxNode>>();
+        RegisterVisitor<SubScriptMdSyntaxNode, XmlSyntaxNodeVisitor<SubScriptMdSyntaxNode>>();
+        RegisterVisitor<SuperScriptMdSyntaxNode, XmlSyntaxNodeVisitor<SuperScriptMdSyntaxNode>>();
         RegisterVisitor<TableCellMdSyntaxNode, TableCellXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<TableMdSyntaxNode, TableXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<TableRowMdSyntaxNode, TableRowXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<TagMdSyntaxNode, TagXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<TemplateMdSyntaxNode, TemplateXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<TextMdSyntaxNode, TextXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<UnderlineMdSyntaxNode, UnderlineXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<UnderlineMdSyntaxNode, XmlSyntaxNodeVisitor<UnderlineMdSyntaxNode>>();
         RegisterVisitor<UserMdSyntaxNode, UserXmlMdSyntaxNodeVisitor>();
         RegisterVisitor<WikiLinkMdSyntaxNode, WikiLinkXmlMdSyntaxNodeVisitor>();
-        RegisterVisitor<WrapperMdSyntaxNode, WrapperXmlMdSyntaxNodeVisitor>();
+        RegisterVisitor<WrapperMdSyntaxNode, XmlSyntaxNodeVisitor<WrapperMdSyntaxNode>>();
     }
 
     private void RegisterVisitor<TNode, TVisitor>() where TNode : MdSyntaxNode<TNode>, new() where TVisitor : XmlSyntaxNodeVisitor<TNode>, new() {

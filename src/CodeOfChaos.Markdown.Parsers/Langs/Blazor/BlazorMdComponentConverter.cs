@@ -3,12 +3,13 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
 using CodeOfChaos.Markdown.Config;
+using CodeOfChaos.Markdown.Parsers.Blazor;
 using CodeOfChaos.Markdown.Syntax;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Collections.Frozen;
 
-namespace CodeOfChaos.Markdown.Parsers.Blazor;
+namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

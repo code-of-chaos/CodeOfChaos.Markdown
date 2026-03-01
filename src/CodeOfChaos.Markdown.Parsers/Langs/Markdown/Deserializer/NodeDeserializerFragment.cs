@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
-using System.Text;
 
 namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 

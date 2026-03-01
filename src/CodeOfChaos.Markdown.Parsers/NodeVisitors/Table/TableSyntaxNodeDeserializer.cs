@@ -1,12 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Syntax;
+using CodeOfChaos.Markdown.Parsers.Markdown;
 using CodeOfChaos.Markdown.Pooling;
+using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -26,7 +27,7 @@ public sealed class TableSyntaxNodeDeserializer : BaseMarkdownNodeSerializer<Tab
             TableCellMdSyntaxNode cell = headerCells[col];
             try {
                 foreach (IMdSyntaxNode child in cell.GetChildrenSpan()) {
-                    if (!Deserializer.TryGetNodeDeserializer(child, out IMarkdownSyntaxNodeVisitor? deserializer)) continue;
+                    if (!Markdown.Deserializer.TryGetNodeDeserializer(child, out IMarkdownSyntaxNodeVisitor? deserializer)) continue;
 
                     deserializer.Deserialize(TODO, child);// Use headCellBuilder, not builder
                 }
@@ -46,7 +47,7 @@ public sealed class TableSyntaxNodeDeserializer : BaseMarkdownNodeSerializer<Tab
                 IMdSyntaxNode cell = cells[col];
                 try {
                     foreach (IMdSyntaxNode childNode in cell.GetChildrenSpan()) {
-                        if (!Deserializer.TryGetNodeDeserializer(childNode, out IMarkdownSyntaxNodeVisitor? deserializer)) continue;
+                        if (!Markdown.Deserializer.TryGetNodeDeserializer(childNode, out IMarkdownSyntaxNodeVisitor? deserializer)) continue;
 
                         deserializer.Deserialize(TODO, childNode);// Use cellBuilder, not builder
                     }

@@ -1,11 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 using CodeOfChaos.Markdown.Pooling;
 using Microsoft.Extensions.ObjectPool;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
+namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

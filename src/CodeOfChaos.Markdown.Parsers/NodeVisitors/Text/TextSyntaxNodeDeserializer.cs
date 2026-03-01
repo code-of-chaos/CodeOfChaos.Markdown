@@ -4,7 +4,7 @@
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer.NodeDeserializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------

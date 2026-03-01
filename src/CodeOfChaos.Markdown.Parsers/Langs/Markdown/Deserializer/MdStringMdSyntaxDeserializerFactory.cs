@@ -42,7 +42,7 @@ public static class MdStringMdSyntaxDeserializerFactory {
             .Register<LinkMdSyntaxNode, LinkMarkdownSyntaxNodeVisitor>(instance)
             .Register<ListItemMdSyntaxNode, ListItemMarkdownSyntaxNodeVisitor>(instance)
             .Register<ListOrderedMdSyntaxNode, ListOrderedMarkdownSyntaxNodeVisitor>(instance)
-            .Register<ListUnOrderedMdSyntaxNode, ListUnOrderedMarkdownSyntaxNodeVisitor>(instance)
+            .Register<ListUnOrderedMdSyntaxNode, ListUnorderedMarkdownSyntaxNodeVisitor>(instance)
             .Register<NewLineMdSyntaxNode, NewLineMarkdownSyntaxNodeVisitor>(instance)
             .Register<ParagraphMdSyntaxNode, ParagraphMarkdownSyntaxNodeVisitor>(instance)
             // .Register<RootMdSyntaxNode, RootMarkdownSyntaxNodeVisitor>(instance) // Is a semantic node and cannot be processed

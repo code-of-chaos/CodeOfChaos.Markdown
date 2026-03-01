@@ -1,30 +1,29 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class ParagraphSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class ParagraphMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ParagraphMdSyntaxNode> {
 
     [GeneratedRegex(@"\G^(?<p>.+?)$", DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly int PId = RegexRule.GroupNumberFromName("p");
-
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(
-        INodeSerializerFragmentStack stack,
-        IMdSyntaxNode parentNode,
-        Match match
-    ) {
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string paragraph = match.Groups[PId].Value;
 
         if (parentNode is HtmlSpanMdSyntaxNode) {
@@ -35,5 +34,9 @@ public sealed partial class ParagraphSyntaxNodeSerializer : BaseMdSyntaxNodeSeri
         ParagraphMdSyntaxNode node = MdSyntaxNodePool<ParagraphMdSyntaxNode>.Shared.Get();
         parentNode = parentNode.AddChildNode(node);
         stack.PushSingleLineMatchesToStack(paragraph, parentNode);
+    }
+
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ParagraphMdSyntaxNode node) {
+        queue.EnqueueChildren(node);
     }
 }

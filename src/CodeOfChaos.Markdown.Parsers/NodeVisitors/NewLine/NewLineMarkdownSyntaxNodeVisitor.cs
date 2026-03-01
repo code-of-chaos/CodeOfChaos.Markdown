@@ -1,35 +1,33 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class UnderlineSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
-    [GeneratedRegex(@"\G_(?<u>(?>[^\\_]+|\\_|__|(?<open>_)|(?<-open>_))+)(?(open)(?!))_", DefaultSingleLineRegexOptions)]
+public sealed partial class NewLineMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<NewLineMdSyntaxNode> {
+    [GeneratedRegex(@"\G\n")]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
-
-    private static readonly char[] STriggerCharacters = ['_'];
+    
+    private static readonly char[] STriggerCharacters = ['\n'];
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
-
-    private static readonly int UId = RegexRule.GroupNumberFromName("u");
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(
-        INodeSerializerFragmentStack stack,
-        IMdSyntaxNode parentNode,
-        Match match
-    ) {
-        string underlineValue = match.Groups[UId].Value;
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+        parentNode.AddChildNode(MdSyntaxNodePool<NewLineMdSyntaxNode>.Shared.Get());
+    }
 
-        UnderlineMdSyntaxNode node = MdSyntaxNodePool<UnderlineMdSyntaxNode>.Shared.Get();
-        parentNode.AddChildNode(node);
-        stack.PushSingleLineMatchesToStack(underlineValue, node);
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, NewLineMdSyntaxNode node) {
+        queue.Enqueue('\n');
     }
 }

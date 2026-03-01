@@ -14,7 +14,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed partial class FrontMatterMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<FrontMatterMdSyntaxNode> {
     [GeneratedRegex(@"\G(?<open>^-{3,})\ *(?<lang>.+)?\n(?<body>[\s\S]*?)\n\k<open>", DefaultMultiLineRegexOptions)]
-    private static partial Regex RegexRule { get; }
+    internal static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['-'];

@@ -84,28 +84,52 @@ public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdow
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, ListUnOrderedMdSyntaxNode node) {
+        bool isFirstItem = true;
+        string leadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(node.LeadingSpaces, 0), static i => new string(' ', i));
+
         foreach (IMdSyntaxNode child in node.GetChildrenSpan()) {
             if (child is not ListItemMdSyntaxNode listItem) continue;
 
-            // Unordered list item prefix
-            queue.Enqueue('-');
+            if (!isFirstItem) queue.Enqueue('\n');
+            isFirstItem = false;
 
-            if (listItem.IsCheckable) {
-                queue.Enqueue(' ', listItem.CheckLeadingSpaces);
-                queue.Enqueue('[');
-                queue.Enqueue(listItem.OriginalCheckMarker);
-                queue.Enqueue(']');
+            // Process item content
+            string content = queue.ProcessAsStandaloneContent(listItem);
+            ReadOnlySpan<char> contentValue = content.AsSpan();
+            int lineStart = 0;
+            bool isFirstLine = true;
+
+            string itemLeadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(listItem.LeadingSpaces, 0), static i => new string(' ', i));
+            string checkLeadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(listItem.CheckLeadingSpaces, 0), static i => new string(' ', i));
+
+            for (int i = 0; i <= contentValue.Length; i++) {
+                if (i != contentValue.Length && contentValue[i] != '\n') continue;
+
+                ReadOnlySpan<char> line = contentValue.Slice(lineStart, i - lineStart);
+
+                if (!isFirstLine) {
+                    queue.Enqueue('\n');
+                    queue.Enqueue(leadingSpaces);
+                }
+                else {
+                    // First line - add list item prefix
+                    queue.Enqueue('-');
+
+                    if (listItem.IsCheckable) {
+                        queue.Enqueue(checkLeadingSpaces);
+                        queue.Enqueue('[');
+                        queue.Enqueue(listItem.OriginalCheckMarker);
+                        queue.Enqueue(']');
+                    }
+
+                    queue.Enqueue(itemLeadingSpaces);
+                }
+
+                queue.Enqueue(line);
+
+                lineStart = i + 1;
+                isFirstLine = false;
             }
-
-            queue.Enqueue(' ', listItem.LeadingSpaces);
-
-            // Enqueue children with indentation handling
-            queue.EnqueueChildren(listItem, node.LeadingSpaces);
-
-            queue.Enqueue('\n');
         }
-
-        // Remove trailing newline
-        queue.RemoveLast();
     }
 }

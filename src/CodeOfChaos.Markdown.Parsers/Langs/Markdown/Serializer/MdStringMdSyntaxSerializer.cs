@@ -1,7 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
+using CodeOfChaos.Markdown.Parsers.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using Microsoft.Extensions.Logging;
 using System.Buffers;
@@ -9,7 +10,7 @@ using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using CollectionExtensions=System.Collections.Generic.CollectionExtensions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
+namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
