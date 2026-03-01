@@ -54,6 +54,7 @@ public sealed class CodeOfChaosMarkdownConfig : IMarkdownConfig {
                     new EmoteMarkdownSyntaxNodeVisitor(),
                     new WikiLinkMarkdownSyntaxNodeVisitor(),
                     new TemplateMarkdownSyntaxNodeVisitor(),
+                    new ImageMarkdownSyntaxNodeVisitor(),
                     new LinkMarkdownSyntaxNodeVisitor(),
                     new TagMarkdownSyntaxNodeVisitor(),
                     new UserMarkdownSyntaxNodeVisitor(),

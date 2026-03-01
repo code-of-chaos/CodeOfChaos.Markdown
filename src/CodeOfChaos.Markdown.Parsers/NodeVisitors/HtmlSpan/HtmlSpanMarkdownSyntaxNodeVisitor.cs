@@ -41,14 +41,18 @@ public sealed partial class HtmlSpanMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        // Only add a paragraph wrapper if there's trailing content (pre or post)
-        bool hasTrailingContent = match.Groups[SpanPreId].Success || match.Groups[SpanPostId].Success;
+        // Spans should always be wrapped in a paragraph if not already in one
+        bool needsParagraph = parentNode is not (ParagraphMdSyntaxNode or HtmlSpanMdSyntaxNode);
 
-        if (hasTrailingContent && parentNode is not (ParagraphMdSyntaxNode or HtmlSpanMdSyntaxNode)) {
+        // Check if there's pre or post content that would also need the paragraph
+        bool hasPreContent = match.Groups[SpanPreId].Success;
+        bool hasPostContent = match.Groups[SpanPostId].Success;
+
+        if (needsParagraph) {
             parentNode = parentNode.AddChildNode(MdSyntaxNodePool<ParagraphMdSyntaxNode>.Shared.Get());
         }
 
-        if (match.Groups[SpanPostId].TryGetValue(out string? post)) {
+        if (hasPostContent && match.Groups[SpanPostId].TryGetValue(out string? post)) {
             stack.PushSingleLineMatchesToStack(post, parentNode);
         }
 
@@ -63,7 +67,7 @@ public sealed partial class HtmlSpanMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
 
         stack.PushProcessedNodeToStack(parentNode, spanNode);
 
-        if (match.Groups[SpanPreId].TryGetValue(out string? pre)) {
+        if (hasPreContent && match.Groups[SpanPreId].TryGetValue(out string? pre)) {
             stack.PushSingleLineMatchesToStack(pre, parentNode);
         }
     }

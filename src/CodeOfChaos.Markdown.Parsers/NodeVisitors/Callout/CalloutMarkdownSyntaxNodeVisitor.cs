@@ -89,7 +89,7 @@ public sealed partial class CalloutMarkdownSyntaxNodeVisitor : BaseMarkdownSynta
         // Title does not contain any multiline structure, so we can deserialize it directly
         if (node.TryGetTitleNode(out CalloutTitleMdSyntaxNode? titleNode)) {
             queue.Enqueue(' ');
-            queue.Enqueue(titleNode);
+            queue.EnqueueChildren(titleNode);
         }
 
         // Body contains a multiline structure, so we need to deserialize it separately
@@ -99,7 +99,7 @@ public sealed partial class CalloutMarkdownSyntaxNodeVisitor : BaseMarkdownSynta
         if (span.Length == 0) return;
 
         // Process content line by line without creating an array
-        string content = queue.ProcessAsStandaloneContent(node);
+        string content = queue.ProcessAsStandaloneContent(bodyNode);
         ReadOnlySpan<char> contentValue = content.AsSpan();
         int lineStart = 0;
         string leadingSpaces = LeadingSpacesCache.GetOrAdd(node.LeadingSpaces, static i => new string(' ', i));
