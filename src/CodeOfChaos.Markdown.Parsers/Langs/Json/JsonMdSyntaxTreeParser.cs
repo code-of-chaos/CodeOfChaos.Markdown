@@ -17,6 +17,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
     private readonly Dictionary<Type, IJsonSyntaxNodeVisitor> _visitors = new();
     private readonly Dictionary<string, Type> _nodeTypes = new();
+    private readonly Dictionary<Type, string> _nodeTypeNames = new();
 
     private static readonly JsonWriterOptions WriterOptions = new() {
         Indented = true,
@@ -77,8 +78,11 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
     }
 
     private void RegisterVisitor<TNode, TVisitor>() where TNode : MdSyntaxNode<TNode>, new() where TVisitor : JsonSyntaxNodeVisitor<TNode>, new() {
-        _visitors[typeof(TNode)] = new TVisitor();
-        _nodeTypes[typeof(TNode).Name] = typeof(TNode);
+        Type nodeType = typeof(TNode);
+        string typeName = nodeType.Name;
+        _visitors[nodeType] = new TVisitor();
+        _nodeTypes[typeName] = nodeType;
+        _nodeTypeNames[nodeType] = typeName;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -92,13 +96,13 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
     
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
-        
+
         await using var stream = new MemoryStream();
         await DeserializeToJsonStreamAsync(stream, tree, ct);
         stream.Position = 0;
         using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
         return await reader.ReadToEndAsync(ct);
-    } 
+    }
 
     public JsonElement DeserializeToJsonElement(IMdSyntaxTree tree) {
         using var stream = new MemoryStream();
@@ -125,8 +129,19 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         ArgumentNullException.ThrowIfNull(stream);
         ArgumentNullException.ThrowIfNull(tree);
 
-        JsonElement rootElement = DeserializeToJsonElement(tree);
-        await JsonSerializer.SerializeAsync(stream, rootElement, SerializerOptions, ct);
+        await using var writer = new Utf8JsonWriter(stream, WriterOptions);
+
+        writer.WriteStartObject();
+        writer.WriteString("type", "MdSyntaxTree");
+        writer.WriteStartArray("children");
+
+        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
+            DeserializeNode(child, writer);
+        }
+
+        writer.WriteEndArray();
+        writer.WriteEndObject();
+        await writer.FlushAsync(ct);
     }
 
     public async Task DeserializeToJsonFileAsync(string filePath, IMdSyntaxTree tree, CancellationToken ct = default) {
@@ -139,19 +154,29 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
     }
 
     private void DeserializeNode(IMdSyntaxNode node, Utf8JsonWriter writer) {
+        Type nodeType = node.GetType();
         writer.WriteStartObject();
-        writer.WriteString("type", node.GetType().Name);
 
-        if (_visitors.TryGetValue(node.GetType(), out IJsonSyntaxNodeVisitor? visitor)) {
+        if (_nodeTypeNames.TryGetValue(nodeType, out string? typeName)) {
+            writer.WriteString("type", typeName);
+        } else {
+            writer.WriteString("type", nodeType.Name);
+        }
+
+        if (_visitors.TryGetValue(nodeType, out IJsonSyntaxNodeVisitor? visitor)) {
             visitor.DeserializeToJson(node, writer);
         }
 
-        List<IMdSyntaxNode> children = node.GetChildren().ToList();
-        if (children.Count > 0) {
-            writer.WriteStartArray("children");
-            foreach (IMdSyntaxNode child in children) {
-                DeserializeNode(child, writer);
+        IEnumerable<IMdSyntaxNode> children = node.GetChildren();
+        bool hasChildren = false;
+        foreach (IMdSyntaxNode child in children) {
+            if (!hasChildren) {
+                writer.WriteStartArray("children");
+                hasChildren = true;
             }
+            DeserializeNode(child, writer);
+        }
+        if (hasChildren) {
             writer.WriteEndArray();
         }
 

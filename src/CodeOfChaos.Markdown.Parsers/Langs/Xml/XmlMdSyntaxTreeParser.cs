@@ -78,8 +78,9 @@ public class XmlMdSyntaxTreeParser : IXmlMdSyntaxTreeParser {
     }
 
     private void RegisterVisitor<TNode, TVisitor>() where TNode : MdSyntaxNode<TNode>, new() where TVisitor : XmlSyntaxNodeVisitor<TNode>, new() {
-        _visitors[typeof(TNode)] = new TVisitor();
-        _nodeTypes[typeof(TNode).Name] = typeof(TNode);
+        Type nodeType = typeof(TNode);
+        _visitors[nodeType] = new TVisitor();
+        _nodeTypes[nodeType.Name] = nodeType;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
