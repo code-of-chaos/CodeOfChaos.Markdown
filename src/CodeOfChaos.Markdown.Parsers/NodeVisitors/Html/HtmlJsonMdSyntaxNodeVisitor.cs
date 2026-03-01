@@ -6,14 +6,13 @@ using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
-namespace CodeOfChaos.Markdown.Parsers.Json.NodeVisitors;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed class HtmlJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<HtmlMdSyntaxNode> {
     private static readonly string Content = nameof(HtmlMdSyntaxNode.Content).ToCamelCase();
-
-
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------

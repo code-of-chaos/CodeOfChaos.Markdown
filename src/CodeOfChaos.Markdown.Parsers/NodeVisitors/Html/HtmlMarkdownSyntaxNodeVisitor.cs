@@ -1,15 +1,18 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class HtmlBlockSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class HtmlMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<HtmlMdSyntaxNode> {
     [GeneratedRegex("""
         \G
         (?<pre>.+?)?
@@ -50,16 +53,11 @@ public sealed partial class HtmlBlockSyntaxNodeSerializer : BaseMdSyntaxNodeSeri
     private static readonly int HtmlPostId = RegexRule.GroupNumberFromName("post");
     private static readonly int SpanTagAttrsId = SpanRegexRule.GroupNumberFromName("attr");
     private static readonly int SpanBodyId = SpanRegexRule.GroupNumberFromName("body");
-
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(
-        INodeSerializerFragmentStack stack,
-        IMdSyntaxNode parentNode,
-        Match match
-    ) {
-        // Only add a paragraph wrapper if there's trailing content (pre or post)
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {// Only add a paragraph wrapper if there's trailing content (pre or post)
         bool hasTrailingContent = match.Groups[HtmlPreId].Success || match.Groups[HtmlPostId].Success;
 
         Match? spanMatch = null;
@@ -101,5 +99,9 @@ public sealed partial class HtmlBlockSyntaxNodeSerializer : BaseMdSyntaxNodeSeri
         if (match.Groups[HtmlPreId].TryGetValue(out string? pre)) {
             stack.PushSingleLineMatchesToStack(pre, parentNode);
         }
+    }
+
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, HtmlMdSyntaxNode node) {
+        queue.Enqueue(node.Content);
     }
 }
