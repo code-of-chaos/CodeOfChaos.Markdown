@@ -1,37 +1,36 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
+using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Buffers;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public partial class ListSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
+public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ListUnOrderedMdSyntaxNode> {
     [GeneratedRegex("""
         \G
-        ^[^\S\n]*(?<id>-(?!-)|\d+\.|\.\d+).+
-        (?:\n(?:(?:-(?!-)|\d+\.|\.\d+)|(?:[\ ]+)).+)*
+        ^[^\S\n]*-(?!-).+
+        (?:\n(?:(?:-(?!-))|(?:[\ ]+)).+)*
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
 
-    [GeneratedRegex(@"^\ *(?:-|(?<index>\d*)\.)(?:(?<taskSpace>\ *)\[(?<task>[\ xX~])])?(?:(?<space>\ *)(?<head>.+)|(?<head>\ )|(?<head>))(?<body>(?:\n\ +.*)*)", DefaultMultiLineRegexOptions)]
+    [GeneratedRegex(@"^\ *-(?:(?<taskSpace>\ *)\[(?<task>[\ xX~])])?(?:(?<space>\ *)(?<head>.+)|(?<head>\ )|(?<head>))(?<body>(?:\n\ +.*)*)", DefaultMultiLineRegexOptions)]
     private static partial Regex ListItemBodyRegexRule { get; }
-    
-    private static readonly char[] STriggerCharacters = ['-', ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
-    private static readonly int LsId = RegexRule.GroupNumberFromName("id");
-    private static readonly int LIndexId = ListItemBodyRegexRule.GroupNumberFromName("index");
     private static readonly int ListTaskItemLeadingSpaces = ListItemBodyRegexRule.GroupNumberFromName("taskSpace");
     private static readonly int LTaskId = ListItemBodyRegexRule.GroupNumberFromName("task");
     private static readonly int ListItemLeadingSpaces = ListItemBodyRegexRule.GroupNumberFromName("space");
     private static readonly int LHeadId = ListItemBodyRegexRule.GroupNumberFromName("head");
     private static readonly int LBodyId = ListItemBodyRegexRule.GroupNumberFromName("body");
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
@@ -41,7 +40,6 @@ public partial class ListSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
         Match match
     ) {
         string listBody = match.Value;
-        bool isOrdered = !match.Groups[LsId].ValueSpan.Contains('-');
 
         MatchCollection matchCollection = ListItemBodyRegexRule.Matches(listBody);
         int matchCount = matchCollection.Count;
@@ -50,9 +48,7 @@ public partial class ListSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
         try {
             matchCollection.CopyTo(matchArray, 0);
 
-            IMdSyntaxNode listNode = isOrdered
-                ? MdSyntaxNodePool<ListOrderedMdSyntaxNode>.Shared.Get()
-                : MdSyntaxNodePool<ListUnOrderedMdSyntaxNode>.Shared.Get();
+            ListUnOrderedMdSyntaxNode listNode = MdSyntaxNodePool<ListUnOrderedMdSyntaxNode>.Shared.Get();
             parentNode.AddChildNode(listNode);
 
             for (int i = 0; i < matchCount; i++) {
@@ -70,25 +66,13 @@ public partial class ListSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
                 if (groups[LBodyId].TryGetValueSpan(out ReadOnlySpan<char> itemBody) && !itemBody.IsEmpty) {
                     string normalizedBody = LineNormalization.NormalizeLineIndentation(itemBody, out int leadingSpaces);
                     stack.PushMultiLineMatchesToStack(normalizedBody, listItemNode);
-                    switch (listNode) {
-                        case ListOrderedMdSyntaxNode ordered:
-                            ordered.WithLeadingSpaces(leadingSpaces);
-                            break;
-                        case ListUnOrderedMdSyntaxNode unordered:
-                            unordered.WithLeadingSpaces(leadingSpaces);
-                            break;
-                    }
+                    listNode.WithLeadingSpaces(leadingSpaces);
                 }
 
                 if (groups[LHeadId].TryGetValue(out string? listHeader)) {
                     stack.PushSingleLineMatchesToStack(listHeader, listItemNode);
                 }
 
-                if (groups[LIndexId].TryGetValue(out string? listIndex)) {
-                    listItemNode.WithIndex(listIndex);
-                }
-
-                // ReSharper disable once InvertIf
                 if (groups[LTaskId].TryGetValue(out string? taskMarker)) {
                     listItemNode.WithCheckMarker(taskMarker);
                 }
@@ -97,5 +81,31 @@ public partial class ListSyntaxNodeSerializer : BaseMdSyntaxNodeSerializer {
         finally {
             ArrayPool<Match>.Shared.Return(matchArray);
         }
+    }
+
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ListUnOrderedMdSyntaxNode node) {
+        foreach (IMdSyntaxNode child in node.GetChildrenSpan()) {
+            if (child is not ListItemMdSyntaxNode listItem) continue;
+
+            // Unordered list item prefix
+            queue.Enqueue('-');
+
+            if (listItem.IsCheckable) {
+                queue.Enqueue(' ', listItem.CheckLeadingSpaces);
+                queue.Enqueue('[');
+                queue.Enqueue(listItem.OriginalCheckMarker);
+                queue.Enqueue(']');
+            }
+
+            queue.Enqueue(' ', listItem.LeadingSpaces);
+
+            // Enqueue children with indentation handling
+            queue.EnqueueChildren(listItem, node.LeadingSpaces);
+
+            queue.Enqueue('\n');
+        }
+
+        // Remove trailing newline
+        queue.RemoveLast();
     }
 }
