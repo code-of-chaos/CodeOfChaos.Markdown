@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -26,14 +25,19 @@ public sealed class CalloutXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Callout
         targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, CalloutMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, CalloutMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
 
-        targetNode.WithLeadingSpaces(int.Parse(element.Attribute(LeadingSpaces)?.Value ?? "0"));
-        targetNode.WithCalloutType(element.Attribute(CalloutType)?.Value ?? string.Empty);
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
+        }
 
-        if (Enum.TryParse(element.Attribute(CollapsedState)?.Value, out CalloutMdSyntaxNode.CollapseStateOptions value)) {
-            targetNode.WithCollapseState(value);
+        if (TryGetPropertyAsString(element, CalloutType, out string? calloutType)) {
+            targetNode.WithCalloutType(calloutType);
+        }
+        
+        if (TryGetPropertyAsEnum(element, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
+            targetNode.WithCollapseState(collapsedState);
         }
     }
 }

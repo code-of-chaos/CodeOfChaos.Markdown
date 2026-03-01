@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -22,8 +21,8 @@ public sealed class ScriptingIfStatementXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVi
         targetElement.SetAttributeValue(ElseConditionIndex, node.ElseConditionIndex);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, ScriptingIfStatementSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, ScriptingIfStatementSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithElseConditionIndex(int.Parse(element.Attribute(ElseConditionIndex)?.Value ?? "-1"));
     }
 }

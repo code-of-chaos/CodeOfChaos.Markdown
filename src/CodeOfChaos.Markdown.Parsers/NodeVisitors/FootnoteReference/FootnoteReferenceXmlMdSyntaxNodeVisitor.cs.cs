@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -21,8 +20,8 @@ public sealed class FootnoteReferenceXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisit
         targetElement.SetAttributeValue(Identifier, node.Identifier);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, FootnoteReferenceMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, FootnoteReferenceMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithIdentifier(element.Attribute(Identifier)?.Value ?? string.Empty);
     }
 }

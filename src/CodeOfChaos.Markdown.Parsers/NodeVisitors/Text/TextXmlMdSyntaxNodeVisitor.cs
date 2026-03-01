@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -22,8 +21,8 @@ public sealed class TextXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TextMdSynt
 
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, TextMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, TextMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithContent(element.Value);
     }
 }

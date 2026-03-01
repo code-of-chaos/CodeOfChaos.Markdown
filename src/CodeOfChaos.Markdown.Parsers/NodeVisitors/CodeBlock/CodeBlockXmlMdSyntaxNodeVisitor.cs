@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -19,13 +18,18 @@ public sealed class CodeBlockXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeB
     protected override void DeserializeDetails(CodeBlockMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
         AddXmlPreserveSpace(targetElement);
+        
         targetElement.SetAttributeValue(Language, node.Language);
         targetElement.Value = node.Content;
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, CodeBlockMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
-        targetNode.WithLanguage(element.Attribute(Language)?.Value ?? string.Empty);
+    protected override void SerializeDetails(XElement element, CodeBlockMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
+        
+        if (TryGetPropertyAsString(element, Language, out string? language)) {
+            targetNode.WithLanguage(language);
+        }
+        
         targetNode.WithContent(element.Value);
     }
 }

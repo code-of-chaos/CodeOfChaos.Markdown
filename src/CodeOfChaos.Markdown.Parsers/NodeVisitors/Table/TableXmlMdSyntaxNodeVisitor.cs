@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -31,8 +30,8 @@ public sealed class TableXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSy
         }
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, TableMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, TableMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
 
         // ReSharper disable once InvertIf
         if (element.Element(Alignments) is {} alignmentsElement) {

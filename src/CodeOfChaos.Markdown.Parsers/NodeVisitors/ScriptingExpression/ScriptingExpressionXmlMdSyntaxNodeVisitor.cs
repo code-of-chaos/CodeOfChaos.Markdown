@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -26,8 +25,8 @@ public sealed class ScriptingExpressionXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVis
         targetElement.SetAttributeValue(ExpressionLength, node.ExpressionLength);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, ScriptingExpressionSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, ScriptingExpressionSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         
         string fullStatement = element.Attribute(FullStatement)?.Value ?? string.Empty;
         int expressionStart = int.Parse(element.Attribute(ExpressionStart)?.Value ?? "0");

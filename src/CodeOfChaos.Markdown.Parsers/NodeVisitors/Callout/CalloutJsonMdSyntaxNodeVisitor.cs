@@ -29,20 +29,16 @@ public sealed class CalloutJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Callout
     protected override void SerializeDetails(JsonElement element, CalloutMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(LeadingSpaces, out JsonElement leadingSpacesProperty)) {
-            targetNode.WithLeadingSpaces(leadingSpacesProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
 
-        if (element.TryGetProperty(CalloutType, out JsonElement calloutTypeProperty)) {
-            targetNode.WithCalloutType(calloutTypeProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, CalloutType, out string? calloutType)) {
+            targetNode.WithCalloutType(calloutType);
         }
-
-        // ReSharper disable once InvertIf
-        if (element.TryGetProperty(CollapsedState, out JsonElement collapsedStateProperty)) {
-            string? collapsedStateValue = collapsedStateProperty.GetString();
-            if (Enum.TryParse(collapsedStateValue, out CalloutMdSyntaxNode.CollapseStateOptions value)) {
-                targetNode.WithCollapseState(value);
-            }
+        
+        if (TryGetPropertyAsEnum(element, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
+            targetNode.WithCollapseState(collapsedState);
         }
     }
 

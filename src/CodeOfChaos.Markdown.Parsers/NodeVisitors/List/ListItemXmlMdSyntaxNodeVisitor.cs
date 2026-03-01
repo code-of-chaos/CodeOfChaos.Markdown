@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -27,8 +26,8 @@ public sealed class ListItemXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListIt
         targetElement.SetAttributeValue(CheckLeadingSpaces, node.CheckLeadingSpaces);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, ListItemMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, ListItemMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithCheckMarker(element.Attribute(CheckMarker)?.Value ?? string.Empty);
         targetNode.WithIndex(element.Attribute(Index)?.Value ?? string.Empty);
         targetNode.WithLeadingSpaces(int.Parse(element.Attribute(LeadingSpaces)?.Value ?? "0"));

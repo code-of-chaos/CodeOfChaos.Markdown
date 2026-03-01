@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -20,8 +19,8 @@ public sealed class EscapedCharacterXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisito
         targetElement.Value = node.Content.ToString();
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, EscapedCharacterMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, EscapedCharacterMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithContent(element.Value.ElementAtOrDefault(0));
     }
 }

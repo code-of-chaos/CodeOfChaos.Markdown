@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -21,8 +20,8 @@ public sealed class HeadingXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Heading
         targetElement.SetAttributeValue(Level, node.Level);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, HeadingMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, HeadingMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithLevel(int.Parse(element.Attribute(Level)?.Value ?? "0"));
     }
 }

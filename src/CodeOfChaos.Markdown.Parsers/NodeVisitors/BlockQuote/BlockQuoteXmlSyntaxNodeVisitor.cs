@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -18,11 +17,15 @@ public sealed class BlockQuoteXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<BlockQ
     // -----------------------------------------------------------------------------------------------------------------
     protected override void DeserializeDetails(BlockQuoteMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
+        
         targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, BlockQuoteMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
-        targetNode.WithLeadingSpaces(int.Parse(element.Attribute(LeadingSpaces)?.Value ?? "0"));
+    protected override void SerializeDetails(XElement element, BlockQuoteMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
+        
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
+        }
     }
 }

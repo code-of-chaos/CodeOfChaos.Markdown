@@ -18,14 +18,15 @@ public sealed class BlockQuoteJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Bloc
     // -----------------------------------------------------------------------------------------------------------------
     protected override void DeserializeDetails(BlockQuoteMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
+        
         writer.WriteNumber(LeadingSpaces, node.LeadingSpaces);
     }
 
     protected override void SerializeDetails(JsonElement element, BlockQuoteMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(LeadingSpaces, out JsonElement leadingSpacesProperty)) {
-            targetNode.WithLeadingSpaces(leadingSpacesProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 

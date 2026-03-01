@@ -27,12 +27,12 @@ public sealed class CodeInlineJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Code
     protected override void SerializeDetails(JsonElement element, CodeInlineMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(BackTickCount, out JsonElement backTickCountProperty)) {
-            targetNode.WithBackTickCount(backTickCountProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, BackTickCount, out int backTickCount)) {
+            targetNode.WithBackTickCount(backTickCount);
         }
-
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            targetNode.WithContent(contentProperty.GetString() ?? string.Empty);
+        
+        if (TryGetPropertyAsString(element, Content, out string? content)) {
+            targetNode.WithContent(content);
         }
     }
 

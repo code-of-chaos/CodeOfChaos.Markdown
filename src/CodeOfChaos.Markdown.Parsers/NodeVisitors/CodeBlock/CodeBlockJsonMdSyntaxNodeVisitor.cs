@@ -27,12 +27,12 @@ public sealed class CodeBlockJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeB
     protected override void SerializeDetails(JsonElement element, CodeBlockMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Language, out JsonElement languageProperty)) {
-            targetNode.WithLanguage(languageProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Language, out string? language)) {
+            targetNode.WithLanguage(language);
         }
 
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            targetNode.WithContent(contentProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Content, out string? content)) {
+            targetNode.WithContent(content);
         }
     }
 }

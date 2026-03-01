@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
@@ -54,14 +55,35 @@ public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : M
         TNode node = MdSyntaxNodePool<TNode>.Shared.Get();
         parentNode.AddChildNode(node);
 
-        SerializeDetails(tree, element, node);
+        SerializeDetails(element, node);
         return node;
     }
 
     private static MdSyntaxNodeModifier DeserializeModifiers(XElement element)
         => MdSyntaxNodeModifier.FromString(element.Element(OriginalInput)!.Value);
 
-    protected virtual void SerializeDetails(IMdSyntaxTree tree, XElement element, TNode targetNode) {
+    protected virtual void SerializeDetails(XElement element, TNode targetNode) {
         if (element.Element(Modifiers) is {} modifiersElement) targetNode.WithModifier(DeserializeModifiers(modifiersElement));
+    }
+
+    protected static bool TryGetPropertyAsInt32(XElement element, string propertyName, out int value) {
+        value = 0;
+        return element.Attribute(propertyName) is {} attribute
+            && int.TryParse(attribute.Value, out value);
+    }
+
+    protected static bool TryGetPropertyAsString(XElement element, string propertyName, [NotNullWhen(true)] out string? value) {
+        value = string.Empty;
+        if (element.Attribute(propertyName) is not {} attribute) return false;
+        if (attribute.Value is not {} stringValue) return false;
+
+        value = stringValue;
+        return true;
+    }
+
+    protected static bool TryGetPropertyAsEnum<TEnumType>(XElement element, string propertyName, out TEnumType value) where TEnumType : struct {
+        value = default;
+        return element.Attribute(propertyName) is {} attribute
+            && Enum.TryParse(attribute.Value, out value);
     }
 }

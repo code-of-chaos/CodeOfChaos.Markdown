@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -27,8 +26,8 @@ public sealed class FrontMatterXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Fro
         targetElement.Value = node.Content;
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, FrontMatterMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, FrontMatterMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithLanguage(element.Attribute(Language)?.Value ?? string.Empty);
         targetNode.WithContent(element.Value);
         targetNode.WithDashesCount(int.Parse(element.Attribute(DashesCount)?.Value ?? "0"));

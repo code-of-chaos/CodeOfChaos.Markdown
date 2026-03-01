@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -23,9 +22,13 @@ public sealed class CodeInlineXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Code
         targetElement.Value = node.Content;
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, CodeInlineMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
-        targetNode.WithBackTickCount(int.Parse(element.Attribute(BackTickCount)?.Value ?? "1"));
+    protected override void SerializeDetails(XElement element, CodeInlineMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
+
+        if (TryGetPropertyAsInt32(element, BackTickCount, out int backTickCount)) {
+            targetNode.WithBackTickCount(backTickCount);
+        }
+
         targetNode.WithContent(element.Value);
     }
 }

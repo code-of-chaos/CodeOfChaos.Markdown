@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
@@ -25,8 +24,8 @@ public sealed class ImageXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ImageMdSy
         if (node.Title.IsNotNullOrEmpty()) targetElement.SetAttributeValue(Title, node.Title);
     }
 
-    protected override void SerializeDetails(IMdSyntaxTree tree, XElement element, ImageMdSyntaxNode targetNode) {
-        base.SerializeDetails(tree, element, targetNode);
+    protected override void SerializeDetails(XElement element, ImageMdSyntaxNode targetNode) {
+        base.SerializeDetails(element, targetNode);
         targetNode.WithAltText(element.Attribute(AltText)?.Value ?? string.Empty);
         targetNode.WithHref(element.Attribute(Href)?.Value ?? string.Empty);
     }
