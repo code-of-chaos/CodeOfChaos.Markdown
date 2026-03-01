@@ -16,73 +16,54 @@ public sealed partial class HtmlSpanMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
     [GeneratedRegex("""
         \G
         (?<pre>.+?)?
+        <span\ ?(?<attr>\b[^>]*)>
         (?<body>
-            <span\ ?(?<attr>\b[^>]*)>
-            (?<body>
-              (?>
-                [^<]+
-                | <(?<open>span)\b[^>]*>
-                | </(?<-open>span)>
-                | <(?!/?span\b)[^>]+>
-              )*
-            )
-            (?(open)(?!))
-            (</span>)
+          (?>
+            [^<]+
+            | <(?<open>span)\b[^>]*>
+            | </(?<-open>span)>
+            | <(?!/?span\b)[^>]+>
+          )*
         )
+        (?(open)(?!))
+        </span>
         (?<post>.+)?
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
-    
-    private static readonly int HtmlPreId = RegexRule.GroupNumberFromName("pre");
-    private static readonly int HtmlBodyId = RegexRule.GroupNumberFromName("body");
-    private static readonly int HtmlPostId = RegexRule.GroupNumberFromName("post");
-    private static readonly int SpanTagAttrsId = RegexRule.GroupNumberFromName("attr");
+
+    private static readonly int SpanPreId = RegexRule.GroupNumberFromName("pre");
     private static readonly int SpanBodyId = RegexRule.GroupNumberFromName("body");
+    private static readonly int SpanPostId = RegexRule.GroupNumberFromName("post");
+    private static readonly int SpanAttrsId = RegexRule.GroupNumberFromName("attr");
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {// Only add a paragraph wrapper if there's trailing content (pre or post)
-        bool hasTrailingContent = match.Groups[HtmlPreId].Success || match.Groups[HtmlPostId].Success;
-
-        Match? spanMatch = null;
-        bool hasHtmlBody = match.Groups[HtmlBodyId].TryGetValue(out string? htmlBody);
-        string? spanBody = null;
-        if (hasHtmlBody && htmlBody is not null) {
-            spanMatch = SpanRegexRule.Match(htmlBody);
-            if (spanMatch.Groups[SpanBodyId].TryGetValue(out spanBody)) {
-                hasTrailingContent = true;
-            }
-        }
+    public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
+        // Only add a paragraph wrapper if there's trailing content (pre or post)
+        bool hasTrailingContent = match.Groups[SpanPreId].Success || match.Groups[SpanPostId].Success;
 
         if (hasTrailingContent && parentNode is not (ParagraphMdSyntaxNode or HtmlSpanMdSyntaxNode)) {
             parentNode = parentNode.AddChildNode(MdSyntaxNodePool<ParagraphMdSyntaxNode>.Shared.Get());
         }
 
-        if (match.Groups[HtmlPostId].TryGetValue(out string? post)) {
+        if (match.Groups[SpanPostId].TryGetValue(out string? post)) {
             stack.PushSingleLineMatchesToStack(post, parentNode);
         }
 
-        if (hasHtmlBody && htmlBody is not null) {
-            // Span should be the only special case allowed that allows for Markdown parsing within it
-            if (spanMatch is not null && spanBody is not null) {
-                HtmlSpanMdSyntaxNode spanNode = MdSyntaxNodePool<HtmlSpanMdSyntaxNode>.Shared.Get();
+        HtmlSpanMdSyntaxNode spanNode = MdSyntaxNodePool<HtmlSpanMdSyntaxNode>.Shared.Get();
 
-                string spanTagAttrs = spanMatch.Groups[SpanTagAttrsId].Value;
-                spanNode.WithAttributes(spanTagAttrs);
+        string spanAttrs = match.Groups[SpanAttrsId].Value;
+        spanNode.WithAttributes(spanAttrs);
 
-                stack.PushMultiLineMatchesToStack(spanBody, spanNode);
-                stack.PushProcessedNodeToStack(parentNode, spanNode);
-            }
-            else {
-                HtmlMdSyntaxNode htmlNode = MdSyntaxNodePool<HtmlMdSyntaxNode>.Shared.Get();
-                htmlNode.WithContent(htmlBody);
-                stack.PushProcessedNodeToStack(parentNode, htmlNode);
-            }
+        if (match.Groups[SpanBodyId].TryGetValue(out string? spanBody)) {
+            stack.PushMultiLineMatchesToStack(spanBody, spanNode);
         }
 
-        if (match.Groups[HtmlPreId].TryGetValue(out string? pre)) {
+        stack.PushProcessedNodeToStack(parentNode, spanNode);
+
+        if (match.Groups[SpanPreId].TryGetValue(out string? pre)) {
             stack.PushSingleLineMatchesToStack(pre, parentNode);
         }
     }
