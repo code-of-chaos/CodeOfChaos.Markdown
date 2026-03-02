@@ -2,46 +2,46 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown;
-using InfiniBlazorDevTools.Components;
-using InfiniBlazor.Markdown.Syntax.Nodes;
-using Microsoft.AspNetCore.Components.Web;
-using System.Diagnostics.CodeAnalysis;
+using MarkdownDevtools.Components;
+using MudBlazor.Services;
 
-namespace InfiniBlazorDevTools;
-
+namespace MarkdownDevtools;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-[SuppressMessage("Usage", "TUnit0034:Do not declare a main method")]
 public class Program {
     public static void Main(string[] args) {
         // -------------------------------------------------------------------------------------------------------------
-        // App
+        // Builder
         // -------------------------------------------------------------------------------------------------------------
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
-
-        builder.Services.AddInfiniBlazor(config => {
-            config.Components.SetRenderMode(RenderMode.InteractiveServer);
-            config.Markdown.RenderUnknownBlazorComponents = true;
-            config.Markdown.SkipBlazorRenderingOnComponent<NewLineMdSyntaxNode>();
-        });
+        
+        builder.Services.AddMudServices();
+        
         
         builder.Services.AddCodeOfChaosMarkdown(config => {
             config.RenderUnknownBlazorComponents = true;
         });
 
-        builder.Services.RegisterServicesFromInfiniBlazorDevTools();
         builder.Services.RegisterServicesFromCodeOfChaosTestsShared();
-        
-        // -----------------------------------------------------------------------------------------------------------------
-        // App
-        // -----------------------------------------------------------------------------------------------------------------
+
+        // -------------------------------------------------------------------------------------------------------------
+        // Application
+        // -------------------------------------------------------------------------------------------------------------
         WebApplication app = builder.Build();
 
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment()) {
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
         app.UseHttpsRedirection();
 
         app.UseAntiforgery();

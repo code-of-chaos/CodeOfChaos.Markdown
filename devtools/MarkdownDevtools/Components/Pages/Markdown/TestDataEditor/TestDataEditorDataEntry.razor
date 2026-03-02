@@ -1,0 +1,388 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown
+@using CodeOfChaos.Markdown.Parsers.Blazor
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+@using CodeOfChaos.Markdown.Syntax
+@using CodeOfChaosTests.Shared
+@using System.Runtime.CompilerServices
+
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@inject IMarkdownParser MarkdownParser
+@inject MdTestDataProvider MdTestDataProvider
+@inject IBlazorMdComponentConverter ComponentConverter
+@inject ISnackbar Snackbar
+
+@implements IDisposable
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4" Style="height:100%;">
+    <MudPaper Class="d-flex flex-column pa-4">
+
+        <!-- ================= HEADER ================= -->
+        <MudText Typo="Typo.h4" Class="mb-4">Markdown Test Data</MudText>
+
+        <MudGrid Spacing="2" Class="mb-4">
+            <MudItem xs="12" sm="4">
+                <MudTextField T="string"
+                              @bind-Value="FileName"
+                              Label="File Name"
+                              FullWidth/>
+            </MudItem>
+
+            <MudItem xs="12" sm="4">
+                <MudTextField T="string"
+                              @bind-Value="TestId"
+                              Label="Test Id"
+                              FullWidth/>
+            </MudItem>
+
+            <MudItem xs="12" sm="4" Class="d-flex align-center">
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           OnClick="@OnRenameClickedAsync"
+                           FullWidth>
+                    Rename
+                </MudButton>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField T="string"
+                              @bind-Value="DeveloperNote"
+                              Label="Developer Note"
+                              FullWidth/>
+            </MudItem>
+
+            <MudItem xs="12" Class="d-flex gap-2">
+                <MudButton StartIcon="@Icons.Material.Filled.Brush"
+                           OnClick="@OnClearAsync">
+                    Clear
+                </MudButton>
+
+                <MudButton StartIcon="@Icons.Material.Filled.Search"
+                           OnClick="@OnFetchAsync">
+                    Fetch
+                </MudButton>
+
+                <MudButton StartIcon="@Icons.Material.Filled.Delete"
+                           Color="Color.Error"
+                           OnClick="@OnDeleteAsync">
+                    Delete
+                </MudButton>
+
+                <MudButton StartIcon="@Icons.Material.Filled.Save"
+                           Color="Color.Success"
+                           OnClick="@OnSaveAsync">
+                    Save
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+
+        <MudDivider Class="mb-4"/>
+
+        <!-- ================= MAIN EDITOR AREA ================= -->
+        <MudGrid Class="flex-grow-1" Style="min-height:0;">
+
+            <!-- LEFT SIDE - Markdown Input -->
+            <MudItem xs="12" md="6" Class="d-flex flex-column" Style="min-height:0;">
+
+                <MudText Typo="Typo.h6" Class="mb-2">Markdown Input</MudText>
+
+                <MudPaper Class="flex-grow-1 pa-2 d-flex flex-column" Style="min-height:0;">
+                    <MudTextField T="string"
+                                  Value="@EditorContext.Content"
+                                  ValueChanged="@OnContentChanged"
+                                  Lines="25"
+                                  FullWidth="true"
+                                  Immediate="true"
+                                  Variant="Variant.Outlined"
+                                  Class="flex-grow-1"
+                                  Style="min-height:0; font-family:monospace;"
+                                  Placeholder="Write markdown here..."/>
+                </MudPaper>
+
+                <MudStack Row="true" Class="mt-2" AlignItems="AlignItems.Center">
+                    <MudSwitch T="bool"
+                               Label="Freeze Auto Updates"
+                               @bind-Value="FreezeAutoUpdates"/>
+
+                    @if (FreezeAutoUpdates) {
+                        <MudButton OnClick="@OnGenerateAsync"
+                                   Variant="Variant.Outlined">
+                            Generate Outputs
+                        </MudButton>
+                    }
+                </MudStack>
+            </MudItem>
+
+            <!-- RIGHT SIDE - Outputs -->
+            <MudItem xs="12" md="6" Class="d-flex flex-column" Style="min-height:0;">
+
+                <MudTabs Class="flex-grow-1 d-flex flex-column"
+                         Rounded="true"
+                         Elevation="2">
+
+                    <MudTabPanel Text="Syntax Tree" Class="d-flex flex-column" Style="min-height:0;">
+                        <MudTextField T="string"
+                                      @bind-Value="ExpectedSyntaxTreeString"
+                                      Lines="25"
+                                      FullWidth
+                                      Class="flex-grow-1"
+                                      Style="min-height:0; font-family:monospace;"/>
+                    </MudTabPanel>
+
+                    <MudTabPanel Text="Json" Class="d-flex flex-column" Style="min-height:0;">
+                        <MudTextField T="string"
+                                      @bind-Value="ExpectedJsonString"
+                                      Lines="25"
+                                      FullWidth
+                                      Class="flex-grow-1"
+                                      Style="min-height:0; font-family:monospace;"/>
+                    </MudTabPanel>
+
+                    <MudTabPanel Text="Markdown" Class="d-flex flex-column" Style="min-height:0;">
+                        <MudTextField T="string"
+                                      @bind-Value="ExpectedMarkdown"
+                                      Lines="25"
+                                      FullWidth
+                                      Style="font-family:monospace;"/>
+
+                        <MudSwitch T="bool"
+                                   Label="Skip test on whitespace mismatch"
+                                   @bind-Value="SkipOnWhitespaceMisMatch"
+                                   Class="mt-2"/>
+
+                        @if (!string.IsNullOrWhiteSpace(ExpectedMarkdown)
+                            && !string.Equals(EditorContext.Content, ExpectedMarkdown)) {
+                            <MudAlert Severity="Severity.Error"
+                                      Variant="Variant.Outlined"
+                                      Class="mt-2">
+                                Markdown does not match expected output.
+                            </MudAlert>
+                        }
+                    </MudTabPanel>
+
+                    <MudTabPanel Text="Blazor">
+                        <CascadingValue Value="@EditorContext">
+                            <CascadingValue Value="@RenderContext">
+                                @ComponentConverter.RenderRootComponents(EditorContext.SyntaxTree.VisitTopLevelNodes())
+                            </CascadingValue>
+                        </CascadingValue>
+                    </MudTabPanel>
+
+                </MudTabs>
+            </MudItem>
+
+        </MudGrid>
+
+    </MudPaper>
+</MudContainer>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+
+@code {
+    [Parameter] public string FileName { get; set; } = string.Empty;
+    [Parameter] public string TestId { get; set; } = string.Empty;
+    [Parameter] public EventCallback OnSave { get; set; }
+
+    public string? DeveloperNote { get; set; } = string.Empty;
+
+    private MdTestData? TestDataOrigin { get; set; }
+
+    private string ExpectedSyntaxTreeString { get; set; } = string.Empty;
+    private string? ExpectedMarkdown { get; set; } = string.Empty;
+    private string? ExpectedJsonString { get; set; } = string.Empty;
+    private bool SkipOnWhitespaceMisMatch { get; set; }
+
+    public bool FreezeAutoUpdates { get; set; }
+
+    public MdEditorContext EditorContext = new() {
+        ShowInput = true,
+        ShowPreview = false,
+    };
+    public MdRenderContext RenderContext = MdRenderContext.NonInteractive;
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
+    protected override void OnInitialized() {
+        base.OnInitialized();
+
+        EditorContext.OnSyntaxTreeChangedAsync += OnGenerateAsync;
+    }
+
+    public void Dispose() {
+        EditorContext.OnSyntaxTreeChangedAsync -= OnGenerateAsync;
+    }
+
+    private async Task OnContentChanged(string? newContent) {
+        if (newContent is null) return;
+        
+        EditorContext.Content = newContent;
+
+        // Reparse the syntax tree
+        EditorContext.SyntaxTree = MarkdownParser.Markdown.SerializeToSyntaxTree(newContent);
+
+        if (!FreezeAutoUpdates)
+            await OnGenerateAsync();
+    }
+
+    public async Task LoadTestData(string fileName, string testId) {
+        FileName = fileName;
+        TestId = testId;
+
+        if (!FileName.IsNullOrWhiteSpace() && !TestId.IsNullOrWhiteSpace()) {
+            await OnFetchAsync();
+        }
+    }
+
+    private async Task OnGenerateAsync() {
+        await Task.WhenAll(
+            GenerateXmlString(),
+            GenerateJsonString(),
+            GenerateMarkdown()
+        );
+    }
+
+    private async Task GenerateXmlString() {
+        IMdSyntaxTree tree = EditorContext.SyntaxTree;
+
+        using var memoryStream = new MemoryStream();
+        await MarkdownParser.Xml.DeserializeToXmlStreamAsync(memoryStream, tree);
+
+        memoryStream.Position = 0;
+        string result = await new StreamReader(memoryStream).ReadToEndAsync();
+        ExpectedSyntaxTreeString = result;
+    }
+
+    private async Task GenerateJsonString() {
+        IMdSyntaxTree tree = EditorContext.SyntaxTree;
+
+        using var memoryStream = new MemoryStream();
+        await MarkdownParser.Json.DeserializeToJsonStreamAsync(memoryStream, tree);
+
+        memoryStream.Position = 0;
+        string result = await new StreamReader(memoryStream).ReadToEndAsync();
+        ExpectedJsonString = result.ReplaceLineEndings("\n");
+
+    }
+
+    private Task GenerateMarkdown() {
+        IMdSyntaxTree tree = EditorContext.SyntaxTree;
+
+        ExpectedMarkdown = MarkdownParser.Markdown.DeserializeToString(tree);
+        return Task.CompletedTask;
+    }
+
+    private async Task OnFetchAsync() {
+        List<MdTestData>? dataList = await MdTestDataProvider.TryGetXmlMdTestDataAsync(FileName);
+
+        if (dataList is null) {
+            Snackbar.Add($"File could not be found: {FileName}", Severity.Warning);
+            return;
+        }
+
+        if (dataList.FirstOrDefault(data => data.Id == TestId) is not {} testData) {
+            Snackbar.Add($"Test Id was not valid: {TestId}", Severity.Warning);
+            return;
+        }
+
+        FileName = testData.FileName;
+        TestId = testData.Id;
+        DeveloperNote = testData.DeveloperNote;
+
+        EditorContext.Content = testData.MdString;
+        EditorContext.SyntaxTree = testData.MdSyntaxTree;// <- Important
+
+        TestDataOrigin = testData;
+
+        // Regenerate outputs
+        await OnGenerateAsync();// <- THIS will fill your XML, JSON, Markdown tabs
+
+        Snackbar.Add($"Loaded test: {TestId}", Severity.Success);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnSaveAsync() {
+        if (TestId.IsNullOrWhiteSpace()) {
+            Snackbar.Add("Test Id was not valid", Severity.Warning);
+            return;
+        }
+
+        var xmlData = new MdTestData {
+            FileName = FileName,
+            Id = TestId,
+            DeveloperNote = DeveloperNote,
+            MdString = EditorContext.Content,
+            MdSyntaxTree = Unsafe.As<IMdSyntaxTree>(EditorContext.SyntaxTree),
+            ExpectedMarkdown = ExpectedMarkdown,
+            ExpectedMarkdownSkipOnWhitespaceMisMatch = SkipOnWhitespaceMisMatch,
+            ExpectedJsonString = ExpectedJsonString
+        };
+
+        if (!await MdTestDataProvider.TryAddOrUpdateAsync(xmlData.FileName, xmlData)) {
+            Snackbar.Add($"Test could not be saved: {TestId}", Severity.Error);
+            return;
+        }
+
+        Snackbar.Add($"Test was saved: {TestId}", Severity.Success);
+
+        await OnSave.InvokeAsync();
+    }
+
+    private async Task OnDeleteAsync() {
+        if (!await MdTestDataProvider.TryDeleteAsync(FileName, TestId)) {
+            Snackbar.Add($"Could not delete test: {TestId}", Severity.Warning);
+            return;
+        }
+
+        FileName = string.Empty;
+        TestId = string.Empty;
+        DeveloperNote = string.Empty;
+        ExpectedMarkdown = string.Empty;
+        ExpectedSyntaxTreeString = string.Empty;
+        TestDataOrigin = null;
+
+        await EditorContext.ClearAsync();
+
+        Snackbar.Add($"Test was deleted: {TestId}", Severity.Success);
+
+        await OnSave.InvokeAsync();
+    }
+
+    private async Task OnRenameClickedAsync() {
+        if (TestDataOrigin is null) {
+            Snackbar.Add("Cannot rename test: No valid data source", Severity.Warning);
+            return;
+        }
+
+        if (!await MdTestDataProvider.TryRenameTest(FileName, TestDataOrigin.Id, TestId)) {
+            Snackbar.Add("Could not rename test", Severity.Warning);
+            return;
+        }
+
+        Snackbar.Add($"Test was renamed: {TestId}", Severity.Success);
+
+        await OnFetchAsync();
+        await OnSave.InvokeAsync();
+    }
+
+    private async Task OnClearAsync() {
+        FileName = string.Empty;
+        TestId = string.Empty;
+        DeveloperNote = string.Empty;
+        ExpectedMarkdown = string.Empty;
+        ExpectedSyntaxTreeString = string.Empty;
+        TestDataOrigin = null;
+
+        await EditorContext.ClearAsync();
+
+        Snackbar.Add("Test cleared", Severity.Info);
+    }
+}

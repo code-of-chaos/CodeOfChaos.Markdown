@@ -25,7 +25,6 @@ public class MarkdownDiDataSourceAttribute : DependencyInjectionDataSourceAttrib
         var services = new ServiceCollection();
 
         services.AddLogging();
-        services.AddLucideIcons();
         services.AddCodeOfChaosMarkdown();
         
         // Resolves and issue with the JSRuntime dependency on the HtmlRenderer for Markdown
