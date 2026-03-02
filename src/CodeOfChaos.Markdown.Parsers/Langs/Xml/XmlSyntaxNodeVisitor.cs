@@ -66,13 +66,13 @@ public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : M
         if (element.Element(Modifiers) is {} modifiersElement) targetNode.WithModifier(DeserializeModifiers(modifiersElement));
     }
 
-    protected static bool TryGetPropertyAsInt32(XElement element, string propertyName, out int value) {
+    protected static bool TryGetAttributeAsInt32(XElement element, string propertyName, out int value) {
         value = 0;
         return element.Attribute(propertyName) is {} attribute
             && int.TryParse(attribute.Value, out value);
     }
 
-    protected static bool TryGetPropertyAsString(XElement element, string propertyName, [NotNullWhen(true)] out string? value) {
+    protected static bool TryGetAttributeAsString(XElement element, string propertyName, [NotNullWhen(true)] out string? value) {
         value = string.Empty;
         if (element.Attribute(propertyName) is not {} attribute) return false;
         if (attribute.Value is not {} stringValue) return false;
@@ -81,7 +81,7 @@ public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : M
         return true;
     }
 
-    protected static bool TryGetPropertyAsEnum<TEnumType>(XElement element, string propertyName, out TEnumType value) where TEnumType : struct {
+    protected static bool TryGetAttributeAsEnum<TEnumType>(XElement element, string propertyName, out TEnumType value) where TEnumType : struct {
         value = default;
         return element.Attribute(propertyName) is {} attribute
             && Enum.TryParse(attribute.Value, out value);

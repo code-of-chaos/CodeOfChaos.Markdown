@@ -27,12 +27,12 @@ public sealed class EmoteJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<EmoteMdSy
     protected override void SerializeDetails(JsonElement element, EmoteMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(EmoteKey, out JsonElement emoteKeyProperty)) {
-            targetNode.WithEmoteKey(emoteKeyProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, EmoteKey, out string? emoteKey)) {
+            targetNode.WithEmoteKey(emoteKey);
         }
-
-        if (element.TryGetProperty(OriginalEmote, out JsonElement originalEmoteProperty)) {
-            targetNode.WithOriginalEmote(originalEmoteProperty.GetString() ?? string.Empty);
+        
+        if (TryGetPropertyAsString(element, OriginalEmote, out string? originalEmote)) {
+            targetNode.WithOriginalEmote(originalEmote);
         }
     }
 

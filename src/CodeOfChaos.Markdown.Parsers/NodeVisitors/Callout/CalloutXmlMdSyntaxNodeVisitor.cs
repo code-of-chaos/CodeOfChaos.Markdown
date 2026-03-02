@@ -28,15 +28,15 @@ public sealed class CalloutXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Callout
     protected override void SerializeDetails(XElement element, CalloutMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
             targetNode.WithLeadingSpaces(leadingSpaces);
         }
 
-        if (TryGetPropertyAsString(element, CalloutType, out string? calloutType)) {
+        if (TryGetAttributeAsString(element, CalloutType, out string? calloutType)) {
             targetNode.WithCalloutType(calloutType);
         }
         
-        if (TryGetPropertyAsEnum(element, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
+        if (TryGetAttributeAsEnum(element, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
             targetNode.WithCollapseState(collapsedState);
         }
     }

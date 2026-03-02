@@ -25,12 +25,8 @@ public sealed class FootnoteDescriptionJsonMdSyntaxNodeVisitor : JsonSyntaxNodeV
     protected override void SerializeDetails(JsonElement element, FootnoteDescriptionMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        // ReSharper disable once InvertIf
-        if (element.TryGetProperty(Identifier, out JsonElement contentProperty)) {
-            string? contentValue = contentProperty.GetString();
-            if (!string.IsNullOrEmpty(contentValue)) {
-                targetNode.WithIdentifier(contentValue);
-            }
+        if (TryGetPropertyAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
         }
     }
 }

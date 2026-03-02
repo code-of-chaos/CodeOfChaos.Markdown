@@ -24,7 +24,7 @@ public sealed class BlockQuoteXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<BlockQ
     protected override void SerializeDetails(XElement element, BlockQuoteMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
         
-        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
             targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }

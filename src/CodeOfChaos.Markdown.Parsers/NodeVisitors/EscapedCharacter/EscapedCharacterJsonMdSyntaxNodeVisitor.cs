@@ -25,12 +25,8 @@ public sealed class EscapedCharacterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisito
     protected override void SerializeDetails(JsonElement element, EscapedCharacterMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        // ReSharper disable once InvertIf
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            string? contentValue = contentProperty.GetString();
-            if (!string.IsNullOrEmpty(contentValue)) {
-                targetNode.WithContent(contentValue[0]);
-            }
+        if (TryGetPropertyAsString(element, Content, out string? content) && content.ElementAtOrDefault(0) is var character and not '\0') {
+            targetNode.WithContent(character);
         }
     }
 

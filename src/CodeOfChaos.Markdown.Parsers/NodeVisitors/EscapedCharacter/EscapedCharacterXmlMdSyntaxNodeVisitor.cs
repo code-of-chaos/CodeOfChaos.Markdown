@@ -21,6 +21,9 @@ public sealed class EscapedCharacterXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisito
 
     protected override void SerializeDetails(XElement element, EscapedCharacterMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithContent(element.Value.ElementAtOrDefault(0));
+
+        if (element.Value.IsNotNullOrEmpty()) {
+            targetNode.WithContent(element.Value[0]);
+        }
     }
 }

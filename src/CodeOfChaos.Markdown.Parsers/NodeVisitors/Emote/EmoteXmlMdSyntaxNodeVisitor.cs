@@ -24,7 +24,13 @@ public sealed class EmoteXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<EmoteMdSy
 
     protected override void SerializeDetails(XElement element, EmoteMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithEmoteKey(element.Attribute(EmoteKey)?.Value ?? string.Empty);
-        targetNode.WithOriginalEmote(element.Attribute(OriginalEmote)?.Value ?? string.Empty);
+
+        if (TryGetAttributeAsString(element, EmoteKey, out string? emoteKey)) {
+            targetNode.WithEmoteKey(emoteKey);
+        }
+        
+        if (TryGetAttributeAsString(element, OriginalEmote, out string? originalEmote)) {
+            targetNode.WithOriginalEmote(originalEmote);
+        }
     }
 }

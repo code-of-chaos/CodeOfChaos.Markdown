@@ -26,7 +26,7 @@ public sealed class CodeBlockXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeB
     protected override void SerializeDetails(XElement element, CodeBlockMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
         
-        if (TryGetPropertyAsString(element, Language, out string? language)) {
+        if (TryGetAttributeAsString(element, Language, out string? language)) {
             targetNode.WithLanguage(language);
         }
         

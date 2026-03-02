@@ -25,7 +25,7 @@ public sealed class CodeInlineXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Code
     protected override void SerializeDetails(XElement element, CodeInlineMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (TryGetPropertyAsInt32(element, BackTickCount, out int backTickCount)) {
+        if (TryGetAttributeAsInt32(element, BackTickCount, out int backTickCount)) {
             targetNode.WithBackTickCount(backTickCount);
         }
 
