@@ -23,6 +23,13 @@ Here are some bullet points:
   - Subpoint A
   - Subpoint B
 
+### Numbered List
+Here are some list items:
+1. Item one
+2. Item two
+  1. subItem A
+  2. subItem A
+
 ### Blockquote
 &gt; This is a blockquote. It can contain multiple lines of text
 &gt; and demonstrates how Markdown handles quoted content.
@@ -102,6 +109,33 @@ You can visit [Google](https://www.google.com) or check out the following image:
           </ListUnorderedMdSyntaxNode>
         </ListItemMdSyntaxNode>
       </ListUnorderedMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <HeadingMdSyntaxNode Level="3">
+        <TextMdSyntaxNode xml:space="preserve">Numbered List</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Here are some list items:</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ListOrderedMdSyntaxNode LeadingSpaces="2">
+        <ListItemMdSyntaxNode CheckMarker="" Index="1" LeadingSpaces="1" CheckLeadingSpaces="0">
+          <TextMdSyntaxNode xml:space="preserve">Item one</TextMdSyntaxNode>
+        </ListItemMdSyntaxNode>
+        <ListItemMdSyntaxNode CheckMarker="" Index="2" LeadingSpaces="1" CheckLeadingSpaces="0">
+          <TextMdSyntaxNode xml:space="preserve">Item two</TextMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+          <ListOrderedMdSyntaxNode LeadingSpaces="0">
+            <ListItemMdSyntaxNode CheckMarker="" Index="1" LeadingSpaces="1" CheckLeadingSpaces="0">
+              <TextMdSyntaxNode xml:space="preserve">subItem A</TextMdSyntaxNode>
+            </ListItemMdSyntaxNode>
+            <ListItemMdSyntaxNode CheckMarker="" Index="2" LeadingSpaces="1" CheckLeadingSpaces="0">
+              <TextMdSyntaxNode xml:space="preserve">subItem A</TextMdSyntaxNode>
+            </ListItemMdSyntaxNode>
+          </ListOrderedMdSyntaxNode>
+        </ListItemMdSyntaxNode>
+      </ListOrderedMdSyntaxNode>
       <NewLineMdSyntaxNode />
       <NewLineMdSyntaxNode />
       <HeadingMdSyntaxNode Level="3">
@@ -197,6 +231,13 @@ Here are some bullet points:
 - Point two
   - Subpoint A
   - Subpoint B
+
+### Numbered List
+Here are some list items:
+1. Item one
+2. Item two
+  1. subItem A
+  2. subItem A
 
 ### Blockquote
 &gt; This is a blockquote. It can contain multiple lines of text
@@ -412,6 +453,104 @@ You can visit [Google](https://www.google.com) or check out the following image:
                     {
                       "type": "TextMdSyntaxNode",
                       "content": "Subpoint B"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 3,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Numbered List"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Here are some list items:"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ListOrderedMdSyntaxNode",
+      "leadingSpaces": 2,
+      "children": [
+        {
+          "type": "ListItemMdSyntaxNode",
+          "checkMarker": "",
+          "index": "1",
+          "leadingSpaces": 1,
+          "checkLeadingSpaces": 0,
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Item one"
+            }
+          ]
+        },
+        {
+          "type": "ListItemMdSyntaxNode",
+          "checkMarker": "",
+          "index": "2",
+          "leadingSpaces": 1,
+          "checkLeadingSpaces": 0,
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Item two"
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            },
+            {
+              "type": "ListOrderedMdSyntaxNode",
+              "leadingSpaces": 0,
+              "children": [
+                {
+                  "type": "ListItemMdSyntaxNode",
+                  "checkMarker": "",
+                  "index": "1",
+                  "leadingSpaces": 1,
+                  "checkLeadingSpaces": 0,
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "subItem A"
+                    }
+                  ]
+                },
+                {
+                  "type": "ListItemMdSyntaxNode",
+                  "checkMarker": "",
+                  "index": "2",
+                  "leadingSpaces": 1,
+                  "checkLeadingSpaces": 0,
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "subItem A"
                     }
                   ]
                 }
