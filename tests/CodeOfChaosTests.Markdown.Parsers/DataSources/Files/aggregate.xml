@@ -23,6 +23,13 @@ Here are some bullet points:
   - Subpoint A
   - Subpoint B
 
+### Numbered List
+Here are some list items:
+1. Item one
+2. Item two
+  1. subItem A
+  2. subItem A
+
 ### Blockquote
 &gt; This is a blockquote. It can contain multiple lines of text
 &gt; and demonstrates how Markdown handles quoted content.
@@ -85,23 +92,50 @@ You can visit [Google](https://www.google.com) or check out the following image:
         <TextMdSyntaxNode xml:space="preserve">Here are some bullet points:</TextMdSyntaxNode>
       </ParagraphMdSyntaxNode>
       <NewLineMdSyntaxNode />
-      <ListUnOrderedMdSyntaxNode LeadingSpaces="2">
+      <ListUnorderedMdSyntaxNode LeadingSpaces="2">
         <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
           <TextMdSyntaxNode xml:space="preserve">Point one</TextMdSyntaxNode>
         </ListItemMdSyntaxNode>
         <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
           <TextMdSyntaxNode xml:space="preserve">Point two</TextMdSyntaxNode>
           <NewLineMdSyntaxNode />
-          <ListUnOrderedMdSyntaxNode LeadingSpaces="0">
+          <ListUnorderedMdSyntaxNode LeadingSpaces="0">
             <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
               <TextMdSyntaxNode xml:space="preserve">Subpoint A</TextMdSyntaxNode>
             </ListItemMdSyntaxNode>
             <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
               <TextMdSyntaxNode xml:space="preserve">Subpoint B</TextMdSyntaxNode>
             </ListItemMdSyntaxNode>
-          </ListUnOrderedMdSyntaxNode>
+          </ListUnorderedMdSyntaxNode>
         </ListItemMdSyntaxNode>
-      </ListUnOrderedMdSyntaxNode>
+      </ListUnorderedMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <HeadingMdSyntaxNode Level="3">
+        <TextMdSyntaxNode xml:space="preserve">Numbered List</TextMdSyntaxNode>
+      </HeadingMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ParagraphMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">Here are some list items:</TextMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <ListOrderedMdSyntaxNode LeadingSpaces="2">
+        <ListItemMdSyntaxNode CheckMarker="" Index="1" LeadingSpaces="1" CheckLeadingSpaces="0">
+          <TextMdSyntaxNode xml:space="preserve">Item one</TextMdSyntaxNode>
+        </ListItemMdSyntaxNode>
+        <ListItemMdSyntaxNode CheckMarker="" Index="2" LeadingSpaces="1" CheckLeadingSpaces="0">
+          <TextMdSyntaxNode xml:space="preserve">Item two</TextMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+          <ListOrderedMdSyntaxNode LeadingSpaces="0">
+            <ListItemMdSyntaxNode CheckMarker="" Index="1" LeadingSpaces="1" CheckLeadingSpaces="0">
+              <TextMdSyntaxNode xml:space="preserve">subItem A</TextMdSyntaxNode>
+            </ListItemMdSyntaxNode>
+            <ListItemMdSyntaxNode CheckMarker="" Index="2" LeadingSpaces="1" CheckLeadingSpaces="0">
+              <TextMdSyntaxNode xml:space="preserve">subItem A</TextMdSyntaxNode>
+            </ListItemMdSyntaxNode>
+          </ListOrderedMdSyntaxNode>
+        </ListItemMdSyntaxNode>
+      </ListOrderedMdSyntaxNode>
       <NewLineMdSyntaxNode />
       <NewLineMdSyntaxNode />
       <HeadingMdSyntaxNode Level="3">
@@ -197,6 +231,13 @@ Here are some bullet points:
 - Point two
   - Subpoint A
   - Subpoint B
+
+### Numbered List
+Here are some list items:
+1. Item one
+2. Item two
+  1. subItem A
+  2. subItem A
 
 ### Blockquote
 &gt; This is a blockquote. It can contain multiple lines of text
@@ -355,7 +396,7 @@ You can visit [Google](https://www.google.com) or check out the following image:
       "type": "NewLineMdSyntaxNode"
     },
     {
-      "type": "ListUnOrderedMdSyntaxNode",
+      "type": "ListUnorderedMdSyntaxNode",
       "leadingSpaces": 2,
       "children": [
         {
@@ -386,7 +427,7 @@ You can visit [Google](https://www.google.com) or check out the following image:
               "type": "NewLineMdSyntaxNode"
             },
             {
-              "type": "ListUnOrderedMdSyntaxNode",
+              "type": "ListUnorderedMdSyntaxNode",
               "leadingSpaces": 0,
               "children": [
                 {
@@ -412,6 +453,104 @@ You can visit [Google](https://www.google.com) or check out the following image:
                     {
                       "type": "TextMdSyntaxNode",
                       "content": "Subpoint B"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "HeadingMdSyntaxNode",
+      "level": 3,
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Numbered List"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "Here are some list items:"
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "ListOrderedMdSyntaxNode",
+      "leadingSpaces": 2,
+      "children": [
+        {
+          "type": "ListItemMdSyntaxNode",
+          "checkMarker": "",
+          "index": "1",
+          "leadingSpaces": 1,
+          "checkLeadingSpaces": 0,
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Item one"
+            }
+          ]
+        },
+        {
+          "type": "ListItemMdSyntaxNode",
+          "checkMarker": "",
+          "index": "2",
+          "leadingSpaces": 1,
+          "checkLeadingSpaces": 0,
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Item two"
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            },
+            {
+              "type": "ListOrderedMdSyntaxNode",
+              "leadingSpaces": 0,
+              "children": [
+                {
+                  "type": "ListItemMdSyntaxNode",
+                  "checkMarker": "",
+                  "index": "1",
+                  "leadingSpaces": 1,
+                  "checkLeadingSpaces": 0,
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "subItem A"
+                    }
+                  ]
+                },
+                {
+                  "type": "ListItemMdSyntaxNode",
+                  "checkMarker": "",
+                  "index": "2",
+                  "leadingSpaces": 1,
+                  "checkLeadingSpaces": 0,
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "subItem A"
                     }
                   ]
                 }
@@ -663,35 +802,35 @@ You can visit [Google](https://www.google.com) or check out the following image:
         <TextMdSyntaxNode xml:space="preserve">Nested Lists and Complex Formatting</TextMdSyntaxNode>
       </HeadingMdSyntaxNode>
       <NewLineMdSyntaxNode />
-      <ListUnOrderedMdSyntaxNode LeadingSpaces="2">
+      <ListUnorderedMdSyntaxNode LeadingSpaces="2">
         <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
           <BoldMdSyntaxNode>
             <TextMdSyntaxNode xml:space="preserve">Main Topic 1</TextMdSyntaxNode>
           </BoldMdSyntaxNode>
           <NewLineMdSyntaxNode />
-          <ListUnOrderedMdSyntaxNode LeadingSpaces="2">
+          <ListUnorderedMdSyntaxNode LeadingSpaces="2">
             <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
               <TextMdSyntaxNode xml:space="preserve">Subtopic 1.1</TextMdSyntaxNode>
               <NewLineMdSyntaxNode />
-              <ListUnOrderedMdSyntaxNode LeadingSpaces="2">
+              <ListUnorderedMdSyntaxNode LeadingSpaces="2">
                 <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
                   <TextMdSyntaxNode xml:space="preserve">Detail 1.1.1</TextMdSyntaxNode>
                 </ListItemMdSyntaxNode>
                 <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
                   <TextMdSyntaxNode xml:space="preserve">Detail 1.1.2</TextMdSyntaxNode>
                   <NewLineMdSyntaxNode />
-                  <ListUnOrderedMdSyntaxNode LeadingSpaces="0">
+                  <ListUnorderedMdSyntaxNode LeadingSpaces="0">
                     <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
                       <TextMdSyntaxNode xml:space="preserve">Extra Detail 1.1.2.1</TextMdSyntaxNode>
                     </ListItemMdSyntaxNode>
-                  </ListUnOrderedMdSyntaxNode>
+                  </ListUnorderedMdSyntaxNode>
                 </ListItemMdSyntaxNode>
-              </ListUnOrderedMdSyntaxNode>
+              </ListUnorderedMdSyntaxNode>
             </ListItemMdSyntaxNode>
             <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
               <TextMdSyntaxNode xml:space="preserve">Subtopic 1.2</TextMdSyntaxNode>
             </ListItemMdSyntaxNode>
-          </ListUnOrderedMdSyntaxNode>
+          </ListUnorderedMdSyntaxNode>
         </ListItemMdSyntaxNode>
         <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
           <BoldMdSyntaxNode>
@@ -705,18 +844,18 @@ You can visit [Google](https://www.google.com) or check out the following image:
             <ListItemMdSyntaxNode CheckMarker="" Index="2" LeadingSpaces="1" CheckLeadingSpaces="0">
               <TextMdSyntaxNode xml:space="preserve">Item 2.2</TextMdSyntaxNode>
               <NewLineMdSyntaxNode />
-              <ListUnOrderedMdSyntaxNode LeadingSpaces="0">
+              <ListUnorderedMdSyntaxNode LeadingSpaces="0">
                 <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
                   <TextMdSyntaxNode xml:space="preserve">Sub-Item 2.2.1</TextMdSyntaxNode>
                 </ListItemMdSyntaxNode>
                 <ListItemMdSyntaxNode CheckMarker="" Index="" LeadingSpaces="1" CheckLeadingSpaces="0">
                   <TextMdSyntaxNode xml:space="preserve">Sub-Item 2.2.2</TextMdSyntaxNode>
                 </ListItemMdSyntaxNode>
-              </ListUnOrderedMdSyntaxNode>
+              </ListUnorderedMdSyntaxNode>
             </ListItemMdSyntaxNode>
           </ListOrderedMdSyntaxNode>
         </ListItemMdSyntaxNode>
-      </ListUnOrderedMdSyntaxNode>
+      </ListUnorderedMdSyntaxNode>
     </MdSyntaxTree>
     <ExpectedMarkdown>## Nested Lists and Complex Formatting
 - **Main Topic 1**
@@ -747,7 +886,7 @@ You can visit [Google](https://www.google.com) or check out the following image:
       "type": "NewLineMdSyntaxNode"
     },
     {
-      "type": "ListUnOrderedMdSyntaxNode",
+      "type": "ListUnorderedMdSyntaxNode",
       "leadingSpaces": 2,
       "children": [
         {
@@ -770,7 +909,7 @@ You can visit [Google](https://www.google.com) or check out the following image:
               "type": "NewLineMdSyntaxNode"
             },
             {
-              "type": "ListUnOrderedMdSyntaxNode",
+              "type": "ListUnorderedMdSyntaxNode",
               "leadingSpaces": 2,
               "children": [
                 {
@@ -788,7 +927,7 @@ You can visit [Google](https://www.google.com) or check out the following image:
                       "type": "NewLineMdSyntaxNode"
                     },
                     {
-                      "type": "ListUnOrderedMdSyntaxNode",
+                      "type": "ListUnorderedMdSyntaxNode",
                       "leadingSpaces": 2,
                       "children": [
                         {
@@ -819,7 +958,7 @@ You can visit [Google](https://www.google.com) or check out the following image:
                               "type": "NewLineMdSyntaxNode"
                             },
                             {
-                              "type": "ListUnOrderedMdSyntaxNode",
+                              "type": "ListUnorderedMdSyntaxNode",
                               "leadingSpaces": 0,
                               "children": [
                                 {
@@ -911,7 +1050,7 @@ You can visit [Google](https://www.google.com) or check out the following image:
                       "type": "NewLineMdSyntaxNode"
                     },
                     {
-                      "type": "ListUnOrderedMdSyntaxNode",
+                      "type": "ListUnorderedMdSyntaxNode",
                       "leadingSpaces": 0,
                       "children": [
                         {

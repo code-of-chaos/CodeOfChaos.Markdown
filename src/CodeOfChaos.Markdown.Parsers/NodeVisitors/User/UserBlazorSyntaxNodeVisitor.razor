@@ -1,0 +1,53 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown.Parsers.Blazor.Services
+@using CodeOfChaos.Markdown.Syntax.Nodes
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+@using Microsoft.Extensions.DependencyInjection
+
+@namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@inherits BaseMarkdownSyntaxNodeVisitor<UserMdSyntaxNode>
+
+@inject IServiceProvider ServiceProvider
+
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@if (UserLinkProvider is not null && UserLinkProvider.TryGetUserLink(SyntaxNode.Content, out string? link)) {
+    <a href="@link" target="_blank" rel="noopener noreferrer" class="md-username md-username-@(SyntaxNode.Content)">
+        @("@")@SyntaxNode.Content
+    </a>
+}
+else {
+    <span class="md-username md-username-@(SyntaxNode.Content)">
+        @("@")@SyntaxNode.Content
+    </span>
+}
+
+<style>
+    .md-username {
+        display: inline-block;
+        padding: 0.125rem 0.375rem; 
+        border-radius: 0.75rem;
+
+        /* Replace these with your actual design tokens/colors */
+        background-color: #f3f4f6;
+        color: #111827;
+    }
+</style>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@code {
+    private IUserLinkProvider? UserLinkProvider { get; set; }
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        UserLinkProvider = ServiceProvider.GetService<IUserLinkProvider>();
+    }
+}
+

@@ -9,18 +9,18 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ListUnorderedXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListUnOrderedMdSyntaxNode> {
-    private const string LeadingSpaces = nameof(ListUnOrderedMdSyntaxNode.LeadingSpaces);
+public sealed class ListUnorderedXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListUnorderedMdSyntaxNode> {
+    private const string LeadingSpaces = nameof(ListUnorderedMdSyntaxNode.LeadingSpaces);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ListUnOrderedMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(ListUnorderedMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
         targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
     }
 
-    protected override void SerializeDetails(XElement element, ListUnOrderedMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, ListUnorderedMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
         if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {

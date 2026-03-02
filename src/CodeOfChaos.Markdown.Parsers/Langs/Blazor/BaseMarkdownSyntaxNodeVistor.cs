@@ -1,27 +1,22 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-namespace CodeOfChaos.Markdown.Syntax.Nodes;
+using CodeOfChaos.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Syntax;
+using Microsoft.AspNetCore.Components;
+
+namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ListUnOrderedMdSyntaxNode : MdSyntaxNode<ListUnOrderedMdSyntaxNode> {
-    public int LeadingSpaces { get; private set; }
+public abstract class BaseMarkdownSyntaxNodeVisitor<T> : ComponentBase where T : class, IMdSyntaxNode {
+    [Parameter] public required T SyntaxNode { get; set; }
+    
+    [Inject] public IBlazorMdComponentConverter ComponentConverter { get; set; } = null!;
+    [CascadingParameter] public MdRenderContext? RenderContext { get; set; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public ListUnOrderedMdSyntaxNode WithLeadingSpaces(int leadingSpaces) {
-        LeadingSpaces = Math.Max(0, leadingSpaces);
-        return this;
-    }
-    
-    public override bool TryReset() {
-        LeadingSpaces = 0;
-        return base.TryReset();
-    }
-
-    protected override bool Equals(ListUnOrderedMdSyntaxNode? other)
-        => base.Equals(other)
-            && LeadingSpaces == other.LeadingSpaces;
+    protected RenderFragment RenderChildContent() => ComponentConverter.RenderChildComponents(SyntaxNode);
 }

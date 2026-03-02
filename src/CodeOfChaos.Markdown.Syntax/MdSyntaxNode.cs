@@ -105,6 +105,31 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return false;
     }
 
+    public bool TryGetNextSibling<TSibling>([NotNullWhen(true)] out TSibling? mdSyntaxNode) where TSibling : IMdSyntaxNode {
+        mdSyntaxNode = default;
+        if (!TryGetNextSibling(out IMdSyntaxNode? nextSibling)) return false;
+        if (nextSibling is not TSibling casted) return false;
+        mdSyntaxNode = casted;
+        return true;
+    }
+    
+    public bool NextSiblingIsTypeOf<TSibling>() where TSibling : IMdSyntaxNode {
+        if (Parent is null) return false;
+
+        ReadOnlySpan<IMdSyntaxNode> span = Parent.GetChildrenSpan();
+        for (int i = 0; i < span.Length; i++) {
+            if (!ReferenceEquals(span[i], this)) continue;
+
+            if (i + 1 >= span.Length) return false;
+
+            IMdSyntaxNode foundNode = span[i + 1];
+            return foundNode is TSibling;
+        }
+
+        // We should never get here because we are within our own parent
+        return false;
+    }
+
     public bool HasNextSibling() {
         if (Parent is null) return false;
 

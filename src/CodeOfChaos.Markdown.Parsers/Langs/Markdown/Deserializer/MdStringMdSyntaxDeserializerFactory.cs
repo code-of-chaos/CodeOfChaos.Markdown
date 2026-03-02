@@ -42,13 +42,13 @@ public static class MdStringMdSyntaxDeserializerFactory {
             .Register<LinkMdSyntaxNode, LinkMarkdownSyntaxNodeVisitor>()
             // .Register<ListItemMdSyntaxNode, ListItemMarkdownSyntaxNodeVisitor>() // Not implemented due to the ListMarkdownSyntaxNodeVisitor handling them directly
             .Register<ListOrderedMdSyntaxNode, ListOrderedMarkdownSyntaxNodeVisitor>()
-            .Register<ListUnOrderedMdSyntaxNode, ListUnorderedMarkdownSyntaxNodeVisitor>()
+            .Register<ListUnorderedMdSyntaxNode, ListUnorderedMarkdownSyntaxNodeVisitor>()
             .Register<NewLineMdSyntaxNode, NewLineMarkdownSyntaxNodeVisitor>()
             .Register<ParagraphMdSyntaxNode, ParagraphMarkdownSyntaxNodeVisitor>()
             // .Register<RootMdSyntaxNode, RootMarkdownSyntaxNodeVisitor>() // Is a semantic node and cannot be processed
-            .Register<ScriptingBodySyntaxNode, ScriptingBodyMarkdownSyntaxNodeVisitor>()
-            .Register<ScriptingExpressionSyntaxNode, ScriptingExpressionMarkdownSyntaxNodeVisitor>()
-            .Register<ScriptingIfStatementSyntaxNode, ScriptingIfStatementMarkdownSyntaxNodeVisitor>()
+            .Register<ScriptingBodyMdSyntaxNode, ScriptingBodyMarkdownSyntaxNodeVisitor>()
+            .Register<ScriptingExpressionMdSyntaxNode, ScriptingExpressionMarkdownSyntaxNodeVisitor>()
+            .Register<ScriptingIfStatementMdSyntaxNode, ScriptingIfStatementMarkdownSyntaxNodeVisitor>()
             .Register<StrikeMdSyntaxNode, StrikeMarkdownSyntaxNodeVisitor>()
             .Register<SubScriptMdSyntaxNode, SubScriptMarkdownSyntaxNodeVisitor>()
             .Register<SuperScriptMdSyntaxNode, SuperScriptMarkdownSyntaxNodeVisitor>()

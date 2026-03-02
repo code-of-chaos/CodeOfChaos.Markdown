@@ -10,18 +10,18 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingIfStatementXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingIfStatementSyntaxNode> {
-    private const string ElseConditionIndex = nameof(ScriptingIfStatementSyntaxNode.ElseConditionIndex);
+public sealed class ScriptingIfStatementXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingIfStatementMdSyntaxNode> {
+    private const string ElseConditionIndex = nameof(ScriptingIfStatementMdSyntaxNode.ElseConditionIndex);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ScriptingIfStatementSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(ScriptingIfStatementMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
         targetElement.SetAttributeValue(ElseConditionIndex, node.ElseConditionIndex);
     }
 
-    protected override void SerializeDetails(XElement element, ScriptingIfStatementSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, ScriptingIfStatementMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
         if (TryGetAttributeAsInt32(element, ElseConditionIndex, out int elseConditionIndex)) {

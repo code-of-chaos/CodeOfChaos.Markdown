@@ -1,0 +1,44 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown.Syntax.Nodes
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+
+@namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@inherits BaseMarkdownSyntaxNodeVisitor<FootnoteReferenceMdSyntaxNode>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+<sup>
+    <a
+        href="#md-footnote-@SyntaxNode.Identifier"
+        class="md-footnote-ref__link"
+        onclick="event.preventDefault(); document.getElementById('md-footnote-@SyntaxNode.Identifier')?.scrollIntoView({ behavior: 'smooth' });">
+        @SyntaxNode.Identifier
+    </a>
+</sup>
+
+<style>
+    .md-footnote-ref__link {
+        cursor: pointer;
+        color: #4f46e5;
+        text-decoration: none;
+    }
+
+    .md-footnote-ref__link:hover,
+    .md-footnote-ref__link:focus-visible {
+        color: #6366f1;
+        text-decoration: underline;
+    }
+</style>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+
+@code {
+
+}
+

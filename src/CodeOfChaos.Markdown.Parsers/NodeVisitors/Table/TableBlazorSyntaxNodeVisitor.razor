@@ -1,0 +1,74 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown.Syntax.Nodes
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+@using CodeOfChaos.Markdown.Syntax
+
+@namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@inherits BaseMarkdownSyntaxNodeVisitor<TableMdSyntaxNode>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+<table class="md-table">
+    <thead>
+    <tr>
+        @{
+            ReadOnlySpan<TableCellMdSyntaxNode> headerCells = SyntaxNode.GetHeaderCells();
+        }
+        @for (int c = 0; c < headerCells.Length; c++) {
+            TableCellMdSyntaxNode headerCell = headerCells[c];
+            <th style="@GetCellStyle(c)">
+                @ComponentConverter.RenderChildComponents(headerCell)
+            </th>
+        }
+    </tr>
+    </thead>
+
+    <tbody>
+
+    @foreach (TableRowMdSyntaxNode rowNode in SyntaxNode.GetRows()) {
+        <tr>
+            @{
+                ReadOnlySpan<IMdSyntaxNode> cells = rowNode.GetChildrenSpan();
+
+                for (int c = 0; c < cells.Length; c++) {
+                    IMdSyntaxNode cellContentNode = cells[c];
+                    <td style="@GetCellStyle(c)">
+                        @ComponentConverter.RenderChildComponents(cellContentNode)
+                    </td>
+                }
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+
+@code {
+    private string? GetCellStyle(int columnIndex) {
+        return GetAlignment(columnIndex) switch {
+            TableMdSyntaxNode.Alignment.Left => "text-align:left;",
+            TableMdSyntaxNode.Alignment.Center => "text-align:center;",
+            TableMdSyntaxNode.Alignment.Right => "text-align:right;",
+            _ => null
+        };
+    }
+
+    private TableMdSyntaxNode.Alignment GetAlignment(int columnIndex) {
+        if (!SyntaxNode.HasAlignments) return TableMdSyntaxNode.Alignment.Left;
+
+        return SyntaxNode.Alignments.ElementAtOrDefault(columnIndex) switch {
+            TableMdSyntaxNode.Alignment.Left => TableMdSyntaxNode.Alignment.Left,
+            TableMdSyntaxNode.Alignment.Center => TableMdSyntaxNode.Alignment.Center,
+            TableMdSyntaxNode.Alignment.Right => TableMdSyntaxNode.Alignment.Right,
+            _ => TableMdSyntaxNode.Alignment.Left
+        };
+    }
+}
+

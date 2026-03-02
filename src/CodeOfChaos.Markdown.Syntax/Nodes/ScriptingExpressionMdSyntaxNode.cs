@@ -6,7 +6,7 @@ namespace CodeOfChaos.Markdown.Syntax.Nodes;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class ScriptingExpressionSyntaxNode : MdSyntaxNode<ScriptingExpressionSyntaxNode> {
+public class ScriptingExpressionMdSyntaxNode : MdSyntaxNode<ScriptingExpressionMdSyntaxNode> {
     public string FullStatement { get; private set; } = string.Empty;
     public int ExpressionStart { get; private set; }
     public int ExpressionLength { get; private set; }
@@ -15,7 +15,7 @@ public class ScriptingExpressionSyntaxNode : MdSyntaxNode<ScriptingExpressionSyn
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public ScriptingExpressionSyntaxNode WithExpression(string fullStatement, int expressionStart, int expressionLength) {
+    public ScriptingExpressionMdSyntaxNode WithExpression(string fullStatement, int expressionStart, int expressionLength) {
         FullStatement = fullStatement;
         ExpressionStart = expressionStart;
         ExpressionLength = expressionLength;
@@ -29,7 +29,7 @@ public class ScriptingExpressionSyntaxNode : MdSyntaxNode<ScriptingExpressionSyn
         return base.TryReset();
     }
 
-    protected override bool Equals(ScriptingExpressionSyntaxNode? other)
+    protected override bool Equals(ScriptingExpressionMdSyntaxNode? other)
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(FullStatement, other.FullStatement)
             && ExpressionStart == other.ExpressionStart

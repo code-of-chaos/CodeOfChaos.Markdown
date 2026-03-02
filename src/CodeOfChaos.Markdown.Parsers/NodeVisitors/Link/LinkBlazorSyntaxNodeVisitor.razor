@@ -1,0 +1,45 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown.Syntax.Nodes
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+
+@namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@inherits BaseMarkdownSyntaxNodeVisitor<LinkMdSyntaxNode>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+<a href="@SyntaxNode.Href"
+   title="@GetTitle()"
+   class="md-link">
+    @RenderChildContent()
+</a>
+
+<style>
+    .md-link {
+        color: #4f46e5;
+        text-decoration: none;
+    }
+
+    .md-link:hover,
+    .md-link:focus-visible {
+        color: #6366f1;
+        text-decoration: underline;
+    }
+</style>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+
+@code {
+    private string? GetTitle() {
+        if (SyntaxNode.Title.IsNotNullOrWhiteSpace()) return SyntaxNode.Title;
+        if (SyntaxNode.Modifier != null && SyntaxNode.Modifier.TryGetTitle(out string? title)) return title;
+
+        return null;
+    }
+}
+

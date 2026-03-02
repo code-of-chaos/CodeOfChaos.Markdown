@@ -1,0 +1,55 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown.Parsers.Blazor
+@using CodeOfChaos.Markdown.Syntax.Nodes
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+@using Microsoft.Extensions.DependencyInjection
+
+@namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@inherits BaseMarkdownSyntaxNodeVisitor<TemplateMdSyntaxNode>
+
+@inject IServiceProvider ServiceProvider
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@if (TemplateDataProvider is not null && TemplateDataProvider.TryGetData(SyntaxNode.Content, out object? variableContent)) {
+    @variableContent
+}
+else {
+    <pre><code class="md-inline-code md-template-var-missing">
+        Variable "@SyntaxNode.Content" Not Found
+    </code></pre>
+}
+
+<style>
+    .md-inline-code {
+        display: inline-block;
+        padding: 0.125rem 0.25rem;
+        border-radius: 0.25rem;   
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.875rem;      
+    }
+
+    .md-template-var-missing {
+        /* Replace these with your actual design tokens/colors */
+        background-color: #f3f4f6;
+        color: #111827;       
+    }
+</style>
+
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@code {
+    private ITemplateDataProvider? TemplateDataProvider { get; set; }
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        TemplateDataProvider = ServiceProvider.GetService<ITemplateDataProvider>();
+    }
+}
+

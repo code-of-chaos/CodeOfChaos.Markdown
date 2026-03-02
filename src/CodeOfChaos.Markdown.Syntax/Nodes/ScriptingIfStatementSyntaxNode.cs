@@ -6,18 +6,18 @@ namespace CodeOfChaos.Markdown.Syntax.Nodes;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class ScriptingIfStatementSyntaxNode : MdSyntaxNode<ScriptingIfStatementSyntaxNode> {
+public class ScriptingIfStatementMdSyntaxNode : MdSyntaxNode<ScriptingIfStatementMdSyntaxNode> {
     public int ElseConditionIndex { get; private set; } = -1;
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public ScriptingIfStatementSyntaxNode WithIfCondition(ScriptingExpressionSyntaxNode expressionNode) {
+    public ScriptingIfStatementMdSyntaxNode WithIfCondition(ScriptingExpressionMdSyntaxNode expressionNode) {
         AddChildNode(expressionNode);
         return this;
     }
     
-    public ScriptingIfStatementSyntaxNode WithElseCondition(ScriptingExpressionSyntaxNode expressionNode) {
+    public ScriptingIfStatementMdSyntaxNode WithElseCondition(ScriptingExpressionMdSyntaxNode expressionNode) {
         if (ElseConditionIndex != -1) {
             throw new InvalidOperationException("Else child already set.");
         }
@@ -36,7 +36,7 @@ public class ScriptingIfStatementSyntaxNode : MdSyntaxNode<ScriptingIfStatementS
         return base.TryReset();
     }
 
-    protected override bool Equals(ScriptingIfStatementSyntaxNode? other)
+    protected override bool Equals(ScriptingIfStatementMdSyntaxNode? other)
         => base.Equals(other)
             && ElseConditionIndex == other.ElseConditionIndex;
 }
