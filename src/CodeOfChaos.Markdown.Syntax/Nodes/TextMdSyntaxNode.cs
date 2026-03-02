@@ -25,5 +25,6 @@ public sealed class TextMdSyntaxNode() : MdSyntaxNode<TextMdSyntaxNode>(initialC
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Content, other.Content);
 
-    public override string ToDebugString() => $"{base.ToDebugString()}:'{Content}'";
+    public override string ToDebugString() 
+        => $"{base.ToDebugString()}:'{Content}'";
 }
