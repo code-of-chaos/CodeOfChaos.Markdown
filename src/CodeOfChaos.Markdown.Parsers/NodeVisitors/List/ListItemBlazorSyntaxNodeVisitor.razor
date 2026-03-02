@@ -1,0 +1,76 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown.Syntax.Nodes
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+
+@namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@inherits BaseMarkdownSyntaxNodeVisitor<ListItemMdSyntaxNode>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+<li class="md-list-item">
+    @if (SyntaxNode.IsCheckable) {
+        <input class="md-list-item__checkbox"
+               type="checkbox"
+               checked="@SyntaxNode.IsChecked"
+               disabled="@SyntaxNode.IsInapplicable"
+               @onchange="OnCheckboxChanged"/>
+    }
+
+    @if (SyntaxNode.IsInapplicable) {
+        <span class="md-list-item__content md-list-item__content--inapplicable">
+            @ComponentConverter.RenderChildComponents(SyntaxNode)
+        </span>
+    }
+    else {
+        <span class="md-list-item__content">
+            @ComponentConverter.RenderChildComponents(SyntaxNode)
+        </span>
+    }
+</li>
+
+<style>
+    .md-list-item {
+        margin: 0.5rem 0; /* was: my-2 */
+    }
+
+    .md-list-item__checkbox {
+        margin-left: -1.5rem;
+        margin-right: 0.5rem;
+        vertical-align: bottom;
+    }
+
+    .md-list-item__content--inapplicable {
+        color: #111827; /* replace with your token */
+        text-decoration: line-through;
+        opacity: 0.75; /* optional: “disabled” feel */
+    }
+
+    .md-list-item > ul,
+    .md-list-item > ol {
+        margin-top: 0.5rem;
+    }
+    
+    .md-list-item:has(> .md-list-item__checkbox) {
+        list-style: none;
+    }
+</style>
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+
+@code {
+    private async Task OnCheckboxChanged(ChangeEventArgs e) {
+        if (RenderContext is null) return;
+        if (!RenderContext.IsInteractive) return;
+        
+        bool isChecked = e.Value is true;
+        SyntaxNode.WithCheckMarker(isChecked ? "x" : " ");
+        await RenderContext.InvokeSyntaxNodeChange(SyntaxNode);
+    }
+}
+

@@ -12,7 +12,28 @@
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Html
 @* ------------------------------------------------------------------------------------------------------------------ *@
-@RenderChildContent()
+<div id="md-footnote-@SyntaxNode.Identifier" class="md-footnote">
+    <div class="md-footnote__id">@SyntaxNode.Identifier :</div>
+    <div class="md-footnote__content">@RenderChildContent()</div>
+</div>
+
+<style>
+    .md-footnote {
+        display: flex;
+        flex-direction: row;
+        padding: 0.5rem 0;
+    }
+
+    .md-footnote__id {
+        margin-right: 0.5rem;
+        flex: 0 0 auto;
+    }
+
+    .md-footnote__content {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+</style>
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Code
 @* ------------------------------------------------------------------------------------------------------------------ *@

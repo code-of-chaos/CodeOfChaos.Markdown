@@ -120,7 +120,7 @@ public sealed class CodeOfChaosMarkdownConfig : IMarkdownConfig {
         RegisterMdBlazorComponent<ImageMdSyntaxNode, ImageBlazorSyntaxNodeVisitor>();
         RegisterMdBlazorComponent<ItalicMdSyntaxNode, ItalicBlazorSyntaxNodeVisitor>();
         RegisterMdBlazorComponent<LinkMdSyntaxNode, LinkBlazorSyntaxNodeVisitor>();
-        // RegisterMdBlazorComponent<ListItemMdSyntaxNode, ListItemBlazorSyntaxNodeVisitor>() // Not implemented due to the ListBlazorSyntaxNodeVisitor handling them directly;
+        RegisterMdBlazorComponent<ListItemMdSyntaxNode, ListItemBlazorSyntaxNodeVisitor>();
         RegisterMdBlazorComponent<ListOrderedMdSyntaxNode, ListOrderedBlazorSyntaxNodeVisitor>();
         RegisterMdBlazorComponent<ListUnorderedMdSyntaxNode, ListUnorderedBlazorSyntaxNodeVisitor>();
         RegisterMdBlazorComponent<NewLineMdSyntaxNode, NewLineBlazorSyntaxNodeVisitor>();

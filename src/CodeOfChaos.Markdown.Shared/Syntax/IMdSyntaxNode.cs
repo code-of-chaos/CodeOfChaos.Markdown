@@ -26,6 +26,8 @@ public interface IMdSyntaxNode : IResettable, IEquatable<IMdSyntaxNode>{
     bool TryGetChildAt<TChild>(int index, [NotNullWhen(true)] out TChild? childNode) where TChild : IMdSyntaxNode;
 
     bool TryGetNextSibling([NotNullWhen(true)] out IMdSyntaxNode? mdSyntaxNode);
+    bool TryGetNextSibling<TChild>([NotNullWhen(true)] out TChild? mdSyntaxNode) where TChild : IMdSyntaxNode;
+    bool NextSiblingIsTypeOf<TSibling>() where TSibling : IMdSyntaxNode;
     bool HasNextSibling();
     
     bool TryGetPreviousSibling([NotNullWhen(true)] out IMdSyntaxNode? mdSyntaxNode);
