@@ -6,37 +6,23 @@ namespace CodeOfChaos.Markdown.Syntax.Nodes;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class ScriptingIfStatementMdSyntaxNode : MdSyntaxNode<ScriptingIfStatementMdSyntaxNode> {
-    public int ElseConditionIndex { get; private set; } = -1;
+public class ScriptingBodyMdSyntaxNode : MdSyntaxNode<ScriptingBodyMdSyntaxNode> {
+    public int LeadingSpaces { get; private set; }
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public ScriptingIfStatementMdSyntaxNode WithIfCondition(ScriptingExpressionMdSyntaxNode expressionNode) {
-        AddChildNode(expressionNode);
+    public ScriptingBodyMdSyntaxNode WithLeadingSpaces(int leadingSpaces) {
+        LeadingSpaces = Math.Max(0, leadingSpaces);
         return this;
-    }
-    
-    public ScriptingIfStatementMdSyntaxNode WithElseCondition(ScriptingExpressionMdSyntaxNode expressionNode) {
-        if (ElseConditionIndex != -1) {
-            throw new InvalidOperationException("Else child already set.");
-        }
-
-        AddChildNode(expressionNode);
-        ElseConditionIndex = ChildCount - 1;
-        return this;
-    }
-    
-    internal void WithElseConditionIndex(int parse) {
-        ElseConditionIndex = parse;
     }
     
     public override bool TryReset() {
-        ElseConditionIndex = -1;
+        LeadingSpaces = 0;
         return base.TryReset();
     }
 
-    protected override bool Equals(ScriptingIfStatementMdSyntaxNode? other)
+    protected override bool Equals(ScriptingBodyMdSyntaxNode? other)
         => base.Equals(other)
-            && ElseConditionIndex == other.ElseConditionIndex;
+            && LeadingSpaces == other.LeadingSpaces;
 }

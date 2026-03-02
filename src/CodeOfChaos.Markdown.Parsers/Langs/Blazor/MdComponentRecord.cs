@@ -19,7 +19,7 @@ public sealed record MdComponentRecord(Type ComponentType, Func<RenderTreeBuilde
         });
 
     public static MdComponentRecord FromType<TComponent, TNode>()
-        where TComponent : MarkdownComponentBase<TNode>
+        where TComponent : BaseMarkdownSyntaxNodeVisitor<TNode>
         where TNode : class, IMdSyntaxNode {
         return new MdComponentRecord(
             typeof(TComponent),

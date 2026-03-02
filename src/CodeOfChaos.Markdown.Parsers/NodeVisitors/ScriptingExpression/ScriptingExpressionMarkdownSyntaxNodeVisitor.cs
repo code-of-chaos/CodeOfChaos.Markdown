@@ -12,7 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingExpressionMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ScriptingExpressionSyntaxNode> {
+public sealed class ScriptingExpressionMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ScriptingExpressionMdSyntaxNode> {
     // ScriptingExpression nodes don't have a regex pattern - they're created programmatically
     protected override Regex Syntax => null!;
 
@@ -24,7 +24,7 @@ public sealed class ScriptingExpressionMarkdownSyntaxNodeVisitor : BaseMarkdownS
         throw new NotSupportedException("ScriptingExpression nodes are created programmatically, not from regex matches.");
     }
 
-    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ScriptingExpressionSyntaxNode node) {
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ScriptingExpressionMdSyntaxNode node) {
         queue.Enqueue(node.FullStatement);
         queue.Enqueue('\n');
         queue.EnqueueChildren(node);

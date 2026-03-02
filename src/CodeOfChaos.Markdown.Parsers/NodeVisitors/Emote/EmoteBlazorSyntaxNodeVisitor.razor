@@ -2,45 +2,21 @@
 @* Imports
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @using CodeOfChaos.Markdown.Syntax.Nodes
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
 
-@namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor
+@namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Descriptors
 @* ------------------------------------------------------------------------------------------------------------------ *@
-@inherits BaseMarkdownSyntaxNodeVisitor<CodeOfChaos.Markdown.Syntax.IMdSyntaxNode>
+@inherits BaseMarkdownSyntaxNodeVisitor<EmoteMdSyntaxNode>
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Html
 @* ------------------------------------------------------------------------------------------------------------------ *@
-@if (SyntaxNode is NewLineMdSyntaxNode) {
-    <span class="@GetDepthClass text-sm font-mono">
-        &lt;@(SyntaxNodeTypeName)/&gt;
-    </span>
-}
-else {
-    <span class="@GetDepthClass text-sm font-mono">
-        &lt;@(SyntaxNodeTypeName)#@(SyntaxNode.Depth)&gt;
-    </span>
-    <div class="ml-4">
-        @ComponentConverter.RenderChildComponents(SyntaxNode)
-    </div>
-    <span class="@GetDepthClass text-sm font-mono"> 
-        &lt;/@(SyntaxNodeTypeName)#@(SyntaxNode.Depth)&gt;
-    </span>
-
-}
+@SyntaxNode.OriginalEmote
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Code
 @* ------------------------------------------------------------------------------------------------------------------ *@
-
 @code {
-    private string SyntaxNodeTypeName => SyntaxNode.Type.Name;
-
-    private string GetDepthClass => (SyntaxNode.Depth % 5) switch {
-        0 => "text-rose-300",
-        1 => "text-sky-300",
-        2 => "text-emerald-300",
-        3 => "text-amber-300",
-        4 => "text-violet-300",
-        _ => "text-slate-300"
-    };
+    
 }
+

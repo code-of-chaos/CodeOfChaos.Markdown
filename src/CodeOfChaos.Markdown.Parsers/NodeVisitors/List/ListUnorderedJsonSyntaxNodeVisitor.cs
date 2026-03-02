@@ -10,19 +10,19 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ListUnorderedJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListUnOrderedMdSyntaxNode> {
-    private static readonly string LeadingSpaces = nameof(ListUnOrderedMdSyntaxNode.LeadingSpaces).ToCamelCase();
+public sealed class ListUnorderedJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListUnorderedMdSyntaxNode> {
+    private static readonly string LeadingSpaces = nameof(ListUnorderedMdSyntaxNode.LeadingSpaces).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ListUnOrderedMdSyntaxNode node, Utf8JsonWriter writer) {
+    protected override void DeserializeDetails(ListUnorderedMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
         writer.WriteNumber(LeadingSpaces, node.LeadingSpaces);
     }
 
-    protected override void SerializeDetails(JsonElement element, ListUnOrderedMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(JsonElement element, ListUnorderedMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
         if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {

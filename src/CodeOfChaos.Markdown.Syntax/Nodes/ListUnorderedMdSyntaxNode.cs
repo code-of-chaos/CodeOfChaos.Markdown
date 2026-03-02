@@ -2,17 +2,16 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 namespace CodeOfChaos.Markdown.Syntax.Nodes;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class ScriptingBodySyntaxNode : MdSyntaxNode<ScriptingBodySyntaxNode> {
+public sealed class ListUnorderedMdSyntaxNode : MdSyntaxNode<ListUnorderedMdSyntaxNode> {
     public int LeadingSpaces { get; private set; }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public ScriptingBodySyntaxNode WithLeadingSpaces(int leadingSpaces) {
+    public ListUnorderedMdSyntaxNode WithLeadingSpaces(int leadingSpaces) {
         LeadingSpaces = Math.Max(0, leadingSpaces);
         return this;
     }
@@ -22,7 +21,7 @@ public class ScriptingBodySyntaxNode : MdSyntaxNode<ScriptingBodySyntaxNode> {
         return base.TryReset();
     }
 
-    protected override bool Equals(ScriptingBodySyntaxNode? other)
+    protected override bool Equals(ListUnorderedMdSyntaxNode? other)
         => base.Equals(other)
             && LeadingSpaces == other.LeadingSpaces;
 }

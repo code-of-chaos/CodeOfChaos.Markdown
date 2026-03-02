@@ -11,18 +11,18 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingBodyJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ScriptingBodySyntaxNode> {
-    private static readonly string LeadingSpaces = nameof(ScriptingBodySyntaxNode.LeadingSpaces).ToCamelCase();
+public sealed class ScriptingBodyJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ScriptingBodyMdSyntaxNode> {
+    private static readonly string LeadingSpaces = nameof(ScriptingBodyMdSyntaxNode.LeadingSpaces).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ScriptingBodySyntaxNode node, Utf8JsonWriter writer) {
+    protected override void DeserializeDetails(ScriptingBodyMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
         writer.WriteNumber(LeadingSpaces, node.LeadingSpaces);
     }
 
-    protected override void SerializeDetails(JsonElement element, ScriptingBodySyntaxNode targetNode) {
+    protected override void SerializeDetails(JsonElement element, ScriptingBodyMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
         if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {

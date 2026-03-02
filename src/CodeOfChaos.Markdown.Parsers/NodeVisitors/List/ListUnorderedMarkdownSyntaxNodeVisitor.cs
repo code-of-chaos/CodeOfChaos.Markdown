@@ -13,7 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ListUnOrderedMdSyntaxNode> {
+public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ListUnorderedMdSyntaxNode> {
     [GeneratedRegex("""
         \G
         ^[^\S\n]*-(?!-).+
@@ -48,7 +48,7 @@ public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdow
         try {
             matchCollection.CopyTo(matchArray, 0);
 
-            ListUnOrderedMdSyntaxNode listNode = MdSyntaxNodePool<ListUnOrderedMdSyntaxNode>.Shared.Get();
+            ListUnorderedMdSyntaxNode listNode = MdSyntaxNodePool<ListUnorderedMdSyntaxNode>.Shared.Get();
             parentNode.AddChildNode(listNode);
 
             for (int i = 0; i < matchCount; i++) {
@@ -83,7 +83,7 @@ public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdow
         }
     }
 
-    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ListUnOrderedMdSyntaxNode node) {
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ListUnorderedMdSyntaxNode node) {
         bool isFirstItem = true;
         string leadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(node.LeadingSpaces, 0), static i => new string(' ', i));
 

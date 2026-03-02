@@ -58,12 +58,12 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         RegisterVisitor<LinkMdSyntaxNode, LinkJsonSyntaxNodeVisitor>();
         RegisterVisitor<ListItemMdSyntaxNode, ListItemJsonSyntaxNodeVisitor>();
         RegisterVisitor<ListOrderedMdSyntaxNode, ListOrderedJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ListUnOrderedMdSyntaxNode, ListUnorderedJsonSyntaxNodeVisitor>();
+        RegisterVisitor<ListUnorderedMdSyntaxNode, ListUnorderedJsonSyntaxNodeVisitor>();
         RegisterVisitor<NewLineMdSyntaxNode, JsonSyntaxNodeVisitor<NewLineMdSyntaxNode>>();
         RegisterVisitor<ParagraphMdSyntaxNode, JsonSyntaxNodeVisitor<ParagraphMdSyntaxNode>>();
-        RegisterVisitor<ScriptingBodySyntaxNode, ScriptingBodyJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ScriptingExpressionSyntaxNode, ScriptingExpressionJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ScriptingIfStatementSyntaxNode, ScriptingIfStatementJsonSyntaxNodeVisitor>();
+        RegisterVisitor<ScriptingBodyMdSyntaxNode, ScriptingBodyJsonSyntaxNodeVisitor>();
+        RegisterVisitor<ScriptingExpressionMdSyntaxNode, ScriptingExpressionJsonSyntaxNodeVisitor>();
+        RegisterVisitor<ScriptingIfStatementMdSyntaxNode, ScriptingIfStatementJsonSyntaxNodeVisitor>();
         RegisterVisitor<StrikeMdSyntaxNode, JsonSyntaxNodeVisitor<StrikeMdSyntaxNode>>();
         RegisterVisitor<SubScriptMdSyntaxNode, JsonSyntaxNodeVisitor<SubScriptMdSyntaxNode>>();
         RegisterVisitor<SuperScriptMdSyntaxNode, JsonSyntaxNodeVisitor<SuperScriptMdSyntaxNode>>();

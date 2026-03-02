@@ -12,7 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class ScriptingIfStatementMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ScriptingIfStatementSyntaxNode> {
+public sealed partial class ScriptingIfStatementMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ScriptingIfStatementMdSyntaxNode> {
     [GeneratedRegex("""
         \G
         ^@if\((?<ifExpression>.+)\)\ *$\s
@@ -51,17 +51,17 @@ public sealed partial class ScriptingIfStatementMarkdownSyntaxNodeVisitor : Base
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
-        ScriptingIfStatementSyntaxNode statementNode = MdSyntaxNodePool<ScriptingIfStatementSyntaxNode>.Shared.Get();
+        ScriptingIfStatementMdSyntaxNode statementNode = MdSyntaxNodePool<ScriptingIfStatementMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(statementNode);
 
         Group ifExpression = match.Groups[IfExpressionId];
         Group ifBody = match.Groups[IfBodyId];
-        ScriptingExpressionSyntaxNode ifExpressionNode = MdSyntaxNodePool<ScriptingExpressionSyntaxNode>.Shared.Get();
+        ScriptingExpressionMdSyntaxNode ifExpressionNode = MdSyntaxNodePool<ScriptingExpressionMdSyntaxNode>.Shared.Get();
         ifExpressionNode.WithExpression($"@if({ifExpression.Value})", ifExpression.Index, ifExpression.Length);
         statementNode.WithIfCondition(ifExpressionNode);
 
         string adjustedIfBody = LineNormalization.NormalizeBlockQuote(ifBody.ValueSpan, out int ifBodyLeadingSpaces);
-        ScriptingBodySyntaxNode ifBodyNode = MdSyntaxNodePool<ScriptingBodySyntaxNode>.Shared.Get();
+        ScriptingBodyMdSyntaxNode ifBodyNode = MdSyntaxNodePool<ScriptingBodyMdSyntaxNode>.Shared.Get();
         ifBodyNode.WithLeadingSpaces(ifBodyLeadingSpaces);
         ifExpressionNode.AddChildNode(ifBodyNode);
 
@@ -78,12 +78,12 @@ public sealed partial class ScriptingIfStatementMarkdownSyntaxNodeVisitor : Base
                 ReadOnlySpan<char> elifExpression = valueSpan[8..endBracket];
                 ReadOnlySpan<char> elifBody = valueSpan[(endBracket + 2)..];
 
-                ScriptingExpressionSyntaxNode elifExpressionNode = MdSyntaxNodePool<ScriptingExpressionSyntaxNode>.Shared.Get();
+                ScriptingExpressionMdSyntaxNode elifExpressionNode = MdSyntaxNodePool<ScriptingExpressionMdSyntaxNode>.Shared.Get();
                 elifExpressionNode.WithExpression($"@elseif({elifExpression})", 8, endBracket - 8);
                 statementNode.WithIfCondition(elifExpressionNode);
 
                 string adjustedElifBody = LineNormalization.NormalizeBlockQuote(elifBody, out int elifBodyLeadingSpaces);
-                ScriptingBodySyntaxNode elifBodyNode = MdSyntaxNodePool<ScriptingBodySyntaxNode>.Shared.Get();
+                ScriptingBodyMdSyntaxNode elifBodyNode = MdSyntaxNodePool<ScriptingBodyMdSyntaxNode>.Shared.Get();
                 elifBodyNode.WithLeadingSpaces(elifBodyLeadingSpaces);
                 elifExpressionNode.AddChildNode(elifBodyNode);
 
@@ -95,12 +95,12 @@ public sealed partial class ScriptingIfStatementMarkdownSyntaxNodeVisitor : Base
         if (match.Groups[ElseSectionId] is { Success: true }) {
             Group elseBody = match.Groups[ElseBodyId];
 
-            ScriptingExpressionSyntaxNode elseExpressionNode = MdSyntaxNodePool<ScriptingExpressionSyntaxNode>.Shared.Get();
+            ScriptingExpressionMdSyntaxNode elseExpressionNode = MdSyntaxNodePool<ScriptingExpressionMdSyntaxNode>.Shared.Get();
             elseExpressionNode.WithExpression("@else", 5, 0);
             statementNode.WithElseCondition(elseExpressionNode);
 
             string adjustedElseBody = LineNormalization.NormalizeBlockQuote(elseBody.ValueSpan, out int elseBodyLeadingSpaces);
-            ScriptingBodySyntaxNode elseBodyNode = MdSyntaxNodePool<ScriptingBodySyntaxNode>.Shared.Get();
+            ScriptingBodyMdSyntaxNode elseBodyNode = MdSyntaxNodePool<ScriptingBodyMdSyntaxNode>.Shared.Get();
             elseBodyNode.WithLeadingSpaces(elseBodyLeadingSpaces);
             elseExpressionNode.AddChildNode(elseBodyNode);
 
@@ -108,7 +108,7 @@ public sealed partial class ScriptingIfStatementMarkdownSyntaxNodeVisitor : Base
         }
     }
 
-    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ScriptingIfStatementSyntaxNode node) {
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, ScriptingIfStatementMdSyntaxNode node) {
         queue.EnqueueChildren(node);
         queue.Enqueue("@endif");
         queue.Enqueue('\n');
