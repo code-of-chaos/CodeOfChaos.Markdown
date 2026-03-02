@@ -1,11 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Config;
+
 namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public interface IMdStringMdSyntaxSerializerFactory {
-    IMdStringMdSyntaxSerializer Create(MarkdownSerializerOptions options);
+    IMdStringMdSyntaxSerializer Create(IMarkdownConfig config);
 }

@@ -10,22 +10,23 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed record MdComponentRecord(Type ComponentType, Func<RenderTreeBuilder, int, IMdSyntaxNode, int> Builder) : IMdComponentRecord {
-    public static MdComponentRecord Empty { get; } = new(
+public sealed record BlazorComponentBuilderRecord(Type ComponentType, Func<RenderTreeBuilder, int, IMdSyntaxNode, int> Builder) : IBlazorComponentBuilderRecord {
+    public static BlazorComponentBuilderRecord Empty { get; } = new(
         typeof(UnknownBlazorMdComponent),
         static (builder, sequence, node) => {
             builder.AddAttribute(sequence++, "SyntaxNode", node);
             return sequence;
         });
 
-    public static MdComponentRecord FromType<TComponent, TNode>()
-        where TComponent : BaseMarkdownSyntaxNodeVisitor<TNode>
-        where TNode : class, IMdSyntaxNode {
-        return new MdComponentRecord(
+    public static BlazorComponentBuilderRecord FromType<TSyntaxNode, TComponent>()
+        where TComponent : IBlazorSyntaxNodeVisitor<TSyntaxNode>
+        where TSyntaxNode : class, IMdSyntaxNode {
+        return new BlazorComponentBuilderRecord(
             typeof(TComponent),
             static (builder, sequence, node) => {
-                builder.AddAttribute(sequence++, "SyntaxNode", Unsafe.As<TNode>(node));
+                builder.AddAttribute(sequence++, "SyntaxNode", Unsafe.As<TSyntaxNode>(node));
                 return sequence;
-            });
+            }
+        );
     }
 }

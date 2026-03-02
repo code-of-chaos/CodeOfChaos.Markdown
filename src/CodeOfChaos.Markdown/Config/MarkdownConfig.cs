@@ -1,22 +1,31 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Syntax;
-using Microsoft.AspNetCore.Components;
 
-namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor;
+namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : ComponentBase, IBlazorSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : class, IMdSyntaxNode {
-    [Parameter] public required TSyntaxNode SyntaxNode { get; set; }
+public sealed class MarkdownConfig {
+    internal List<IMarkdownConfigEntry> ConfigEntries { get; } = [];
+    internal HashSet<Type> SkippedBlazorComponentTypes { get; } = [];
     
-    [Inject] public IBlazorMdComponentRenderer ComponentConverter { get; set; } = null!;
-    [CascadingParameter] public MdRenderContext? RenderContext { get; set; }
-
+    public bool RenderUnknownBlazorComponents { get; set; }
+    public Type? HtmlRendererFootnoteWrapperType { get; set; }
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected RenderFragment RenderChildContent() => ComponentConverter.RenderChildComponents(SyntaxNode);
+    public MarkdownConfig SkipBlazorRenderingOnComponent<TNode>() where TNode : class, IMdSyntaxNode {
+        SkippedBlazorComponentTypes.Add(typeof(TNode));
+        return this;
+    }
+    
+    public MarkdownConfigEntry<TSyntaxNode> WithSyntaxNode<TSyntaxNode>() where TSyntaxNode : class, IMdSyntaxNode {
+        var entry = new MarkdownConfigEntry<TSyntaxNode>();
+        ConfigEntries.Add(entry);
+        return entry;
+    }
 }

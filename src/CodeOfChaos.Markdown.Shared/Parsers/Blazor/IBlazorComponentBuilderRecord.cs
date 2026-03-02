@@ -2,17 +2,14 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
-using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace CodeOfChaos.Markdown.Parsers.Blazor;
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface IBlazorMdComponentConverter {
-    RenderFragment RenderComponent(IMdSyntaxNode node);
-    RenderFragment RenderComponentDebug(IMdSyntaxNode node);
-    
-    RenderFragment RenderChildComponents(IMdSyntaxNode node);
-    RenderFragment RenderRootComponents(IEnumerable<IMdSyntaxNode> nodes);
-    RenderFragment RenderRootComponentsWithSkipped(IEnumerable<IMdSyntaxNode> nodes);
+public interface IBlazorComponentBuilderRecord {
+    Type ComponentType { get; }
+    Func<RenderTreeBuilder, int, IMdSyntaxNode, int> Builder { get; }
 }

@@ -36,7 +36,7 @@ public class MarkdownBenchmark {
         Parser = provider.GetRequiredService<IMarkdownParser>();
     }
 
-    private static ServiceProvider CreateProvider(Action<CodeOfChaosMarkdownConfig>? configure = null) {
+    private static ServiceProvider CreateProvider(Action<MarkdownConfig>? configure = null) {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<Microsoft.AspNetCore.Components.NavigationManager, MockNavigationManager>();
         serviceCollection.AddSingleton<Microsoft.JSInterop.IJSRuntime, MockJsRuntime>();

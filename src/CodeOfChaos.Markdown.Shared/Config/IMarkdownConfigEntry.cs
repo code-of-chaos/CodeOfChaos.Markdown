@@ -1,15 +1,18 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Blazor;
+
 namespace CodeOfChaos.Markdown.Config;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface ICodeOfChaosMarkdownConfigEntry {
+public interface IMarkdownConfigEntry {
     Type SyntaxNodeType { get; }
 
     Type? BlazorNodeVisitorType { get; }
+    IBlazorComponentBuilderRecord? BlazorComponentBuilderRecord { get; }
 
     Type? JsonNodeVisitorType { get; }
 
@@ -18,4 +21,6 @@ public interface ICodeOfChaosMarkdownConfigEntry {
     Type? MarkdownFrontMatterNodeVisitorType { get; }
 
     Type? XmlNodeVisitorType { get; }
+    
+    
 }

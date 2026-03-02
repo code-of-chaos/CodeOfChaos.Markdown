@@ -13,10 +13,10 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-[InjectableSingleton<IBlazorMdComponentConverter>]
-public class BlazorMdComponentConverter(IMarkdownConfig config) : IBlazorMdComponentConverter {
-    private FrozenDictionary<Type, IMdComponentRecord> NodeToComponentMap { get; } = config.GetComponentRecords();
-    private FrozenSet<Type> SkippedComponentTypes { get; } = config.GetSkippedBlazorComponentTypes();
+[InjectableSingleton<IBlazorMdComponentRenderer>]
+public class BlazorMdComponentRenderer(IMarkdownConfig config) : IBlazorMdComponentRenderer {
+    private FrozenDictionary<Type, IBlazorComponentBuilderRecord> NodeToComponentMap { get; } = config.BlazorComponents;
+    private FrozenSet<Type> SkippedComponentTypes { get; } = config.SkippedBlazorComponents;
     private bool RenderUnknownComponents { get; } = config.RenderUnknownBlazorComponents;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -25,10 +25,10 @@ public class BlazorMdComponentConverter(IMarkdownConfig config) : IBlazorMdCompo
     private void RenderNodeAsComponent(RenderTreeBuilder builder, IMdSyntaxNode node, bool ignoreSkipComponents = false) {
         if (!ignoreSkipComponents && SkippedComponentTypes.Contains(node.Type)) return;
 
-        if (!NodeToComponentMap.TryGetValue(node.Type, out IMdComponentRecord? data)) {
+        if (!NodeToComponentMap.TryGetValue(node.Type, out IBlazorComponentBuilderRecord? data)) {
             if (!RenderUnknownComponents) return;
 
-            data = MdComponentRecord.Empty;
+            data = BlazorComponentBuilderRecord.Empty;
         }
 
         int sequence = 0;
@@ -43,7 +43,7 @@ public class BlazorMdComponentConverter(IMarkdownConfig config) : IBlazorMdCompo
         => builder => RenderNodeAsComponent(builder, node);
 
     public RenderFragment RenderComponentDebug(IMdSyntaxNode node) => builder => {
-        var data = MdComponentRecord.Empty;
+        var data = BlazorComponentBuilderRecord.Empty;
         int sequence = 0;
 
         builder.OpenComponent(sequence++, data.ComponentType);

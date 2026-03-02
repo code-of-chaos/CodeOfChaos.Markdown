@@ -40,7 +40,7 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSynt
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Serialize
-    public bool TryGetSerializationMatch(string input, [NotNullWhen(true)] out Match? match, int startPosition = 0) {
+    public virtual bool TryGetSerializationMatch(string input, [NotNullWhen(true)] out Match? match, int startPosition = 0) {
         match = null;
         if (startPosition >= input.Length) return false;
         if (input.IsNullOrEmpty()) return false;

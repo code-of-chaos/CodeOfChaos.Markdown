@@ -4,7 +4,6 @@
 using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Parsers.NodeVisitors;
-using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 
 namespace CodeOfChaos.Markdown;
@@ -12,15 +11,9 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class CodeOfChaosMarkdownConfigExtensions {
-    extension(CodeOfChaosMarkdownConfig config) {
-        public CodeOfChaosMarkdownConfigEntry<TSyntaxNode> WithSyntaxNode<TSyntaxNode>() where TSyntaxNode : class, IMdSyntaxNode {
-            var entry = new CodeOfChaosMarkdownConfigEntry<TSyntaxNode>();
-            config.ConfigEntries.Add(entry);
-            return entry;
-        }
-        
-        public CodeOfChaosMarkdownConfig AddDefaultNodeVisitors() {
+public static class MarkdownConfigExtensions {
+    extension(MarkdownConfig config) {
+        public MarkdownConfig AddDefaultNodeVisitors() {
             // SingleLine Structures
             config.WithSyntaxNode<EscapedCharacterMdSyntaxNode>()
                 .WithBlazorNodeVisitor<EscapedCharacterBlazorSyntaxNodeVisitor>()
@@ -257,6 +250,8 @@ public static class CodeOfChaosMarkdownConfigExtensions {
                 .WithJsonNodeVisitor<TextJsonSyntaxNodeVisitor>()
                 .WithMarkdownSingleLineNodeVisitor<TextMarkdownSyntaxNodeVisitor>()
                 .WithXmlNodeVisitor<TextXmlSyntaxNodeVisitor>();
+
+            config.SkipBlazorRenderingOnComponent<FootnoteDescriptionMdSyntaxNode>();
             
             return config;
         }

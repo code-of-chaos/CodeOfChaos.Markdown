@@ -13,10 +13,11 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class CodeOfChaosMarkdownConfigEntry<TSyntaxNode> : ICodeOfChaosMarkdownConfigEntry where TSyntaxNode : class, IMdSyntaxNode {
+public class MarkdownConfigEntry<TSyntaxNode> : IMarkdownConfigEntry where TSyntaxNode : class, IMdSyntaxNode {
     public Type SyntaxNodeType { get; } = typeof(TSyntaxNode);
     
     public Type? BlazorNodeVisitorType { get; set; }
+    public IBlazorComponentBuilderRecord? BlazorComponentBuilderRecord { get; set; }
     
     public Type? JsonNodeVisitorType { get; set; }
     
@@ -29,32 +30,33 @@ public class CodeOfChaosMarkdownConfigEntry<TSyntaxNode> : ICodeOfChaosMarkdownC
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public CodeOfChaosMarkdownConfigEntry<TSyntaxNode> WithBlazorNodeVisitor<TVisitor>() where TVisitor : class, IBlazorSyntaxNodeVisitor<TSyntaxNode> {
+    public MarkdownConfigEntry<TSyntaxNode> WithBlazorNodeVisitor<TVisitor>() where TVisitor : class, IBlazorSyntaxNodeVisitor<TSyntaxNode> {
         BlazorNodeVisitorType = typeof(TVisitor);
+        BlazorComponentBuilderRecord = Parsers.Langs.Blazor.BlazorComponentBuilderRecord.FromType<TSyntaxNode, TVisitor>();
         return this;
     }
     
-    public CodeOfChaosMarkdownConfigEntry<TSyntaxNode> WithJsonNodeVisitor<TVisitor>() where TVisitor : class, IJsonSyntaxNodeVisitor<TSyntaxNode> {
+    public MarkdownConfigEntry<TSyntaxNode> WithJsonNodeVisitor<TVisitor>() where TVisitor : class, IJsonSyntaxNodeVisitor<TSyntaxNode> {
         JsonNodeVisitorType = typeof(TVisitor);
         return this;
     }
     
-    public CodeOfChaosMarkdownConfigEntry<TSyntaxNode> WithMarkdownSingleLineNodeVisitor<TVisitor>(bool isMultiline = false) where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
+    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownSingleLineNodeVisitor<TVisitor>(bool isMultiline = false) where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
         MarkdownSingleLineNodeVisitorType = typeof(TVisitor);
         return this;
     }
     
-    public CodeOfChaosMarkdownConfigEntry<TSyntaxNode> WithMarkdownMultiLineNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
+    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownMultiLineNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
         MarkdownMultiLineNodeVisitorType = typeof(TVisitor);
         return this;
     }
     
-    public CodeOfChaosMarkdownConfigEntry<TSyntaxNode> WithMarkdownFrontMatterNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
+    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownFrontMatterNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
         MarkdownFrontMatterNodeVisitorType = typeof(TVisitor);
         return this;
     }
     
-    public CodeOfChaosMarkdownConfigEntry<TSyntaxNode> WithXmlNodeVisitor<TVisitor>() where TVisitor : class, IXmlSyntaxNodeVisitor<TSyntaxNode> {
+    public MarkdownConfigEntry<TSyntaxNode> WithXmlNodeVisitor<TVisitor>() where TVisitor : class, IXmlSyntaxNodeVisitor<TSyntaxNode> {
         XmlNodeVisitorType = typeof(TVisitor);
         return this;
     }
