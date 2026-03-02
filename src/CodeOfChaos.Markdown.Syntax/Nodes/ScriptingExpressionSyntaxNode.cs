@@ -34,4 +34,7 @@ public class ScriptingExpressionSyntaxNode : MdSyntaxNode<ScriptingExpressionSyn
             && StringComparer.Ordinal.Equals(FullStatement, other.FullStatement)
             && ExpressionStart == other.ExpressionStart
             && ExpressionLength == other.ExpressionLength;
+
+    public override string ToDebugString() 
+        => $"{base.ToDebugString()}:'{ExpressionValue}'";
 }

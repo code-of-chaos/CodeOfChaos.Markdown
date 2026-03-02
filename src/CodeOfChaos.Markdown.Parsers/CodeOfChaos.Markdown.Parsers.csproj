@@ -21,4 +21,15 @@
     <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
     <ProjectReference Include="..\CodeOfChaos.Markdown.Syntax\CodeOfChaos.Markdown.Syntax.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Langs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Html\HtmlMdSyntaxTreeParserRoot.razor" />
+    <UpToDateCheckInput Remove="Blazor\UnknownBlazorMdComponent.razor" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="Langs\Blazor\UnknownBlazorMdComponent.razor" />
+    <AdditionalFiles Include="Langs\Html\HtmlMdSyntaxTreeParserRoot.razor" />
+  </ItemGroup>
 </Project>

@@ -20,6 +20,10 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger) {
 
     internal string TestFolder { get; private init; } = Path.GetFullPath(Path.Combine(RootFilePath, TestFolderFromRootPath));
 
+    internal MdTestDataProvider(ILogger<MdTestDataProvider> logger, string testFolder) : this(logger) {
+        TestFolder = Path.GetFullPath(testFolder);
+    }
+
     public static readonly MdTestDataProvider TestInstance = new(Substitute.For<ILogger<MdTestDataProvider>>()) {
         TestFolder = Path.GetFullPath(Path.Combine("../../../../../", TestFolderFromRootPath))
     };

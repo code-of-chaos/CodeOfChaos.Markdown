@@ -4,10 +4,11 @@
 using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Editors;
 using CodeOfChaos.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Parsers.Langs.Blazor;
+using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
-using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
-using CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+using CodeOfChaos.Markdown.Parsers.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Frozen;
@@ -41,41 +42,44 @@ public sealed class CodeOfChaosMarkdownConfig : IMarkdownConfig {
         serviceCollection.AddSingleton<IMdStringMdSyntaxSerializer>(static sp => {
             var fullOptions = new MarkdownSerializerOptions {
                 SingleLine = [
-                    new EscapedCharacterSyntaxNodeSerializer(),
-                    new BoldSyntaxNodeSerializer(),
-                    new ItalicSyntaxNodeSerializer(),
-                    new SuperScriptSyntaxNodeSerializer(),
-                    new SubScriptSyntaxNodeSerializer(),
-                    new CodeInlineSyntaxNodeSerializer(),
-                    new StrikeSyntaxNodeSerializer(),
-                    new UnderlineSyntaxNodeSerializer(),
-                    new HighlightSyntaxNodeSerializer(),
-                    new EmoteSyntaxNodeSerializer(),
-                    new WikiLinkSyntaxNodeSerializer(),
-                    new TemplateSyntaxNodeSerializer(),
-                    new LinkSyntaxNodeSerializer(),
-                    new TagSyntaxNodeSerializer(),
-                    new UserSyntaxNodeSerializer(),
-                    new FootnoteReferenceSyntaxNodeSerializer(),
-                    new WrapperSyntaxNodeSerializer(),
-                    new BreakSyntaxNodeSerializer(),
+                    new EscapedCharacterMarkdownSyntaxNodeVisitor(),
+                    new BoldMarkdownSyntaxNodeVisitor(),
+                    new ItalicMarkdownSyntaxNodeVisitor(),
+                    new SuperScriptMarkdownSyntaxNodeVisitor(),
+                    new SubScriptMarkdownSyntaxNodeVisitor(),
+                    new CodeInlineMarkdownSyntaxNodeVisitor(),
+                    new StrikeMarkdownSyntaxNodeVisitor(),
+                    new UnderlineMarkdownSyntaxNodeVisitor(),
+                    new HighlightMarkdownSyntaxNodeVisitor(),
+                    new EmoteMarkdownSyntaxNodeVisitor(),
+                    new WikiLinkMarkdownSyntaxNodeVisitor(),
+                    new TemplateMarkdownSyntaxNodeVisitor(),
+                    new ImageMarkdownSyntaxNodeVisitor(),
+                    new LinkMarkdownSyntaxNodeVisitor(),
+                    new TagMarkdownSyntaxNodeVisitor(),
+                    new UserMarkdownSyntaxNodeVisitor(),
+                    new FootnoteReferenceMarkdownSyntaxNodeVisitor(),
+                    new WrapperMarkdownSyntaxNodeVisitor(),
+                    new BreakMarkdownSyntaxNodeVisitor(),
                 ],
                 MultiLine = [
-                    new ScriptingIfStatementSyntaxNodeSerializer(),
-                    new HeadingSyntaxNodeSerializer(),
-                    new CodeBlockSyntaxNodeSerializer(),
-                    new HeadingSimpleSyntaxNodeSerializer(),
-                    new ListSyntaxNodeSerializer(),
-                    new TableSyntaxNodeSerializer(),
-                    new CalloutSyntaxNodeSerializer(),
-                    new BlockQuoteSyntaxNodeSerializer(),
-                    new FootnoteDescriptionSyntaxNodeSerializer(),
-                    new HtmlBlockSyntaxNodeSerializer(),
-                    new HorizontalRuleSyntaxNodeSerializer(),
-                    new ParagraphSyntaxNodeSerializer(),
-                    new NewLineSyntaxNodeSerializer()
+                    new ScriptingIfStatementMarkdownSyntaxNodeVisitor(),
+                    new HeadingMarkdownSyntaxNodeVisitor(),
+                    new CodeBlockMarkdownSyntaxNodeVisitor(),
+                    new HeadingSimpleMarkdownSyntaxNodeVisitor(),
+                    new ListOrderedMarkdownSyntaxNodeVisitor(),
+                    new ListUnorderedMarkdownSyntaxNodeVisitor(),
+                    new TableMarkdownSyntaxNodeVisitor(),
+                    new CalloutMarkdownSyntaxNodeVisitor(),
+                    new BlockQuoteMarkdownSyntaxNodeVisitor(),
+                    new FootnoteDescriptionMarkdownSyntaxNodeVisitor(),
+                    new HtmlSpanMarkdownSyntaxNodeVisitor(),
+                    new HtmlMarkdownSyntaxNodeVisitor(),
+                    new HorizontalRuleMarkdownSyntaxNodeVisitor(),
+                    new ParagraphMarkdownSyntaxNodeVisitor(),
+                    new NewLineMarkdownSyntaxNodeVisitor()
                 ],
-                FrontMatter = new FrontmatterSyntaxNodeSerializer()
+                FrontMatter = new FrontMatterMarkdownSyntaxNodeVisitor()
             };
 
             var factory = sp.GetRequiredService<IMdStringMdSyntaxSerializerFactory>();

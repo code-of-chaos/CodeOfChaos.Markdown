@@ -7,7 +7,7 @@ namespace CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class MarkdownSerializerOptions {
-    public List<IMdSyntaxNodeSerializer> SingleLine { get; init; } = [];
-    public List<IMdSyntaxNodeSerializer> MultiLine { get; init; } = [];
-    public IMdSyntaxNodeSerializer? FrontMatter { get; init; }
+    public List<IMarkdownSyntaxNodeVisitor> SingleLine { get; init; } = [];
+    public List<IMarkdownSyntaxNodeVisitor> MultiLine { get; init; } = [];
+    public IMarkdownSyntaxNodeVisitor? FrontMatter { get; init; }
 }

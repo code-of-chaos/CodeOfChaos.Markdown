@@ -1,8 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax;
-using CodeOfChaos.Markdown.Parsers.Xml;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;

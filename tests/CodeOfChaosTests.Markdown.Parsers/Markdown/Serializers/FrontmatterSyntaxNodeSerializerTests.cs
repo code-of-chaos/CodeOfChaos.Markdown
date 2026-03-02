@@ -1,10 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Parsers.Markdown.Serializer.NodeSerializers;
+using CodeOfChaos.Markdown.Parsers.NodeVisitors;
 using System.Text.RegularExpressions;
 
-namespace CodeOfChaosTests.Markdown.RegexLib;
+namespace CodeOfChaosTests.Markdown.Parsers.Markdown.Serializers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class FrontmatterSyntaxNodeSerializerTests {
     [MethodDataSource(nameof(GetTestData))]
     public async Task FindFrontmatterRegex_ShouldReturnExpected(TestDataDto testData) {
         // Arrange
-        Regex regex = FrontmatterSyntaxNodeSerializer.RegexRule;
+        Regex regex = FrontMatterMarkdownSyntaxNodeVisitor.RegexRule;
         string input = testData.Input.ReplaceLineEndings("\n");
         bool expected = testData.ExpectedResult;
         
