@@ -18,7 +18,6 @@
         <PackageReference Include="CodeOfChaos.Extensions.AspNetCore.Components" />
         <PackageReference Include="CodeOfChaos.Extensions.MicrosoftLogging" />
         <PackageReference Include="CodeOfChaos.Extensions.ObjectPool" />
-        <PackageReference Include="InfiniLore.Lucide" />
         <PackageReference Include="CodeOfChaos.Extensions" />
         <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection" />
         <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection.Generators">

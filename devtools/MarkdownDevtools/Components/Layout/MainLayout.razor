@@ -21,16 +21,16 @@
                        Color="Color.Inherit"
                        Edge="Edge.Start"
                        OnClick="@DrawerToggle"/>
-        My Application
+        CodeOfChaos.Markdown Devtools
     </MudAppBar>
 
-    <MudDrawer @bind-Open="DrawerOpen"
+    <MudDrawer Open="@DrawerOpen"
                Variant="DrawerVariant.Responsive"
                Anchor="Anchor.Left"
                Elevation="1">
         <MudNavMenu>
             <MudNavLink Href="/">Home</MudNavLink>
-            <MudNavLink Href="/page2">Page2</MudNavLink>
+            <MudNavLink Href="/markdown/testdata-editor">Markdown Editor</MudNavLink>
         </MudNavMenu>
     </MudDrawer>
 
@@ -50,12 +50,13 @@
 @* ------------------------------------------------------------------------------------------------------------------ *@
 
 @code {
-    public bool DrawerOpen { get; set; }
+    private bool DrawerOpen { get; set; } = true;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    private void DrawerToggle() {
+    private async Task DrawerToggle(MouseEventArgs _) {
         DrawerOpen = !DrawerOpen;
+        await InvokeAsync(StateHasChanged);
     }
 }
