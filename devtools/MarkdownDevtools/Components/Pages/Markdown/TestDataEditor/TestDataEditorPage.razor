@@ -1,38 +1,35 @@
 ﻿@* ------------------------------------------------------------------------------------------------------------------ *@
 @* Imports
 @* ------------------------------------------------------------------------------------------------------------------ *@
-@using InfiniBlazor
+
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Descriptors
 @* ------------------------------------------------------------------------------------------------------------------ *@
-@page "/mdtestdata/editor"
+@page "/markdown/testdata-editor"
 @rendermode InteractiveServer
 
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Html
 @* ------------------------------------------------------------------------------------------------------------------ *@
-<InfiniPage Title="Test Data Editor" Class="pl-4 py-4">
-    <div class="grid grid-cols-[2fr_1fr] w-full h-full gap-4">
-        <InfiniSection Class="h-full overflow-y-scroll infini-scrollbar">
-            <MdTestDataEditorData
-                @ref="_editorDataComponent"
-                OnSave="@HandleOnSave"/>
-        </InfiniSection>
-        <InfiniSection Class="h-full" Location="SectionLocation.Right">
-            <MdTestDataEditorFileSelector
-                @ref="_fileSelectorComponent"
-                OnTestSelected="@HandleTestSelected"/>
-        </InfiniSection>
-    </div>
-</InfiniPage>
+
+<MudPaper>
+    <MudStack Row>
+        <TestDataEditorDataEntry
+            @ref="_editorDataComponent"
+            OnSave="@HandleOnSave"/>
+        <TestDataEditorFileSelector
+            @ref="_fileSelectorComponent"
+            OnTestSelected="@HandleTestSelected"/>
+    </MudStack>
+</MudPaper>
 
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Code
 @* ------------------------------------------------------------------------------------------------------------------ *@
 
 @code {
-    private MdTestDataEditorData? _editorDataComponent;
-    private MdTestDataEditorFileSelector? _fileSelectorComponent;
+    private TestDataEditorDataEntry? _editorDataComponent;
+    private TestDataEditorFileSelector? _fileSelectorComponent;
 
     private async Task HandleTestSelected((string fileName, string testId) selection) {
         // Trigger the editor to update and fetch the selected test

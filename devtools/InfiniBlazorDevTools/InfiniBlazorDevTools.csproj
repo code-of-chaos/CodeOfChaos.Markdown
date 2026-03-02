@@ -22,6 +22,9 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Components\Pages\EmoteDataEditor\EmoteDataEditorPage.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\MdTestDataEditor\MdTestDataEditorData.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\MdTestDataEditor\MdTestDataEditorFileSelector.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\MdTestDataEditor\MdTestDataEditorPage.razor" />
     </ItemGroup>
     
 </Project>

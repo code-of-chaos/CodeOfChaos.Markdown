@@ -1,6 +1,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown;
 using MarkdownDevtools.Components;
 using MudBlazor.Services;
 
@@ -10,6 +11,9 @@ namespace MarkdownDevtools;
 // ---------------------------------------------------------------------------------------------------------------------
 public class Program {
     public static void Main(string[] args) {
+        // -------------------------------------------------------------------------------------------------------------
+        // Builder
+        // -------------------------------------------------------------------------------------------------------------
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -17,7 +21,17 @@ public class Program {
             .AddInteractiveServerComponents();
         
         builder.Services.AddMudServices();
+        
+        
+        builder.Services.AddCodeOfChaosMarkdown(config => {
+            config.RenderUnknownBlazorComponents = true;
+        });
 
+        builder.Services.RegisterServicesFromCodeOfChaosTestsShared();
+
+        // -------------------------------------------------------------------------------------------------------------
+        // Application
+        // -------------------------------------------------------------------------------------------------------------
         WebApplication app = builder.Build();
 
         // Configure the HTTP request pipeline.

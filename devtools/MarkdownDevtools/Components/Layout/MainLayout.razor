@@ -10,20 +10,30 @@
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Html
 @* ------------------------------------------------------------------------------------------------------------------ *@
-<MudThemeProvider/>
+<MudThemeProvider IsDarkMode="true"/>
 <MudPopoverProvider/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-                       OnClick="@(_ => DrawerToggle())"/>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                       Color="Color.Inherit"
+                       Edge="Edge.Start"
+                       OnClick="@DrawerToggle"/>
         My Application
     </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu/>
+
+    <MudDrawer @bind-Open="DrawerOpen"
+               Variant="DrawerVariant.Responsive"
+               Anchor="Anchor.Left"
+               Elevation="1">
+        <MudNavMenu>
+            <MudNavLink Href="/">Home</MudNavLink>
+            <MudNavLink Href="/page2">Page2</MudNavLink>
+        </MudNavMenu>
     </MudDrawer>
+
     <MudMainContent>
         @Body
     </MudMainContent>
@@ -38,13 +48,14 @@
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Code
 @* ------------------------------------------------------------------------------------------------------------------ *@
+
 @code {
-    bool _drawerOpen = true;
+    public bool DrawerOpen { get; set; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     private void DrawerToggle() {
-        _drawerOpen = !_drawerOpen;
+        DrawerOpen = !DrawerOpen;
     }
 }

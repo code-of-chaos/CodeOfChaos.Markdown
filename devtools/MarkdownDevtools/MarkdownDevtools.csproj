@@ -15,4 +15,9 @@
       <Folder Include="wwwroot\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\CodeOfChaos.Markdown\CodeOfChaos.Markdown.csproj" />
+      <ProjectReference Include="..\..\tests\CodeOfChaosTests.Shared\CodeOfChaosTests.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

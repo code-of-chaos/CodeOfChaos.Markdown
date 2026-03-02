@@ -18,6 +18,7 @@
       </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeOfChaos.Markdown.Editors\CodeOfChaos.Markdown.Editors.csproj" />
     <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
     <ProjectReference Include="..\CodeOfChaos.Markdown.Syntax\CodeOfChaos.Markdown.Syntax.csproj" />
   </ItemGroup>

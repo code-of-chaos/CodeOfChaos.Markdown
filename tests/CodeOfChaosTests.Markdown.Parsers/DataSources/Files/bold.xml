@@ -330,6 +330,53 @@
   ]
 }</ExpectedJsonString>
   </MdTestData>
+  <MdTestData Id="withItalicAfter" FileName="bold.xml">
+    <MdString>**bold** *italic*</MdString>
+    <MdSyntaxTree>
+      <ParagraphMdSyntaxNode>
+        <BoldMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
+        </BoldMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve"> </TextMdSyntaxNode>
+        <ItalicMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
+        </ItalicMdSyntaxNode>
+      </ParagraphMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>**bold** *italic*</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "ParagraphMdSyntaxNode",
+      "children": [
+        {
+          "type": "BoldMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "bold"
+            }
+          ]
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": " "
+        },
+        {
+          "type": "ItalicMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "italic"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
   <MdTestData Id="withItalicAndEscapedAsterix_1" FileName="bold.xml">
     <MdString>**bold *nested \* italic***</MdString>
     <MdSyntaxTree>

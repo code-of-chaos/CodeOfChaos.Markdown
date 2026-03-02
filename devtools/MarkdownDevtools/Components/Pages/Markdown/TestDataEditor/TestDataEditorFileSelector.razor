@@ -4,91 +4,110 @@
 @using CodeOfChaos.Markdown
 @using CodeOfChaos.Markdown.Syntax
 @using CodeOfChaosTests.Shared
-@using InfiniBlazor
-@using InfiniBlazor.Toasting
+
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Descriptors
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @inject MdTestDataProvider MdTestDataProvider
-@inject ILogger<MdTestDataEditorFileSelector> Logger
+@inject ILogger<TestDataEditorFileSelector> Logger
 @inject IMarkdownParser MarkdownParser
-@inject IToastingProvider ToastingProvider
-@* ------------------------------------------------------------------------------------------------------------------ *@
-@* Descriptors
+@inject ISnackbar Snackbar
+
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Html
 @* ------------------------------------------------------------------------------------------------------------------ *@
-<div class="h-full w-full flex flex-col gap-1 p-4">
-    <InfiniButtonInput Label="Reinterpret test data" OnClick="@ReInterpretAllFilesAsync">
-        Process all files
-    </InfiniButtonInput>
-</div>
-<div class="h-full w-full flex flex-col gap-1 p-4">
-    @if (_isLoading) {
-        <div class="text-infini-text">Loading files...</div>
-    }
-    else if (_fileNames == null) {
-        <div class="text-red-500">Failed to load files</div>
-    }
-    else if (_fileNames.Length == 0) {
-        <div class="text-infini-border">No files found</div>
-    }
-    else {
-        <div class="text-infini-text text-lg font-semibold mb-2">Test Data Files</div>
+<MudContainer MaxWidth="MaxWidth.Small">
+    <MudStack Spacing="2" Class="pa-4">
 
-        <div class="flex flex-col gap-2 overflow-y-auto infini-scrollbar pr-1">
-            @foreach (string fileName in _fileNames) {
-                <div class="rounded-lg border border-infini-border">
-                    <!-- File Header -->
-                    <div class="p-3 border-b border-infini-border hover:bg-slate-750 transition-colors">
-                        <div class="flex items-center justify-between">
-                            <span class="text-infini-text font-medium">@fileName</span>
-                            <InfiniButton
-                                IconName="@(IsFileExpanded(fileName) ? LucideNames.ChevronDown : LucideNames.ChevronRight)"
-                                OnClick="@(() => ToggleFileExpanded(fileName))"/>
-                        </div>
-                    </div>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   OnClick="@ReInterpretAllFilesAsync">
+            Process all files
+        </MudButton>
 
-                    <!-- Tests List (expanded) -->
-                    @if (IsFileExpanded(fileName)) {
-                        <div class="p-2">
-                            @if (fileTestData.TryGetValue(fileName, out List<MdTestData>? tests)) {
-                                if (tests?.Any() != true) {
-                                    <div class="text-slate-400 text-sm p-2">No tests found in this file</div>
+        @if (_isLoading) {
+            <MudText>Loading files...</MudText>
+        }
+        else if (_fileNames == null) {
+            <MudText Color="Color.Error">Failed to load files</MudText>
+        }
+        else if (_fileNames.Length == 0) {
+            <MudText Color="Color.Secondary">No files found</MudText>
+        }
+        else {
+            <MudText Typo="Typo.h6" Class="mb-2">Test Data Files</MudText>
+
+            <MudPaper Class="pa-2" Style="max-height:75vh; overflow-y:auto;">
+                @foreach (string fileName in _fileNames) {
+                    <MudPaper Class="mb-2" Outlined="true">
+
+                        <!-- File Header -->
+                        <MudStack Row="true"
+                                  AlignItems="AlignItems.Center"
+                                  Justify="Justify.SpaceBetween"
+                                  Class="pa-3">
+
+                            <MudText Typo="Typo.subtitle1">@fileName</MudText>
+
+                            <MudIconButton Icon="@(
+                                                 IsFileExpanded(fileName)
+                                                     ? Icons.Material.Filled.ExpandMore
+                                                     : Icons.Material.Filled.ChevronRight)"
+                                           OnClick="@(() => ToggleFileExpanded(fileName))"/>
+                        </MudStack>
+
+                        @if (IsFileExpanded(fileName)) {
+                            <MudDivider/>
+
+                            <MudStack Class="pa-2" Spacing="1">
+
+                                @if (fileTestData.TryGetValue(fileName, out List<MdTestData>? tests)) {
+                                    if (tests?.Any() != true) {
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                            No tests found in this file
+                                        </MudText>
+                                    }
+                                    else {
+                                        <MudText Typo="Typo.caption">
+                                            Tests (@tests.Count):
+                                        </MudText>
+
+                                        @foreach (MdTestData test in tests) {
+                                            <MudPaper Class="pa-2"
+                                                      Style="cursor:pointer"
+                                                      Outlined="true"
+                                                      @onclick="() => OnTestClick(fileName, test)">
+
+                                                <MudText Typo="Typo.subtitle2">
+                                                    @test.Id
+                                                </MudText>
+
+                                                @if (!string.IsNullOrWhiteSpace(test.MdString)) {
+                                                    <MudText Typo="Typo.body2"
+                                                             Style="white-space:pre-wrap; max-height:60px; overflow:hidden;">
+                                                        @test.MdString
+                                                    </MudText>
+                                                }
+                                            </MudPaper>
+                                        }
+                                    }
+                                }
+                                else if (loadingFiles.Contains(fileName)) {
+                                    <MudProgressCircular Size="Size.Small" Indeterminate="true"/>
                                 }
                                 else {
-                                    <div class="text-sm text-infini-base-20 mb-2">Tests (@tests.Count):</div>
-                                    <div class="flex flex-col gap-1">
-                                        @foreach (MdTestData test in tests) {
-                                            <div
-                                                class="rounded p-2 cursor-pointer hover:overload-bg-infini-base-50 transition-colors"
-                                                onclick="@(() => OnTestClick(fileName, test))">
-                                                <div class="text-white text-sm font-medium">@test.Id</div>
-                                                @if (!string.IsNullOrWhiteSpace(test.MdString)) {
-                                                    <div
-                                                        class="text-infini-base-30 text-xs mt-1 whitespace-break-spaces overflow-hidden line-clamp-3">
-                                                        @test.MdString
-                                                    </div>
-                                                }
-                                            </div>
-                                        }
-                                    </div>
+                                    <MudText Color="Color.Error" Typo="Typo.body2">
+                                        Failed to load tests
+                                    </MudText>
                                 }
-                            }
-                            else if (loadingFiles.Contains(fileName)) {
-                                <div class="text-slate-400 text-sm p-2">Loading tests...</div>
-                            }
-                            else {
-                                <div class="text-red-400 text-sm p-2">Failed to load tests</div>
-                            }
-                        </div>
-                    }
-                </div>
-            }
-        </div>
-    }
-</div>
-
+                            </MudStack>
+                        }
+                    </MudPaper>
+                }
+            </MudPaper>
+        }
+    </MudStack>
+</MudContainer>
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Code
 @* ------------------------------------------------------------------------------------------------------------------ *@
@@ -102,6 +121,9 @@
     private readonly HashSet<string> loadingFiles = new();
     private bool _isLoading = true;
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
     protected override void OnInitialized() {
         try {
             _fileNames = MdTestDataProvider.TryGetFileNames();
@@ -193,13 +215,14 @@
             if (_fileNames is null) return;
 
             foreach (string fileName in _fileNames) {
-                List<MdTestData>? testData = await MdTestDataProvider.TryGetXmlMdTestDataAsync(fileName);
+                List<MdTestData>? testData =
+                    await MdTestDataProvider.TryGetXmlMdTestDataAsync(fileName);
+
                 if (testData is null) continue;
 
                 foreach (MdTestData mdTestData in testData) {
                     IMdSyntaxTree tree = mdTestData.MdSyntaxTree;
 
-                    // Reset JsonString
                     using var memoryStream = new MemoryStream();
                     await MarkdownParser.Json.DeserializeToJsonStreamAsync(memoryStream, tree);
 
@@ -207,23 +230,18 @@
                     string json = await new StreamReader(memoryStream).ReadToEndAsync();
                     mdTestData.ExpectedJsonString = json;
 
-                    // Reset Markdown
-                    mdTestData.ExpectedMarkdown = MarkdownParser.Markdown.DeserializeToString(tree);
+                    mdTestData.ExpectedMarkdown =
+                        MarkdownParser.Markdown.DeserializeToString(tree);
                 }
+
                 await MdTestDataProvider.TryWriteXmlMdTestDataAsync(fileName, testData);
             }
 
-            await ToastingProvider.PublishToastAsync(
-                new ToastingData("All files Processed"),
-                ToastAppearance.Info
-            );
+            Snackbar.Add("All files processed", Severity.Success);
         }
         catch (Exception e) {
-            Logger.Error(e, "Error processing all files");
-            await ToastingProvider.PublishToastAsync(
-                new ToastingData("Error processing all files", "Please check the console"),
-                ToastAppearance.Error
-            );
+            Logger.LogError(e, "Error processing all files");
+            Snackbar.Add("Error processing all files. Check logs.", Severity.Error);
         }
     }
 }
