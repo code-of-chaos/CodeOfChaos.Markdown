@@ -1,32 +1,35 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Extensions;
-using CodeOfChaos.Markdown.Parsers.Langs.Json;
+using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Text.Json;
+using System.Xml.Linq;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class FootnoteReferenceJsonMdSyntaxNodeVisitor : JsonSyntaxNodeVisitor<FootnoteReferenceMdSyntaxNode> {
-    private static readonly string Identifier = nameof(FootnoteReferenceMdSyntaxNode.Identifier).ToCamelCase();
+public sealed class LinkXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<LinkMdSyntaxNode> {
+    private const string Href = nameof(ImageMdSyntaxNode.Href);
+    private const string Title = nameof(ImageMdSyntaxNode.Title);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(FootnoteReferenceMdSyntaxNode node, Utf8JsonWriter writer) {
-        base.DeserializeDetails(node, writer);
-
-        writer.WriteString(Identifier, node.Identifier);
+    protected override void DeserializeDetails(LinkMdSyntaxNode node, XElement targetElement) {
+        base.DeserializeDetails(node, targetElement);
+        targetElement.SetAttributeValue(Href, node.Href);
+        if (node.Title.IsNotNullOrEmpty()) targetElement.SetAttributeValue(Title, node.Title);
     }
 
-    protected override void SerializeDetails(JsonElement element, FootnoteReferenceMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, LinkMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-
-        if (TryGetPropertyAsString(element, Identifier, out string? identifier)) {
-            targetNode.WithIdentifier(identifier);
+        
+        if (TryGetAttributeAsString(element, Href, out string? href)) {
+            targetNode.WithHref(href);
+        }
+        if (TryGetAttributeAsString(element, Title, out string? title)) {
+            targetNode.WithTitle(title);
         }
     }
 }

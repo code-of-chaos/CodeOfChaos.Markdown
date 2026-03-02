@@ -11,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : MdSyntaxNode<TNode>, new() {
+public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);
     private const string Attributes = nameof(Attributes);
@@ -26,7 +26,7 @@ public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : M
     public XElement DeserializeToXml(IMdSyntaxNode node, XElement parentElement) {
         var nodeElement = new XElement(node.Type.Name);
         parentElement.Add(nodeElement);
-        DeserializeDetails(Unsafe.As<TNode>(node), nodeElement);
+        DeserializeDetails(Unsafe.As<TSyntaxNode>(node), nodeElement);
         return nodeElement;
     }
 
@@ -45,14 +45,14 @@ public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : M
         return modifierElement;
     }
 
-    protected virtual void DeserializeDetails(TNode node, XElement targetElement) {
+    protected virtual void DeserializeDetails(TSyntaxNode node, XElement targetElement) {
         if (node.Modifier is {} modifier) targetElement.Add(SerializeModifiers(modifier));
     }
 
     protected void AddXmlPreserveSpace(XElement element) => element.SetAttributeValue(XNamespace.Xml + "space", "preserve");
 
     public IMdSyntaxNode SerializeToNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode) {
-        TNode node = MdSyntaxNodePool<TNode>.Shared.Get();
+        TSyntaxNode node = MdSyntaxNodePool<TSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
 
         SerializeDetails(element, node);
@@ -62,7 +62,7 @@ public class XmlSyntaxNodeVisitor<TNode> : IXmlSyntaxNodeVisitor where TNode : M
     private static MdSyntaxNodeModifier DeserializeModifiers(XElement element)
         => MdSyntaxNodeModifier.FromString(element.Element(OriginalInput)!.Value);
 
-    protected virtual void SerializeDetails(XElement element, TNode targetNode) {
+    protected virtual void SerializeDetails(XElement element, TSyntaxNode targetNode) {
         if (element.Element(Modifiers) is {} modifiersElement) targetNode.WithModifier(DeserializeModifiers(modifiersElement));
     }
 

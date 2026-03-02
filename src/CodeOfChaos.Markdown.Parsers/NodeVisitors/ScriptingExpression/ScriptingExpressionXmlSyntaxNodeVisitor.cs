@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingExpressionXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingExpressionMdSyntaxNode> {
+public sealed class ScriptingExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingExpressionMdSyntaxNode> {
     private const string FullStatement = nameof(ScriptingExpressionMdSyntaxNode.FullStatement);
     private const string ExpressionStart = nameof(ScriptingExpressionMdSyntaxNode.ExpressionStart);
     private const string ExpressionLength = nameof(ScriptingExpressionMdSyntaxNode.ExpressionLength);

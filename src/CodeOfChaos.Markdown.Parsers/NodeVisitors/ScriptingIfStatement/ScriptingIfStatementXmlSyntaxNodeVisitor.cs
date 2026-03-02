@@ -10,22 +10,22 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingBodyXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingBodyMdSyntaxNode> {
-    private const string LeadingSpaces = nameof(ScriptingBodyMdSyntaxNode.LeadingSpaces);
+public sealed class ScriptingIfStatementXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingIfStatementMdSyntaxNode> {
+    private const string ElseConditionIndex = nameof(ScriptingIfStatementMdSyntaxNode.ElseConditionIndex);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ScriptingBodyMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(ScriptingIfStatementMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
+        targetElement.SetAttributeValue(ElseConditionIndex, node.ElseConditionIndex);
     }
 
-    protected override void SerializeDetails(XElement element, ScriptingBodyMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, ScriptingIfStatementMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
-            targetNode.WithLeadingSpaces(leadingSpaces);
+        if (TryGetAttributeAsInt32(element, ElseConditionIndex, out int elseConditionIndex)) {
+            targetNode.WithElseConditionIndex(elseConditionIndex);
         }
     }
 }

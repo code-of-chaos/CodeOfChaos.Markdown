@@ -9,21 +9,22 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class EscapedCharacterXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<EscapedCharacterMdSyntaxNode> {
+public sealed class HorizontalRuleXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HorizontalRuleMdSyntaxNode> {
+    private const string Identifier = nameof(HorizontalRuleMdSyntaxNode.Identifier);
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(EscapedCharacterMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(HorizontalRuleMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
-        targetElement.Value = node.Content.ToString();
+        targetElement.SetAttributeValue(Identifier, node.Identifier);
     }
 
-    protected override void SerializeDetails(XElement element, EscapedCharacterMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, HorizontalRuleMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.Value.IsNotNullOrEmpty()) {
-            targetNode.WithContent(element.Value[0]);
+        if (TryGetAttributeAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
         }
     }
 }

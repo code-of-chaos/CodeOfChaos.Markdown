@@ -1,17 +1,21 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Syntax;
-using System.Xml.Linq;
-
-namespace CodeOfChaos.Markdown.Parsers.Xml;
+namespace CodeOfChaos.Markdown.Config;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface IXmlSyntaxNodeVisitor {
-    XElement DeserializeToXml(IMdSyntaxNode node, XElement parentElement);
-    IMdSyntaxNode SerializeToNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode);
-}
+public interface ICodeOfChaosMarkdownConfigEntry {
+    Type SyntaxNodeType { get; }
 
-public interface IXmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;
+    Type? BlazorNodeVisitorType { get; }
+
+    Type? JsonNodeVisitorType { get; }
+
+    Type? MarkdownSingleLineNodeVisitorType { get; }
+    Type? MarkdownMultiLineNodeVisitorType { get; }
+    Type? MarkdownFrontMatterNodeVisitorType { get; }
+
+    Type? XmlNodeVisitorType { get; }
+}

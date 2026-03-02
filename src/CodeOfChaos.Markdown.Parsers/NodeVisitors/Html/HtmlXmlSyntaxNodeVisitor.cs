@@ -9,22 +9,20 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class FootnoteDescriptionXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<FootnoteDescriptionMdSyntaxNode> {
-    private const string Identifier = nameof(FootnoteDescriptionMdSyntaxNode.Identifier);
+public sealed class HtmlXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlMdSyntaxNode> {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(FootnoteDescriptionMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(HtmlMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(Identifier, node.Identifier);
+        AddXmlPreserveSpace(targetElement);
+        targetElement.Value = node.Content;
     }
 
-    protected override void SerializeDetails(XElement element, FootnoteDescriptionMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, HtmlMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-
-        if (TryGetAttributeAsString(element, Identifier, out string? identifier)) {
-            targetNode.WithIdentifier(identifier);
-        }
+        
+        targetNode.WithContent(element.Value);
     }
 }

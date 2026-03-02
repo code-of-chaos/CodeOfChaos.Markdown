@@ -2,16 +2,12 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
-using System.Xml.Linq;
 
-namespace CodeOfChaos.Markdown.Parsers.Xml;
+namespace CodeOfChaos.Markdown.Parsers.Blazor;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface IXmlSyntaxNodeVisitor {
-    XElement DeserializeToXml(IMdSyntaxNode node, XElement parentElement);
-    IMdSyntaxNode SerializeToNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode);
+public interface IBlazorSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : class, IMdSyntaxNode {
+    TSyntaxNode SyntaxNode { get; set; }
 }
-
-public interface IXmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

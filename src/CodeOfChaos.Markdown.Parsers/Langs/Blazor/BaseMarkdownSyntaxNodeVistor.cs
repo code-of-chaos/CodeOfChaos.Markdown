@@ -9,8 +9,8 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class BaseMarkdownSyntaxNodeVisitor<T> : ComponentBase where T : class, IMdSyntaxNode {
-    [Parameter] public required T SyntaxNode { get; set; }
+public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : ComponentBase, IBlazorSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : class, IMdSyntaxNode {
+    [Parameter] public required TSyntaxNode SyntaxNode { get; set; }
     
     [Inject] public IBlazorMdComponentConverter ComponentConverter { get; set; } = null!;
     [CascadingParameter] public MdRenderContext? RenderContext { get; set; }

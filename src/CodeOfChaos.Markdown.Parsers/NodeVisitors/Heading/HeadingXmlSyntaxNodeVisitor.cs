@@ -9,20 +9,22 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class HtmlXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlMdSyntaxNode> {
+public sealed class HeadingXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HeadingMdSyntaxNode> {
+    private const string Level = nameof(HeadingMdSyntaxNode.Level);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(HtmlMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(HeadingMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
-        targetElement.Value = node.Content;
+        targetElement.SetAttributeValue(Level, node.Level);
     }
 
-    protected override void SerializeDetails(XElement element, HtmlMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, HeadingMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+
+        if (TryGetAttributeAsInt32(element, Level, out int level)) {
+            targetNode.WithLevel(level);
+        }
     }
 }

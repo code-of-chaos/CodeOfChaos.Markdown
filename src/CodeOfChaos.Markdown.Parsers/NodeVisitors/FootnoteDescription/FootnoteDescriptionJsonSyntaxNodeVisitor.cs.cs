@@ -1,30 +1,32 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Parsers.Langs.Xml;
+using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Text.Json;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class HeadingXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HeadingMdSyntaxNode> {
-    private const string Level = nameof(HeadingMdSyntaxNode.Level);
+public sealed class FootnoteDescriptionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<FootnoteDescriptionMdSyntaxNode> {
+    private static readonly string Identifier = nameof(FootnoteDescriptionMdSyntaxNode.Identifier).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(HeadingMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(Level, node.Level);
+    protected override void DeserializeDetails(FootnoteDescriptionMdSyntaxNode node, Utf8JsonWriter writer) {
+        base.DeserializeDetails(node, writer);
+
+        writer.WriteString(Identifier, node.Identifier);
     }
 
-    protected override void SerializeDetails(XElement element, HeadingMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(JsonElement element, FootnoteDescriptionMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (TryGetAttributeAsInt32(element, Level, out int level)) {
-            targetNode.WithLevel(level);
+        if (TryGetPropertyAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
         }
     }
 }

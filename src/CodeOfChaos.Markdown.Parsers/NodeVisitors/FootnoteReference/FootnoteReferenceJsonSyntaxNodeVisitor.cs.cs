@@ -1,28 +1,32 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Parsers.Langs.Xml;
+using CodeOfChaos.Extensions;
+using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Text.Json;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class UserXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<UserMdSyntaxNode> {
+public sealed class FootnoteReferenceJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<FootnoteReferenceMdSyntaxNode> {
+    private static readonly string Identifier = nameof(FootnoteReferenceMdSyntaxNode.Identifier).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(UserMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
-        targetElement.Value = node.Content;
+    protected override void DeserializeDetails(FootnoteReferenceMdSyntaxNode node, Utf8JsonWriter writer) {
+        base.DeserializeDetails(node, writer);
+
+        writer.WriteString(Identifier, node.Identifier);
     }
 
-    protected override void SerializeDetails(XElement element, UserMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(JsonElement element, FootnoteReferenceMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+
+        if (TryGetPropertyAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
+        }
     }
 }

@@ -9,27 +9,25 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class LinkXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<LinkMdSyntaxNode> {
-    private const string Href = nameof(ImageMdSyntaxNode.Href);
-    private const string Title = nameof(ImageMdSyntaxNode.Title);
+public sealed class TemplateXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TemplateMdSyntaxNode> {
+    private const string BracesCount = nameof(TemplateMdSyntaxNode.BracesCount);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(LinkMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(TemplateMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(Href, node.Href);
-        if (node.Title.IsNotNullOrEmpty()) targetElement.SetAttributeValue(Title, node.Title);
+        targetElement.SetAttributeValue(BracesCount, node.BracesCount);
+        targetElement.Value = node.Content;
     }
 
-    protected override void SerializeDetails(XElement element, LinkMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, TemplateMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
         
-        if (TryGetAttributeAsString(element, Href, out string? href)) {
-            targetNode.WithHref(href);
-        }
-        if (TryGetAttributeAsString(element, Title, out string? title)) {
-            targetNode.WithTitle(title);
+        targetNode.WithContent(element.Value);
+
+        if (TryGetAttributeAsInt32(element, BracesCount, out int bracesCount)) {
+            targetNode.WithBracesCount(bracesCount);
         }
     }
 }

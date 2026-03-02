@@ -6,26 +6,24 @@ using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ScriptingIfStatementXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingIfStatementMdSyntaxNode> {
-    private const string ElseConditionIndex = nameof(ScriptingIfStatementMdSyntaxNode.ElseConditionIndex);
+public sealed class TextXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TextMdSyntaxNode> {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ScriptingIfStatementMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(TextMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(ElseConditionIndex, node.ElseConditionIndex);
+        AddXmlPreserveSpace(targetElement);
+        targetElement.Value = node.Content;
+
     }
 
-    protected override void SerializeDetails(XElement element, ScriptingIfStatementMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, TextMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-
-        if (TryGetAttributeAsInt32(element, ElseConditionIndex, out int elseConditionIndex)) {
-            targetNode.WithElseConditionIndex(elseConditionIndex);
-        }
+        
+        targetNode.WithContent(element.Value);
     }
 }

@@ -9,19 +9,22 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class WikiLinkXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<WikiLinkMdSyntaxNode> {
+public sealed class HeadingSimpleXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HeadingSimpleMdSyntaxNode> {
+    private const string Identifier = nameof(HeadingSimpleMdSyntaxNode.Identifier);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(WikiLinkMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(HeadingSimpleMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        targetElement.Value = node.Content;
+        targetElement.SetAttributeValue(Identifier, node.Identifier);
     }
 
-    protected override void SerializeDetails(XElement element, WikiLinkMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, HeadingSimpleMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+
+        if (TryGetAttributeAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
+        }
     }
 }

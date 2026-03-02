@@ -1,32 +1,30 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Extensions;
-using CodeOfChaos.Markdown.Parsers.Langs.Json;
+using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Text.Json;
+using System.Xml.Linq;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class FootnoteDescriptionJsonMdSyntaxNodeVisitor : JsonSyntaxNodeVisitor<FootnoteDescriptionMdSyntaxNode> {
-    private static readonly string Identifier = nameof(FootnoteDescriptionMdSyntaxNode.Identifier).ToCamelCase();
+public sealed class ListUnorderedXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListUnorderedMdSyntaxNode> {
+    private const string LeadingSpaces = nameof(ListUnorderedMdSyntaxNode.LeadingSpaces);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(FootnoteDescriptionMdSyntaxNode node, Utf8JsonWriter writer) {
-        base.DeserializeDetails(node, writer);
-
-        writer.WriteString(Identifier, node.Identifier);
+    protected override void DeserializeDetails(ListUnorderedMdSyntaxNode node, XElement targetElement) {
+        base.DeserializeDetails(node, targetElement);
+        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
     }
 
-    protected override void SerializeDetails(JsonElement element, FootnoteDescriptionMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, ListUnorderedMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (TryGetPropertyAsString(element, Identifier, out string? identifier)) {
-            targetNode.WithIdentifier(identifier);
+        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 }

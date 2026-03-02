@@ -26,17 +26,12 @@ public sealed class CodeOfChaosMarkdownConfig : IMarkdownConfig {
     private Lazy<FrozenDictionary<Type, IMdComponentRecord>> ComponentRecordsLazy { get; }
     private Lazy<FrozenSet<Type>> SkippedBlazorComponentTypesLazy { get; }
     
+    internal List<ICodeOfChaosMarkdownConfigEntry> ConfigEntries { get; } = new();
     
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
     public CodeOfChaosMarkdownConfig(IServiceCollection serviceCollection) {
-        serviceCollection.RegisterServicesFromCodeOfChaosMarkdown();
-        serviceCollection.RegisterServicesFromCodeOfChaosMarkdownEditors();
-        serviceCollection.RegisterServicesFromCodeOfChaosMarkdownParsers();
-        
-        serviceCollection.AddSingleton(TextEditorFactory.CreateTextEditor);
-        serviceCollection.AddSingleton(MdStringMdSyntaxDeserializerFactory.CreateDeserializer);
         serviceCollection.AddSingleton<IMarkdownConfig>(this);
         
         serviceCollection.AddSingleton<IMdStringMdSyntaxSerializer>(static sp => {
@@ -97,65 +92,11 @@ public sealed class CodeOfChaosMarkdownConfig : IMarkdownConfig {
             SkippedBlazorComponentTypes.TrimExcess();
             return SkippedBlazorComponentTypes.ToFrozenSet();
         });
-        
-        RegisterMdBlazorComponent<BlockQuoteMdSyntaxNode, BlockQuoteBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<BoldMdSyntaxNode, BoldBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<BreakMdSyntaxNode, BreakBlazorSyntaxNodeVisitor>();
-        // RegisterMdBlazorComponent<CalloutBodyMdSyntaxNode, CalloutBodyBlazorSyntaxNodeVisitor>() // Not implemented due to the CalloutBlazorSyntaxNodeVisitor handling them directly;
-        RegisterMdBlazorComponent<CalloutMdSyntaxNode, CalloutBlazorSyntaxNodeVisitor>();
-        // RegisterMdBlazorComponent<CalloutTitleMdSyntaxNode, CalloutTitleBlazorSyntaxNodeVisitor>() // Not implemented due to the CalloutBlazorSyntaxNodeVisitor handling them directly;
-        RegisterMdBlazorComponent<CodeBlockMdSyntaxNode, CodeBlockBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<CodeInlineMdSyntaxNode, CodeInlineBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<EmoteMdSyntaxNode, EmoteBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<EscapedCharacterMdSyntaxNode, EscapedCharacterBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<FootnoteDescriptionMdSyntaxNode, FootnoteDescriptionBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<FootnoteReferenceMdSyntaxNode, FootnoteReferenceBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<FrontMatterMdSyntaxNode, FrontMatterBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<HeadingMdSyntaxNode, HeadingBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<HeadingSimpleMdSyntaxNode, HeadingSimpleBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<HighlightMdSyntaxNode, HighlightBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<HorizontalRuleMdSyntaxNode, HorizontalRuleBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<HtmlMdSyntaxNode, HtmlBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<HtmlSpanMdSyntaxNode, HtmlSpanBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ImageMdSyntaxNode, ImageBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ItalicMdSyntaxNode, ItalicBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<LinkMdSyntaxNode, LinkBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ListItemMdSyntaxNode, ListItemBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ListOrderedMdSyntaxNode, ListOrderedBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ListUnorderedMdSyntaxNode, ListUnorderedBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<NewLineMdSyntaxNode, NewLineBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ParagraphMdSyntaxNode, ParagraphBlazorSyntaxNodeVisitor>();
-        // RegisterMdBlazorComponent<RootMdSyntaxNode, RootBlazorSyntaxNodeVisitor>() // Is a semantic node and cannot be processed;
-        RegisterMdBlazorComponent<ScriptingBodyMdSyntaxNode, ScriptingBodyBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ScriptingExpressionMdSyntaxNode, ScriptingExpressionBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<ScriptingIfStatementMdSyntaxNode, ScriptingIfStatementBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<StrikeMdSyntaxNode, StrikeBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<SubScriptMdSyntaxNode, SubScriptBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<SuperScriptMdSyntaxNode, SuperScriptBlazorSyntaxNodeVisitor>();
-        // RegisterMdBlazorComponent<TableCellMdSyntaxNode, TableCellBlazorSyntaxNodeVisitor>() // Not implemented due to the TableBlazorSyntaxNodeVisitor handling them directly;
-        RegisterMdBlazorComponent<TableMdSyntaxNode, TableBlazorSyntaxNodeVisitor>();
-        // RegisterMdBlazorComponent<TableRowMdSyntaxNode, TableRowBlazorSyntaxNodeVisitor>() // Not implemented due to the TableBlazorSyntaxNodeVisitor handling them directly;
-        RegisterMdBlazorComponent<TagMdSyntaxNode, TagBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<TemplateMdSyntaxNode, TemplateBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<TextMdSyntaxNode, TextBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<UnderlineMdSyntaxNode, UnderlineBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<UserMdSyntaxNode, UserBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<WikiLinkMdSyntaxNode, WikiLinkBlazorSyntaxNodeVisitor>();
-        RegisterMdBlazorComponent<WrapperMdSyntaxNode, WrapperBlazorSyntaxNodeVisitor>();
-                
     }
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public CodeOfChaosMarkdownConfig RegisterMdBlazorComponent<TNode, TComponent>() where TComponent : BaseMarkdownSyntaxNodeVisitor<TNode> where TNode : class, IMdSyntaxNode {
-        int count = ComponentRecords.Count;
-        if (ComponentRecords.Capacity < count + 1) ComponentRecords.EnsureCapacity(count * 2);
-        
-        ComponentRecords.AddOrUpdate(typeof(TNode), MdComponentRecord.FromType<TComponent, TNode>());   
-        return this;
-    }
-    
     public CodeOfChaosMarkdownConfig SkipBlazorRenderingOnComponent<TNode>() where TNode : class, IMdSyntaxNode {
         SkippedBlazorComponentTypes.Add(typeof(TNode));
         return this;   

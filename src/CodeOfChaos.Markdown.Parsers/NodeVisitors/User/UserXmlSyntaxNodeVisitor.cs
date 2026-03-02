@@ -9,25 +9,20 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TemplateXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TemplateMdSyntaxNode> {
-    private const string BracesCount = nameof(TemplateMdSyntaxNode.BracesCount);
+public sealed class UserXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<UserMdSyntaxNode> {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(TemplateMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(UserMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(BracesCount, node.BracesCount);
+        AddXmlPreserveSpace(targetElement);
         targetElement.Value = node.Content;
     }
 
-    protected override void SerializeDetails(XElement element, TemplateMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, UserMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
         
         targetNode.WithContent(element.Value);
-
-        if (TryGetAttributeAsInt32(element, BracesCount, out int bracesCount)) {
-            targetNode.WithBracesCount(bracesCount);
-        }
     }
 }

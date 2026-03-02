@@ -44,8 +44,8 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         RegisterVisitor<CodeInlineMdSyntaxNode, CodeInlineJsonSyntaxNodeVisitor>();
         RegisterVisitor<EmoteMdSyntaxNode, EmoteJsonSyntaxNodeVisitor>();
         RegisterVisitor<EscapedCharacterMdSyntaxNode, EscapedCharacterJsonSyntaxNodeVisitor>();
-        RegisterVisitor<FootnoteDescriptionMdSyntaxNode, FootnoteDescriptionJsonMdSyntaxNodeVisitor>();
-        RegisterVisitor<FootnoteReferenceMdSyntaxNode, FootnoteReferenceJsonMdSyntaxNodeVisitor>();
+        RegisterVisitor<FootnoteDescriptionMdSyntaxNode, FootnoteDescriptionJsonSyntaxNodeVisitor>();
+        RegisterVisitor<FootnoteReferenceMdSyntaxNode, FootnoteReferenceJsonSyntaxNodeVisitor>();
         RegisterVisitor<FrontMatterMdSyntaxNode, FrontMatterJsonSyntaxNodeVisitor>();
         RegisterVisitor<HeadingMdSyntaxNode, HeadingJsonSyntaxNodeVisitor>();
         RegisterVisitor<HeadingSimpleMdSyntaxNode, HeadingSimpleJsonSyntaxNodeVisitor>();

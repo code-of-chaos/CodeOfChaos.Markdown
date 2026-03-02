@@ -6,24 +6,26 @@ using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Linq;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TextXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TextMdSyntaxNode> {
+public sealed class ScriptingBodyXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ScriptingBodyMdSyntaxNode> {
+    private const string LeadingSpaces = nameof(ScriptingBodyMdSyntaxNode.LeadingSpaces);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(TextMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(ScriptingBodyMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
-        targetElement.Value = node.Content;
-
+        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
     }
 
-    protected override void SerializeDetails(XElement element, TextMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, ScriptingBodyMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+
+        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
+        }
     }
 }

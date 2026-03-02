@@ -23,3 +23,5 @@ public interface IMarkdownSyntaxNodeVisitor {
     
     void Deserialize(INodeDeserializerFragmentQueue queue, IMdSyntaxNode node);
 }
+
+public interface IMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

@@ -13,3 +13,5 @@ public interface IJsonSyntaxNodeVisitor {
     void DeserializeToJson(IMdSyntaxNode node, Utf8JsonWriter writer);
     IMdSyntaxNode SerializeToNode(JsonElement element, IMdSyntaxNode parentNode);
 }
+
+public interface IJsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

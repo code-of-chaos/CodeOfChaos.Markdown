@@ -9,20 +9,21 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class TagXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TagMdSyntaxNode> {
-
+public sealed class EscapedCharacterXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<EscapedCharacterMdSyntaxNode> {
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(TagMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(EscapedCharacterMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
         AddXmlPreserveSpace(targetElement);
-        targetElement.Value = node.Content;
+        targetElement.Value = node.Content.ToString();
     }
 
-    protected override void SerializeDetails(XElement element, TagMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, EscapedCharacterMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+
+        if (element.Value.IsNotNullOrEmpty()) {
+            targetNode.WithContent(element.Value[0]);
+        }
     }
 }

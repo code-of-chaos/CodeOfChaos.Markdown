@@ -9,22 +9,22 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ListOrderedXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListOrderedMdSyntaxNode> {
-    private const string LeadingSpaces = nameof(ListOrderedMdSyntaxNode.LeadingSpaces);
+public sealed class HtmlSpanXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlSpanMdSyntaxNode> {
+    private const string Attributes = nameof(HtmlSpanMdSyntaxNode.Attributes);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ListOrderedMdSyntaxNode node, XElement targetElement) {
+    protected override void DeserializeDetails(HtmlSpanMdSyntaxNode node, XElement targetElement) {
         base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
+        targetElement.SetAttributeValue(Attributes, node.Attributes);
     }
 
-    protected override void SerializeDetails(XElement element, ListOrderedMdSyntaxNode targetNode) {
+    protected override void SerializeDetails(XElement element, HtmlSpanMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
-            targetNode.WithLeadingSpaces(leadingSpaces);
+        if (TryGetAttributeAsString(element, Attributes, out string? attributes)) {
+            targetNode.WithAttributes(attributes);
         }
     }
 }

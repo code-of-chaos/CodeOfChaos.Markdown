@@ -9,7 +9,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class EmoteXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<EmoteMdSyntaxNode> {
+public sealed class EmoteXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<EmoteMdSyntaxNode> {
     private const string EmoteKey = nameof(EmoteMdSyntaxNode.EmoteKey);
     private const string OriginalEmote = nameof(EmoteMdSyntaxNode.OriginalEmote);
 
