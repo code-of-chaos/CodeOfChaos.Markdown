@@ -23,6 +23,9 @@ public sealed class ScriptingBodyXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<S
 
     protected override void SerializeDetails(XElement element, ScriptingBodySyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithLeadingSpaces(int.Parse(element.Attribute(LeadingSpaces)?.Value ?? "0"));
+
+        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
+        }
     }
 }

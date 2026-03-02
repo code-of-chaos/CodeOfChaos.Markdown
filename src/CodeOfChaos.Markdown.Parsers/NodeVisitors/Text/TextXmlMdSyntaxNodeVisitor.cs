@@ -23,6 +23,7 @@ public sealed class TextXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TextMdSynt
 
     protected override void SerializeDetails(XElement element, TextMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
+        
         targetNode.WithContent(element.Value);
     }
 }

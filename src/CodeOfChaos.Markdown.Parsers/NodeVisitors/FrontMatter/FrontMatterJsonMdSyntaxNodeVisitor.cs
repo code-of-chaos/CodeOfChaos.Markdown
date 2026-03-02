@@ -31,20 +31,20 @@ public sealed class FrontMatterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Fro
     protected override void SerializeDetails(JsonElement element, FrontMatterMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Language, out JsonElement languageProperty)) {
-            targetNode.WithLanguage(languageProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Language, out string? language)) {
+            targetNode.WithLanguage(language);       
         }
 
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            targetNode.WithContent(contentProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Content, out string? content)) {
+            targetNode.WithContent(content);      
         }
-        
-        if (element.TryGetProperty(LeadingSpaces, out JsonElement leadingSpacesProperty)) {
-            targetNode.WithLeadingSpaces(leadingSpacesProperty.GetInt32());
+
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);      
         }
-        
-        if (element.TryGetProperty(DashesCount, out JsonElement dashesCountProperty)) {
-            targetNode.WithDashesCount(dashesCountProperty.GetInt32());
+
+        if (TryGetPropertyAsInt32(element, DashesCount, out int dashesCount)) {
+            targetNode.WithDashesCount(dashesCount);     
         }
     }
 }

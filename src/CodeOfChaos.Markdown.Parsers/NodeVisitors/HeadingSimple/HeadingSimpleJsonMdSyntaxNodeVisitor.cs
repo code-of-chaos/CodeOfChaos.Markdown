@@ -25,8 +25,8 @@ public sealed class HeadingSimpleJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<H
     protected override void SerializeDetails(JsonElement element, HeadingSimpleMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Identifier, out JsonElement identifierProperty)) {
-            targetNode.WithIdentifier(identifierProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
         }
     }
 

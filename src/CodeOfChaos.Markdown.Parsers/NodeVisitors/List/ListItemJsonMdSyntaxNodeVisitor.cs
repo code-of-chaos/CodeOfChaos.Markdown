@@ -31,20 +31,19 @@ public sealed class ListItemJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListIt
     protected override void SerializeDetails(JsonElement element, ListItemMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(CheckMarker, out JsonElement checkMarkerProperty)) {
-            targetNode.WithCheckMarker(checkMarkerProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, CheckMarker, out string? checkMarker)) {
+            targetNode.WithCheckMarker(checkMarker);
         }
 
-        if (element.TryGetProperty(Index, out JsonElement indexProperty)) {
-            targetNode.WithIndex(indexProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Index, out string? index)) {
+            targetNode.WithIndex(index);
         }
 
-        if (element.TryGetProperty(LeadingSpaces, out JsonElement leadingSpacesProperty)) {
-            targetNode.WithLeadingSpaces(leadingSpacesProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int  leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
-
-        if (element.TryGetProperty(CheckLeadingSpaces, out JsonElement checkLeadingSpacesProperty)) {
-            targetNode.WithCheckLeadingSpaces(checkLeadingSpacesProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, CheckLeadingSpaces, out int checkLeadingSpaces)) {
+            targetNode.WithCheckLeadingSpaces(checkLeadingSpaces);
         }
     }
 

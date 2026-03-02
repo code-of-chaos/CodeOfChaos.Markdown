@@ -28,9 +28,20 @@ public sealed class ListItemXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListIt
 
     protected override void SerializeDetails(XElement element, ListItemMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithCheckMarker(element.Attribute(CheckMarker)?.Value ?? string.Empty);
-        targetNode.WithIndex(element.Attribute(Index)?.Value ?? string.Empty);
-        targetNode.WithLeadingSpaces(int.Parse(element.Attribute(LeadingSpaces)?.Value ?? "0"));
-        targetNode.WithCheckLeadingSpaces(int.Parse(element.Attribute(CheckLeadingSpaces)?.Value ?? "0"));
+
+        if (TryGetAttributeAsString(element, CheckMarker, out string? checkMarker)) {
+            targetNode.WithCheckMarker(checkMarker);
+        }
+
+        if (TryGetAttributeAsString(element, Index, out string? index)) {
+            targetNode.WithIndex(index);
+        }
+
+        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int  leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
+        }
+        if (TryGetAttributeAsInt32(element, CheckLeadingSpaces, out int checkLeadingSpaces)) {
+            targetNode.WithCheckLeadingSpaces(checkLeadingSpaces);
+        }
     }
 }

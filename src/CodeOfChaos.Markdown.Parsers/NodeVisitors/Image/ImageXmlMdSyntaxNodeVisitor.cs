@@ -26,7 +26,17 @@ public sealed class ImageXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ImageMdSy
 
     protected override void SerializeDetails(XElement element, ImageMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithAltText(element.Attribute(AltText)?.Value ?? string.Empty);
-        targetNode.WithHref(element.Attribute(Href)?.Value ?? string.Empty);
+
+        if (TryGetAttributeAsString(element, AltText, out string? altText)) {
+            targetNode.WithAltText(altText);
+        }
+        
+        if (TryGetAttributeAsString(element, Href, out string? href)) {
+            targetNode.WithHref(href);
+        }
+        
+        if (TryGetAttributeAsString(element, Title, out string? title)) {
+            targetNode.WithTitle(title);
+        }
     }
 }

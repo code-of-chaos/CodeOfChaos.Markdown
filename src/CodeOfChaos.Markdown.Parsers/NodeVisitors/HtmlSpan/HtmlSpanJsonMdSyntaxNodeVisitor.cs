@@ -25,8 +25,8 @@ public sealed class HtmlSpanJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<HtmlSp
     protected override void SerializeDetails(JsonElement element, HtmlSpanMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Attributes, out JsonElement attributesProperty)) {
-            targetNode.WithAttributes(attributesProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Attributes, out string? attributes)) {
+            targetNode.WithAttributes(attributes);
         }
     }
 

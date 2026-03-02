@@ -23,6 +23,9 @@ public sealed class ScriptingIfStatementXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVi
 
     protected override void SerializeDetails(XElement element, ScriptingIfStatementSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithElseConditionIndex(int.Parse(element.Attribute(ElseConditionIndex)?.Value ?? "-1"));
+
+        if (TryGetAttributeAsInt32(element, ElseConditionIndex, out int elseConditionIndex)) {
+            targetNode.WithElseConditionIndex(elseConditionIndex);
+        }
     }
 }

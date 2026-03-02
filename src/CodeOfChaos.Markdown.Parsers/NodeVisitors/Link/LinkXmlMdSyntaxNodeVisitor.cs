@@ -24,7 +24,12 @@ public sealed class LinkXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<LinkMdSynt
 
     protected override void SerializeDetails(XElement element, LinkMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithHref(element.Attribute(Href)?.Value ?? string.Empty);
-        targetNode.WithTitle(element.Attribute(Title)?.Value ?? string.Empty);
+        
+        if (TryGetAttributeAsString(element, Href, out string? href)) {
+            targetNode.WithHref(href);
+        }
+        if (TryGetAttributeAsString(element, Title, out string? title)) {
+            targetNode.WithTitle(title);
+        }
     }
 }

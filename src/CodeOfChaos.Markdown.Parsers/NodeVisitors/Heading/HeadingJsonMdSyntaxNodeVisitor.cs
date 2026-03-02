@@ -25,8 +25,8 @@ public sealed class HeadingJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Heading
     protected override void SerializeDetails(JsonElement element, HeadingMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Level, out JsonElement levelProperty)) {
-            targetNode.WithLevel(levelProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, Level, out int level)) {
+            targetNode.WithLevel(level);
         }
     }
 }

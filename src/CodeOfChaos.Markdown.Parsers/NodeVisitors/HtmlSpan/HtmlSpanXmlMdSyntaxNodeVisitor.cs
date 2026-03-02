@@ -22,6 +22,9 @@ public sealed class HtmlSpanXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlSp
 
     protected override void SerializeDetails(XElement element, HtmlSpanMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithAttributes(element.Attribute(Attributes)?.Value ?? string.Empty);
+
+        if (TryGetAttributeAsString(element, Attributes, out string? attributes)) {
+            targetNode.WithAttributes(attributes);
+        }
     }
 }

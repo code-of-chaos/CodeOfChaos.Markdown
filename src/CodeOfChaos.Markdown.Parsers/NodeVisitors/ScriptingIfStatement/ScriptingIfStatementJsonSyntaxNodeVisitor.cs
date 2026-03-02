@@ -22,8 +22,9 @@ public sealed class ScriptingIfStatementJsonSyntaxNodeVisitor : JsonSyntaxNodeVi
     }
     protected override void SerializeDetails(JsonElement element, ScriptingIfStatementSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        if (element.TryGetProperty(ElseConditionIndex, out JsonElement elseConditionIndexProperty)) {
-            targetNode.WithElseConditionIndex(elseConditionIndexProperty.GetInt32());
+
+        if (TryGetPropertyAsInt32(element, ElseConditionIndex, out int elseConditionIndex)) {
+            targetNode.WithElseConditionIndex(elseConditionIndex);
         }
     }
 }

@@ -27,12 +27,12 @@ public sealed class LinkJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<LinkMdSynt
     protected override void SerializeDetails(JsonElement element, LinkMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Href, out JsonElement hrefProperty)) {
-            targetNode.WithHref(hrefProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Href, out string? href)) {
+            targetNode.WithHref(href);
         }
-
-        if (element.TryGetProperty(Title, out JsonElement titleProperty)) {
-            targetNode.WithTitle(titleProperty.GetString() ?? string.Empty);
+        
+        if (TryGetPropertyAsString(element, Title, out string? title)) {
+            targetNode.WithTitle(title);
         }
     }
 }

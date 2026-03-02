@@ -28,9 +28,19 @@ public sealed class FrontMatterXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Fro
 
     protected override void SerializeDetails(XElement element, FrontMatterMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithLanguage(element.Attribute(Language)?.Value ?? string.Empty);
+
+        if (TryGetAttributeAsString(element, Language, out string? language)) {
+            targetNode.WithLanguage(language);      
+        }
+
+        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);     
+        }
+        
+        if (TryGetAttributeAsInt32(element, DashesCount, out int dashesCount)) {
+            targetNode.WithDashesCount(dashesCount);      
+        }
+        
         targetNode.WithContent(element.Value);
-        targetNode.WithDashesCount(int.Parse(element.Attribute(DashesCount)?.Value ?? "0"));
-        targetNode.WithLeadingSpaces(int.Parse(element.Attribute(LeadingSpaces)?.Value ?? "0"));
     }
 }

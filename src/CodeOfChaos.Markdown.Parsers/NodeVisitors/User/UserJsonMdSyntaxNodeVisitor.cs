@@ -25,8 +25,8 @@ public sealed class UserJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<UserMdSynt
     protected override void SerializeDetails(JsonElement element, UserMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            targetNode.WithContent(contentProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Content, out string? content)) {
+            targetNode.WithContent(content);  
         }
     }
 }

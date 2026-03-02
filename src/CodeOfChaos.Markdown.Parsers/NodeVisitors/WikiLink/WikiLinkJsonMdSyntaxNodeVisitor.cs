@@ -25,8 +25,8 @@ public sealed class WikiLinkJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<WikiLi
     protected override void SerializeDetails(JsonElement element, WikiLinkMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            targetNode.WithContent(contentProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Content, out string? content)) {
+            targetNode.WithContent(content); 
         }
     }
 }

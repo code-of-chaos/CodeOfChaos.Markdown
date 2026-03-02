@@ -25,8 +25,8 @@ public sealed class HorizontalRuleJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<
     protected override void SerializeDetails(JsonElement element, HorizontalRuleMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Identifier, out JsonElement identifierProperty)) {
-            targetNode.WithIdentifier(identifierProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
         }
     }
 

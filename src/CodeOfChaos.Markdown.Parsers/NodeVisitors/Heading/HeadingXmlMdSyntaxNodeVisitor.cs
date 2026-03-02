@@ -22,6 +22,9 @@ public sealed class HeadingXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Heading
 
     protected override void SerializeDetails(XElement element, HeadingMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithLevel(int.Parse(element.Attribute(Level)?.Value ?? "0"));
+
+        if (TryGetAttributeAsInt32(element, Level, out int level)) {
+            targetNode.WithLevel(level);
+        }
     }
 }

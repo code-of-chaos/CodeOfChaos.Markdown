@@ -25,8 +25,8 @@ public sealed class ListOrderedJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Lis
     protected override void SerializeDetails(JsonElement element, ListOrderedMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(LeadingSpaces, out JsonElement leadingSpacesProperty)) {
-            targetNode.WithLeadingSpaces(leadingSpacesProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 }

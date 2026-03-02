@@ -7,7 +7,6 @@ using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Text.Json;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -21,7 +20,7 @@ public sealed class ScriptingExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVis
     // -----------------------------------------------------------------------------------------------------------------
     protected override void DeserializeDetails(ScriptingExpressionSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
-        
+
         writer.WriteString(FullStatement, node.FullStatement);
         writer.WriteNumber(ExpressionStart, node.ExpressionStart);
         writer.WriteNumber(ExpressionLength, node.ExpressionLength);
@@ -29,11 +28,13 @@ public sealed class ScriptingExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVis
 
     protected override void SerializeDetails(JsonElement element, ScriptingExpressionSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        
-        element.TryGetProperty(FullStatement, out JsonElement fullStatementProperty);
-        element.TryGetProperty(ExpressionStart, out JsonElement expressionStartProperty);
-        element.TryGetProperty(ExpressionLength, out JsonElement expressionLengthProperty);
 
-        targetNode.WithExpression(fullStatementProperty.GetString() ?? string.Empty, expressionStartProperty.GetInt32(), expressionLengthProperty.GetInt32());
+        if (TryGetPropertyAsString(element, FullStatement, out string? fullStatement)
+            && TryGetPropertyAsInt32(element, ExpressionStart, out int expressionStart)
+            && TryGetPropertyAsInt32(element, ExpressionLength, out int expressionLength)
+        ) {
+            targetNode.WithExpression(fullStatement, expressionStart, expressionLength);
+        }
+
     }
 }

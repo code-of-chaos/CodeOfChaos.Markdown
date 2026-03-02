@@ -21,6 +21,7 @@ public sealed class WikiLinkXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<WikiLi
 
     protected override void SerializeDetails(XElement element, WikiLinkMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
+        
         targetNode.WithContent(element.Value);
     }
 }

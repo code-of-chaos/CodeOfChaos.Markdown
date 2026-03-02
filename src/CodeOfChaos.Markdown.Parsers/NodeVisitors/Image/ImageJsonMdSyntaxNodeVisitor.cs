@@ -29,16 +29,16 @@ public sealed class ImageJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ImageMdSy
     protected override void SerializeDetails(JsonElement element, ImageMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(AltText, out JsonElement altTextProperty)) {
-            targetNode.WithAltText(altTextProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, AltText, out string? altText)) {
+            targetNode.WithAltText(altText);
         }
 
-        if (element.TryGetProperty(Href, out JsonElement hrefProperty)) {
-            targetNode.WithHref(hrefProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Href, out string? href)) {
+            targetNode.WithHref(href);       
         }
 
-        if (element.TryGetProperty(Title, out JsonElement titleProperty)) {
-            targetNode.WithTitle(titleProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Title, out string? title)) {
+            targetNode.WithTitle(title);     
         }
     }
 

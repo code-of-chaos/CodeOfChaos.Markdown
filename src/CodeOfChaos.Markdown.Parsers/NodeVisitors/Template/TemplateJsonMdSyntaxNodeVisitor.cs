@@ -27,12 +27,12 @@ public sealed class TemplateJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Templa
     protected override void SerializeDetails(JsonElement element, TemplateMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(Content, out JsonElement contentProperty)) {
-            targetNode.WithContent(contentProperty.GetString() ?? string.Empty);
+        if (TryGetPropertyAsString(element, Content, out string? content)) {
+            targetNode.WithContent(content);   
         }
 
-        if (element.TryGetProperty(BracesCount, out JsonElement bracesCountProperty)) {
-            targetNode.WithBracesCount(bracesCountProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, BracesCount, out int bracesCount)) {
+            targetNode.WithBracesCount(bracesCount);
         }
     }
 

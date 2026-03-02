@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class ListUnOrderedJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListUnOrderedMdSyntaxNode> {
+public sealed class ListUnorderedJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListUnOrderedMdSyntaxNode> {
     private static readonly string LeadingSpaces = nameof(ListUnOrderedMdSyntaxNode.LeadingSpaces).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -25,8 +25,8 @@ public sealed class ListUnOrderedJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<L
     protected override void SerializeDetails(JsonElement element, ListUnOrderedMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
-        if (element.TryGetProperty(LeadingSpaces, out JsonElement leadingSpacesProperty)) {
-            targetNode.WithLeadingSpaces(leadingSpacesProperty.GetInt32());
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 }

@@ -22,6 +22,7 @@ public sealed class TagXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TagMdSyntax
 
     protected override void SerializeDetails(XElement element, TagMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
+        
         targetNode.WithContent(element.Value);
     }
 }

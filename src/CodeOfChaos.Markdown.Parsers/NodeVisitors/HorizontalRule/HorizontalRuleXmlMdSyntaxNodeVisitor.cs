@@ -22,6 +22,9 @@ public sealed class HorizontalRuleXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<
 
     protected override void SerializeDetails(XElement element, HorizontalRuleMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
-        targetNode.WithIdentifier(element.Attribute(Identifier)?.Value ?? string.Empty);
+
+        if (TryGetAttributeAsString(element, Identifier, out string? identifier)) {
+            targetNode.WithIdentifier(identifier);
+        }
     }
 }
