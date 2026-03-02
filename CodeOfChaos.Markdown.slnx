@@ -5,6 +5,7 @@
   <Folder Name="/devtools/">
     <File Path="CodeOfChaos.Markdown.GitHubActions.slnf" />
     <File Path="Directory.Packages.props" />
+    <Project Path="devtools/InfiniBlazorDevTools/InfiniBlazorDevTools.csproj" />
   </Folder>
   <Folder Name="/devtools/github/">
     <File Path=".github/dependabot.yml" />

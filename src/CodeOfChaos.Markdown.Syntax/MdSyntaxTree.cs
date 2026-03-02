@@ -39,6 +39,10 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
         InitializeRootNode(this);
     }
 
+    public MdSyntaxTree(IRootMdSyntaxNode rootNode) {
+        RootNode = rootNode;
+    }
+
     private static void InitializeRootNode(MdSyntaxTree tree) {
         RootMdSyntaxNode rootNode = MdSyntaxNodePool<RootMdSyntaxNode>.Shared.Get();
         rootNode.WithTreeReference(tree);
