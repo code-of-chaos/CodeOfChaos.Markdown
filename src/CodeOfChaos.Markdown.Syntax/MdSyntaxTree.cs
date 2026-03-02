@@ -28,7 +28,7 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
 
     private static ObjectPool<Stack<IMdSyntaxNode>> MdSyntaxNodeStackPool { get; } = PoolingHelpers.CreateStackPool<IMdSyntaxNode>(16);
 
-    public static IMdSyntaxTree Empty => new MdSyntaxTree();
+    public static IMdSyntaxTree Empty => MdSyntaxTreePool.Shared.Get();
 
     private ConcurrentDictionary<Type, IMdSyntaxNode[]> CachedChildrenByType { get; } = new();
 
