@@ -1,9 +1,11 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Parsers.Langs.Json;
 using CodeOfChaos.Markdown.Syntax.Nodes;
+using CodeOfChaosTests.Markdown.Parsers.DataSources;
 using System.Text;
 using System.Text.Json;
 
@@ -11,8 +13,9 @@ namespace CodeOfChaosTests.Markdown.Parsers.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class MdSyntaxTreeJsonParserTests {
-    private readonly JsonMdSyntaxTreeParser _parser = new();
+[MarkdownDiDataSource]
+public class MdSyntaxTreeJsonParserTests(IMarkdownConfig config) {
+    private readonly JsonMdSyntaxTreeParser _parser = new(config);
     private static IMdSyntaxTree TestTree {
         get {
             var tree = new MdSyntaxTree();
@@ -172,21 +175,18 @@ public class MdSyntaxTreeJsonParserTests {
 
     [Test]
     public async Task DeserializeSerialize_ShouldPreserveTreeStructure() {
-        // Arrange
-        var parser = new JsonMdSyntaxTreeParser();
-
-        // Create a sample syntax tree
+        // Arranges
         IMdSyntaxTree originalTree = TestTree;
 
         // Serialize to memory stream
         await using var memoryStream = new MemoryStream();
-        await parser.DeserializeToJsonStreamAsync(memoryStream, originalTree);
+        await _parser.DeserializeToJsonStreamAsync(memoryStream, originalTree);
 
         // Reset the memory stream for reading
         memoryStream.Position = 0;
 
         // Deserialize back into a syntax tree
-        IMdSyntaxTree deserializedTree = await parser.SerializeToSyntaxTreeAsync(memoryStream);
+        IMdSyntaxTree deserializedTree = await _parser.SerializeToSyntaxTreeAsync(memoryStream);
 
         // Assert: Ensure the structure and content remain identical
         IMdSyntaxNode originalRootNode = originalTree.RootNode;

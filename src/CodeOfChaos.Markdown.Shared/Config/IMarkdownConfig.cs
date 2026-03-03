@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Blazor;
+using CodeOfChaos.Markdown.Parsers.Json;
 using CodeOfChaos.Markdown.Parsers.Markdown;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
@@ -14,6 +15,7 @@ public interface IMarkdownConfig {
     ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineNodeVisitors { get; }
     ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineNodeVisitors { get; }
     IMarkdownSyntaxNodeVisitor? FrontMatterNodeVisitor { get; }
+    FrozenDictionary<Type, IJsonSyntaxNodeVisitor> JsonNodeVisitors { get; }
     FrozenDictionary<Type, IBlazorComponentBuilderRecord> BlazorComponents { get; }
     FrozenSet<Type> SkippedBlazorComponents { get; }
 

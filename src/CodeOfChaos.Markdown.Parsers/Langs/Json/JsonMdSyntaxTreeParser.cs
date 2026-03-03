@@ -2,10 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Json;
-using CodeOfChaos.Markdown.Parsers.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax;
-using CodeOfChaos.Markdown.Syntax.Nodes;
+using System.Collections.Frozen;
 using System.Text;
 using System.Text.Json;
 
@@ -14,10 +14,16 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 [InjectableSingleton<IJsonMdSyntaxTreeParser>]
-public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
-    private readonly Dictionary<Type, IJsonSyntaxNodeVisitor> _visitors = new();
-    private readonly Dictionary<string, Type> _nodeTypes = new();
-    private readonly Dictionary<Type, string> _nodeTypeNames = new();
+public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeParser {
+    private readonly FrozenDictionary<Type, IJsonSyntaxNodeVisitor> _visitors = config.JsonNodeVisitors;
+    private readonly FrozenDictionary<string, Type> _nodeTypes = config.JsonNodeVisitors.ToFrozenDictionary(
+        pair => pair.Key.Name,
+        pair => pair.Key
+    );
+    private readonly FrozenDictionary<Type, string> _nodeTypeNames = config.JsonNodeVisitors.ToFrozenDictionary(
+        pair => pair.Key,
+        pair => pair.Key.Name   
+    );
 
     private static readonly JsonWriterOptions WriterOptions = new() {
         Indented = true,
@@ -29,63 +35,6 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // Constructors
-    // -----------------------------------------------------------------------------------------------------------------
-    public JsonMdSyntaxTreeParser() {
-        RegisterVisitor<BlockQuoteMdSyntaxNode, BlockQuoteJsonSyntaxNodeVisitor>();
-        RegisterVisitor<BoldMdSyntaxNode, JsonSyntaxNodeVisitor<BoldMdSyntaxNode>>();
-        RegisterVisitor<BreakMdSyntaxNode, JsonSyntaxNodeVisitor<BreakMdSyntaxNode>>();
-        RegisterVisitor<CalloutBodyMdSyntaxNode, JsonSyntaxNodeVisitor<CalloutBodyMdSyntaxNode>>();
-        RegisterVisitor<CalloutMdSyntaxNode, CalloutJsonSyntaxNodeVisitor>();
-        RegisterVisitor<CalloutTitleMdSyntaxNode, JsonSyntaxNodeVisitor<CalloutTitleMdSyntaxNode>>();
-        RegisterVisitor<CodeBlockMdSyntaxNode, CodeBlockJsonSyntaxNodeVisitor>();
-        RegisterVisitor<CodeInlineMdSyntaxNode, CodeInlineJsonSyntaxNodeVisitor>();
-        RegisterVisitor<EmoteMdSyntaxNode, EmoteJsonSyntaxNodeVisitor>();
-        RegisterVisitor<EscapedCharacterMdSyntaxNode, EscapedCharacterJsonSyntaxNodeVisitor>();
-        RegisterVisitor<FootnoteDescriptionMdSyntaxNode, FootnoteDescriptionJsonSyntaxNodeVisitor>();
-        RegisterVisitor<FootnoteReferenceMdSyntaxNode, FootnoteReferenceJsonSyntaxNodeVisitor>();
-        RegisterVisitor<FrontMatterMdSyntaxNode, FrontMatterJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HeadingMdSyntaxNode, HeadingJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HeadingSimpleMdSyntaxNode, HeadingSimpleJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HighlightMdSyntaxNode, JsonSyntaxNodeVisitor<HighlightMdSyntaxNode>>();
-        RegisterVisitor<HorizontalRuleMdSyntaxNode, HorizontalRuleJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HtmlMdSyntaxNode, HtmlJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HtmlSpanMdSyntaxNode, HtmlSpanJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ImageMdSyntaxNode, ImageJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ItalicMdSyntaxNode, JsonSyntaxNodeVisitor<ItalicMdSyntaxNode>>();
-        RegisterVisitor<LinkMdSyntaxNode, LinkJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ListItemMdSyntaxNode, ListItemJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ListOrderedMdSyntaxNode, ListOrderedJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ListUnorderedMdSyntaxNode, ListUnorderedJsonSyntaxNodeVisitor>();
-        RegisterVisitor<NewLineMdSyntaxNode, JsonSyntaxNodeVisitor<NewLineMdSyntaxNode>>();
-        RegisterVisitor<ParagraphMdSyntaxNode, JsonSyntaxNodeVisitor<ParagraphMdSyntaxNode>>();
-        RegisterVisitor<ScriptingBodyMdSyntaxNode, ScriptingBodyJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ScriptingExpressionMdSyntaxNode, ScriptingExpressionJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ScriptingIfStatementMdSyntaxNode, ScriptingIfStatementJsonSyntaxNodeVisitor>();
-        RegisterVisitor<StrikeMdSyntaxNode, JsonSyntaxNodeVisitor<StrikeMdSyntaxNode>>();
-        RegisterVisitor<SubScriptMdSyntaxNode, JsonSyntaxNodeVisitor<SubScriptMdSyntaxNode>>();
-        RegisterVisitor<SuperScriptMdSyntaxNode, JsonSyntaxNodeVisitor<SuperScriptMdSyntaxNode>>();
-        RegisterVisitor<TableCellMdSyntaxNode, JsonSyntaxNodeVisitor<TableCellMdSyntaxNode>>();
-        RegisterVisitor<TableMdSyntaxNode, TableJsonSyntaxNodeVisitor>();
-        RegisterVisitor<TableRowMdSyntaxNode, JsonSyntaxNodeVisitor<TableRowMdSyntaxNode>>();
-        RegisterVisitor<TagMdSyntaxNode, TagJsonSyntaxNodeVisitor>();
-        RegisterVisitor<TemplateMdSyntaxNode, TemplateJsonSyntaxNodeVisitor>();
-        RegisterVisitor<TextMdSyntaxNode, TextJsonSyntaxNodeVisitor>();
-        RegisterVisitor<UnderlineMdSyntaxNode, JsonSyntaxNodeVisitor<UnderlineMdSyntaxNode>>();
-        RegisterVisitor<UserMdSyntaxNode, UserJsonSyntaxNodeVisitor>();
-        RegisterVisitor<WikiLinkMdSyntaxNode, WikiLinkJsonSyntaxNodeVisitor>();
-        RegisterVisitor<WrapperMdSyntaxNode, JsonSyntaxNodeVisitor<WrapperMdSyntaxNode>>();
-    }
-
-    private void RegisterVisitor<TNode, TVisitor>() where TNode : MdSyntaxNode<TNode>, new() where TVisitor : JsonSyntaxNodeVisitor<TNode>, new() {
-        Type nodeType = typeof(TNode);
-        string typeName = nodeType.Name;
-        _visitors[nodeType] = new TVisitor();
-        _nodeTypes[typeName] = nodeType;
-        _nodeTypeNames[nodeType] = typeName;
-    }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
