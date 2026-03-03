@@ -233,6 +233,22 @@ public static class MarkdownConfigExtensions {
                 // .WithMarkdownMultiLineNodeVisitor<ListItemMarkdownSyntaxNodeVisitor>()
                 .WithXmlNodeVisitor<ListItemXmlSyntaxNodeVisitor>();
             
+            config.WithSyntaxNode<CalloutTitleMdSyntaxNode>()
+                .WithJsonNodeVisitor<JsonSyntaxNodeVisitor<CalloutTitleMdSyntaxNode>>()
+                .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<CalloutTitleMdSyntaxNode>>();
+            
+            config.WithSyntaxNode<CalloutBodyMdSyntaxNode>()
+                .WithJsonNodeVisitor<JsonSyntaxNodeVisitor<CalloutBodyMdSyntaxNode>>()
+                .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<CalloutBodyMdSyntaxNode>>();
+            
+            config.WithSyntaxNode<TableRowMdSyntaxNode>()
+                .WithJsonNodeVisitor<JsonSyntaxNodeVisitor<TableRowMdSyntaxNode>>()
+                .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<TableRowMdSyntaxNode>>();
+            
+            config.WithSyntaxNode<TableCellMdSyntaxNode>()
+                .WithJsonNodeVisitor<JsonSyntaxNodeVisitor<TableCellMdSyntaxNode>>()
+                .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<TableCellMdSyntaxNode>>();
+            
             config.WithSyntaxNode<ScriptingBodyMdSyntaxNode>()
                 .WithBlazorNodeVisitor<ScriptingBodyBlazorSyntaxNodeVisitor>()
                 .WithJsonNodeVisitor<ScriptingBodyJsonSyntaxNodeVisitor>()
