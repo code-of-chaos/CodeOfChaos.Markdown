@@ -177,4 +177,17 @@ public class MdSyntaxTreeXmlParserTests(IMarkdownConfig config) {
         await Assert.That(originalRootNode).IsEqualTo(deserializedRootNode);
     }
 
+    [Test]
+    public async Task DeserializeToStringAsync_ShouldWriteXmlCorrectly() {
+        // Arrange
+        XElement expected = XElement.Parse(Xml);
+
+        // Act
+        string result = await _parser.DeserializeToStringAsync(TestTree);
+        XElement resultXml = XElement.Parse(result);
+
+        // Assert
+        await Assert.That(resultXml.ToString(SaveOptions.DisableFormatting)).IsEqualTo(expected.ToString(SaveOptions.DisableFormatting));
+    }
+
 }

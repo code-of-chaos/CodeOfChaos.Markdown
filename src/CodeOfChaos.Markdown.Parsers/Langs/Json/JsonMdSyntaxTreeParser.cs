@@ -23,8 +23,15 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
     );
     private readonly FrozenDictionary<Type, string> _nodeTypeNames = config.JsonSyntaxNodeVisitors.ToFrozenDictionary(
         pair => pair.Key,
-        pair => pair.Key.Name   
+        pair => pair.Key.Name
     );
+
+    // Cached property names to reduce allocations
+    private static readonly byte[] TypePropertyName = Encoding.UTF8.GetBytes("type");
+    private static readonly byte[] ChildrenPropertyName = Encoding.UTF8.GetBytes("children");
+    private static readonly JsonEncodedText TypePropertyNameEncoded = JsonEncodedText.Encode("type");
+    private static readonly JsonEncodedText ChildrenPropertyNameEncoded = JsonEncodedText.Encode("children");
+    private static readonly JsonEncodedText MdSyntaxTreeEncoded = JsonEncodedText.Encode("MdSyntaxTree");
 
     private static readonly JsonWriterOptions WriterOptions = new() {
         Indented = true,
@@ -53,8 +60,8 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         await using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
 
         writer.WriteStartObject();
-        writer.WriteString("type", "MdSyntaxTree");
-        writer.WriteStartArray("children");
+        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
+        writer.WriteStartArray(ChildrenPropertyNameEncoded);
 
         foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
             DeserializeNode(child, writer);
@@ -72,8 +79,8 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
 
         writer.WriteStartObject();
-        writer.WriteString("type", "MdSyntaxTree");
-        writer.WriteStartArray("children");
+        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
+        writer.WriteStartArray(ChildrenPropertyNameEncoded);
 
         foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
             DeserializeNode(child, writer);
@@ -93,8 +100,8 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         await using var writer = new Utf8JsonWriter(stream, WriterOptions);
 
         writer.WriteStartObject();
-        writer.WriteString("type", "MdSyntaxTree");
-        writer.WriteStartArray("children");
+        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
+        writer.WriteStartArray(ChildrenPropertyNameEncoded);
 
         foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
             DeserializeNode(child, writer);
@@ -119,9 +126,9 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         writer.WriteStartObject();
 
         if (_nodeTypeNames.TryGetValue(nodeType, out string? typeName)) {
-            writer.WriteString("type", typeName);
+            writer.WriteString(TypePropertyNameEncoded, typeName);
         } else {
-            writer.WriteString("type", nodeType.Name);
+            writer.WriteString(TypePropertyNameEncoded, nodeType.Name);
         }
 
         if (_visitors.TryGetValue(nodeType, out IJsonSyntaxNodeVisitor? visitor)) {
@@ -132,7 +139,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         bool hasChildren = false;
         foreach (IMdSyntaxNode child in children) {
             if (!hasChildren) {
-                writer.WriteStartArray("children");
+                writer.WriteStartArray(ChildrenPropertyNameEncoded);
                 hasChildren = true;
             }
             DeserializeNode(child, writer);
