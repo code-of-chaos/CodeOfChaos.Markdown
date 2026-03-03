@@ -13,7 +13,14 @@ namespace CodeOfChaosTests.Shared;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class MdTestData : IXmlSerializable, IEquatable<MdTestData> {
-    internal IXmlMdSyntaxTreeParser? XmlParser { get; set; }
+    [ThreadStatic]
+    private static IXmlMdSyntaxTreeParser? _defaultParser;
+    
+    public static void SetDefaultParser(IXmlMdSyntaxTreeParser parser) {
+        _defaultParser = parser;
+    }
+    
+    public IXmlMdSyntaxTreeParser? XmlParser { get; set; }
     public required string FileName { get; set; } = string.Empty;
     public required string Id { get; set; } = string.Empty;
     public string? DeveloperNote { get; set; }
@@ -54,7 +61,8 @@ public class MdTestData : IXmlSerializable, IEquatable<MdTestData> {
 
                 case nameof(MdSyntaxTree): {
                     var syntaxTreeXml = (XElement)XNode.ReadFrom(reader);
-                    MdSyntaxTree = XmlParser?.SerializeToSyntaxTree(syntaxTreeXml) ?? throw new InvalidOperationException("XmlParser is not set");
+                    IXmlMdSyntaxTreeParser? parser = XmlParser ?? _defaultParser;
+                    MdSyntaxTree = parser?.SerializeToSyntaxTree(syntaxTreeXml) ?? throw new InvalidOperationException("XmlParser is not set and no default parser is configured");
                     break;
                 }
 
@@ -95,7 +103,8 @@ public class MdTestData : IXmlSerializable, IEquatable<MdTestData> {
         writer.WriteElementString(nameof(MdString), MdString);
         
         // Writes as "MdSyntaxTree"
-        XElement syntaxTreeElement = XmlParser?.DeserializeToXmlElement(MdSyntaxTree) ?? throw new InvalidOperationException("XmlParser is not set");
+        IXmlMdSyntaxTreeParser? parser = XmlParser ?? _defaultParser;
+        XElement syntaxTreeElement = parser?.DeserializeToXmlElement(MdSyntaxTree) ?? throw new InvalidOperationException("XmlParser is not set and no default parser is configured");
         syntaxTreeElement.WriteTo(writer);
         
         if (ExpectedMarkdown.IsNotNullOrWhiteSpace()) writer.WriteElementString(nameof(ExpectedMarkdown), ExpectedMarkdown);

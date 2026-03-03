@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
 using System.Xml.Serialization;
@@ -10,10 +11,16 @@ namespace CodeOfChaosTests.Markdown.Parsers.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class XmlMdTestDataTests {
+[MarkdownDiDataSource]
+public class XmlMdTestDataTests(IXmlMdSyntaxTreeParser parser) {
     private static readonly string FileName = $"{Guid.NewGuid():N}.xml";
     private static readonly string FileNameArray = $"{Guid.NewGuid():N}.xml";
-    private static MdTestData TestEntry {
+    
+    [Before(Test)]
+    public void SetupParser() {
+        MdTestData.SetDefaultParser(parser);
+    }
+    private MdTestData TestEntry {
         get {
             var tree = new MdSyntaxTree();
             tree.RootNode
@@ -26,7 +33,8 @@ public class XmlMdTestDataTests {
                 Id = nameof(TestEntry),
                 FileName = string.Empty,
                 MdString = "Sample **Markdown**",
-                MdSyntaxTree = tree
+                MdSyntaxTree = tree,
+                XmlParser = parser
             };
         }
     }
@@ -55,6 +63,9 @@ public class XmlMdTestDataTests {
         MdTestData? deserializedData;
         using (StreamReader reader = new(FileName)) {
             deserializedData = (MdTestData?)serializer.Deserialize(reader);
+            if (deserializedData != null) {
+                deserializedData.XmlParser = parser;
+            }
         }
 
         // Assert
@@ -83,6 +94,11 @@ public class XmlMdTestDataTests {
         MdTestData[]? deserializedData;
         using (StreamReader reader = new(FileNameArray)) {
             deserializedData = (MdTestData[]?)serializer.Deserialize(reader);
+            if (deserializedData != null) {
+                foreach (MdTestData item in deserializedData) {
+                    item.XmlParser = parser;
+                }
+            }
         }
 
         // Assert

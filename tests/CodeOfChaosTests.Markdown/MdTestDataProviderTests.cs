@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
-using CodeOfChaosTests.Markdown.Parsers.DataSources;
 using CodeOfChaosTests.Shared;
 using Microsoft.Extensions.Logging;
 using NSubstitute;

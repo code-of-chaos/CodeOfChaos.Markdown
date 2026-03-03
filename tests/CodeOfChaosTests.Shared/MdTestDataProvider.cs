@@ -2,6 +2,9 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown;
+using CodeOfChaos.Markdown.Config;
+using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Parsers.Xml;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -25,7 +28,14 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntax
         TestFolder = Path.GetFullPath(testFolder);
     }
 
-    public static readonly MdTestDataProvider TestInstance = new(Substitute.For<ILogger<MdTestDataProvider>>(), Substitute.For<IXmlMdSyntaxTreeParser>()) {
+    private static IXmlMdSyntaxTreeParser CreateDefaultParser() {
+        var markdownConfig = new MarkdownConfig();
+        markdownConfig.AddDefaultNodeVisitors();
+        IMarkdownConfig config = ImmutableMarkdownConfig.From(markdownConfig);
+        return new XmlMdSyntaxTreeParser(config);
+    }
+
+    public static readonly MdTestDataProvider TestInstance = new(Substitute.For<ILogger<MdTestDataProvider>>(), CreateDefaultParser()) {
         TestFolder = Path.GetFullPath(Path.Combine("../../../../../", TestFolderFromRootPath))
     };
 
@@ -98,6 +108,9 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntax
     }
 
     private List<MdTestData>? DeserializeXmlData(string xmlContent, string fullFilePath) {
+        // Set the default parser for the deserialization process
+        MdTestData.SetDefaultParser(xmlParser);
+        
         var serializer = new XmlSerializer(typeof(List<MdTestData>));
         using var stringReader = new StringReader(xmlContent);
 
@@ -152,6 +165,11 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntax
     public async Task<bool> TryWriteXmlMdTestDataAsync(string fileName, List<MdTestData> data, CancellationToken ct = default) {
         if (!ValidateTestData(SetCorrectExtension(fileName), data)) return false;
 
+        // Ensure all items have the parser injected
+        foreach (MdTestData testData in data) {
+            testData.XmlParser = xmlParser;
+        }
+
         string fullFilePath = GetFullFilePath(fileName);
 
         try {
@@ -175,6 +193,7 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntax
     }
 
     public async Task<bool> TryAddOrUpdateAsync(string fileName, MdTestData testData, CancellationToken ct = default) {
+        testData.XmlParser = xmlParser;
         List<MdTestData> dataArray = await TryGetXmlMdTestDataAsync(fileName, ct) ?? new List<MdTestData>();
         AddOrUpdateTestData(dataArray, testData);
         return await TryWriteXmlMdTestDataAsync(fileName, dataArray, ct);
@@ -221,6 +240,11 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntax
     public bool TryWriteXmlMdTestData(string fileName, List<MdTestData> data) {
         if (!ValidateTestData(SetCorrectExtension(fileName), data)) return false;
 
+        // Ensure all items have the parser injected
+        foreach (MdTestData testData in data) {
+            testData.XmlParser = xmlParser;
+        }
+
         string fullFilePath = GetFullFilePath(fileName);
 
         try {
@@ -244,6 +268,7 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntax
     }
 
     public bool TryAddOrUpdate(string fileName, MdTestData testData) {
+        testData.XmlParser = xmlParser;
         List<MdTestData> dataArray = TryGetXmlMdTestData(fileName) ?? new List<MdTestData>();
         AddOrUpdateTestData(dataArray, testData);
         return TryWriteXmlMdTestData(fileName, dataArray);

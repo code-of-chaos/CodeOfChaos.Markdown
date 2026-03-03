@@ -5,7 +5,7 @@ using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using CodeOfChaosTests.Markdown.Parsers.DataSources;
+using CodeOfChaosTests.Shared;
 using System.Text;
 using System.Xml.Linq;
 

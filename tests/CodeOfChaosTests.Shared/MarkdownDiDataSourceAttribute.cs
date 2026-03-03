@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using NSubstitute;
 
-namespace CodeOfChaosTests.Markdown.Parsers.DataSources;
+namespace CodeOfChaosTests.Shared;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
@@ -27,7 +27,7 @@ public class MarkdownDiDataSourceAttribute : DependencyInjectionDataSourceAttrib
         services.AddLogging();
         services.AddCodeOfChaosMarkdown();
         
-        // Resolves and issue with the JSRuntime dependency on the HtmlRenderer for Markdown
+        // Resolves an issue with the JSRuntime dependency on the HtmlRenderer for Markdown
         services.AddSingleton(Substitute.For<IJSRuntime>());
         services.AddTransient<NavigationManager>(_ => Substitute.For<NavigationManager>());
 
