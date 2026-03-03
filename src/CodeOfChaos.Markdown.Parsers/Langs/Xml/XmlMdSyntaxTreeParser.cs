@@ -5,7 +5,6 @@ using CodeOfChaos.Extensions.DependencyInjection;
 using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
-using System.Buffers;
 using System.Collections.Frozen;
 using System.Text;
 using System.Xml;
@@ -43,29 +42,10 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         ArgumentNullException.ThrowIfNull(tree);
 
         await using var stream = new MemoryStream();
-        await using (var writer = XmlWriter.Create(stream, WriterSettings)) {
-            await writer.WriteStartDocumentAsync();
-            await writer.WriteStartElementAsync(null, "MdSyntaxTree", null);
-
-            foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
-                await DeserializeNodeAsync(child, writer, ct);
-            }
-
-            await writer.WriteEndElementAsync();
-            await writer.WriteEndDocumentAsync();
-            await writer.FlushAsync();
-        }
-
-        // Writer is now disposed, stream has all the data
+        await DeserializeToXmlStreamAsync(stream, tree, ct);
         stream.Position = 0;
-        byte[] buffer = ArrayPool<byte>.Shared.Rent((int)stream.Length);
-        try {
-            int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, (int)stream.Length), ct);
-            return Encoding.UTF8.GetString(buffer, 0, bytesRead);
-        }
-        finally {
-            ArrayPool<byte>.Shared.Return(buffer);
-        }
+        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
+        return await reader.ReadToEndAsync(ct);
     }
 
     public XElement DeserializeToXmlElement(IMdSyntaxTree tree) {
@@ -107,61 +87,6 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
 
         foreach (IMdSyntaxNode child in node.GetChildren()) {
             DeserializeNode(child, parentElement);
-        }
-    }
-
-    private async Task DeserializeNodeAsync(IMdSyntaxNode node, XmlWriter writer, CancellationToken ct) {
-        Type nodeType = node.GetType();
-
-        if (_visitors.TryGetValue(nodeType, out IXmlSyntaxNodeVisitor? visitor)) {
-            // Create minimal XElement tree for visitor
-            var tempParent = new XElement("temp");
-            XElement nodeElement = visitor.DeserializeToXml(node, tempParent);
-
-            // Find the actual node element (first child of tempParent)
-            XElement actualElement = tempParent.Elements().FirstOrDefault() ?? nodeElement;
-
-            // Write element start
-            await writer.WriteStartElementAsync(null, actualElement.Name.LocalName, null);
-
-            // Write attributes with proper namespace handling
-            foreach (XAttribute attr in actualElement.Attributes()) {
-                if (attr.Name.Namespace == XNamespace.Xml) {
-                    // Handle xml: namespace attributes (like xml:space)
-                    await writer.WriteAttributeStringAsync("xml", attr.Name.LocalName, XNamespace.Xml.NamespaceName, attr.Value);
-                } else if (!string.IsNullOrEmpty(attr.Name.NamespaceName)) {
-                    // Handle other namespaced attributes - extract prefix from the element
-                    string prefix = actualElement.GetPrefixOfNamespace(attr.Name.Namespace) ?? "";
-                    await writer.WriteAttributeStringAsync(prefix, attr.Name.LocalName, attr.Name.NamespaceName, attr.Value);
-                } else {
-                    // Handle non-namespaced attributes
-                    await writer.WriteAttributeStringAsync(null, attr.Name.LocalName, null, attr.Value);
-                }
-            }
-
-            // Write element content (excluding child nodes that will be handled recursively)
-            if (actualElement.FirstNode is XText textNode && !actualElement.Elements().Any()) {
-                await writer.WriteStringAsync(textNode.Value);
-            }
-            else {
-                // Write any nested elements that aren't child nodes
-                foreach (XElement childElement in actualElement.Elements()) {
-                    await childElement.WriteToAsync(writer, ct);
-                }
-            }
-
-            // Recursively write child nodes
-            foreach (IMdSyntaxNode child in node.GetChildren()) {
-                await DeserializeNodeAsync(child, writer, ct);
-            }
-
-            await writer.WriteEndElementAsync();
-        }
-        else {
-            // No visitor, just process children
-            foreach (IMdSyntaxNode child in node.GetChildren()) {
-                await DeserializeNodeAsync(child, writer, ct);
-            }
         }
     }
     #endregion
