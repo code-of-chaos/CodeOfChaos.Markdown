@@ -27,8 +27,6 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
     );
 
     // Cached property names to reduce allocations
-    private static readonly byte[] TypePropertyName = Encoding.UTF8.GetBytes("type");
-    private static readonly byte[] ChildrenPropertyName = Encoding.UTF8.GetBytes("children");
     private static readonly JsonEncodedText TypePropertyNameEncoded = JsonEncodedText.Encode("type");
     private static readonly JsonEncodedText ChildrenPropertyNameEncoded = JsonEncodedText.Encode("children");
     private static readonly JsonEncodedText MdSyntaxTreeEncoded = JsonEncodedText.Encode("MdSyntaxTree");

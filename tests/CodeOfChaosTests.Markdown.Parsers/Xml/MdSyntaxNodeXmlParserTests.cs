@@ -190,4 +190,65 @@ public class MdSyntaxTreeXmlParserTests(IMarkdownConfig config) {
         await Assert.That(resultXml.ToString(SaveOptions.DisableFormatting)).IsEqualTo(expected.ToString(SaveOptions.DisableFormatting));
     }
 
+    [Test]
+    public async Task DeserializeToString_ShouldWriteXmlCorrectly() {
+        // Arrange
+        XElement expected = XElement.Parse(Xml);
+
+        // Act
+        // ReSharper disable once MethodHasAsyncOverload
+        string result = _parser.DeserializeToString(TestTree);
+        XElement resultXml = XElement.Parse(result);
+
+        // Assert
+        await Assert.That(resultXml.ToString(SaveOptions.DisableFormatting)).IsEqualTo(expected.ToString(SaveOptions.DisableFormatting));
+    }
+
+    [Test]
+    public async Task SerializeStringToSyntaxTree_ShouldBuildCorrectTree() {
+        // Act
+        IMdSyntaxTree tree = _parser.SerializeStringToSyntaxTree(Xml);
+
+        // Assert
+        await Assert.That(tree.RootNode).IsNotNull();
+        await Assert.That(tree.RootNode.GetChildAt(0)).IsTypeOf<LinkMdSyntaxNode>();
+
+        var linkNode = (LinkMdSyntaxNode)tree.RootNode.GetChildAt(0);
+        await Assert.That(linkNode.Href).IsEqualTo("https://example.com");
+
+        List<IMdSyntaxNode> children = linkNode.GetChildren().ToList();
+        await Assert.That(children).Count().IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task SerializeToSyntaxTree_FromXElement_ShouldBuildCorrectTree() {
+        // Arrange
+        XElement element = XElement.Parse(Xml);
+
+        // Act
+        IMdSyntaxTree tree = _parser.SerializeToSyntaxTree(element);
+
+        // Assert
+        await Assert.That(tree.RootNode).IsNotNull();
+        await Assert.That(tree.RootNode.GetChildAt(0)).IsTypeOf<LinkMdSyntaxNode>();
+
+        var linkNode = (LinkMdSyntaxNode)tree.RootNode.GetChildAt(0);
+        await Assert.That(linkNode.Href).IsEqualTo("https://example.com");
+
+        List<IMdSyntaxNode> children = linkNode.GetChildren().ToList();
+        await Assert.That(children).Count().IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task DeserializeToXmlElement_ShouldReturnCorrectStructure() {
+        // Arrange
+        XElement expected = XElement.Parse(Xml);
+
+        // Act
+        XElement result = _parser.DeserializeToXmlElement(TestTree);
+
+        // Assert
+        await Assert.That(result.ToString(SaveOptions.DisableFormatting)).IsEqualTo(expected.ToString(SaveOptions.DisableFormatting));
+    }
+
 }
