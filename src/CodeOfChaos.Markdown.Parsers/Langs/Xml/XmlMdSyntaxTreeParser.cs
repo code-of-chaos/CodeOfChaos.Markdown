@@ -5,6 +5,7 @@ using CodeOfChaos.Extensions.DependencyInjection;
 using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
+using System.Buffers;
 using System.Collections.Frozen;
 using System.Text;
 using System.Xml;
@@ -40,12 +41,33 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
     
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
-        
+
+        XmlWriterSettings writerSettings = WriterSettings.Clone();
+        writerSettings.Encoding = Encoding.UTF8;
+
         await using var stream = new MemoryStream();
-        await DeserializeToXmlStreamAsync(stream, tree, ct);
+        await using var writer = XmlWriter.Create(stream, writerSettings);
+
+        await writer.WriteStartDocumentAsync();
+        await writer.WriteStartElementAsync(null, "MdSyntaxTree", null);
+
+        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
+            await DeserializeNodeAsync(child, writer, ct);
+        }
+
+        await writer.WriteEndElementAsync();
+        await writer.WriteEndDocumentAsync();
+        await writer.FlushAsync();
+
         stream.Position = 0;
-        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
-        return await reader.ReadToEndAsync(ct);
+        byte[] buffer = ArrayPool<byte>.Shared.Rent((int)stream.Length);
+        try {
+            int bytesRead = await stream.ReadAsync(buffer.AsMemory(0, (int)stream.Length), ct);
+            return Encoding.UTF8.GetString(buffer, 0, bytesRead);
+        } finally {
+            ArrayPool<byte>.Shared.Return(buffer);
+        }
+
     } 
     
     public XElement DeserializeToXmlElement(IMdSyntaxTree tree) {
@@ -87,6 +109,29 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
 
         foreach (IMdSyntaxNode child in node.GetChildren()) {
             DeserializeNode(child, parentElement);
+        }
+    }
+
+    private async Task DeserializeNodeAsync(IMdSyntaxNode node, XmlWriter writer, CancellationToken ct) {
+        Type nodeType = node.GetType();
+
+        if (_visitors.TryGetValue(nodeType, out IXmlSyntaxNodeVisitor? visitor)) {
+            // Create a temporary XElement to leverage existing visitor logic
+            var tempElement = new XElement("temp");
+            XElement resultElement = visitor.DeserializeToXml(node, tempElement);
+
+            // Write the result to XmlWriter
+            if (resultElement != tempElement && resultElement.Parent == tempElement) {
+                resultElement = resultElement.Parent.Elements().First();
+            }
+
+            foreach (XElement element in resultElement.Elements()) {
+                await element.WriteToAsync(writer, ct);
+            }
+        }
+
+        foreach (IMdSyntaxNode child in node.GetChildren()) {
+            await DeserializeNodeAsync(child, writer, ct);
         }
     }
     #endregion

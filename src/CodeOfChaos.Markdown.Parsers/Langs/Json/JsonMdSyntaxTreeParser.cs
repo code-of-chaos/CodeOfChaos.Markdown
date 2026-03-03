@@ -5,6 +5,7 @@ using CodeOfChaos.Extensions.DependencyInjection;
 using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Json;
 using CodeOfChaos.Markdown.Syntax;
+using System.Buffers;
 using System.Collections.Frozen;
 using System.Text;
 using System.Text.Json;
@@ -48,16 +49,27 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
 
-        await using var stream = new MemoryStream();
-        await DeserializeToJsonStreamAsync(stream, tree, ct);
-        stream.Position = 0;
-        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
-        return await reader.ReadToEndAsync(ct);
+        var bufferWriter = new ArrayBufferWriter<byte>();
+        await using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
+
+        writer.WriteStartObject();
+        writer.WriteString("type", "MdSyntaxTree");
+        writer.WriteStartArray("children");
+
+        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
+            DeserializeNode(child, writer);
+        }
+
+        writer.WriteEndArray();
+        writer.WriteEndObject();
+        await writer.FlushAsync(ct);
+
+        return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
 
     public JsonElement DeserializeToJsonElement(IMdSyntaxTree tree) {
-        using var stream = new MemoryStream();
-        using var writer = new Utf8JsonWriter(stream, WriterOptions);
+        var bufferWriter = new ArrayBufferWriter<byte>();
+        using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
 
         writer.WriteStartObject();
         writer.WriteString("type", "MdSyntaxTree");
@@ -71,9 +83,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         writer.WriteEndObject();
         writer.Flush();
 
-        stream.Position = 0;
-        using JsonDocument document = JsonDocument.Parse(stream);
-        return document.RootElement.Clone();
+        return JsonDocument.Parse(bufferWriter.WrittenMemory).RootElement;
     }
 
     public async Task DeserializeToJsonStreamAsync(Stream stream, IMdSyntaxTree tree, CancellationToken ct = default) {
