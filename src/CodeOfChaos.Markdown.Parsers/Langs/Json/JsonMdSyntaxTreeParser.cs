@@ -8,6 +8,7 @@ using CodeOfChaos.Markdown.Syntax;
 using System.Buffers;
 using System.Collections.Frozen;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
@@ -33,13 +34,13 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
 
     private static readonly JsonWriterOptions WriterOptions = new() {
         Indented = true,
-        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
 
     private static readonly JsonSerializerOptions SerializerOptions = new() {
         WriteIndented = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
 
     // -----------------------------------------------------------------------------------------------------------------
