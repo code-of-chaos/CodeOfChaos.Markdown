@@ -5,6 +5,7 @@ using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Blazor;
 using CodeOfChaos.Markdown.Parsers.Json;
 using CodeOfChaos.Markdown.Parsers.Markdown;
+using CodeOfChaos.Markdown.Parsers.Xml;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 
@@ -13,11 +14,12 @@ namespace CodeOfChaos.Markdown;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class ImmutableMarkdownConfig : IMarkdownConfig {
-    public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineNodeVisitors { get; init; }
-    public required ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineNodeVisitors { get; init; }
-    public required IMarkdownSyntaxNodeVisitor? FrontMatterNodeVisitor { get; init; }
+    public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineMarkdownSyntaxNodeVisitors { get; init; }
+    public required ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineMarkdownSyntaxNodeVisitors { get; init; }
+    public required IMarkdownSyntaxNodeVisitor? FrontMatterMarkdownSyntaxNodeVisitor { get; init; }
 
-    public required FrozenDictionary<Type, IJsonSyntaxNodeVisitor> JsonNodeVisitors { get; init; }
+    public required FrozenDictionary<Type, IXmlSyntaxNodeVisitor> XmlSyntaxNodeVisitors { get; init; }
+    public required FrozenDictionary<Type, IJsonSyntaxNodeVisitor> JsonSyntaxNodeVisitors { get; init; }
     public required FrozenDictionary<Type, IBlazorComponentBuilderRecord> BlazorComponents { get; init; }
     public required FrozenSet<Type> SkippedBlazorComponents { get; init; }
     
@@ -52,12 +54,16 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
         
         FrozenDictionary<Type, IJsonSyntaxNodeVisitor> jsonNodeVisitors = markdownConfig.ConfigEntries.Where(entry => entry.JsonNodeVisitorType is not null)
             .ToFrozenDictionary(entry => entry.SyntaxNodeType, entry => CreateJsonVisitor(entry.JsonNodeVisitorType!));
+        
+        FrozenDictionary<Type, IXmlSyntaxNodeVisitor> xmlSyntaxNodeVisitors = markdownConfig.ConfigEntries.Where(entry => entry.XmlNodeVisitorType is not null)
+            .ToFrozenDictionary(entry => entry.SyntaxNodeType, entry => CreateXmlVisitor(entry.XmlNodeVisitorType!));
 
         return new ImmutableMarkdownConfig {
-            SingleLineNodeVisitors = singleLine,
-            MultiLineNodeVisitors = multiLine,
-            FrontMatterNodeVisitor = frontMatterVisitor,
-            JsonNodeVisitors = jsonNodeVisitors,
+            SingleLineMarkdownSyntaxNodeVisitors = singleLine,
+            MultiLineMarkdownSyntaxNodeVisitors = multiLine,
+            FrontMatterMarkdownSyntaxNodeVisitor = frontMatterVisitor,
+            XmlSyntaxNodeVisitors = xmlSyntaxNodeVisitors,
+            JsonSyntaxNodeVisitors = jsonNodeVisitors,
             BlazorComponents = blazorComponents,
             SkippedBlazorComponents = markdownConfig.SkippedBlazorComponentTypes.ToFrozenSet(),
             RenderUnknownBlazorComponents = markdownConfig.RenderUnknownBlazorComponents,
@@ -68,6 +74,7 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
     private static IMarkdownSyntaxNodeVisitor CreateMarkdownVisitor(Type visitorType) {
         object? instance = Activator.CreateInstance(visitorType);
         
+        // ReSharper disable twice ConvertIfStatementToReturnStatement
         if (instance is null) throw new InvalidOperationException($"Could not create instance of visitor type '{visitorType.FullName}'.");
         if (instance is not IMarkdownSyntaxNodeVisitor visitor) throw new InvalidOperationException($"Configured visitor type '{visitorType.FullName}' does not implement {nameof(IMarkdownSyntaxNodeVisitor)}.");
 
@@ -77,8 +84,19 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
     private static IJsonSyntaxNodeVisitor CreateJsonVisitor(Type visitorType) {
         object? instance = Activator.CreateInstance(visitorType);
         
+        // ReSharper disable twice ConvertIfStatementToReturnStatement
         if (instance is null) throw new InvalidOperationException($"Could not create instance of visitor type '{visitorType.FullName}'.");
         if (instance is not IJsonSyntaxNodeVisitor visitor) throw new InvalidOperationException($"Configured visitor type '{visitorType.FullName}' does not implement {nameof(IJsonSyntaxNodeVisitor)}.");
+
+        return visitor;
+    }
+    
+    private static IXmlSyntaxNodeVisitor CreateXmlVisitor(Type visitorType) {
+        object? instance = Activator.CreateInstance(visitorType);
+        
+        // ReSharper disable twice ConvertIfStatementToReturnStatement
+        if (instance is null) throw new InvalidOperationException($"Could not create instance of visitor type '{visitorType.FullName}'.");
+        if (instance is not IXmlSyntaxNodeVisitor visitor) throw new InvalidOperationException($"Configured visitor type '{visitorType.FullName}' does not implement {nameof(IXmlSyntaxNodeVisitor)}.");
 
         return visitor;
     }

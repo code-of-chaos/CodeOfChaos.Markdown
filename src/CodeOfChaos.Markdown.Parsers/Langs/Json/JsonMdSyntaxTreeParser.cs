@@ -15,12 +15,12 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 [InjectableSingleton<IJsonMdSyntaxTreeParser>]
 public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeParser {
-    private readonly FrozenDictionary<Type, IJsonSyntaxNodeVisitor> _visitors = config.JsonNodeVisitors;
-    private readonly FrozenDictionary<string, Type> _nodeTypes = config.JsonNodeVisitors.ToFrozenDictionary(
+    private readonly FrozenDictionary<Type, IJsonSyntaxNodeVisitor> _visitors = config.JsonSyntaxNodeVisitors;
+    private readonly FrozenDictionary<string, Type> _nodeTypes = config.JsonSyntaxNodeVisitors.ToFrozenDictionary(
         pair => pair.Key.Name,
         pair => pair.Key
     );
-    private readonly FrozenDictionary<Type, string> _nodeTypeNames = config.JsonNodeVisitors.ToFrozenDictionary(
+    private readonly FrozenDictionary<Type, string> _nodeTypeNames = config.JsonSyntaxNodeVisitors.ToFrozenDictionary(
         pair => pair.Key,
         pair => pair.Key.Name   
     );

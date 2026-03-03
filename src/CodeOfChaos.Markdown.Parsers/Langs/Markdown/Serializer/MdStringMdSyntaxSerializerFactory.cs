@@ -21,9 +21,9 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
     // -----------------------------------------------------------------------------------------------------------------
     public IMdStringMdSyntaxSerializer Create(IMarkdownConfig config) {
         // ReSharper disable twice UseCollectionExpression
-        ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLineSerializers = config.SingleLineNodeVisitors;
-        ImmutableArray<IMarkdownSyntaxNodeVisitor> multiLineSerializers = config.MultiLineNodeVisitors;
-        IMarkdownSyntaxNodeVisitor? frontMatterSerializer = config.FrontMatterNodeVisitor;
+        ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLineSerializers = config.SingleLineMarkdownSyntaxNodeVisitors;
+        ImmutableArray<IMarkdownSyntaxNodeVisitor> multiLineSerializers = config.MultiLineMarkdownSyntaxNodeVisitors;
+        IMarkdownSyntaxNodeVisitor? frontMatterSerializer = config.FrontMatterMarkdownSyntaxNodeVisitor;
 
         (ImmutableArray<IMarkdownSyntaxNodeVisitor>[] singleAscii, ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> singleNonAscii) = BuildLookup(singleLineSerializers);
         (ImmutableArray<IMarkdownSyntaxNodeVisitor>[] multiAscii, ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> multiNonAscii) = BuildLookup(multiLineSerializers);
