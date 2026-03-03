@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\CodeOfChaosTests.Markdown.Parsers\CodeOfChaosTests.Markdown.Parsers.csproj" />
         <ProjectReference Include="..\CodeOfChaosTests.Shared\CodeOfChaosTests.Shared.csproj" />
     </ItemGroup>
 </Project>

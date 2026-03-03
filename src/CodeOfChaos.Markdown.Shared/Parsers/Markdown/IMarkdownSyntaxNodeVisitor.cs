@@ -24,4 +24,5 @@ public interface IMarkdownSyntaxNodeVisitor {
     void Deserialize(INodeDeserializerFragmentQueue queue, IMdSyntaxNode node);
 }
 
+// ReSharper disable once UnusedTypeParameter
 public interface IMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

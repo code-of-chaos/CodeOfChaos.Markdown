@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown.Parsers.Xml;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System.Diagnostics.CodeAnalysis;
@@ -14,17 +15,17 @@ namespace CodeOfChaosTests.Shared;
 // ---------------------------------------------------------------------------------------------------------------------
 [InjectableSingleton<MdTestDataProvider>]
 [SuppressMessage("ReSharper", "InvertIf")]
-public class MdTestDataProvider(ILogger<MdTestDataProvider> logger) {
+public class MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntaxTreeParser xmlParser) {
     private const string RootFilePath = "../../";
     private const string TestFolderFromRootPath = "tests/CodeOfChaosTests.Markdown.Parsers/DataSources/Files";
 
     internal string TestFolder { get; private init; } = Path.GetFullPath(Path.Combine(RootFilePath, TestFolderFromRootPath));
 
-    internal MdTestDataProvider(ILogger<MdTestDataProvider> logger, string testFolder) : this(logger) {
+    internal MdTestDataProvider(ILogger<MdTestDataProvider> logger, IXmlMdSyntaxTreeParser xmlParser, string testFolder) : this(logger, xmlParser) {
         TestFolder = Path.GetFullPath(testFolder);
     }
 
-    public static readonly MdTestDataProvider TestInstance = new(Substitute.For<ILogger<MdTestDataProvider>>()) {
+    public static readonly MdTestDataProvider TestInstance = new(Substitute.For<ILogger<MdTestDataProvider>>(), Substitute.For<IXmlMdSyntaxTreeParser>()) {
         TestFolder = Path.GetFullPath(Path.Combine("../../../../../", TestFolderFromRootPath))
     };
 
@@ -103,6 +104,11 @@ public class MdTestDataProvider(ILogger<MdTestDataProvider> logger) {
         if (serializer.Deserialize(stringReader) is not List<MdTestData> deserializedData) {
             logger.Error("Could not deserialize file {FilePath}", fullFilePath);
             return null;
+        }
+
+        // Inject the parser into each deserialized item
+        foreach (MdTestData testData in deserializedData) {
+            testData.XmlParser = xmlParser;
         }
 
         return deserializedData;

@@ -14,4 +14,5 @@ public interface IJsonSyntaxNodeVisitor {
     IMdSyntaxNode SerializeToNode(JsonElement element, IMdSyntaxNode parentNode);
 }
 
+// ReSharper disable once UnusedTypeParameter
 public interface IJsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

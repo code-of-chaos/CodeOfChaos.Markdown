@@ -14,4 +14,5 @@ public interface IXmlSyntaxNodeVisitor {
     IMdSyntaxNode SerializeToNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode);
 }
 
+// ReSharper disable once UnusedTypeParameter
 public interface IXmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;
