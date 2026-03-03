@@ -110,21 +110,23 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         int totalColumns = headerCells.Length;
         int totalRows = rows.Length;
 
-        // Array is [rows, columns] - header row + data rows × columns
-        string[,] tableGrid = new string[totalRows + 1, totalColumns];
+        // Use jagged array instead of multi-dimensional to avoid LOH/Gen2
+        string[][] tableGrid = new string[totalRows + 1][];
 
         // Process header cells (row 0)
+        tableGrid[0] = new string[totalColumns];
         for (int col = 0; col < totalColumns; col++) {
             TableCellMdSyntaxNode cell = headerCells[col];
-            tableGrid[0, col] = queue.ProcessAsStandaloneContent(cell);
+            tableGrid[0][col] = queue.ProcessAsStandaloneContent(cell);
         }
 
         // Process data rows (rows 1 and up)
         for (int row = 0; row < totalRows; row++) {
+            tableGrid[row + 1] = new string[totalColumns];
             ReadOnlySpan<IMdSyntaxNode> cells = rows[row].GetChildrenSpan();
             for (int col = 0; col < Math.Min(cells.Length, totalColumns); col++) {
                 IMdSyntaxNode cell = cells[col];
-                tableGrid[row + 1, col] = queue.ProcessAsStandaloneContent(cell);
+                tableGrid[row + 1][col] = queue.ProcessAsStandaloneContent(cell);
             }
         }
 
@@ -132,12 +134,12 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         for (int col = 0; col < totalColumns; col++) {
             int maxCellWidth = 0;
             for (int row = 0; row <= totalRows; row++) {
-                maxCellWidth = Math.Max(maxCellWidth, tableGrid[row, col].Trim().Length);
+                maxCellWidth = Math.Max(maxCellWidth, tableGrid[row][col].Trim().Length);
             }
 
             // Pad all cells in this column
             for (int row = 0; row <= totalRows; row++) {
-                tableGrid[row, col] = tableGrid[row, col].Trim().PadRight(maxCellWidth);
+                tableGrid[row][col] = tableGrid[row][col].Trim().PadRight(maxCellWidth);
             }
         }
 
@@ -145,7 +147,7 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         for (int col = 0; col < totalColumns; col++) {
             queue.Enqueue('|');
             queue.Enqueue(' ');
-            queue.Enqueue(tableGrid[0, col]);
+            queue.Enqueue(tableGrid[0][col]);
             queue.Enqueue(' ');
         }
 
@@ -167,7 +169,7 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
             queue.Enqueue('|');
             queue.Enqueue(' ');
             queue.Enqueue(left);
-            queue.Enqueue('-', Math.Max(tableGrid[0, col].Length - 2, 1));
+            queue.Enqueue('-', Math.Max(tableGrid[0][col].Length - 2, 1));
             queue.Enqueue(right);
             queue.Enqueue(' ');
         }
@@ -180,7 +182,7 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
             for (int col = 0; col < totalColumns; col++) {
                 queue.Enqueue('|');
                 queue.Enqueue(' ');
-                queue.Enqueue(tableGrid[row, col]);
+                queue.Enqueue(tableGrid[row][col]);
                 queue.Enqueue(' ');
             }
 
