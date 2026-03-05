@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -15,16 +15,18 @@ public sealed class HtmlSpanXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlSpan
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(HtmlSpanMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(Attributes, node.Attributes);
+    protected override void DeserializeDetails(HtmlSpanMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(Attributes, node.Attributes);
     }
 
-    protected override void SerializeDetails(XElement element, HtmlSpanMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, HtmlSpanMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsString(element, Attributes, out string? attributes)) {
+        if (TryGetAttributeAsString(reader, Attributes, out string? attributes)) {
             targetNode.WithAttributes(attributes);
         }
     }
 }
+
+

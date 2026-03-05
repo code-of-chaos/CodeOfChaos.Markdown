@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -17,27 +17,29 @@ public sealed class CalloutXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CalloutMd
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(CalloutMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
+    protected override void DeserializeDetails(CalloutMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
 
-        targetElement.SetAttributeValue(CalloutType, node.CalloutType);
-        targetElement.SetAttributeValue(CollapsedState, node.CollapsedState);
-        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
+        writer.WriteAttributeString(CalloutType, node.CalloutType);
+        writer.WriteAttributeString(CollapsedState, node.CollapsedState.ToString());
+        writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
     }
 
-    protected override void SerializeDetails(XElement element, CalloutMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, CalloutMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+        if (TryGetAttributeAsInt32(reader, LeadingSpaces, out int leadingSpaces)) {
             targetNode.WithLeadingSpaces(leadingSpaces);
         }
 
-        if (TryGetAttributeAsString(element, CalloutType, out string? calloutType)) {
+        if (TryGetAttributeAsString(reader, CalloutType, out string? calloutType)) {
             targetNode.WithCalloutType(calloutType);
         }
         
-        if (TryGetAttributeAsEnum(element, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
+        if (TryGetAttributeAsEnum(reader, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
             targetNode.WithCollapseState(collapsedState);
         }
     }
 }
+
+

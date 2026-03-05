@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -15,19 +15,23 @@ public sealed class TemplateXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Template
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(TemplateMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(BracesCount, node.BracesCount);
-        targetElement.Value = node.Content;
+    protected override void DeserializeDetails(TemplateMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(BracesCount, node.BracesCount.ToString());
+        WriteElementContent(writer, node.Content);
     }
 
-    protected override void SerializeDetails(XElement element, TemplateMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+    protected override void SerializeDetails(XmlReader reader, TemplateMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsInt32(element, BracesCount, out int bracesCount)) {
+        if (TryGetAttributeAsInt32(reader, BracesCount, out int bracesCount)) {
             targetNode.WithBracesCount(bracesCount);
         }
     }
+
+    protected override void SerializeContent(TemplateMdSyntaxNode targetNode, string content) {
+        targetNode.WithContent(content);
+    }
 }
+
+

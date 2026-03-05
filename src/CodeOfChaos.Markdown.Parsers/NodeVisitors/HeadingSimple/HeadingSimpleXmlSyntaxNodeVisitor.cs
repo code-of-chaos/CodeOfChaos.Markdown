@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -15,16 +15,18 @@ public sealed class HeadingSimpleXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Hea
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(HeadingSimpleMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(Identifier, node.Identifier);
+    protected override void DeserializeDetails(HeadingSimpleMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(Identifier, node.Identifier);
     }
 
-    protected override void SerializeDetails(XElement element, HeadingSimpleMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, HeadingSimpleMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsString(element, Identifier, out string? identifier)) {
+        if (TryGetAttributeAsString(reader, Identifier, out string? identifier)) {
             targetNode.WithIdentifier(identifier);
         }
     }
 }
+
+

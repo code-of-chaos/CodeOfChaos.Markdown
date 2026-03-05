@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 
@@ -18,21 +18,22 @@ public sealed class ScriptingExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisit
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ScriptingExpressionMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(FullStatement, node.FullStatement);
-        targetElement.SetAttributeValue(ExpressionStart, node.ExpressionStart);
-        targetElement.SetAttributeValue(ExpressionLength, node.ExpressionLength);
+    protected override void DeserializeDetails(ScriptingExpressionMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(FullStatement, node.FullStatement);
+        writer.WriteAttributeString(ExpressionStart, node.ExpressionStart.ToString());
+        writer.WriteAttributeString(ExpressionLength, node.ExpressionLength.ToString());
     }
 
-    protected override void SerializeDetails(XElement element, ScriptingExpressionMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, ScriptingExpressionMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsString(element, FullStatement, out string? fullStatement)
-            && TryGetAttributeAsInt32(element, ExpressionStart, out int expressionStart)
-            && TryGetAttributeAsInt32(element, ExpressionLength, out int expressionLength)
+        if (TryGetAttributeAsString(reader, FullStatement, out string? fullStatement)
+            && TryGetAttributeAsInt32(reader, ExpressionStart, out int expressionStart)
+            && TryGetAttributeAsInt32(reader, ExpressionLength, out int expressionLength)
         ) {
             targetNode.WithExpression(fullStatement, expressionStart, expressionLength);
         }
     }
 }
+

@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -16,20 +16,22 @@ public sealed class LinkXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<LinkMdSyntax
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(LinkMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(Href, node.Href);
-        if (node.Title.IsNotNullOrEmpty()) targetElement.SetAttributeValue(Title, node.Title);
+    protected override void DeserializeDetails(LinkMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(Href, node.Href);
+        if (node.Title.IsNotNullOrEmpty()) writer.WriteAttributeString(Title, node.Title);
     }
 
-    protected override void SerializeDetails(XElement element, LinkMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, LinkMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
         
-        if (TryGetAttributeAsString(element, Href, out string? href)) {
+        if (TryGetAttributeAsString(reader, Href, out string? href)) {
             targetNode.WithHref(href);
         }
-        if (TryGetAttributeAsString(element, Title, out string? title)) {
+        if (TryGetAttributeAsString(reader, Title, out string? title)) {
             targetNode.WithTitle(title);
         }
     }
 }
+
+

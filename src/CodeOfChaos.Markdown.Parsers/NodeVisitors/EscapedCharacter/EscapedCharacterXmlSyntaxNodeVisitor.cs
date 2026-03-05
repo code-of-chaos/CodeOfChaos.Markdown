@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -13,17 +13,17 @@ public sealed class EscapedCharacterXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(EscapedCharacterMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
-        targetElement.Value = node.Content.ToString();
+    protected override void DeserializeDetails(EscapedCharacterMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        WriteXmlPreserveSpace(writer);
+        WriteElementContent(writer, node.Content.ToString());
     }
 
-    protected override void SerializeDetails(XElement element, EscapedCharacterMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
-
-        if (element.Value.IsNotNullOrEmpty()) {
-            targetNode.WithContent(element.Value[0]);
+    protected override void SerializeContent(EscapedCharacterMdSyntaxNode targetNode, string content) {
+        if (content.IsNotNullOrEmpty()) {
+            targetNode.WithContent(content[0]);
         }
     }
 }
+
+

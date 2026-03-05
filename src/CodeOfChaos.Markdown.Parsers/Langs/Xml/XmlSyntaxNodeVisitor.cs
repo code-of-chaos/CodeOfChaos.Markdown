@@ -1,11 +1,11 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -14,76 +14,116 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);
-    private const string Attributes = nameof(Attributes);
-    private const string Start = nameof(Start);
-    private const string End = nameof(End);
-    private const string Key = nameof(Key);
-    private const string Entry = nameof(Entry);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public XElement DeserializeToXml(IMdSyntaxNode node, XElement parentElement) {
-        var nodeElement = new XElement(node.Type.Name);
-        parentElement.Add(nodeElement);
-        DeserializeDetails(Unsafe.As<TSyntaxNode>(node), nodeElement);
-        return nodeElement;
+    public async ValueTask WriteToXmlAsync(
+        XmlWriter writer,
+        IMdSyntaxNode node,
+        Func<IMdSyntaxNode, CancellationToken, ValueTask> writeChildren,
+        CancellationToken ct = default
+    ) {
+        ArgumentNullException.ThrowIfNull(writer);
+        ArgumentNullException.ThrowIfNull(node);
+        ArgumentNullException.ThrowIfNull(writeChildren);
+
+        await writer.WriteStartElementAsync(prefix: null, localName: node.Type.Name, ns: null);
+
+        DeserializeDetails(Unsafe.As<TSyntaxNode>(node), writer);
+
+        await writeChildren(node, ct);
+
+        await writer.WriteEndElementAsync();
     }
 
-    private static XElement SerializeModifiers(IMdSyntaxNodeModifier modifiers) {
-        var modifierElement = new XElement(Modifiers);
-        modifierElement.Add(new XElement(Attributes,
-            modifiers.Attributes.Select(attr => new XElement(
-                Entry,
-                new XAttribute(Key, attr.Key),
-                new XAttribute(Start, attr.Value.Start.Value),
-                new XAttribute(End, attr.Value.End.Value)
-            ))));
-        modifierElement.Add(new XElement(OriginalInput) {
-            Value = modifiers.OriginalInput
-        });
-        return modifierElement;
+    protected virtual void DeserializeDetails(TSyntaxNode node, XmlWriter writer) {
+        if (node.Modifier is {} modifier) {
+            writer.WriteStartElement(Modifiers);
+            writer.WriteStartElement(OriginalInput);
+            writer.WriteString(modifier.OriginalInput);
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
     }
 
-    protected virtual void DeserializeDetails(TSyntaxNode node, XElement targetElement) {
-        if (node.Modifier is {} modifier) targetElement.Add(SerializeModifiers(modifier));
+    protected void WriteXmlPreserveSpace(XmlWriter writer) => writer.WriteAttributeString("xml", "space", "http://www.w3.org/XML/1998/namespace", "preserve");
+
+    protected void WriteElementContent(XmlWriter writer, string? content) {
+        if (content.IsNotNullOrEmpty()) {
+            writer.WriteString(content);
+        }
     }
 
-    protected void AddXmlPreserveSpace(XElement element) => element.SetAttributeValue(XNamespace.Xml + "space", "preserve");
-
-    public IMdSyntaxNode SerializeToNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode) {
+    public IMdSyntaxNode ReadStartElement(IMdSyntaxTree tree, XmlReader reader, IMdSyntaxNode parentNode) {
         TSyntaxNode node = MdSyntaxNodePool<TSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
 
-        SerializeDetails(element, node);
+        SerializeDetails(reader, node);
         return node;
     }
 
-    private static MdSyntaxNodeModifier DeserializeModifiers(XElement element)
-        => MdSyntaxNodeModifier.FromString(element.Element(OriginalInput)!.Value);
-
-    protected virtual void SerializeDetails(XElement element, TSyntaxNode targetNode) {
-        if (element.Element(Modifiers) is {} modifiersElement) targetNode.WithModifier(DeserializeModifiers(modifiersElement));
+    protected virtual void SerializeDetails(XmlReader reader, TSyntaxNode targetNode) {
     }
 
-    protected static bool TryGetAttributeAsInt32(XElement element, string propertyName, out int value) {
-        value = 0;
-        return element.Attribute(propertyName) is {} attribute
-            && int.TryParse(attribute.Value, out value);
+    public virtual void ReadTextContent(IMdSyntaxNode node, string content) {
+        SerializeContent(Unsafe.As<TSyntaxNode>(node), content);
     }
 
-    protected static bool TryGetAttributeAsString(XElement element, string propertyName, [NotNullWhen(true)] out string? value) {
-        value = string.Empty;
-        if (element.Attribute(propertyName) is not {} attribute) return false;
-        if (attribute.Value is not {} stringValue) return false;
+    protected virtual void SerializeContent(TSyntaxNode targetNode, string content) {
+    }
 
-        value = stringValue;
+    public virtual bool TryReadSpecialChildElement(IMdSyntaxNode node, XmlReader reader) {
+        if (!reader.LocalName.Equals(Modifiers, StringComparison.Ordinal)) return false;
+
+        if (TryReadModifiers(reader, out MdSyntaxNodeModifier? modifier)) {
+            node.WithModifier(modifier);
+        }
+
         return true;
     }
 
-    protected static bool TryGetAttributeAsEnum<TEnumType>(XElement element, string propertyName, out TEnumType value) where TEnumType : struct {
+    private static bool TryReadModifiers(XmlReader reader, [NotNullWhen(true)] out MdSyntaxNodeModifier? modifier) {
+        modifier = null;
+
+        if (reader.IsEmptyElement) {
+            reader.Read();
+            return false;
+        }
+
+        reader.Read();
+        while (!(reader.NodeType == XmlNodeType.EndElement && reader.LocalName.Equals(Modifiers, StringComparison.Ordinal))) {
+            if (reader.NodeType == XmlNodeType.Element && reader.LocalName.Equals(OriginalInput, StringComparison.Ordinal)) {
+                string originalInput = reader.ReadElementContentAsString();
+                modifier = MdSyntaxNodeModifier.FromString(originalInput);
+                continue;
+            }
+
+            if (reader.NodeType == XmlNodeType.Element) {
+                reader.Skip();
+            } else {
+                reader.Read();
+            }
+        }
+
+        reader.Read();
+        return modifier is not null;
+    }
+
+    protected static bool TryGetAttributeAsInt32(XmlReader reader, string propertyName, out int value) {
+        value = 0;
+        string? attr = reader.GetAttribute(propertyName);
+        return attr is not null && int.TryParse(attr, out value);
+    }
+
+    protected static bool TryGetAttributeAsString(XmlReader reader, string propertyName, [NotNullWhen(true)] out string? value) {
+        value = reader.GetAttribute(propertyName);
+        return value is not null;
+    }
+
+    protected static bool TryGetAttributeAsEnum<TEnumType>(XmlReader reader, string propertyName, out TEnumType value) where TEnumType : struct {
         value = default;
-        return element.Attribute(propertyName) is {} attribute
-            && Enum.TryParse(attribute.Value, out value);
+        string? attr = reader.GetAttribute(propertyName);
+        return attr is not null && Enum.TryParse(attr, out value);
     }
 }

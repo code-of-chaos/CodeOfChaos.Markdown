@@ -1,8 +1,8 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Syntax;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.Xml;
 
@@ -10,8 +10,15 @@ namespace CodeOfChaos.Markdown.Parsers.Xml;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public interface IXmlSyntaxNodeVisitor {
-    XElement DeserializeToXml(IMdSyntaxNode node, XElement parentElement);
-    IMdSyntaxNode SerializeToNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode);
+    ValueTask WriteToXmlAsync(
+        XmlWriter writer,
+        IMdSyntaxNode node,
+        Func<IMdSyntaxNode, CancellationToken, ValueTask> writeChildren,
+        CancellationToken ct = default
+    );
+    IMdSyntaxNode ReadStartElement(IMdSyntaxTree tree, XmlReader reader, IMdSyntaxNode parentNode);
+    void ReadTextContent(IMdSyntaxNode node, string content);
+    bool TryReadSpecialChildElement(IMdSyntaxNode node, XmlReader reader);
 }
 
 // ReSharper disable once UnusedTypeParameter

@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -14,14 +14,14 @@ public sealed class WikiLinkXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<WikiLink
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(WikiLinkMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.Value = node.Content;
+    protected override void DeserializeDetails(WikiLinkMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        WriteElementContent(writer, node.Content);
     }
 
-    protected override void SerializeDetails(XElement element, WikiLinkMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+    protected override void SerializeContent(WikiLinkMdSyntaxNode targetNode, string content) {
+        targetNode.WithContent(content);
     }
 }
+
+

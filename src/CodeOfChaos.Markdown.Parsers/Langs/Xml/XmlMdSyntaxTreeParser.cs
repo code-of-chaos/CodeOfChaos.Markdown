@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
@@ -16,10 +16,11 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 [InjectableSingleton<IXmlMdSyntaxTreeParser>]
 public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreeParser {
-    private readonly FrozenDictionary<Type, IXmlSyntaxNodeVisitor> _visitors = config.XmlSyntaxNodeVisitors;
-    private readonly FrozenDictionary<string, Type> _nodeTypes = config.XmlSyntaxNodeVisitors.ToFrozenDictionary(
+    private readonly FrozenDictionary<Type, IXmlSyntaxNodeVisitor> _visitorsByType = config.XmlSyntaxNodeVisitors;
+    private readonly FrozenDictionary<string, IXmlSyntaxNodeVisitor> _visitorsByName = config.XmlSyntaxNodeVisitors.ToFrozenDictionary(
         pair => pair.Key.Name,
-        pair => pair.Key
+        pair => pair.Value,
+        StringComparer.Ordinal
     );
 
     private static readonly XmlWriterSettings WriterSettings = new() {
@@ -29,14 +30,20 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         Async = true
     };
 
+    private static readonly XmlReaderSettings ReaderSettings = new() {
+        Async = true,
+        IgnoreComments = true,
+        IgnoreWhitespace = false,
+        DtdProcessing = DtdProcessing.Prohibit,
+        CloseInput = false
+    };
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Deserialize
-    public string DeserializeToString(IMdSyntaxTree tree) {
-        XElement rootElement = DeserializeToXmlElement(tree);
-        return rootElement.ToString();
-    }
+    public string DeserializeToString(IMdSyntaxTree tree)
+        => DeserializeToStringAsync(tree).GetAwaiter().GetResult();
 
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
@@ -49,24 +56,26 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
     }
 
     public XElement DeserializeToXmlElement(IMdSyntaxTree tree) {
-        var rootElement = new XElement("MdSyntaxTree");
-
-        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
-            DeserializeNode(child, rootElement);
-        }
-
-        return rootElement;
+        string xml = DeserializeToString(tree);
+        return XElement.Parse(xml);
     }
 
     public async Task DeserializeToXmlStreamAsync(Stream stream, IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(stream);
         ArgumentNullException.ThrowIfNull(tree);
 
-        XElement rootElement = DeserializeToXmlElement(tree);
-
-        await using var writer = new StreamWriter(stream, Encoding.UTF8, leaveOpen: true);
+        await using var writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), leaveOpen: true);
         await using var xmlWriter = XmlWriter.Create(writer, WriterSettings);
-        await rootElement.WriteToAsync(xmlWriter, ct);
+
+        await xmlWriter.WriteStartDocumentAsync();
+        await xmlWriter.WriteStartElementAsync(prefix: null, localName: "MdSyntaxTree", ns: null);
+
+        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
+            await WriteNodeAsync(xmlWriter, child, ct);
+        }
+
+        await xmlWriter.WriteEndElementAsync();
+        await xmlWriter.WriteEndDocumentAsync();
         await xmlWriter.FlushAsync();
         await writer.FlushAsync(ct);
     }
@@ -80,42 +89,35 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         await DeserializeToXmlStreamAsync(fileStream, tree, ct);
     }
 
-    private void DeserializeNode(IMdSyntaxNode node, XElement parentElement) {
-        if (_visitors.TryGetValue(node.GetType(), out IXmlSyntaxNodeVisitor? visitor)) {
-            parentElement = visitor.DeserializeToXml(node, parentElement);
-        }
+    private ValueTask WriteNodeAsync(XmlWriter writer, IMdSyntaxNode node, CancellationToken ct)
+        => _visitorsByType.TryGetValue(node.GetType(), out IXmlSyntaxNodeVisitor? visitor)
+            ? visitor.WriteToXmlAsync(writer, node, (parentNode, token) => WriteChildrenAsync(writer, parentNode, token), ct)
+            : ValueTask.CompletedTask;
 
-        foreach (IMdSyntaxNode child in node.GetChildren()) {
-            DeserializeNode(child, parentElement);
+    private async ValueTask WriteChildrenAsync(XmlWriter writer, IMdSyntaxNode parentNode, CancellationToken ct) {
+        foreach (IMdSyntaxNode child in parentNode.GetChildren()) {
+            await WriteNodeAsync(writer, child, ct);
         }
     }
     #endregion
 
     #region Serialize
     public IMdSyntaxTree SerializeStringToSyntaxTree(string input) {
-        XElement element = XElement.Parse(input);
-        return SerializeToSyntaxTree(element);
+        ArgumentNullException.ThrowIfNull(input);
+        using MemoryStream stream = new(Encoding.UTF8.GetBytes(input));
+        return SerializeToSyntaxTreeAsync(stream).GetAwaiter().GetResult();
     }
+
     public IMdSyntaxTree SerializeToSyntaxTree(XElement element) {
-        if (element.Name != "MdSyntaxTree") throw new InvalidOperationException("Invalid XML root element");
-
-        MdSyntaxTree tree = new();
-
-        foreach (XElement child in element.Elements()) {
-            SerializeNode(tree, child, tree.RootNode);
-        }
-
-        return tree;
+        ArgumentNullException.ThrowIfNull(element);
+        return SerializeStringToSyntaxTree(element.ToString(SaveOptions.DisableFormatting));
     }
 
     public async Task<IMdSyntaxTree> SerializeToSyntaxTreeAsync(Stream stream, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(stream);
 
-        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
-        string xmlContent = await reader.ReadToEndAsync(ct);
-        XElement rootElement = XElement.Parse(xmlContent);
-
-        return SerializeToSyntaxTree(rootElement);
+        using XmlReader reader = XmlReader.Create(stream, ReaderSettings);
+        return await ReadSyntaxTreeAsync(reader, ct);
     }
 
     public async Task<IMdSyntaxTree> SerializeFileToSyntaxTreeAsync(string filePath, CancellationToken ct = default) {
@@ -126,16 +128,91 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         return await SerializeToSyntaxTreeAsync(fileStream, ct);
     }
 
-    private void SerializeNode(IMdSyntaxTree tree, XElement element, IMdSyntaxNode parentNode) {
-        if (element.Name.LocalName.IsNotNullOrWhiteSpace()
-            && _nodeTypes.TryGetValue(element.Name.LocalName, out Type? nodeType)
-            && _visitors.TryGetValue(nodeType, out IXmlSyntaxNodeVisitor? visitor)) {
-            parentNode = visitor.SerializeToNode(tree, element, parentNode);
+    private async Task<IMdSyntaxTree> ReadSyntaxTreeAsync(XmlReader reader, CancellationToken ct) {
+        MdSyntaxTree tree = new();
+
+        XmlNodeType rootType = await reader.MoveToContentAsync();
+        if (rootType != XmlNodeType.Element || !reader.LocalName.Equals("MdSyntaxTree", StringComparison.Ordinal)) {
+            throw new InvalidOperationException("Invalid XML root element");
         }
 
-        foreach (XElement child in element.Elements()) {
-            SerializeNode(tree, child, parentNode);
+        if (reader.IsEmptyElement) {
+            await reader.ReadAsync();
+            return tree;
         }
+
+        await reader.ReadAsync();
+
+        while (!ct.IsCancellationRequested) {
+            if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName.Equals("MdSyntaxTree", StringComparison.Ordinal)) {
+                await reader.ReadAsync();
+                break;
+            }
+
+            if (reader.NodeType == XmlNodeType.Element) {
+                await ReadNodeAsync(tree, reader, tree.RootNode, ct);
+                continue;
+            }
+
+            if (reader.EOF) break;
+            await reader.ReadAsync();
+        }
+
+        ct.ThrowIfCancellationRequested();
+        return tree;
+    }
+
+    private async ValueTask ReadNodeAsync(IMdSyntaxTree tree, XmlReader reader, IMdSyntaxNode parentNode, CancellationToken ct) {
+        if (!_visitorsByName.TryGetValue(reader.LocalName, out IXmlSyntaxNodeVisitor? visitor)) {
+            await reader.SkipAsync();
+            return;
+        }
+
+        string elementName = reader.LocalName;
+        IMdSyntaxNode node = visitor.ReadStartElement(tree, reader, parentNode);
+
+        if (reader.IsEmptyElement) {
+            visitor.ReadTextContent(node, string.Empty);
+            await reader.ReadAsync();
+            return;
+        }
+
+        await reader.ReadAsync();
+
+        StringBuilder? contentBuilder = null;
+
+        while (!ct.IsCancellationRequested) {
+            if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName.Equals(elementName, StringComparison.Ordinal)) {
+                break;
+            }
+
+            if (reader.NodeType == XmlNodeType.Element) {
+                if (visitor.TryReadSpecialChildElement(node, reader)) {
+                    continue;
+                }
+
+                await ReadNodeAsync(tree, reader, node, ct);
+                continue;
+            }
+
+            if (reader.NodeType is XmlNodeType.Text or XmlNodeType.CDATA or XmlNodeType.Whitespace or XmlNodeType.SignificantWhitespace) {
+                contentBuilder ??= new StringBuilder();
+                contentBuilder.Append(reader.Value);
+                await reader.ReadAsync();
+                continue;
+            }
+
+            if (reader.EOF) break;
+            await reader.ReadAsync();
+        }
+
+        visitor.ReadTextContent(node, contentBuilder?.ToString() ?? string.Empty);
+
+        if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName.Equals(elementName, StringComparison.Ordinal)) {
+            await reader.ReadAsync();
+        }
+
+        ct.ThrowIfCancellationRequested();
     }
     #endregion
 }

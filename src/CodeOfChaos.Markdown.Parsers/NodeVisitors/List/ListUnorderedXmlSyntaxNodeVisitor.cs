@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -15,16 +15,18 @@ public sealed class ListUnorderedXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Lis
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ListUnorderedMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
+    protected override void DeserializeDetails(ListUnorderedMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
     }
 
-    protected override void SerializeDetails(XElement element, ListUnorderedMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, ListUnorderedMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+        if (TryGetAttributeAsInt32(reader, LeadingSpaces, out int leadingSpaces)) {
             targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 }
+
+

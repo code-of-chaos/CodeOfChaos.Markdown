@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -14,15 +14,15 @@ public sealed class HtmlXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlMdSyntax
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(HtmlMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
-        targetElement.Value = node.Content;
+    protected override void DeserializeDetails(HtmlMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        WriteXmlPreserveSpace(writer);
+        WriteElementContent(writer, node.Content);
     }
 
-    protected override void SerializeDetails(XElement element, HtmlMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
-        
-        targetNode.WithContent(element.Value);
+    protected override void SerializeContent(HtmlMdSyntaxNode targetNode, string content) {
+        targetNode.WithContent(content);
     }
 }
+
+

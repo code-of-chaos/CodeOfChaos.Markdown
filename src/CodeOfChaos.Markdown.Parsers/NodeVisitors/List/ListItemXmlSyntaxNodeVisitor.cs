@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -18,30 +18,32 @@ public sealed class ListItemXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListItem
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(ListItemMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(CheckMarker, node.OriginalCheckMarker);
-        targetElement.SetAttributeValue(Index, node.Index);
-        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
-        targetElement.SetAttributeValue(CheckLeadingSpaces, node.CheckLeadingSpaces);
+    protected override void DeserializeDetails(ListItemMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(CheckMarker, node.OriginalCheckMarker);
+        writer.WriteAttributeString(Index, node.Index);
+        writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
+        writer.WriteAttributeString(CheckLeadingSpaces, node.CheckLeadingSpaces.ToString());
     }
 
-    protected override void SerializeDetails(XElement element, ListItemMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, ListItemMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsString(element, CheckMarker, out string? checkMarker)) {
+        if (TryGetAttributeAsString(reader, CheckMarker, out string? checkMarker)) {
             targetNode.WithCheckMarker(checkMarker);
         }
 
-        if (TryGetAttributeAsString(element, Index, out string? index)) {
+        if (TryGetAttributeAsString(reader, Index, out string? index)) {
             targetNode.WithIndex(index);
         }
 
-        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int  leadingSpaces)) {
+        if (TryGetAttributeAsInt32(reader, LeadingSpaces, out int  leadingSpaces)) {
             targetNode.WithLeadingSpaces(leadingSpaces);
         }
-        if (TryGetAttributeAsInt32(element, CheckLeadingSpaces, out int checkLeadingSpaces)) {
+        if (TryGetAttributeAsInt32(reader, CheckLeadingSpaces, out int checkLeadingSpaces)) {
             targetNode.WithCheckLeadingSpaces(checkLeadingSpaces);
         }
     }
 }
+
+

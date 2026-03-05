@@ -1,9 +1,10 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
+using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -16,33 +17,52 @@ public sealed class TableXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSynt
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(TableMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
+    protected override void DeserializeDetails(TableMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
 
-        // ReSharper disable once InvertIf
-        if (node.HasAlignments) {
-            XElement alignmentsElement = new(Alignments);
-            int columCount = node.GetHeaderCells().Length;
-            foreach (TableMdSyntaxNode.Alignment alignment in node.Alignments.AsSpan(0, columCount)) {
-                alignmentsElement.Add(new XElement(Alignment, Enum.GetName(alignment)));
-            }
-            targetElement.Add(alignmentsElement);
+        if (!node.HasAlignments) return;
+
+        writer.WriteStartElement(Alignments);
+        int columCount = node.GetHeaderCells().Length;
+        foreach (TableMdSyntaxNode.Alignment alignment in node.Alignments.AsSpan(0, columCount)) {
+            writer.WriteElementString(Alignment, Enum.GetName(alignment));
         }
+        writer.WriteEndElement();
     }
 
-    protected override void SerializeDetails(XElement element, TableMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    public override bool TryReadSpecialChildElement(IMdSyntaxNode node, XmlReader reader) {
+        if (base.TryReadSpecialChildElement(node, reader)) return true;
+        if (!reader.LocalName.Equals(Alignments, StringComparison.Ordinal)) return false;
 
-        // ReSharper disable once InvertIf
-        if (element.Element(Alignments) is {} alignmentsElement) {
-            XElement[] alignmentElements = alignmentsElement.Elements(Alignment).ToArray();
-            if (alignmentElements.Length <= 0) return;
+        var targetNode = (TableMdSyntaxNode)node;
+        var alignments = new List<TableMdSyntaxNode.Alignment>();
 
-            Span<TableMdSyntaxNode.Alignment> alignmentValues = stackalloc TableMdSyntaxNode.Alignment[alignmentElements.Length];
-            for (int i = 0; i < alignmentElements.Length; i++) {
-                alignmentValues[i] = Enum.Parse<TableMdSyntaxNode.Alignment>(alignmentElements[i].Value);
-            }
-            targetNode.WithAlignments(alignmentValues);
+        if (reader.IsEmptyElement) {
+            reader.Read();
+            return true;
         }
+
+        reader.Read();
+        while (!(reader.NodeType == XmlNodeType.EndElement && reader.LocalName.Equals(Alignments, StringComparison.Ordinal))) {
+            if (reader.NodeType == XmlNodeType.Element && reader.LocalName.Equals(Alignment, StringComparison.Ordinal)) {
+                string value = reader.ReadElementContentAsString();
+                alignments.Add(Enum.Parse<TableMdSyntaxNode.Alignment>(value));
+                continue;
+            }
+
+            if (reader.NodeType == XmlNodeType.Element) {
+                reader.Skip();
+            } else {
+                reader.Read();
+            }
+        }
+
+        reader.Read();
+
+        if (alignments.Count > 0) {
+            targetNode.WithAlignments(alignments.ToArray());
+        }
+
+        return true;
     }
 }

@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -17,30 +17,34 @@ public sealed class FrontMatterXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Front
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(FrontMatterMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
-        targetElement.SetAttributeValue(Language, node.Language);
-        targetElement.SetAttributeValue(DashesCount, node.DashesCount);
-        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
-        targetElement.Value = node.Content;
+    protected override void DeserializeDetails(FrontMatterMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        WriteXmlPreserveSpace(writer);
+        writer.WriteAttributeString(Language, node.Language);
+        writer.WriteAttributeString(DashesCount, node.DashesCount.ToString());
+        writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
+        WriteElementContent(writer, node.Content);
     }
 
-    protected override void SerializeDetails(XElement element, FrontMatterMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, FrontMatterMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsString(element, Language, out string? language)) {
+        if (TryGetAttributeAsString(reader, Language, out string? language)) {
             targetNode.WithLanguage(language);      
         }
 
-        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+        if (TryGetAttributeAsInt32(reader, LeadingSpaces, out int leadingSpaces)) {
             targetNode.WithLeadingSpaces(leadingSpaces);     
         }
         
-        if (TryGetAttributeAsInt32(element, DashesCount, out int dashesCount)) {
+        if (TryGetAttributeAsInt32(reader, DashesCount, out int dashesCount)) {
             targetNode.WithDashesCount(dashesCount);      
         }
-        
-        targetNode.WithContent(element.Value);
+    }
+
+    protected override void SerializeContent(FrontMatterMdSyntaxNode targetNode, string content) {
+        targetNode.WithContent(content);
     }
 }
+
+

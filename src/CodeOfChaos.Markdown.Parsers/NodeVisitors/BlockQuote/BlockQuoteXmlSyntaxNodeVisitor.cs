@@ -1,9 +1,9 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -15,17 +15,19 @@ public sealed class BlockQuoteXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<BlockQ
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(BlockQuoteMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
+    protected override void DeserializeDetails(BlockQuoteMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
         
-        targetElement.SetAttributeValue(LeadingSpaces, node.LeadingSpaces);
+        writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
     }
 
-    protected override void SerializeDetails(XElement element, BlockQuoteMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, BlockQuoteMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
         
-        if (TryGetAttributeAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+        if (TryGetAttributeAsInt32(reader, LeadingSpaces, out int leadingSpaces)) {
             targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 }
+
+
