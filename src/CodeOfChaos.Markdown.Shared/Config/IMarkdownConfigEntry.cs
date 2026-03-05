@@ -14,8 +14,7 @@ namespace CodeOfChaos.Markdown.Config;
 public interface IMarkdownConfigEntry {
     Type SyntaxNodeType { get; }
 
-    Type? BlazorNodeVisitorType { get; }
-    IBlazorComponentBuilderRecord? BlazorComponentBuilderRecord { get; }
+    IBlazorComponentBuilderRecord? BlazorComponentBuilder { get; }
 
     IJsonSyntaxNodeVisitor? JsonNodeVisitor { get; }
 

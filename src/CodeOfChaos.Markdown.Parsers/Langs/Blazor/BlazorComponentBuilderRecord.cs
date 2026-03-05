@@ -18,6 +18,9 @@ public sealed record BlazorComponentBuilderRecord(Type ComponentType, Func<Rende
             return sequence;
         });
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Constructors
+    // -----------------------------------------------------------------------------------------------------------------
     public static BlazorComponentBuilderRecord FromType<TSyntaxNode, TComponent>()
         where TComponent : IBlazorSyntaxNodeVisitor<TSyntaxNode>
         where TSyntaxNode : class, IMdSyntaxNode {

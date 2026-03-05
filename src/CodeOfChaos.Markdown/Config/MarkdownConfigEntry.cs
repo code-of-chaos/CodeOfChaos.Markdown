@@ -4,6 +4,7 @@
 using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Blazor;
 using CodeOfChaos.Markdown.Parsers.Json;
+using CodeOfChaos.Markdown.Parsers.Langs.Blazor;
 using CodeOfChaos.Markdown.Parsers.Markdown;
 using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
@@ -16,8 +17,7 @@ namespace CodeOfChaos.Markdown;
 public class MarkdownConfigEntry<TSyntaxNode> : IMarkdownConfigEntry where TSyntaxNode : class, IMdSyntaxNode {
     public Type SyntaxNodeType { get; } = typeof(TSyntaxNode);
     
-    public Type? BlazorNodeVisitorType { get; set; }
-    public IBlazorComponentBuilderRecord? BlazorComponentBuilderRecord { get; set; }
+    public IBlazorComponentBuilderRecord? BlazorComponentBuilder { get; set; }
     
     public IJsonSyntaxNodeVisitor? JsonNodeVisitor { get; set; }
     
@@ -31,8 +31,7 @@ public class MarkdownConfigEntry<TSyntaxNode> : IMarkdownConfigEntry where TSynt
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public MarkdownConfigEntry<TSyntaxNode> WithBlazorNodeVisitor<TVisitor>() where TVisitor : class, IBlazorSyntaxNodeVisitor<TSyntaxNode> {
-        BlazorNodeVisitorType = typeof(TVisitor);
-        BlazorComponentBuilderRecord = Parsers.Langs.Blazor.BlazorComponentBuilderRecord.FromType<TSyntaxNode, TVisitor>();
+        BlazorComponentBuilder = BlazorComponentBuilderRecord.FromType<TSyntaxNode, TVisitor>();
         return this;
     }
     
