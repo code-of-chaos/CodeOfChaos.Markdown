@@ -6,6 +6,7 @@ using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
 using System.Collections.Frozen;
+using System.Globalization;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -29,6 +30,12 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         OmitXmlDeclaration = false,
         Async = true
     };
+    private static readonly XmlWriterSettings SyncWriterSettings = new() {
+        Encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), // No BOM
+        Indent = true,
+        OmitXmlDeclaration = false,
+        Async = false
+    };
 
     private static readonly XmlReaderSettings ReaderSettings = new() {
         Async = true,
@@ -42,8 +49,26 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Deserialize
-    public string DeserializeToString(IMdSyntaxTree tree)
-        => DeserializeToStringAsync(tree).GetAwaiter().GetResult();
+    public string DeserializeToString(IMdSyntaxTree tree) {
+        ArgumentNullException.ThrowIfNull(tree);
+
+        var stringBuilder = new StringBuilder(capacity: 2048);
+        using var writer = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
+        using var xmlWriter = XmlWriter.Create(writer, SyncWriterSettings);
+
+        xmlWriter.WriteStartDocument();
+        xmlWriter.WriteStartElement("MdSyntaxTree");
+
+        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
+            WriteNode(xmlWriter, child);
+        }
+
+        xmlWriter.WriteEndElement();
+        xmlWriter.WriteEndDocument();
+        xmlWriter.Flush();
+
+        return stringBuilder.ToString();
+    }
 
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
@@ -93,10 +118,20 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         => _visitorsByType.TryGetValue(node.GetType(), out IXmlSyntaxNodeVisitor? visitor)
             ? visitor.WriteToXmlAsync(writer, node, (parentNode, token) => WriteChildrenAsync(writer, parentNode, token), ct)
             : ValueTask.CompletedTask;
+    private void WriteNode(XmlWriter writer, IMdSyntaxNode node) {
+        if (_visitorsByType.TryGetValue(node.GetType(), out IXmlSyntaxNodeVisitor? visitor)) {
+            visitor.WriteToXml(writer, node, parentNode => WriteChildren(writer, parentNode));
+        }
+    }
 
     private async ValueTask WriteChildrenAsync(XmlWriter writer, IMdSyntaxNode parentNode, CancellationToken ct) {
         foreach (IMdSyntaxNode child in parentNode.GetChildren()) {
             await WriteNodeAsync(writer, child, ct);
+        }
+    }
+    private void WriteChildren(XmlWriter writer, IMdSyntaxNode parentNode) {
+        foreach (IMdSyntaxNode child in parentNode.GetChildren()) {
+            WriteNode(writer, child);
         }
     }
     #endregion

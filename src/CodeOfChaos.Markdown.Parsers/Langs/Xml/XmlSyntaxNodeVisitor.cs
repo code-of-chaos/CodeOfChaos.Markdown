@@ -18,6 +18,24 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    public void WriteToXml(
+        XmlWriter writer,
+        IMdSyntaxNode node,
+        Action<IMdSyntaxNode> writeChildren
+    ) {
+        ArgumentNullException.ThrowIfNull(writer);
+        ArgumentNullException.ThrowIfNull(node);
+        ArgumentNullException.ThrowIfNull(writeChildren);
+
+        writer.WriteStartElement(node.Type.Name);
+
+        DeserializeDetails(Unsafe.As<TSyntaxNode>(node), writer);
+
+        writeChildren(node);
+
+        writer.WriteEndElement();
+    }
+
     public async ValueTask WriteToXmlAsync(
         XmlWriter writer,
         IMdSyntaxNode node,
@@ -38,13 +56,13 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
     }
 
     protected virtual void DeserializeDetails(TSyntaxNode node, XmlWriter writer) {
-        if (node.Modifier is {} modifier) {
-            writer.WriteStartElement(Modifiers);
-            writer.WriteStartElement(OriginalInput);
-            writer.WriteString(modifier.OriginalInput);
-            writer.WriteEndElement();
-            writer.WriteEndElement();
-        }
+        if (node.Modifier is not {} modifier) return;
+
+        writer.WriteStartElement(Modifiers);
+        writer.WriteStartElement(OriginalInput);
+        writer.WriteString(modifier.OriginalInput);
+        writer.WriteEndElement();
+        writer.WriteEndElement();
     }
 
     protected void WriteXmlPreserveSpace(XmlWriter writer) => writer.WriteAttributeString("xml", "space", "http://www.w3.org/XML/1998/namespace", "preserve");
@@ -93,17 +111,38 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
 
         reader.Read();
         while (!(reader.NodeType == XmlNodeType.EndElement && reader.LocalName.Equals(Modifiers, StringComparison.Ordinal))) {
-            if (reader.NodeType == XmlNodeType.Element && reader.LocalName.Equals(OriginalInput, StringComparison.Ordinal)) {
-                string originalInput = reader.ReadElementContentAsString();
-                modifier = MdSyntaxNodeModifier.FromString(originalInput);
-                continue;
+            switch (reader.NodeType) {
+                case XmlNodeType.Element when reader.LocalName.Equals(OriginalInput, StringComparison.Ordinal): {
+                    string originalInput = reader.ReadElementContentAsString();
+                    modifier = MdSyntaxNodeModifier.FromString(originalInput);
+                    continue;
+                }
+
+                case XmlNodeType.Element:
+                    reader.Skip();
+                    break;
+                case XmlNodeType.None:
+                case XmlNodeType.Attribute:
+                case XmlNodeType.Text:
+                case XmlNodeType.CDATA:
+                case XmlNodeType.EntityReference:
+                case XmlNodeType.Entity:
+                case XmlNodeType.ProcessingInstruction:
+                case XmlNodeType.Comment:
+                case XmlNodeType.Document:
+                case XmlNodeType.DocumentType:
+                case XmlNodeType.DocumentFragment:
+                case XmlNodeType.Notation:
+                case XmlNodeType.Whitespace:
+                case XmlNodeType.SignificantWhitespace:
+                case XmlNodeType.EndElement:
+                case XmlNodeType.EndEntity:
+                case XmlNodeType.XmlDeclaration:
+                default:
+                    reader.Read();
+                    break;
             }
 
-            if (reader.NodeType == XmlNodeType.Element) {
-                reader.Skip();
-            } else {
-                reader.Read();
-            }
         }
 
         reader.Read();

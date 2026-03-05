@@ -19,13 +19,13 @@ public class MarkdownConfigEntry<TSyntaxNode> : IMarkdownConfigEntry where TSynt
     public Type? BlazorNodeVisitorType { get; set; }
     public IBlazorComponentBuilderRecord? BlazorComponentBuilderRecord { get; set; }
     
-    public Type? JsonNodeVisitorType { get; set; }
+    public IJsonSyntaxNodeVisitor? JsonNodeVisitor { get; set; }
     
-    public Type? MarkdownSingleLineNodeVisitorType { get; set; }
-    public Type? MarkdownMultiLineNodeVisitorType { get; set; }
-    public Type? MarkdownFrontMatterNodeVisitorType { get; set; }
+    public IMarkdownSyntaxNodeVisitor? MarkdownSingleLineNodeVisitor { get; set; }
+    public IMarkdownSyntaxNodeVisitor? MarkdownMultiLineNodeVisitor { get; set; }
+    public IMarkdownSyntaxNodeVisitor? MarkdownFrontMatterNodeVisitor { get; set; }
     
-    public Type? XmlNodeVisitorType { get; set; }
+    public IXmlSyntaxNodeVisitor? XmlNodeVisitor { get; set; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -36,28 +36,28 @@ public class MarkdownConfigEntry<TSyntaxNode> : IMarkdownConfigEntry where TSynt
         return this;
     }
     
-    public MarkdownConfigEntry<TSyntaxNode> WithJsonNodeVisitor<TVisitor>() where TVisitor : class, IJsonSyntaxNodeVisitor<TSyntaxNode> {
-        JsonNodeVisitorType = typeof(TVisitor);
+    public MarkdownConfigEntry<TSyntaxNode> WithJsonNodeVisitor<TVisitor>() where TVisitor : class, IJsonSyntaxNodeVisitor<TSyntaxNode>, new() {
+        JsonNodeVisitor = new TVisitor();
         return this;
     }
     
-    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownSingleLineNodeVisitor<TVisitor>(bool isMultiline = false) where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
-        MarkdownSingleLineNodeVisitorType = typeof(TVisitor);
+    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownSingleLineNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode>, new() {
+        MarkdownSingleLineNodeVisitor = new TVisitor();
         return this;
     }
     
-    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownMultiLineNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
-        MarkdownMultiLineNodeVisitorType = typeof(TVisitor);
+    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownMultiLineNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode>, new() {
+        MarkdownMultiLineNodeVisitor = new TVisitor();
         return this;
     }
     
-    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownFrontMatterNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode> {
-        MarkdownFrontMatterNodeVisitorType = typeof(TVisitor);
+    public MarkdownConfigEntry<TSyntaxNode> WithMarkdownFrontMatterNodeVisitor<TVisitor>() where TVisitor : class, IMarkdownSyntaxNodeVisitor<TSyntaxNode>, new() {
+        MarkdownFrontMatterNodeVisitor = new TVisitor();
         return this;
     }
     
-    public MarkdownConfigEntry<TSyntaxNode> WithXmlNodeVisitor<TVisitor>() where TVisitor : class, IXmlSyntaxNodeVisitor<TSyntaxNode> {
-        XmlNodeVisitorType = typeof(TVisitor);
+    public MarkdownConfigEntry<TSyntaxNode> WithXmlNodeVisitor<TVisitor>() where TVisitor : class, IXmlSyntaxNodeVisitor<TSyntaxNode>, new() {
+        XmlNodeVisitor = new TVisitor();
         return this;
     }
 }

@@ -10,6 +10,11 @@ namespace CodeOfChaos.Markdown.Parsers.Xml;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public interface IXmlSyntaxNodeVisitor {
+    void WriteToXml(
+        XmlWriter writer,
+        IMdSyntaxNode node,
+        Action<IMdSyntaxNode> writeChildren
+    );
     ValueTask WriteToXmlAsync(
         XmlWriter writer,
         IMdSyntaxNode node,
