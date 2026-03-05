@@ -102,7 +102,7 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
                     localNonAscii ??= new HashSet<char>();
                     if (!localNonAscii.Add(ch)) continue;
 
-                    if (!nonAsciiBuckets.TryGetValue(ch, out var list)) {
+                    if (!nonAsciiBuckets.TryGetValue(ch, out List<IMarkdownSyntaxNodeVisitor>? list)) {
                         list = new List<IMarkdownSyntaxNodeVisitor>();
                         nonAsciiBuckets[ch] = list;
                     }

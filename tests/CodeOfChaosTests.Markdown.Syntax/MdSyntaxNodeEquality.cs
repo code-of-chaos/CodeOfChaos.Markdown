@@ -148,14 +148,14 @@ public class MdSyntaxNodeEqualityTests {
 
         // Mixed complexity
         yield return () => {
-            var complexNode1 = new ListItemMdSyntaxNode()
+            ListItemMdSyntaxNode complexNode1 = new ListItemMdSyntaxNode()
                 .WithIndex("1")
                 .WithCheckMarker("x");
 
             complexNode1.AddChildNode(new EmoteMdSyntaxNode()
                 .WithEmoteKey(":smile:"));
 
-            var complexNode2 = new ListItemMdSyntaxNode()
+            ListItemMdSyntaxNode complexNode2 = new ListItemMdSyntaxNode()
                 .WithIndex("1")
                 .WithCheckMarker("x");
 
@@ -166,23 +166,23 @@ public class MdSyntaxNodeEqualityTests {
         };
 
         yield return () => {
-            var parentNode1 = new HeadingMdSyntaxNode().WithLevel(1);
+            HeadingMdSyntaxNode parentNode1 = new HeadingMdSyntaxNode().WithLevel(1);
             parentNode1.AddChildNode(new LinkMdSyntaxNode().WithHref("https://example.com"));
-            var parentNode2 = new HeadingMdSyntaxNode().WithLevel(1);
+            HeadingMdSyntaxNode parentNode2 = new HeadingMdSyntaxNode().WithLevel(1);
             parentNode2.AddChildNode(new LinkMdSyntaxNode().WithHref("https://different.com"));
 
             return (parentNode1, parentNode2, false);
         };
 
         yield return () => {
-            var listNode1 = new ListItemMdSyntaxNode()
+            ListItemMdSyntaxNode listNode1 = new ListItemMdSyntaxNode()
                 .WithIndex("1")
                 .WithCheckMarker("o");
 
             listNode1.AddChildNode(new HtmlSpanMdSyntaxNode()
                 .WithAttributes("style='color:red;'"));
 
-            var listNode2 = new ListItemMdSyntaxNode()
+            ListItemMdSyntaxNode listNode2 = new ListItemMdSyntaxNode()
                 .WithIndex("1")
                 .WithCheckMarker("o");
 
