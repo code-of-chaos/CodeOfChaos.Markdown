@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Parsers.Xml;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaosTests.Shared;
 using Microsoft.Extensions.Logging;
@@ -12,11 +13,13 @@ namespace CodeOfChaosTests.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-// ReSharper disable MethodHasAsyncOverload
-public class MdTestDataProviderTests {
-    private static readonly MdTestDataProvider TempTestProvider = new(
+[MarkdownDiDataSource]
+public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
+    private static readonly string StaticTestFolder = Path.Combine(Path.GetTempPath(), "CodeOfChaosTests.Markdown", "MdTestDataProviderTests");
+    private MdTestDataProvider TempTestProvider { get; } = new(
         Substitute.For<ILogger<MdTestDataProvider>>(),
-        Path.Combine(Path.GetTempPath(), "CodeOfChaosTests.Markdown", "MdTestDataProviderTests")
+        parser,
+        StaticTestFolder
     );
 
     private const string TestWriteAsyncFileName = "test_write_async.xml";
@@ -50,7 +53,7 @@ public class MdTestDataProviderTests {
         ];
 
         foreach (string fileName in testFiles) {
-            string fullPath = Path.Combine(TempTestProvider.TestFolder, fileName);
+            string fullPath = Path.Combine(StaticTestFolder, fileName);
             if (!File.Exists(fullPath)) continue;
 
             try {

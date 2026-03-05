@@ -36,7 +36,7 @@ public class MarkdownBenchmark {
         Parser = provider.GetRequiredService<IMarkdownParser>();
     }
 
-    private static ServiceProvider CreateProvider(Action<CodeOfChaosMarkdownConfig>? configure = null) {
+    private static ServiceProvider CreateProvider(Action<MarkdownConfig>? configure = null) {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<Microsoft.AspNetCore.Components.NavigationManager, MockNavigationManager>();
         serviceCollection.AddSingleton<Microsoft.JSInterop.IJSRuntime, MockJsRuntime>();
@@ -55,28 +55,28 @@ public class MarkdownBenchmark {
     [Benchmark]
     public async Task<string> RenderToHtmlString() {
         IMdSyntaxTree tree = Parser.Markdown.SerializeToSyntaxTree(Markdown);
-        string? output = await Parser.Html.DeserializeToStringAsync(tree);
-        return output ?? throw new InvalidOperationException("The Markdown output should not be empty.");
+        string output = await Parser.Html.DeserializeToStringAsync(tree);
+        return output;
     }
 
     [Benchmark]
     public string RenderToMarkdown() {
         IMdSyntaxTree tree = Parser.Markdown.SerializeToSyntaxTree(Markdown);
-        string? output = Parser.Markdown.DeserializeToString(tree);
-        return output ?? throw new InvalidOperationException("The Markdown output should not be empty.");
+        string output = Parser.Markdown.DeserializeToString(tree);
+        return output;
     }
 
     [Benchmark]
     public async Task<string> RenderToXmlString() {
         IMdSyntaxTree tree = Parser.Markdown.SerializeToSyntaxTree(Markdown);
-        string? output = await Parser.Xml.DeserializeToStringAsync(tree);
-        return output ?? throw new InvalidOperationException("The Markdown output should not be empty.");
+        string output = await Parser.Xml.DeserializeToStringAsync(tree);
+        return output;
     }
 
     [Benchmark]
     public async Task<string> RenderToJsonString() {
         IMdSyntaxTree tree = Parser.Markdown.SerializeToSyntaxTree(Markdown);
-        string? output = await Parser.Json.DeserializeToStringAsync(tree);
-        return output ?? throw new InvalidOperationException("The Markdown output should not be empty.");
+        string output = await Parser.Json.DeserializeToStringAsync(tree);
+        return output;
     }
 }

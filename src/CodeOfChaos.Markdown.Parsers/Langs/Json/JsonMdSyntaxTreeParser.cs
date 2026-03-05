@@ -2,11 +2,13 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Json;
-using CodeOfChaos.Markdown.Parsers.NodeVisitors;
 using CodeOfChaos.Markdown.Syntax;
-using CodeOfChaos.Markdown.Syntax.Nodes;
+using System.Buffers;
+using System.Collections.Frozen;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
@@ -14,116 +16,63 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 [InjectableSingleton<IJsonMdSyntaxTreeParser>]
-public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
-    private readonly Dictionary<Type, IJsonSyntaxNodeVisitor> _visitors = new();
-    private readonly Dictionary<string, Type> _nodeTypes = new();
-    private readonly Dictionary<Type, string> _nodeTypeNames = new();
+public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeParser {
+    private readonly FrozenDictionary<Type, IJsonSyntaxNodeVisitor> _visitors = config.JsonSyntaxNodeVisitors;
+    private readonly FrozenDictionary<string, Type> _nodeTypes = config.JsonSyntaxNodeVisitors.ToFrozenDictionary(
+        pair => pair.Key.Name,
+        pair => pair.Key
+    );
+    private readonly FrozenDictionary<Type, string> _nodeTypeNames = config.JsonSyntaxNodeVisitors.ToFrozenDictionary(
+        pair => pair.Key,
+        pair => pair.Key.Name
+    );
+
+    // Cached property names to reduce allocations
+    private static readonly JsonEncodedText TypePropertyNameEncoded = JsonEncodedText.Encode("type");
+    private static readonly JsonEncodedText ChildrenPropertyNameEncoded = JsonEncodedText.Encode("children");
+    private static readonly JsonEncodedText MdSyntaxTreeEncoded = JsonEncodedText.Encode("MdSyntaxTree");
 
     private static readonly JsonWriterOptions WriterOptions = new() {
         Indented = true,
-        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
-
-    private static readonly JsonSerializerOptions SerializerOptions = new() {
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-    };
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // Constructors
-    // -----------------------------------------------------------------------------------------------------------------
-    public JsonMdSyntaxTreeParser() {
-        RegisterVisitor<BlockQuoteMdSyntaxNode, BlockQuoteJsonSyntaxNodeVisitor>();
-        RegisterVisitor<BoldMdSyntaxNode, JsonSyntaxNodeVisitor<BoldMdSyntaxNode>>();
-        RegisterVisitor<BreakMdSyntaxNode, JsonSyntaxNodeVisitor<BreakMdSyntaxNode>>();
-        RegisterVisitor<CalloutBodyMdSyntaxNode, JsonSyntaxNodeVisitor<CalloutBodyMdSyntaxNode>>();
-        RegisterVisitor<CalloutMdSyntaxNode, CalloutJsonSyntaxNodeVisitor>();
-        RegisterVisitor<CalloutTitleMdSyntaxNode, JsonSyntaxNodeVisitor<CalloutTitleMdSyntaxNode>>();
-        RegisterVisitor<CodeBlockMdSyntaxNode, CodeBlockJsonSyntaxNodeVisitor>();
-        RegisterVisitor<CodeInlineMdSyntaxNode, CodeInlineJsonSyntaxNodeVisitor>();
-        RegisterVisitor<EmoteMdSyntaxNode, EmoteJsonSyntaxNodeVisitor>();
-        RegisterVisitor<EscapedCharacterMdSyntaxNode, EscapedCharacterJsonSyntaxNodeVisitor>();
-        RegisterVisitor<FootnoteDescriptionMdSyntaxNode, FootnoteDescriptionJsonMdSyntaxNodeVisitor>();
-        RegisterVisitor<FootnoteReferenceMdSyntaxNode, FootnoteReferenceJsonMdSyntaxNodeVisitor>();
-        RegisterVisitor<FrontMatterMdSyntaxNode, FrontMatterJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HeadingMdSyntaxNode, HeadingJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HeadingSimpleMdSyntaxNode, HeadingSimpleJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HighlightMdSyntaxNode, JsonSyntaxNodeVisitor<HighlightMdSyntaxNode>>();
-        RegisterVisitor<HorizontalRuleMdSyntaxNode, HorizontalRuleJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HtmlMdSyntaxNode, HtmlJsonSyntaxNodeVisitor>();
-        RegisterVisitor<HtmlSpanMdSyntaxNode, HtmlSpanJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ImageMdSyntaxNode, ImageJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ItalicMdSyntaxNode, JsonSyntaxNodeVisitor<ItalicMdSyntaxNode>>();
-        RegisterVisitor<LinkMdSyntaxNode, LinkJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ListItemMdSyntaxNode, ListItemJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ListOrderedMdSyntaxNode, ListOrderedJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ListUnorderedMdSyntaxNode, ListUnorderedJsonSyntaxNodeVisitor>();
-        RegisterVisitor<NewLineMdSyntaxNode, JsonSyntaxNodeVisitor<NewLineMdSyntaxNode>>();
-        RegisterVisitor<ParagraphMdSyntaxNode, JsonSyntaxNodeVisitor<ParagraphMdSyntaxNode>>();
-        RegisterVisitor<ScriptingBodyMdSyntaxNode, ScriptingBodyJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ScriptingExpressionMdSyntaxNode, ScriptingExpressionJsonSyntaxNodeVisitor>();
-        RegisterVisitor<ScriptingIfStatementMdSyntaxNode, ScriptingIfStatementJsonSyntaxNodeVisitor>();
-        RegisterVisitor<StrikeMdSyntaxNode, JsonSyntaxNodeVisitor<StrikeMdSyntaxNode>>();
-        RegisterVisitor<SubScriptMdSyntaxNode, JsonSyntaxNodeVisitor<SubScriptMdSyntaxNode>>();
-        RegisterVisitor<SuperScriptMdSyntaxNode, JsonSyntaxNodeVisitor<SuperScriptMdSyntaxNode>>();
-        RegisterVisitor<TableCellMdSyntaxNode, JsonSyntaxNodeVisitor<TableCellMdSyntaxNode>>();
-        RegisterVisitor<TableMdSyntaxNode, TableJsonSyntaxNodeVisitor>();
-        RegisterVisitor<TableRowMdSyntaxNode, JsonSyntaxNodeVisitor<TableRowMdSyntaxNode>>();
-        RegisterVisitor<TagMdSyntaxNode, TagJsonSyntaxNodeVisitor>();
-        RegisterVisitor<TemplateMdSyntaxNode, TemplateJsonSyntaxNodeVisitor>();
-        RegisterVisitor<TextMdSyntaxNode, TextJsonSyntaxNodeVisitor>();
-        RegisterVisitor<UnderlineMdSyntaxNode, JsonSyntaxNodeVisitor<UnderlineMdSyntaxNode>>();
-        RegisterVisitor<UserMdSyntaxNode, UserJsonSyntaxNodeVisitor>();
-        RegisterVisitor<WikiLinkMdSyntaxNode, WikiLinkJsonSyntaxNodeVisitor>();
-        RegisterVisitor<WrapperMdSyntaxNode, JsonSyntaxNodeVisitor<WrapperMdSyntaxNode>>();
-    }
-
-    private void RegisterVisitor<TNode, TVisitor>() where TNode : MdSyntaxNode<TNode>, new() where TVisitor : JsonSyntaxNodeVisitor<TNode>, new() {
-        Type nodeType = typeof(TNode);
-        string typeName = nodeType.Name;
-        _visitors[nodeType] = new TVisitor();
-        _nodeTypes[typeName] = nodeType;
-        _nodeTypeNames[nodeType] = typeName;
-    }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Deserialize
     public string DeserializeToString(IMdSyntaxTree input) {
-        JsonElement element = DeserializeToJsonElement(input);
-        return JsonSerializer.Serialize(element, SerializerOptions);
+        ArgumentNullException.ThrowIfNull(input);
+
+        var bufferWriter = new ArrayBufferWriter<byte>();
+        using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
+
+        WriteTree(input, writer);
+        writer.Flush();
+
+        return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
     
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
 
-        await using var stream = new MemoryStream();
-        await DeserializeToJsonStreamAsync(stream, tree, ct);
-        stream.Position = 0;
-        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: true);
-        return await reader.ReadToEndAsync(ct);
+        var bufferWriter = new ArrayBufferWriter<byte>();
+        await using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
+        WriteTree(tree, writer);
+        await writer.FlushAsync(ct);
+
+        return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
 
     public JsonElement DeserializeToJsonElement(IMdSyntaxTree tree) {
-        using var stream = new MemoryStream();
-        using var writer = new Utf8JsonWriter(stream, WriterOptions);
+        ArgumentNullException.ThrowIfNull(tree);
 
-        writer.WriteStartObject();
-        writer.WriteString("type", "MdSyntaxTree");
-        writer.WriteStartArray("children");
-
-        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
-            DeserializeNode(child, writer);
-        }
-
-        writer.WriteEndArray();
-        writer.WriteEndObject();
+        var bufferWriter = new ArrayBufferWriter<byte>();
+        using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
+        WriteTree(tree, writer);
         writer.Flush();
 
-        stream.Position = 0;
-        using JsonDocument document = JsonDocument.Parse(stream);
+        using JsonDocument document = JsonDocument.Parse(bufferWriter.WrittenMemory);
         return document.RootElement.Clone();
     }
 
@@ -132,17 +81,7 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         ArgumentNullException.ThrowIfNull(tree);
 
         await using var writer = new Utf8JsonWriter(stream, WriterOptions);
-
-        writer.WriteStartObject();
-        writer.WriteString("type", "MdSyntaxTree");
-        writer.WriteStartArray("children");
-
-        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
-            DeserializeNode(child, writer);
-        }
-
-        writer.WriteEndArray();
-        writer.WriteEndObject();
+        WriteTree(tree, writer);
         await writer.FlushAsync(ct);
     }
 
@@ -160,9 +99,9 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         writer.WriteStartObject();
 
         if (_nodeTypeNames.TryGetValue(nodeType, out string? typeName)) {
-            writer.WriteString("type", typeName);
+            writer.WriteString(TypePropertyNameEncoded, typeName);
         } else {
-            writer.WriteString("type", nodeType.Name);
+            writer.WriteString(TypePropertyNameEncoded, nodeType.Name);
         }
 
         if (_visitors.TryGetValue(nodeType, out IJsonSyntaxNodeVisitor? visitor)) {
@@ -173,7 +112,7 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
         bool hasChildren = false;
         foreach (IMdSyntaxNode child in children) {
             if (!hasChildren) {
-                writer.WriteStartArray("children");
+                writer.WriteStartArray(ChildrenPropertyNameEncoded);
                 hasChildren = true;
             }
             DeserializeNode(child, writer);
@@ -182,6 +121,19 @@ public class JsonMdSyntaxTreeParser : IJsonMdSyntaxTreeParser {
             writer.WriteEndArray();
         }
 
+        writer.WriteEndObject();
+    }
+
+    private void WriteTree(IMdSyntaxTree tree, Utf8JsonWriter writer) {
+        writer.WriteStartObject();
+        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
+        writer.WriteStartArray(ChildrenPropertyNameEncoded);
+
+        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
+            DeserializeNode(child, writer);
+        }
+
+        writer.WriteEndArray();
         writer.WriteEndObject();
     }
     #endregion

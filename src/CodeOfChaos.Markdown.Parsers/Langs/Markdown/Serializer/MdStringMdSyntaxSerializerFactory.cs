@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Markdown;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using Microsoft.Extensions.Logging;
@@ -18,10 +19,11 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public IMdStringMdSyntaxSerializer Create(MarkdownSerializerOptions options) {
+    public IMdStringMdSyntaxSerializer Create(IMarkdownConfig config) {
         // ReSharper disable twice UseCollectionExpression
-        ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLineSerializers = options.SingleLine.ToImmutableArray();
-        ImmutableArray<IMarkdownSyntaxNodeVisitor> multiLineSerializers = options.MultiLine.ToImmutableArray();
+        ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLineSerializers = config.SingleLineMarkdownSyntaxNodeVisitors;
+        ImmutableArray<IMarkdownSyntaxNodeVisitor> multiLineSerializers = config.MultiLineMarkdownSyntaxNodeVisitors;
+        IMarkdownSyntaxNodeVisitor? frontMatterSerializer = config.FrontMatterMarkdownSyntaxNodeVisitor;
 
         (ImmutableArray<IMarkdownSyntaxNodeVisitor>[] singleAscii, ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> singleNonAscii) = BuildLookup(singleLineSerializers);
         (ImmutableArray<IMarkdownSyntaxNodeVisitor>[] multiAscii, ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> multiNonAscii) = BuildLookup(multiLineSerializers);
@@ -63,7 +65,7 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
             MultiLineLookup = multiAscii,
             MultiLineNonAsciiLookup = multiNonAscii,
 
-            FrontMatterSerializer = options.FrontMatter,
+            FrontMatterSerializer = frontMatterSerializer,
         };
     }
 

@@ -23,7 +23,8 @@ public class MdTestDataSources {
                   "type": "MdSyntaxTree",
                   "children": []
                 }
-                """
+                """,
+            XmlParser = null // This blank test doesn't need XML serialization
         };
     }
 

@@ -1,9 +1,11 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
+using CodeOfChaosTests.Shared;
 using System.Text;
 using System.Xml.Linq;
 
@@ -11,8 +13,9 @@ namespace CodeOfChaosTests.Markdown.Parsers.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class MdSyntaxTreeXmlParserTests {
-    private readonly XmlMdSyntaxTreeParser _parser = new();
+[MarkdownDiDataSource]
+public class MdSyntaxTreeXmlParserTests(IMarkdownConfig config) {
+    private readonly XmlMdSyntaxTreeParser _parser = new(config);
     private static IMdSyntaxTree TestTree {
         get {
             var tree = new MdSyntaxTree();
@@ -156,25 +159,96 @@ public class MdSyntaxTreeXmlParserTests {
     [Test]
     public async Task DeserializeSerialize_ShouldPreserveTreeStructure() {
         // Arrange
-        var parser = new XmlMdSyntaxTreeParser();
-
-        // Create a sample syntax tree
         IMdSyntaxTree originalTree = TestTree;
 
         // Serialize to memory stream
         await using var memoryStream = new MemoryStream();
-        await parser.DeserializeToXmlStreamAsync(memoryStream, originalTree);
+        await _parser.DeserializeToXmlStreamAsync(memoryStream, originalTree);
 
         // Reset the memory stream for reading
         memoryStream.Position = 0;
 
         // Deserialize back into a syntax tree
-        IMdSyntaxTree deserializedTree = await parser.SerializeToSyntaxTreeAsync(memoryStream);
+        IMdSyntaxTree deserializedTree = await _parser.SerializeToSyntaxTreeAsync(memoryStream);
 
         // Assert: Ensure the structure and content remain identical
         IMdSyntaxNode originalRootNode = originalTree.RootNode;
         IMdSyntaxNode deserializedRootNode = deserializedTree.RootNode;
         await Assert.That(originalRootNode).IsEqualTo(deserializedRootNode);
+    }
+
+    [Test]
+    public async Task DeserializeToStringAsync_ShouldWriteXmlCorrectly() {
+        // Arrange
+        XElement expected = XElement.Parse(Xml);
+
+        // Act
+        string result = await _parser.DeserializeToStringAsync(TestTree);
+        XElement resultXml = XElement.Parse(result);
+
+        // Assert
+        await Assert.That(resultXml.ToString(SaveOptions.DisableFormatting)).IsEqualTo(expected.ToString(SaveOptions.DisableFormatting));
+    }
+
+    [Test]
+    public async Task DeserializeToString_ShouldWriteXmlCorrectly() {
+        // Arrange
+        XElement expected = XElement.Parse(Xml);
+
+        // Act
+        // ReSharper disable once MethodHasAsyncOverload
+        string result = _parser.DeserializeToString(TestTree);
+        XElement resultXml = XElement.Parse(result);
+
+        // Assert
+        await Assert.That(resultXml.ToString(SaveOptions.DisableFormatting)).IsEqualTo(expected.ToString(SaveOptions.DisableFormatting));
+    }
+
+    [Test]
+    public async Task SerializeStringToSyntaxTree_ShouldBuildCorrectTree() {
+        // Act
+        IMdSyntaxTree tree = _parser.SerializeStringToSyntaxTree(Xml);
+
+        // Assert
+        await Assert.That(tree.RootNode).IsNotNull();
+        await Assert.That(tree.RootNode.GetChildAt(0)).IsTypeOf<LinkMdSyntaxNode>();
+
+        var linkNode = (LinkMdSyntaxNode)tree.RootNode.GetChildAt(0);
+        await Assert.That(linkNode.Href).IsEqualTo("https://example.com");
+
+        List<IMdSyntaxNode> children = linkNode.GetChildren().ToList();
+        await Assert.That(children).Count().IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task SerializeToSyntaxTree_FromXElement_ShouldBuildCorrectTree() {
+        // Arrange
+        XElement element = XElement.Parse(Xml);
+
+        // Act
+        IMdSyntaxTree tree = _parser.SerializeToSyntaxTree(element);
+
+        // Assert
+        await Assert.That(tree.RootNode).IsNotNull();
+        await Assert.That(tree.RootNode.GetChildAt(0)).IsTypeOf<LinkMdSyntaxNode>();
+
+        var linkNode = (LinkMdSyntaxNode)tree.RootNode.GetChildAt(0);
+        await Assert.That(linkNode.Href).IsEqualTo("https://example.com");
+
+        List<IMdSyntaxNode> children = linkNode.GetChildren().ToList();
+        await Assert.That(children).Count().IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task DeserializeToXmlElement_ShouldReturnCorrectStructure() {
+        // Arrange
+        XElement expected = XElement.Parse(Xml);
+
+        // Act
+        XElement result = _parser.DeserializeToXmlElement(TestTree);
+
+        // Assert
+        await Assert.That(result.ToString(SaveOptions.DisableFormatting)).IsEqualTo(expected.ToString(SaveOptions.DisableFormatting));
     }
 
 }

@@ -1,11 +1,11 @@
 ﻿# General Benchmark
-| Method                |       Mean |    Error |    StdDev | Ratio | RatioSD |     Gen0 |     Gen1 |    Gen2 | Allocated | Alloc Ratio |
-|-----------------------|-----------:|---------:|----------:|------:|--------:|---------:|---------:|--------:|----------:|------------:|
-| SerializeToSyntaxTree |   595.6 us | 11.84 us |  29.70 us |  1.00 |    0.07 |  38.0859 |   2.9297 |  0.9766 | 315.36 KB |        1.00 |
-| RenderToHtmlString    |   630.8 us | 11.94 us |  16.35 us |  1.06 |    0.06 |  39.0625 |  17.5781 |       - | 321.38 KB |        1.02 |
-| RenderToMarkdown      |   668.5 us | 13.35 us |  37.44 us |  1.13 |    0.08 |  46.8750 |   0.9766 |       - | 390.22 KB |        1.24 |
-| RenderToXmlString     | 1,139.6 us | 37.68 us | 109.93 us |  1.92 |    0.21 | 148.4375 | 109.3750 | 74.2188 | 915.29 KB |        2.90 |
-| RenderToJsonString    |   970.4 us | 19.36 us |  34.91 us |  1.63 |    0.10 | 441.4063 | 441.4063 | 72.2656 | 997.83 KB |        3.16 |
+| Method                |     Mean |    Error |   StdDev | Ratio | RatioSD |     Gen0 |     Gen1 |    Gen2 | Allocated | Alloc Ratio |
+|-----------------------|---------:|---------:|---------:|------:|--------:|---------:|---------:|--------:|----------:|------------:|
+| SerializeToSyntaxTree | 484.9 us |  9.58 us | 12.79 us |  1.00 |    0.04 |  38.5742 |   1.4648 |  0.4883 | 315.33 KB |        1.00 |
+| RenderToHtmlString    | 522.6 us | 10.37 us | 15.83 us |  1.08 |    0.04 |  39.0625 |  16.6016 |       - | 321.38 KB |        1.02 |
+| RenderToMarkdown      | 541.8 us | 10.32 us | 11.05 us |  1.12 |    0.04 |  46.8750 |   0.9766 |       - | 390.72 KB |        1.24 |
+| RenderToXmlString     | 953.4 us | 19.00 us | 21.88 us |  1.97 |    0.07 | 148.4375 | 109.3750 | 74.2188 | 915.32 KB |        2.90 |
+| RenderToJsonString    | 879.8 us | 17.30 us | 19.23 us |  1.82 |    0.06 | 457.0313 | 457.0313 | 76.1719 | 789.52 KB |        2.50 |
 
 # Individual Benchmarks
 

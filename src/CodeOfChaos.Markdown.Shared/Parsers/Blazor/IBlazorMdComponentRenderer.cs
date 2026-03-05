@@ -1,0 +1,18 @@
+﻿// ---------------------------------------------------------------------------------------------------------------------
+// Imports
+// ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Markdown.Syntax;
+using Microsoft.AspNetCore.Components;
+
+namespace CodeOfChaos.Markdown.Parsers.Blazor;
+// ---------------------------------------------------------------------------------------------------------------------
+// Code
+// ---------------------------------------------------------------------------------------------------------------------
+public interface IBlazorMdComponentRenderer {
+    RenderFragment RenderComponent(IMdSyntaxNode node);
+    RenderFragment RenderComponentDebug(IMdSyntaxNode node);
+    
+    RenderFragment RenderChildComponents(IMdSyntaxNode node);
+    RenderFragment RenderRootComponents(IEnumerable<IMdSyntaxNode> nodes);
+    RenderFragment RenderRootComponentsWithSkipped(IEnumerable<IMdSyntaxNode> nodes);
+}

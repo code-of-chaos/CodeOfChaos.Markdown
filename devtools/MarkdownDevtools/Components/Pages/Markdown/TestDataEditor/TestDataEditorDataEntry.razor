@@ -6,6 +6,7 @@
 @using CodeOfChaos.Markdown.Parsers.Langs.Blazor
 @using CodeOfChaos.Markdown.Syntax
 @using CodeOfChaosTests.Shared
+@using JetBrains.Annotations
 @using System.Runtime.CompilerServices
 
 @* ------------------------------------------------------------------------------------------------------------------ *@
@@ -13,7 +14,7 @@
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @inject IMarkdownParser MarkdownParser
 @inject MdTestDataProvider MdTestDataProvider
-@inject IBlazorMdComponentConverter ComponentConverter
+@inject IBlazorMdComponentRenderer ComponentConverter
 @inject ISnackbar Snackbar
 
 @implements IDisposable
@@ -195,7 +196,7 @@
 
     private MdTestData? TestDataOrigin { get; set; }
 
-    private string ExpectedSyntaxTreeString { get; set; } = string.Empty;
+    private string ExpectedSyntaxTreeString { [UsedImplicitly] get; set; } = string.Empty;
     private string? ExpectedMarkdown { get; set; } = string.Empty;
     private string? ExpectedJsonString { get; set; } = string.Empty;
     private bool SkipOnWhitespaceMisMatch { get; set; }

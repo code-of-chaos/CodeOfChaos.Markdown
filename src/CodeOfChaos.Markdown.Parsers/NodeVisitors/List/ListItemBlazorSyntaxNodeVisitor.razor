@@ -17,8 +17,7 @@
         <input class="md-list-item__checkbox"
                type="checkbox"
                checked="@SyntaxNode.IsChecked"
-               disabled="@SyntaxNode.IsInapplicable"
-               @onchange="OnCheckboxChanged"/>
+               disabled="@SyntaxNode.IsInapplicable"/>
     }
 
     @if (SyntaxNode.IsInapplicable) {
@@ -62,15 +61,3 @@
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Code
 @* ------------------------------------------------------------------------------------------------------------------ *@
-
-@code {
-    private async Task OnCheckboxChanged(ChangeEventArgs e) {
-        if (RenderContext is null) return;
-        if (!RenderContext.IsInteractive) return;
-        
-        bool isChecked = e.Value is true;
-        SyntaxNode.WithCheckMarker(isChecked ? "x" : " ");
-        await RenderContext.InvokeSyntaxNodeChange(SyntaxNode);
-    }
-}
-

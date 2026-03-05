@@ -11,7 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class JsonSyntaxNodeVisitor<TNode> : IJsonSyntaxNodeVisitor where TNode : MdSyntaxNode<TNode>, new() {
+public class JsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);
     private const string Attributes = nameof(Attributes);
@@ -22,7 +22,7 @@ public class JsonSyntaxNodeVisitor<TNode> : IJsonSyntaxNodeVisitor where TNode :
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public void DeserializeToJson(IMdSyntaxNode node, Utf8JsonWriter writer) {
-        DeserializeDetails(Unsafe.As<TNode>(node), writer);
+        DeserializeDetails(Unsafe.As<TSyntaxNode>(node), writer);
     }
 
     private static void SerializeModifiers(IMdSyntaxNodeModifier modifiers, Utf8JsonWriter writer) {
@@ -43,14 +43,14 @@ public class JsonSyntaxNodeVisitor<TNode> : IJsonSyntaxNodeVisitor where TNode :
         writer.WriteEndObject();
     }
 
-    protected virtual void DeserializeDetails(TNode node, Utf8JsonWriter writer) {
+    protected virtual void DeserializeDetails(TSyntaxNode node, Utf8JsonWriter writer) {
         if (node.Modifier is {} modifier) {
             SerializeModifiers(modifier, writer);
         }
     }
 
     public IMdSyntaxNode SerializeToNode(JsonElement element, IMdSyntaxNode parentNode) {
-        TNode node = MdSyntaxNodePool<TNode>.Shared.Get();
+        TSyntaxNode node = MdSyntaxNodePool<TSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
 
         SerializeDetails(element, node);
@@ -63,7 +63,7 @@ public class JsonSyntaxNodeVisitor<TNode> : IJsonSyntaxNodeVisitor where TNode :
         return MdSyntaxNodeModifier.FromString(originalInput);
     }
 
-    protected virtual void SerializeDetails(JsonElement element, TNode targetNode) {
+    protected virtual void SerializeDetails(JsonElement element, TSyntaxNode targetNode) {
         if (element.TryGetProperty(Modifiers, out JsonElement modifiersElement)) {
             targetNode.WithModifier(DeserializeModifiers(modifiersElement));
         }

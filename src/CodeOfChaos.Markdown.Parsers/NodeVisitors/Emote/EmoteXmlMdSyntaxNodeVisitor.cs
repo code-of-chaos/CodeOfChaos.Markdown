@@ -1,36 +1,38 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class EmoteXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<EmoteMdSyntaxNode> {
+public sealed class EmoteXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<EmoteMdSyntaxNode> {
     private const string EmoteKey = nameof(EmoteMdSyntaxNode.EmoteKey);
     private const string OriginalEmote = nameof(EmoteMdSyntaxNode.OriginalEmote);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(EmoteMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        targetElement.SetAttributeValue(EmoteKey, node.EmoteKey);
-        targetElement.SetAttributeValue(OriginalEmote, node.OriginalEmote);
+    protected override void DeserializeDetails(EmoteMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        writer.WriteAttributeString(EmoteKey, node.EmoteKey);
+        writer.WriteAttributeString(OriginalEmote, node.OriginalEmote);
     }
 
-    protected override void SerializeDetails(XElement element, EmoteMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, EmoteMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
 
-        if (TryGetAttributeAsString(element, EmoteKey, out string? emoteKey)) {
+        if (TryGetAttributeAsString(reader, EmoteKey, out string? emoteKey)) {
             targetNode.WithEmoteKey(emoteKey);
         }
         
-        if (TryGetAttributeAsString(element, OriginalEmote, out string? originalEmote)) {
+        if (TryGetAttributeAsString(reader, OriginalEmote, out string? originalEmote)) {
             targetNode.WithOriginalEmote(originalEmote);
         }
     }
 }
+
+

@@ -14,8 +14,8 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class BaseMarkdownSyntaxNodeVisitor<TNode> : IMarkdownSyntaxNodeVisitor
-    where TNode : MdSyntaxNode<TNode>, new() {
+public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSyntaxNodeVisitor<TSyntaxNode>
+    where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     protected const RegexOptions DefaultSingleLineRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;
     protected const RegexOptions DefaultMultiLineRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline;
     
@@ -40,7 +40,7 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TNode> : IMarkdownSyntaxNode
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Serialize
-    public bool TryGetSerializationMatch(string input, [NotNullWhen(true)] out Match? match, int startPosition = 0) {
+    public virtual bool TryGetSerializationMatch(string input, [NotNullWhen(true)] out Match? match, int startPosition = 0) {
         match = null;
         if (startPosition >= input.Length) return false;
         if (input.IsNullOrEmpty()) return false;
@@ -53,11 +53,11 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TNode> : IMarkdownSyntaxNode
     
     #region Deserialize
     public void Deserialize(INodeDeserializerFragmentQueue queue, IMdSyntaxNode node) {
-        if (node is not TNode typedNode) throw new ArgumentException($"Invalid node type of {node.GetType()} did adhere to {typeof(TNode)}");
+        if (node is not TSyntaxNode typedNode) throw new ArgumentException($"Invalid node type of {node.GetType()} did adhere to {typeof(TSyntaxNode)}");
 
         Deserialize(queue, typedNode);
     }
 
-    protected abstract void Deserialize(INodeDeserializerFragmentQueue queue, TNode node);
+    protected abstract void Deserialize(INodeDeserializerFragmentQueue queue, TSyntaxNode node);
     #endregion
 }

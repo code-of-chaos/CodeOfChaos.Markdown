@@ -1,35 +1,39 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Xml;
 using CodeOfChaos.Markdown.Syntax.Nodes;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class CodeBlockXmlMdSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
+public sealed class CodeBlockXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
     private const string Language = nameof(CodeBlockMdSyntaxNode.Language);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected override void DeserializeDetails(CodeBlockMdSyntaxNode node, XElement targetElement) {
-        base.DeserializeDetails(node, targetElement);
-        AddXmlPreserveSpace(targetElement);
+    protected override void DeserializeDetails(CodeBlockMdSyntaxNode node, XmlWriter writer) {
+        base.DeserializeDetails(node, writer);
+        WriteXmlPreserveSpace(writer);
         
-        targetElement.SetAttributeValue(Language, node.Language);
-        targetElement.Value = node.Content;
+        writer.WriteAttributeString(Language, node.Language);
+        WriteElementContent(writer, node.Content);
     }
 
-    protected override void SerializeDetails(XElement element, CodeBlockMdSyntaxNode targetNode) {
-        base.SerializeDetails(element, targetNode);
+    protected override void SerializeDetails(XmlReader reader, CodeBlockMdSyntaxNode targetNode) {
+        base.SerializeDetails(reader, targetNode);
         
-        if (TryGetAttributeAsString(element, Language, out string? language)) {
+        if (TryGetAttributeAsString(reader, Language, out string? language)) {
             targetNode.WithLanguage(language);
         }
-        
-        targetNode.WithContent(element.Value);
+    }
+
+    protected override void SerializeContent(CodeBlockMdSyntaxNode targetNode, string content) {
+        targetNode.WithContent(content);
     }
 }
+
+

@@ -11,30 +11,72 @@ namespace CodeOfChaos.Markdown;
 public static class MarkdownParserExtensions {
     extension(IMarkdownParser parser) {
         #region Markdown
-        public MarkdownParserContext FromMarkdown(string markdown)
-            => MarkdownParserContext.Create(parser, (p, _) => p.Markdown.SerializeToSyntaxTree(markdown));
+        public MarkdownParserContext<string> FromMarkdownString(string markdown)
+            => MarkdownParserContext<string>.Create(
+                parser,
+                markdown,
+                static (p, input, _) => p.Markdown.SerializeToSyntaxTree(input)
+            );
         #endregion
 
         #region Json
-        public MarkdownParserContext FromJsonString(string json)
-            => MarkdownParserContext.Create(parser, (p, _) => p.Json.SerializeToSyntaxTree(json));
-        public MarkdownParserContext FromJson(JsonElement element)
-            => MarkdownParserContext.Create(parser, (p, _) => p.Json.SerializeToSyntaxTree(element));
-        public async Task<MarkdownParserContext> FromJson(Stream stream)
-            => MarkdownParserContext.Create(parser, async (p, ct) => await p.Json.SerializeToSyntaxTreeAsync(stream, ct).ConfigureAwait(false));
-        public async Task<MarkdownParserContext> FromJsonFile(string filePath)
-            => MarkdownParserContext.Create(parser, async (p, ct) => await p.Json.SerializeToSyntaxTreeAsync(filePath, ct).ConfigureAwait(false));
+        public MarkdownParserContext<string> FromJsonString(string json)
+            => MarkdownParserContext<string>.Create(
+                parser,
+                json,
+                static (p, input, _) => p.Json.SerializeToSyntaxTree(input)
+            );
+        
+        public MarkdownParserContext<JsonElement> FromJson(JsonElement element)
+            => MarkdownParserContext<JsonElement>.Create(
+                parser,
+                element,
+                static (p, input, _) => p.Json.SerializeToSyntaxTree(input)
+            );
+        
+        public MarkdownParserContext<Stream> FromJson(Stream stream)
+            => MarkdownParserContext<Stream>.Create(
+                parser,
+                stream,
+                static async (p, input, ct) => await p.Json.SerializeToSyntaxTreeAsync(input, ct).ConfigureAwait(false)
+            );
+        
+        public MarkdownParserContext<string> FromJsonFile(string filePath)
+            => MarkdownParserContext<string>.Create(
+                parser,
+                filePath,
+                static async (p, input, ct) => await p.Json.SerializeToSyntaxTreeAsync(input, ct).ConfigureAwait(false)
+            );
         #endregion
 
         #region Xml
-        public MarkdownParserContext FromXmlString(string xml)
-            => MarkdownParserContext.Create(parser, (p, _) => p.Xml.SerializeStringToSyntaxTree(xml));
-        public MarkdownParserContext FromXml(XElement xml)
-            => MarkdownParserContext.Create(parser, (p, _) => p.Xml.SerializeToSyntaxTree(xml));
-        public async Task<MarkdownParserContext> FromXml(Stream stream)
-            => MarkdownParserContext.Create(parser, async (p, ct) => await p.Xml.SerializeToSyntaxTreeAsync(stream, ct).ConfigureAwait(false));
-        public async Task<MarkdownParserContext> FromXmlFile(string filePath)
-            => MarkdownParserContext.Create(parser, async (p, ct) => await p.Xml.SerializeFileToSyntaxTreeAsync(filePath, ct).ConfigureAwait(false));
+        public MarkdownParserContext<string> FromXmlString(string xml)
+            => MarkdownParserContext<string>.Create(
+                parser,
+                xml,
+                static (p, input, _) => p.Xml.SerializeStringToSyntaxTree(input)
+            );
+        
+        public MarkdownParserContext<XElement> FromXml(XElement xml)
+            => MarkdownParserContext<XElement>.Create(
+                parser,
+                xml, 
+                static (p, input, _) => p.Xml.SerializeToSyntaxTree(input)
+            );
+        
+        public MarkdownParserContext<Stream> FromXml(Stream stream)
+            => MarkdownParserContext<Stream>.Create(
+                parser,
+                stream,
+                static async (p, input, ct) => await p.Xml.SerializeToSyntaxTreeAsync(input, ct).ConfigureAwait(false)
+            );
+        
+        public MarkdownParserContext<string> FromXmlFile(string filePath)
+            => MarkdownParserContext<string>.Create(
+                parser,
+                filePath,
+                static async (p, input, ct) => await p.Xml.SerializeFileToSyntaxTreeAsync(input, ct).ConfigureAwait(false)
+            );
         #endregion
     }
 }
