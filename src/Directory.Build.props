@@ -13,7 +13,7 @@
         <RepositoryUrl>https://github.com/code-of-chaos/Markdown.git</RepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         
-        <Version>0.1.0-preview.0</Version>
+        <Version>0.1.0-preview.1</Version>
         <Authors>Anna Sas</Authors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -29,16 +29,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="CodeOfChaos.Markdown"/>
-        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Syntax"/>
-        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Parsers"/>
-        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Editors"/>
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown" />
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Syntax" />
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Parsers" />
+        <InternalsVisibleTo Include="CodeOfChaos.Markdown.Editors" />
 
-        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown"/>
-        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Editors"/>
-        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Parsers"/>
-        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Syntax"/>
-        <InternalsVisibleTo Include="CodeOfChaosTests.Shared"/>
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown" />
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Editors" />
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Parsers" />
+        <InternalsVisibleTo Include="CodeOfChaosTests.Markdown.Syntax" />
+        <InternalsVisibleTo Include="CodeOfChaosTests.Shared" />
     </ItemGroup>
     
     <ItemGroup>
