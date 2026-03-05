@@ -1,6 +1,6 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MarkdownDevtools: watch" type="RunDotNetWatch" factoryName="RunDotNetWatch">
-    <option name="exePath" value="$PROJECT_DIR$/devtools/MarkdownDevtools/bin/Debug/net10.0/MarkdownDevtools.exe" />
+    <option name="exePath" value="$PROJECT_DIR$/devtools/MarkdownDevtools/bin/Release/net10.0/MarkdownDevtools.exe" />
     <option name="programParameters" value="" />
     <option name="projectFilePath" value="$PROJECT_DIR$/devtools/MarkdownDevtools/MarkdownDevtools.csproj" />
     <option name="projectTfm" value="net10.0" />
