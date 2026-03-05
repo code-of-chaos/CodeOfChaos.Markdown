@@ -37,19 +37,20 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
     };
 
-    private static readonly JsonSerializerOptions SerializerOptions = new() {
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-    };
-
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Deserialize
     public string DeserializeToString(IMdSyntaxTree input) {
-        JsonElement element = DeserializeToJsonElement(input);
-        return JsonSerializer.Serialize(element, SerializerOptions);
+        ArgumentNullException.ThrowIfNull(input);
+
+        var bufferWriter = new ArrayBufferWriter<byte>();
+        using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
+
+        WriteTree(input, writer);
+        writer.Flush();
+
+        return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
     
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
@@ -57,39 +58,22 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
 
         var bufferWriter = new ArrayBufferWriter<byte>();
         await using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
-
-        writer.WriteStartObject();
-        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
-        writer.WriteStartArray(ChildrenPropertyNameEncoded);
-
-        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
-            DeserializeNode(child, writer);
-        }
-
-        writer.WriteEndArray();
-        writer.WriteEndObject();
+        WriteTree(tree, writer);
         await writer.FlushAsync(ct);
 
         return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
 
     public JsonElement DeserializeToJsonElement(IMdSyntaxTree tree) {
+        ArgumentNullException.ThrowIfNull(tree);
+
         var bufferWriter = new ArrayBufferWriter<byte>();
         using var writer = new Utf8JsonWriter(bufferWriter, WriterOptions);
-
-        writer.WriteStartObject();
-        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
-        writer.WriteStartArray(ChildrenPropertyNameEncoded);
-
-        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
-            DeserializeNode(child, writer);
-        }
-
-        writer.WriteEndArray();
-        writer.WriteEndObject();
+        WriteTree(tree, writer);
         writer.Flush();
 
-        return JsonDocument.Parse(bufferWriter.WrittenMemory).RootElement;
+        using JsonDocument document = JsonDocument.Parse(bufferWriter.WrittenMemory);
+        return document.RootElement.Clone();
     }
 
     public async Task DeserializeToJsonStreamAsync(Stream stream, IMdSyntaxTree tree, CancellationToken ct = default) {
@@ -97,17 +81,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         ArgumentNullException.ThrowIfNull(tree);
 
         await using var writer = new Utf8JsonWriter(stream, WriterOptions);
-
-        writer.WriteStartObject();
-        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
-        writer.WriteStartArray(ChildrenPropertyNameEncoded);
-
-        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
-            DeserializeNode(child, writer);
-        }
-
-        writer.WriteEndArray();
-        writer.WriteEndObject();
+        WriteTree(tree, writer);
         await writer.FlushAsync(ct);
     }
 
@@ -147,6 +121,19 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
             writer.WriteEndArray();
         }
 
+        writer.WriteEndObject();
+    }
+
+    private void WriteTree(IMdSyntaxTree tree, Utf8JsonWriter writer) {
+        writer.WriteStartObject();
+        writer.WriteString(TypePropertyNameEncoded, MdSyntaxTreeEncoded);
+        writer.WriteStartArray(ChildrenPropertyNameEncoded);
+
+        foreach (IMdSyntaxNode child in tree.RootNode.GetChildren()) {
+            DeserializeNode(child, writer);
+        }
+
+        writer.WriteEndArray();
         writer.WriteEndObject();
     }
     #endregion
