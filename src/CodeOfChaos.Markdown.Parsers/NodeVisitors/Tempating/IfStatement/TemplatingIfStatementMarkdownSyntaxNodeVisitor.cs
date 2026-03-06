@@ -34,8 +34,8 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
     protected override Regex Syntax => RegexRule;
 
     [GeneratedRegex("""
-                    ^@elseif\(.+\)\ *$
-                    (?:\s(?!^@elseif|^@else|^@endif)(?:^.*$)+)+
+                    ^@else\ ?if\(.+\)\ *$
+                    (?:\s(?!^@else\ ?if|^@else|^@endif)(?:^.*$)+)+
                     """, DefaultMultiLineRegexOptions)]
     private static partial Regex ElifSectionRegexRule { get; }
 
@@ -74,7 +74,8 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
                 ReadOnlySpan<char> valueSpan = span[index..(index + length)];
 
                 int endBracket = valueSpan[..valueSpan.IndexOf('\n')].LastIndexOf(')');
-                ReadOnlySpan<char> elifExpression = valueSpan[8..endBracket];
+                int startBracket = valueSpan[..valueSpan.IndexOf('\n')].IndexOf('(');
+                ReadOnlySpan<char> elifExpression = valueSpan[(startBracket+1)..endBracket];
                 ReadOnlySpan<char> elifBody = valueSpan[(endBracket + 2)..];
 
                 TemplateExpressionMdSyntaxNode elifExpressionNode = TemplateExpressionMdSyntaxNode.GetPooledElseIf();

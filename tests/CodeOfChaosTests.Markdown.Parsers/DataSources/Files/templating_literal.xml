@@ -4,7 +4,9 @@
     <MdString>@{something.Fetch()}</MdString>
     <MdSyntaxTree>
       <ParagraphMdSyntaxNode>
-        <TemplateMdSyntaxNode>something.Fetch()</TemplateMdSyntaxNode>
+        <TemplatingLiteralStatementMdSyntaxNode>
+          <TemplateExpressionMdSyntaxNode expressionType="Literal" expression="something.Fetch()" />
+        </TemplatingLiteralStatementMdSyntaxNode>
       </ParagraphMdSyntaxNode>
     </MdSyntaxTree>
     <ExpectedMarkdown>@{something.Fetch()}</ExpectedMarkdown>
@@ -15,8 +17,15 @@
       "type": "ParagraphMdSyntaxNode",
       "children": [
         {
-          "type": "TemplateMdSyntaxNode",
-          "content": "something.Fetch()"
+          "type": "TemplatingLiteralStatementMdSyntaxNode",
+          "children": [
+            {
+              "type": "TemplateExpressionMdSyntaxNode",
+              "bodyLeadingSpaces": 0,
+              "expressionType": "Literal",
+              "expression": "something.Fetch()"
+            }
+          ]
         }
       ]
     }

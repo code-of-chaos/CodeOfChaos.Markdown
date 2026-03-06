@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MdTestData Id="default" FileName="templating_if.xml">
+    <MdString>@if(something.y == true)
+**bold**
+@endif
+
+@if(something.y == true)
+**bold**
+@else
+*italic*
+@endif
+
+@if(something.y == true)
+**bold**
+@else if(something.x == true)
+***bold and italic***
+@else
+*italic*
+@endif</MdString>
+    <MdSyntaxTree>
+      <TemplatingIfStatementMdSyntaxNode>
+        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+          <ParagraphMdSyntaxNode>
+            <BoldMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
+            </BoldMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+        </TemplateExpressionMdSyntaxNode>
+      </TemplatingIfStatementMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <TemplatingIfStatementMdSyntaxNode>
+        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+          <ParagraphMdSyntaxNode>
+            <BoldMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
+            </BoldMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+        </TemplateExpressionMdSyntaxNode>
+        <TemplateExpressionMdSyntaxNode expressionType="Else" expression="@else">
+          <ParagraphMdSyntaxNode>
+            <ItalicMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
+            </ItalicMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+        </TemplateExpressionMdSyntaxNode>
+      </TemplatingIfStatementMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <TemplatingIfStatementMdSyntaxNode>
+        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+          <ParagraphMdSyntaxNode>
+            <BoldMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
+            </BoldMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+        </TemplateExpressionMdSyntaxNode>
+        <TemplateExpressionMdSyntaxNode expressionType="ElseIf" expression="something.x == true">
+          <ParagraphMdSyntaxNode>
+            <BoldMdSyntaxNode>
+              <ItalicMdSyntaxNode>
+                <TextMdSyntaxNode xml:space="preserve">bold and italic</TextMdSyntaxNode>
+              </ItalicMdSyntaxNode>
+            </BoldMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+        </TemplateExpressionMdSyntaxNode>
+        <TemplateExpressionMdSyntaxNode expressionType="Else" expression="@else">
+          <ParagraphMdSyntaxNode>
+            <ItalicMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
+            </ItalicMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+        </TemplateExpressionMdSyntaxNode>
+      </TemplatingIfStatementMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>@if(something.y == true)
+**bold**
+@endif
+
+@if(something.y == true)
+**bold**
+@else
+*italic*
+@endif
+
+@if(something.y == true)
+**bold**
+@else if(something.x == true)
+***bold and italic***
+@else
+*italic*
+@endif</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "TemplatingIfStatementMdSyntaxNode",
+      "children": [
+        {
+          "type": "TemplateExpressionMdSyntaxNode",
+          "bodyLeadingSpaces": 0,
+          "expressionType": "If",
+          "expression": "something.y == true",
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "BoldMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "bold"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "TemplatingIfStatementMdSyntaxNode",
+      "children": [
+        {
+          "type": "TemplateExpressionMdSyntaxNode",
+          "bodyLeadingSpaces": 0,
+          "expressionType": "If",
+          "expression": "something.y == true",
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "BoldMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "bold"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            }
+          ]
+        },
+        {
+          "type": "TemplateExpressionMdSyntaxNode",
+          "bodyLeadingSpaces": 0,
+          "expressionType": "Else",
+          "expression": "@else",
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "ItalicMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "italic"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "TemplatingIfStatementMdSyntaxNode",
+      "children": [
+        {
+          "type": "TemplateExpressionMdSyntaxNode",
+          "bodyLeadingSpaces": 0,
+          "expressionType": "If",
+          "expression": "something.y == true",
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "BoldMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "bold"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            }
+          ]
+        },
+        {
+          "type": "TemplateExpressionMdSyntaxNode",
+          "bodyLeadingSpaces": 0,
+          "expressionType": "ElseIf",
+          "expression": "something.x == true",
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "BoldMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "ItalicMdSyntaxNode",
+                      "children": [
+                        {
+                          "type": "TextMdSyntaxNode",
+                          "content": "bold and italic"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            }
+          ]
+        },
+        {
+          "type": "TemplateExpressionMdSyntaxNode",
+          "bodyLeadingSpaces": 0,
+          "expressionType": "Else",
+          "expression": "@else",
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "ItalicMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "italic"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
+</ArrayOfMdTestData>
