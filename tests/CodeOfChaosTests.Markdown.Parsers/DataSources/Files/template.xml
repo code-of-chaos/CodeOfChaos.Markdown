@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <MdTestData Id="default" FileName="template.xml">
-    <MdString>{{something.Fetch()}}</MdString>
+    <MdString>@{something.Fetch()}</MdString>
     <MdSyntaxTree>
       <ParagraphMdSyntaxNode>
-        <TemplateMdSyntaxNode BracesCount="2">something.Fetch()</TemplateMdSyntaxNode>
+        <TemplateMdSyntaxNode>something.Fetch()</TemplateMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">}</TextMdSyntaxNode>
       </ParagraphMdSyntaxNode>
     </MdSyntaxTree>
-    <ExpectedMarkdown>{{something.Fetch()}}</ExpectedMarkdown>
+    <ExpectedMarkdown>@{something.Fetch()}}</ExpectedMarkdown>
     <ExpectedJsonString>{
   "type": "MdSyntaxTree",
   "children": [
@@ -16,8 +17,11 @@
       "children": [
         {
           "type": "TemplateMdSyntaxNode",
-          "bracesCount": 2,
           "content": "something.Fetch()"
+        },
+        {
+          "type": "TextMdSyntaxNode",
+          "content": "}"
         }
       ]
     }
@@ -25,13 +29,13 @@
 }</ExpectedJsonString>
   </MdTestData>
   <MdTestData Id="empty" FileName="template.xml">
-    <MdString>{{}}</MdString>
+    <MdString>@{}</MdString>
     <MdSyntaxTree>
       <ParagraphMdSyntaxNode>
-        <TextMdSyntaxNode xml:space="preserve">{{}}</TextMdSyntaxNode>
+        <TextMdSyntaxNode xml:space="preserve">@{}</TextMdSyntaxNode>
       </ParagraphMdSyntaxNode>
     </MdSyntaxTree>
-    <ExpectedMarkdown>{{}}</ExpectedMarkdown>
+    <ExpectedMarkdown>@{}</ExpectedMarkdown>
     <ExpectedJsonString>{
   "type": "MdSyntaxTree",
   "children": [
@@ -40,7 +44,7 @@
       "children": [
         {
           "type": "TextMdSyntaxNode",
-          "content": "{{}}"
+          "content": "@{}"
         }
       ]
     }

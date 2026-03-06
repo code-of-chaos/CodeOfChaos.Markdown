@@ -13,11 +13,11 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed partial class TemplateMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TemplateMdSyntaxNode> {
-    [GeneratedRegex(@"\G(?<!\])(?<open>\{)+(?<t>[^\s{}]+)(?<-open>\})+(?(open)(?!))", DefaultSingleLineRegexOptions)]
+    [GeneratedRegex(@"\G@{(?<t>(?>[^\s\\{}]+|\\{|\\}|{})+)", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
 
-    private static readonly char[] STriggerCharacters = ['{'];
+    private static readonly char[] STriggerCharacters = ['@'];
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int TemplateContentId = RegexRule.GroupNumberFromName("t");
@@ -27,17 +27,15 @@ public sealed partial class TemplateMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
     // -----------------------------------------------------------------------------------------------------------------
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string variableContent = match.Groups[TemplateContentId].Value;
-        int variableLength = match.Length;
 
         TemplateMdSyntaxNode node = MdSyntaxNodePool<TemplateMdSyntaxNode>.Shared.Get();
-        node.WithContent(variableContent)
-            .WithBracesCount((variableLength - variableContent.Length) / 2);
+        node.WithContent(variableContent);
         parentNode.AddChildNode(node);
     }
 
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, TemplateMdSyntaxNode node) {
-        queue.Enqueue('{', Math.Max(node.BracesCount, 1));
+        queue.Enqueue("@{");
         queue.Enqueue(node.Content);
-        queue.Enqueue('}', Math.Max(node.BracesCount, 1));
+        queue.Enqueue('}');
     }
 }
