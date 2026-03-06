@@ -20,7 +20,6 @@ public static class LineNormalization {
         int matchCount = input.Count('\n');
         int splitCount = matchCount + 1;
         leadingSpaces = -1;
-        int newLineCountFromEnd = NewLineCountFromEnd(input);
         
         // Estimate initial capacity to avoid reallocations
         StringBuilder stringBuilder = GlobalPools.StringBuilder.Get();
@@ -60,16 +59,7 @@ public static class LineNormalization {
                     stringBuilder.Append(line[Math.Min(currentIndent, minIndent)..]);
                 }
 
-                stringBuilder.Append('\n');
-            }
-
-            // Remove the last newline if it wasn't in the original input
-            if (stringBuilder.Length > 0 && !input.EndsWith('\n')) stringBuilder.Length--;
-            
-            // Remove the last newlines if they weren't in the original input
-            while (stringBuilder.Length > 0 && newLineCountFromEnd > 0 && stringBuilder[^1] == '\n') {
-                stringBuilder.Length--;
-                newLineCountFromEnd--;
+                if (i != splitCount - 1) stringBuilder.Append('\n');
             }
             
             return stringBuilder.ToString();
@@ -79,19 +69,7 @@ public static class LineNormalization {
             if (rentedArray is not null) ArrayPool<Range>.Shared.Return(rentedArray);
         }
     }
-    
-    private  static int NewLineCountFromEnd(ReadOnlySpan<char> input) {
-        int count = 0;
 
-        for (int i = input.Length - 1; i >= 0; i--) {
-            if (input[i] != '\n') break;
-
-            count++;
-        }
-
-        return count;
-    }
-    
     private static int CountLeadingWhitespace(ReadOnlySpan<char> line) {
         int count = 0;
         while (count < line.Length) {

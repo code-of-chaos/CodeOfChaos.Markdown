@@ -12,7 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed partial class TemplateMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TemplateMdSyntaxNode> {
+public sealed partial class TemplatingLiteralStatementMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TemplatingLiteralStatementMdSyntaxNode> {
     [GeneratedRegex(@"\G@{(?<t>(?>[^\s\\{}]+|\\{|\\}|{})+)}", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
@@ -28,14 +28,16 @@ public sealed partial class TemplateMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string variableContent = match.Groups[TemplateContentId].Value;
 
-        TemplateMdSyntaxNode node = MdSyntaxNodePool<TemplateMdSyntaxNode>.Shared.Get();
-        node.WithContent(variableContent);
+        TemplatingLiteralStatementMdSyntaxNode node = MdSyntaxNodePool<TemplatingLiteralStatementMdSyntaxNode>.Shared.Get();
+        node.WithLiteralBody(variableContent);
         parentNode.AddChildNode(node);
     }
 
-    protected override void Deserialize(INodeDeserializerFragmentQueue queue, TemplateMdSyntaxNode node) {
+    protected override void Deserialize(INodeDeserializerFragmentQueue queue, TemplatingLiteralStatementMdSyntaxNode node) {
+        if (!node.TryGetChildAt(0, out TemplateExpressionMdSyntaxNode? childNode)) return;
+
         queue.Enqueue("@{");
-        queue.Enqueue(node.Content);
+        queue.Enqueue(childNode.Expression);
         queue.Enqueue('}');
     }
 }

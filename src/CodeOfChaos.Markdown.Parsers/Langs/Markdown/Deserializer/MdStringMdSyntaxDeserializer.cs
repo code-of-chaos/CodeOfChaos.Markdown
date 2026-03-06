@@ -1,6 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Extensions.DependencyInjection;
+using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Parsers.Markdown;
 using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Pooling;
@@ -13,8 +15,9 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> logger) : IMdStringMdSyntaxDeserializer {
-    public FrozenDictionary<Type, IMarkdownSyntaxNodeVisitor> Deserializers { get; internal set; } = null!;
+[InjectableSingleton<IMdStringMdSyntaxDeserializer>]
+public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> logger, IMarkdownConfig config) : IMdStringMdSyntaxDeserializer {
+    public FrozenDictionary<Type, IMarkdownSyntaxNodeVisitor> Deserializers { get; } = config.MarkdownSyntaxNodeVisitors;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -47,6 +50,24 @@ public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> 
                 ProcessFragmentQueue(queue, builder);
             }
 
+            return builder.ToString();
+        }
+        finally {
+            GlobalPools.StringBuilder.Return(builder);
+            NodeDeserializerFragmentQueuePool.Shared.Return(queue);
+        }
+    }
+
+    public string DeserializeToString(ReadOnlySpan<IMdSyntaxNode> nodes) {
+        StringBuilder builder = GlobalPools.StringBuilder.Get();
+        NodeDeserializerFragmentQueue queue = NodeDeserializerFragmentQueuePool.Shared.Get(this, builder);
+        
+        try {
+            foreach (IMdSyntaxNode node in nodes) {
+                queue.Enqueue(node);
+                ProcessFragmentQueue(queue, builder);
+            }
+            
             return builder.ToString();
         }
         finally {

@@ -87,7 +87,13 @@ public class NodeDeserializerFragmentQueue : INodeDeserializerFragmentQueue, IRe
         ArgumentNullException.ThrowIfNull(DeserializerReference);
         return DeserializerReference.DeserializeToString(node);
     }
-    
+
+    public string ProcessChildrenAsStandaloneContent(IMdSyntaxNode node) {
+        ArgumentNullException.ThrowIfNull(node);
+        ArgumentNullException.ThrowIfNull(DeserializerReference);
+        return DeserializerReference.DeserializeToString(node.GetChildrenSpan());
+    }
+
     public bool TryReset() {
         _queue.Clear();
         DeserializerReference = null;

@@ -1,15 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Markdown.Syntax;
-
-namespace CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
+namespace CodeOfChaos.Markdown.Syntax.Nodes;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface IMdStringMdSyntaxDeserializer {
-    string DeserializeToString(IMdSyntaxTree tree);
-    string DeserializeToString(IMdSyntaxNode node);
-    string DeserializeToString(ReadOnlySpan<IMdSyntaxNode> nodes);
+public class TemplatingIfStatementMdSyntaxNode : MdSyntaxNode<TemplatingIfStatementMdSyntaxNode> {
 }

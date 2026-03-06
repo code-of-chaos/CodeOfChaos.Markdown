@@ -94,38 +94,4 @@ public class MdSyntaxTreeAndScriptingNodeTests {
         await Assert.That(failLength).IsEqualTo(-1);
         await Assert.That(node.BackTickCount).IsEqualTo(1);
     }
-
-    [Test]
-    public async Task ScriptingNodes_ShouldHandleStateTransitions() {
-        // Arrange
-        var statement = new ScriptingIfStatementMdSyntaxNode();
-        ScriptingExpressionMdSyntaxNode ifExpression = new ScriptingExpressionMdSyntaxNode().WithExpression("@if(a)", 4, 1);
-        ScriptingExpressionMdSyntaxNode elseExpression = new ScriptingExpressionMdSyntaxNode().WithExpression("@else", 5, 0);
-        ScriptingBodyMdSyntaxNode body = new ScriptingBodyMdSyntaxNode().WithLeadingSpaces(-20);
-
-        // Act
-        statement.WithIfCondition(ifExpression);
-        statement.WithElseCondition(elseExpression);
-        string debug = ifExpression.ToDebugString();
-        bool secondElseThrows = false;
-        try {
-            statement.WithElseCondition(new ScriptingExpressionMdSyntaxNode());
-        }
-        catch (InvalidOperationException) {
-            secondElseThrows = true;
-        }
-
-        bool resetStatement = statement.TryReset();
-        bool resetExpression = ifExpression.TryReset();
-        bool resetBody = body.TryReset();
-
-        // Assert
-        await Assert.That(statement.ElseConditionIndex).IsEqualTo(-1);
-        await Assert.That(debug).Contains("'a'");
-        await Assert.That(secondElseThrows).IsTrue();
-        await Assert.That(resetStatement).IsTrue();
-        await Assert.That(resetExpression).IsTrue();
-        await Assert.That(resetBody).IsTrue();
-        await Assert.That(body.LeadingSpaces).IsEqualTo(0);
-    }
 }
