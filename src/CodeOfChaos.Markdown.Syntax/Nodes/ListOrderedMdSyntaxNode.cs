@@ -24,4 +24,7 @@ public sealed class ListOrderedMdSyntaxNode : MdSyntaxNode<ListOrderedMdSyntaxNo
     protected override bool Equals(ListOrderedMdSyntaxNode? other)
         => base.Equals(other)
             && LeadingSpaces == other.LeadingSpaces;
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: LS={LeadingSpaces}";
 }

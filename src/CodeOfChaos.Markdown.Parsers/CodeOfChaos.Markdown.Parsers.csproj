@@ -22,4 +22,8 @@
     <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
     <ProjectReference Include="..\CodeOfChaos.Markdown.Syntax\CodeOfChaos.Markdown.Syntax.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="NodeVisitors\ScriptingExpression\ScriptingExpressionBlazorSyntaxNodeVisitor.razor" />
+    <UpToDateCheckInput Remove="NodeVisitors\ScriptingBody\ScriptingBodyBlazorSyntaxNodeVisitor.razor" />
+  </ItemGroup>
 </Project>

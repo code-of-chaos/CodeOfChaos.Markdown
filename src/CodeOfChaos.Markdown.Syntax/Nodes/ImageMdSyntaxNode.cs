@@ -47,4 +47,7 @@ public sealed partial class ImageMdSyntaxNode : MdSyntaxNode<ImageMdSyntaxNode> 
             && StringComparer.Ordinal.Equals(OriginalAltText, other.OriginalAltText)
             && StringComparer.Ordinal.Equals(Href, other.Href)
             && StringComparer.Ordinal.Equals(Title, other.Title);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{OriginalAltText}' '{Href}' '{Title}'";
 }

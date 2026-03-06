@@ -16,9 +16,12 @@ public interface IMarkdownConfig {
     ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineMarkdownSyntaxNodeVisitors { get; }
     ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineMarkdownSyntaxNodeVisitors { get; }
     IMarkdownSyntaxNodeVisitor? FrontMatterMarkdownSyntaxNodeVisitor { get; }
+    
     FrozenDictionary<Type, IXmlSyntaxNodeVisitor> XmlSyntaxNodeVisitors { get; }
     FrozenDictionary<Type, IJsonSyntaxNodeVisitor> JsonSyntaxNodeVisitors { get; }
     FrozenDictionary<Type, IBlazorComponentBuilderRecord> BlazorComponents { get; }
+    FrozenDictionary<Type, IMarkdownSyntaxNodeVisitor> MarkdownSyntaxNodeVisitors { get; }
+    
     FrozenSet<Type> SkippedBlazorComponents { get; }
 
     bool RenderUnknownBlazorComponents { get; }

@@ -1,22 +1,42 @@
 ﻿@* ------------------------------------------------------------------------------------------------------------------ *@
 @* Imports
 @* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown.Parsers.Blazor.Services
 @using CodeOfChaos.Markdown.Syntax.Nodes
 @using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+@using Microsoft.Extensions.DependencyInjection
 
 @namespace CodeOfChaos.Markdown.Parsers.NodeVisitors
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Descriptors
 @* ------------------------------------------------------------------------------------------------------------------ *@
-@inherits BaseMarkdownSyntaxNodeVisitor<ScriptingExpressionMdSyntaxNode>
+@inherits BaseMarkdownSyntaxNodeVisitor<TemplatingLiteralStatementMdSyntaxNode>
+
+@inject IServiceProvider ServiceProvider
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Html
 @* ------------------------------------------------------------------------------------------------------------------ *@
-@RenderChildContent()
+@if (SyntaxNode.TryGetChildAt(0, out TemplateExpressionMdSyntaxNode? childNode)) {
+    if (TemplateDataProvider is null) {
+        <p>No Data Provider defined</p>
+    } 
+    else if (!TemplateDataProvider.TryGetData(childNode.Expression, out object? result)) {
+        <p>No data could be parsed</p>
+    }
+    else {
+        @result
+    }
+}
+
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @* Code
 @* ------------------------------------------------------------------------------------------------------------------ *@
 @code {
-    
+    private ITemplateDataProvider? TemplateDataProvider { get; set; }
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        TemplateDataProvider = ServiceProvider.GetService<ITemplateDataProvider>();
+    }
 }
 

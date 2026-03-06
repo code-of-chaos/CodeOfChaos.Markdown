@@ -6,6 +6,7 @@ using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaosTests.Shared;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CS8604// Possible null reference argument.
 
@@ -14,6 +15,7 @@ namespace CodeOfChaosTests.Markdown;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 [MarkdownDiDataSource]
+[SuppressMessage("ReSharper", "MethodHasAsyncOverload")]
 public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
     private static readonly string StaticTestFolder = Path.Combine(Path.GetTempPath(), "CodeOfChaosTests.Markdown", "MdTestDataProviderTests");
     private MdTestDataProvider TempTestProvider { get; } = new(
@@ -65,6 +67,43 @@ public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
         }
     }
 
+    public static IEnumerable<Func<(string, int)>> GetTemplateFileNames() {
+        yield return () => ("aggregate.xml", 1);
+        yield return () => ("blockquote.xml", 1);
+        yield return () => ("bold.xml", 1);
+        yield return () => ("break.xml", 1);
+        yield return () => ("callout.xml", 1);
+        yield return () => ("code_block.xml", 1);
+        yield return () => ("code_inline.xml", 1);
+        yield return () => ("combo_bold_italic.xml", 1);
+        yield return () => ("emote.xml", 1);
+        yield return () => ("escaped_char.xml", 1);
+        yield return () => ("footnote.xml", 1);
+        yield return () => ("frontmatter.xml", 1);
+        yield return () => ("heading.xml", 1);
+        yield return () => ("highlight.xml", 1);
+        yield return () => ("horizontal_line.xml", 1);
+        yield return () => ("html.xml", 1);
+        yield return () => ("image.xml", 1);
+        yield return () => ("italic.xml", 1);
+        yield return () => ("link.xml", 1);
+        yield return () => ("list_ordered.xml", 1);
+        yield return () => ("list_unordered.xml", 1);
+        yield return () => ("span.xml", 1);
+        yield return () => ("special_char.xml", 1);
+        yield return () => ("strike.xml", 1);
+        yield return () => ("subscript.xml", 1);
+        yield return () => ("superscript.xml", 1);
+        yield return () => ("table.xml", 1);
+        yield return () => ("tag.xml", 1);
+        yield return () => ("templating_if.xml", 1);
+        yield return () => ("templating_literal.xml", 1);
+        yield return () => ("underline.xml", 1);
+        yield return () => ("user.xml", 1);
+        yield return () => ("wikilink.xml", 1);
+        yield return () => ("wrapper.xml", 1);
+    }
+
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -86,39 +125,7 @@ public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
     }
 
     [Test]
-    [Arguments("aggregate.xml", 1)]
-    [Arguments("blockquote.xml", 1)]
-    [Arguments("bold.xml", 1)]
-    [Arguments("break.xml", 1)]
-    [Arguments("callout.xml", 1)]
-    [Arguments("code_block.xml", 1)]
-    [Arguments("code_inline.xml", 1)]
-    [Arguments("combo_bold_italic.xml", 1)]
-    [Arguments("emote.xml", 1)]
-    [Arguments("escaped_char.xml", 1)]
-    [Arguments("footnote.xml", 1)]
-    [Arguments("frontmatter.xml", 1)]
-    [Arguments("heading.xml", 1)]
-    [Arguments("highlight.xml", 1)]
-    [Arguments("horizontal_line.xml", 1)]
-    [Arguments("html.xml", 1)]
-    [Arguments("image.xml", 1)]
-    [Arguments("italic.xml", 1)]
-    [Arguments("link.xml", 1)]
-    [Arguments("list_ordered.xml", 1)]
-    [Arguments("list_unordered.xml", 1)]
-    [Arguments("span.xml", 1)]
-    [Arguments("special_char.xml", 1)]
-    [Arguments("strike.xml", 1)]
-    [Arguments("subscript.xml", 1)]
-    [Arguments("superscript.xml", 1)]
-    [Arguments("table.xml", 1)]
-    [Arguments("tag.xml", 1)]
-    [Arguments("template.xml", 1)]
-    [Arguments("underline.xml", 1)]
-    [Arguments("user.xml", 1)]
-    [Arguments("wikilink.xml", 1)]
-    [Arguments("wrapper.xml", 1)]
+    [MethodDataSource(nameof(GetTemplateFileNames))]
     public async Task TryGetXmlMdTestDataAsync_ReturnsDataSet(string fileName, int minimumExpectedCount) {
         // Arrange
 
@@ -132,39 +139,7 @@ public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
     }
 
     [Test]
-    [Arguments("aggregate.xml", 1)]
-    [Arguments("blockquote.xml", 1)]
-    [Arguments("bold.xml", 1)]
-    [Arguments("break.xml", 1)]
-    [Arguments("callout.xml", 1)]
-    [Arguments("code_block.xml", 1)]
-    [Arguments("code_inline.xml", 1)]
-    [Arguments("combo_bold_italic.xml", 1)]
-    [Arguments("emote.xml", 1)]
-    [Arguments("escaped_char.xml", 1)]
-    [Arguments("footnote.xml", 1)]
-    [Arguments("frontmatter.xml", 1)]
-    [Arguments("heading.xml", 1)]
-    [Arguments("highlight.xml", 1)]
-    [Arguments("horizontal_line.xml", 1)]
-    [Arguments("html.xml", 1)]
-    [Arguments("image.xml", 1)]
-    [Arguments("italic.xml", 1)]
-    [Arguments("link.xml", 1)]
-    [Arguments("list_ordered.xml", 1)]
-    [Arguments("list_unordered.xml", 1)]
-    [Arguments("span.xml", 1)]
-    [Arguments("special_char.xml", 1)]
-    [Arguments("strike.xml", 1)]
-    [Arguments("subscript.xml", 1)]
-    [Arguments("superscript.xml", 1)]
-    [Arguments("table.xml", 1)]
-    [Arguments("tag.xml", 1)]
-    [Arguments("template.xml", 1)]
-    [Arguments("underline.xml", 1)]
-    [Arguments("user.xml", 1)]
-    [Arguments("wikilink.xml", 1)]
-    [Arguments("wrapper.xml", 1)]
+    [MethodDataSource(nameof(GetTemplateFileNames))]
     public async Task TryGetXmlMdTestData_ReturnsDataSet(string fileName, int minimumExpectedCount) {
         // Arrange
 

@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Config;
 using CodeOfChaos.Markdown.Editors;
-using CodeOfChaos.Markdown.Parsers.Langs.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +22,6 @@ public static class ServiceCollectionExtensions {
         serviceCollection.RegisterServicesFromCodeOfChaosMarkdownParsers();
         
         serviceCollection.AddSingleton(TextEditorFactory.CreateTextEditor);
-        serviceCollection.AddSingleton(MdStringMdSyntaxDeserializerFactory.CreateDeserializer);
         
         serviceCollection.AddSingleton<IMdStringMdSyntaxSerializer>(static sp => {
             var factory = sp.GetRequiredService<IMdStringMdSyntaxSerializerFactory>();

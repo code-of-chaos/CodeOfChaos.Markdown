@@ -24,4 +24,7 @@ public sealed class TagMdSyntaxNode() : MdSyntaxNode<TagMdSyntaxNode>(initialChi
     protected override bool Equals(TagMdSyntaxNode? other) 
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Content, other.Content);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{Content}'";
 }

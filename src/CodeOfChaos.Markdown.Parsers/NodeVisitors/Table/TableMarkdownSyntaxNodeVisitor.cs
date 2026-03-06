@@ -48,7 +48,7 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         ReadOnlySpan<char> separator = match.Groups[SepId].ValueSpan;
         Span<Range> separatorColumns = stackalloc Range[separator.Length - 1];
         int separatorColumnCount = separator.Split(separatorColumns, '|', StringSplitOptions.TrimEntries);
-        Span<TableMdSyntaxNode.Alignment> separatorColumData = stackalloc TableMdSyntaxNode.Alignment[separatorColumnCount];
+        Span<TableAlignment> separatorColumData = stackalloc TableAlignment[separatorColumnCount];
         bool hasSeparatorData = ParseSeparatorData(separator, separatorColumns[..separatorColumnCount], separatorColumData);
 
         ReadOnlySpan<char> rows = match.Groups[BodyId].ValueSpan;
@@ -154,13 +154,13 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
 
         // Write header separator
         for (int col = 0; col < totalColumns; col++) {
-            TableMdSyntaxNode.Alignment alignment = node.HasAlignments
+            TableAlignment alignment = node.HasAlignments
                 ? node.Alignments[col]
-                : TableMdSyntaxNode.Alignment.Unknown;
+                : TableAlignment.Unknown;
             (char left, char right) = alignment switch {
-                TableMdSyntaxNode.Alignment.Left => (':', '-'),
-                TableMdSyntaxNode.Alignment.Right => ('-', ':'),
-                TableMdSyntaxNode.Alignment.Center => (':', ':'),
+                TableAlignment.Left => (':', '-'),
+                TableAlignment.Right => ('-', ':'),
+                TableAlignment.Center => (':', ':'),
                 _ => ('-', '-')
             };
 
@@ -195,7 +195,7 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
     /// <summary>
     /// Parses separator data from a line of input and determines column alignments.
     /// </summary>
-    private static bool ParseSeparatorData(ReadOnlySpan<char> lineInput, Span<Range> columnRanges, Span<TableMdSyntaxNode.Alignment> target) {
+    private static bool ParseSeparatorData(ReadOnlySpan<char> lineInput, Span<Range> columnRanges, Span<TableAlignment> target) {
         if (lineInput.IsEmpty) return false;
         if (columnRanges.IsEmpty) return false;
 
@@ -203,17 +203,17 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
 
         for (int index = 0; index < columnRanges.Length; index++) {
             Range range = columnRanges[index];
-            var alignment = TableMdSyntaxNode.Alignment.Unknown;
+            var alignment = TableAlignment.Unknown;
             ReadOnlySpan<char> columnSlice = lineInput[range].Trim();
             alignment = (columnSlice[0], columnSlice[^1]) switch {
-                (':', ':') => TableMdSyntaxNode.Alignment.Center,
-                ('-', ':') => TableMdSyntaxNode.Alignment.Right,
-                (':', '-') => TableMdSyntaxNode.Alignment.Left,
+                (':', ':') => TableAlignment.Center,
+                ('-', ':') => TableAlignment.Right,
+                (':', '-') => TableAlignment.Left,
 
                 _ => alignment
             };
 
-            if (alignment is not TableMdSyntaxNode.Alignment.Unknown) hasSeparatorData = true;
+            if (alignment is not TableAlignment.Unknown) hasSeparatorData = true;
             target[index] = alignment;
         }
 

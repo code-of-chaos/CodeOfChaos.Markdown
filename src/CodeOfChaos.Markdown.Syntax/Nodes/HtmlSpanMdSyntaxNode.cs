@@ -24,4 +24,7 @@ public sealed class HtmlSpanMdSyntaxNode : MdSyntaxNode<HtmlSpanMdSyntaxNode> {
     protected override bool Equals(HtmlSpanMdSyntaxNode? other)
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Attributes, other.Attributes);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{Attributes}'";
 }

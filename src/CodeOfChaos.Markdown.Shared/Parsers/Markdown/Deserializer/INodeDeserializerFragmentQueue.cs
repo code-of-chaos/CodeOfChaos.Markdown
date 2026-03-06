@@ -18,4 +18,5 @@ public interface INodeDeserializerFragmentQueue {
     void EnqueueChildren(IMdSyntaxNode value);
 
     string ProcessAsStandaloneContent(IMdSyntaxNode node);
+    string ProcessChildrenAsStandaloneContent(IMdSyntaxNode node);
 }

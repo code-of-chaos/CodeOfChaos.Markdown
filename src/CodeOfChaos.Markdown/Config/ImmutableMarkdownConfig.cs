@@ -21,6 +21,8 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
     public required FrozenDictionary<Type, IXmlSyntaxNodeVisitor> XmlSyntaxNodeVisitors { get; init; }
     public required FrozenDictionary<Type, IJsonSyntaxNodeVisitor> JsonSyntaxNodeVisitors { get; init; }
     public required FrozenDictionary<Type, IBlazorComponentBuilderRecord> BlazorComponents { get; init; }
+    public required FrozenDictionary<Type, IMarkdownSyntaxNodeVisitor> MarkdownSyntaxNodeVisitors { get; init; }
+    
     public required FrozenSet<Type> SkippedBlazorComponents { get; init; }
     
     public required bool RenderUnknownBlazorComponents { get; init; }
@@ -54,6 +56,10 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
         FrozenDictionary<Type, IXmlSyntaxNodeVisitor> xmlSyntaxNodeVisitors = markdownConfig.ConfigEntries.Where(entry => entry.XmlNodeVisitor is not null)
             .ToFrozenDictionary(entry => entry.SyntaxNodeType, entry => entry.XmlNodeVisitor!);
 
+        FrozenDictionary<Type, IMarkdownSyntaxNodeVisitor> markdownSyntaxNodeVisitors = markdownConfig.ConfigEntries
+            .Where(entry => entry.MarkdownMultiLineNodeVisitor is not null || entry.MarkdownSingleLineNodeVisitor is not null || entry.MarkdownFrontMatterNodeVisitor is not null)
+            .ToFrozenDictionary(entry => entry.SyntaxNodeType, entry => entry.MarkdownMultiLineNodeVisitor ?? entry.MarkdownSingleLineNodeVisitor ?? entry.MarkdownFrontMatterNodeVisitor!);
+        
         return new ImmutableMarkdownConfig {
             SingleLineMarkdownSyntaxNodeVisitors = singleLine,
             MultiLineMarkdownSyntaxNodeVisitors = multiLine,
@@ -61,6 +67,7 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
             XmlSyntaxNodeVisitors = xmlSyntaxNodeVisitors,
             JsonSyntaxNodeVisitors = jsonNodeVisitors,
             BlazorComponents = blazorComponents,
+            MarkdownSyntaxNodeVisitors = markdownSyntaxNodeVisitors,
             SkippedBlazorComponents = markdownConfig.SkippedBlazorComponentTypes.ToFrozenSet(),
             RenderUnknownBlazorComponents = markdownConfig.RenderUnknownBlazorComponents,
             HtmlRendererFootnoteWrapperType = markdownConfig.HtmlRendererFootnoteWrapperType,

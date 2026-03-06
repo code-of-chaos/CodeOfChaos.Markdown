@@ -31,4 +31,7 @@ public sealed class EmoteMdSyntaxNode() : MdSyntaxNode<EmoteMdSyntaxNode>(initia
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(EmoteKey, other.EmoteKey)
             && StringComparer.Ordinal.Equals(OriginalEmote, other.OriginalEmote);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{EmoteKey}'";
 }

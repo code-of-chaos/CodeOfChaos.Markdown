@@ -24,7 +24,7 @@ public sealed class TableXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSynt
 
         writer.WriteStartElement(Alignments);
         int columCount = node.GetHeaderCells().Length;
-        foreach (TableMdSyntaxNode.Alignment alignment in node.Alignments.AsSpan(0, columCount)) {
+        foreach (TableAlignment alignment in node.Alignments.AsSpan(0, columCount)) {
             writer.WriteElementString(Alignment, Enum.GetName(alignment));
         }
         writer.WriteEndElement();
@@ -35,7 +35,7 @@ public sealed class TableXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSynt
         if (!reader.LocalName.Equals(Alignments, StringComparison.Ordinal)) return false;
 
         var targetNode = (TableMdSyntaxNode)node;
-        var alignments = new List<TableMdSyntaxNode.Alignment>();
+        var alignments = new List<TableAlignment>();
 
         if (reader.IsEmptyElement) {
             reader.Read();
@@ -44,17 +44,39 @@ public sealed class TableXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSynt
 
         reader.Read();
         while (!(reader.NodeType == XmlNodeType.EndElement && reader.LocalName.Equals(Alignments, StringComparison.Ordinal))) {
-            if (reader.NodeType == XmlNodeType.Element && reader.LocalName.Equals(Alignment, StringComparison.Ordinal)) {
-                string value = reader.ReadElementContentAsString();
-                alignments.Add(Enum.Parse<TableMdSyntaxNode.Alignment>(value));
-                continue;
+            switch (reader.NodeType) {
+                case XmlNodeType.Element when reader.LocalName.Equals(Alignment, StringComparison.Ordinal): {
+                    string value = reader.ReadElementContentAsString();
+                    alignments.Add(Enum.Parse<TableAlignment>(value));
+                    continue;
+                }
+
+                case XmlNodeType.Element:
+                    reader.Skip();
+                    break;
+
+                case XmlNodeType.None:
+                case XmlNodeType.Attribute:
+                case XmlNodeType.Text:
+                case XmlNodeType.CDATA:
+                case XmlNodeType.EntityReference:
+                case XmlNodeType.Entity:
+                case XmlNodeType.ProcessingInstruction:
+                case XmlNodeType.Comment:
+                case XmlNodeType.Document:
+                case XmlNodeType.DocumentType:
+                case XmlNodeType.DocumentFragment:
+                case XmlNodeType.Notation:
+                case XmlNodeType.Whitespace:
+                case XmlNodeType.SignificantWhitespace:
+                case XmlNodeType.EndElement:
+                case XmlNodeType.EndEntity:
+                case XmlNodeType.XmlDeclaration:
+                default:
+                    reader.Read();
+                    break;
             }
 
-            if (reader.NodeType == XmlNodeType.Element) {
-                reader.Skip();
-            } else {
-                reader.Read();
-            }
         }
 
         reader.Read();

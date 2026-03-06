@@ -9,7 +9,6 @@ public sealed class CodeInlineMdSyntaxNode() : MdSyntaxNode<CodeInlineMdSyntaxNo
     public string Content { get; private set; } = string.Empty;
     public int BackTickCount { get; private set; }
 
-
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
@@ -56,4 +55,7 @@ public sealed class CodeInlineMdSyntaxNode() : MdSyntaxNode<CodeInlineMdSyntaxNo
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Content, other.Content)
             && BackTickCount == other.BackTickCount;
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: BTC={BackTickCount}";
 }

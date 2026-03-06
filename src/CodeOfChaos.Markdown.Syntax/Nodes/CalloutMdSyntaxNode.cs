@@ -12,8 +12,8 @@ public sealed class CalloutMdSyntaxNode() : MdSyntaxNode<CalloutMdSyntaxNode>(in
     private const int TitleNodeIndex = 0;
     private const int BodyNodeIndex = 1;
     
-    public string? CalloutType { get; private set; }
-    public CollapseStateOptions CollapsedState { get; private set; }
+    public string CalloutType { get; private set; } = string.Empty;
+    public CalloutCollapseStateOptions CollapsedState { get; private set; }
     public int LeadingSpaces { get; private set; }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ public sealed class CalloutMdSyntaxNode() : MdSyntaxNode<CalloutMdSyntaxNode>(in
         return this;
     }
     
-    public CalloutMdSyntaxNode WithCollapseState(CollapseStateOptions collapseState) {
+    public CalloutMdSyntaxNode WithCollapseState(CalloutCollapseStateOptions collapseState) {
         CollapsedState = collapseState;
         return this;
     }
@@ -58,16 +58,16 @@ public sealed class CalloutMdSyntaxNode() : MdSyntaxNode<CalloutMdSyntaxNode>(in
         if (option.IsEmpty) return;
         char c = option[0];
         CollapsedState = c switch {
-            '+' => CollapseStateOptions.Open,
-            '-' => CollapseStateOptions.Closed,
-            _ => CollapseStateOptions.None
+            '+' => CalloutCollapseStateOptions.Open,
+            '-' => CalloutCollapseStateOptions.Closed,
+            _ => CalloutCollapseStateOptions.None
         };
     }
     
     public override bool TryReset() {
         LeadingSpaces = 0;
-        CalloutType = null;
-        CollapsedState = CollapseStateOptions.None;
+        CalloutType = string.Empty;
+        CollapsedState = CalloutCollapseStateOptions.None;
         return base.TryReset();
     }
 
@@ -76,10 +76,20 @@ public sealed class CalloutMdSyntaxNode() : MdSyntaxNode<CalloutMdSyntaxNode>(in
             && LeadingSpaces == other.LeadingSpaces
             && CollapsedState == other.CollapsedState
             && StringComparer.Ordinal.Equals(CalloutType, other.CalloutType);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{CalloutType}' '{CollapseStateOptionsToString(CollapsedState)}'  LS={LeadingSpaces}";
 
-    public enum CollapseStateOptions {
-        None = 0,
-        Open = 1,
-        Closed = 2
-    }
+    private static string CollapseStateOptionsToString(CalloutCollapseStateOptions state) => state switch {
+        CalloutCollapseStateOptions.None => "",
+        CalloutCollapseStateOptions.Open => "+",
+        CalloutCollapseStateOptions.Closed => "-",
+        _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
+    };
+}
+
+public enum CalloutCollapseStateOptions {
+    None = 0,
+    Open = 1,
+    Closed = 2
 }

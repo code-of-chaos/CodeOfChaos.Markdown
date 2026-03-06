@@ -81,11 +81,11 @@ public static class MarkdownConfigExtensions {
                 .WithMarkdownSingleLineNodeVisitor<WikiLinkMarkdownSyntaxNodeVisitor>()
                 .WithXmlNodeVisitor<WikiLinkXmlSyntaxNodeVisitor>();
             
-            config.WithSyntaxNode<TemplateMdSyntaxNode>()
-                .WithBlazorNodeVisitor<TemplateBlazorSyntaxNodeVisitor>()
-                .WithJsonNodeVisitor<TemplateJsonSyntaxNodeVisitor>()
-                .WithMarkdownSingleLineNodeVisitor<TemplateMarkdownSyntaxNodeVisitor>()
-                .WithXmlNodeVisitor<TemplateXmlSyntaxNodeVisitor>();
+            config.WithSyntaxNode<TemplatingLiteralStatementMdSyntaxNode>()
+                .WithBlazorNodeVisitor<TemplatingLiteralStatementBlazorSyntaxNodeVisitor>()
+                .WithJsonNodeVisitor<JsonSyntaxNodeVisitor<TemplatingLiteralStatementMdSyntaxNode>>()
+                .WithMarkdownSingleLineNodeVisitor<TemplatingLiteralStatementMarkdownSyntaxNodeVisitor>()
+                .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<TemplatingLiteralStatementMdSyntaxNode>>();
             
             config.WithSyntaxNode<ImageMdSyntaxNode>()
                 .WithBlazorNodeVisitor<ImageBlazorSyntaxNodeVisitor>()
@@ -130,11 +130,11 @@ public static class MarkdownConfigExtensions {
                 .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<BreakMdSyntaxNode>>();
             
             // MultiLine Structures
-            config.WithSyntaxNode<ScriptingIfStatementMdSyntaxNode>()
-                .WithBlazorNodeVisitor<ScriptingIfStatementBlazorSyntaxNodeVisitor>()
-                .WithJsonNodeVisitor<ScriptingIfStatementJsonSyntaxNodeVisitor>()
-                .WithMarkdownMultiLineNodeVisitor<ScriptingIfStatementMarkdownSyntaxNodeVisitor>()
-                .WithXmlNodeVisitor<ScriptingIfStatementXmlSyntaxNodeVisitor>();
+            config.WithSyntaxNode<TemplatingIfStatementMdSyntaxNode>()
+                .WithBlazorNodeVisitor<TemplatingIfStatementBlazorSyntaxNodeVisitor>()
+                .WithJsonNodeVisitor<JsonSyntaxNodeVisitor<TemplatingIfStatementMdSyntaxNode>>()
+                .WithMarkdownMultiLineNodeVisitor<TemplatingIfStatementMarkdownSyntaxNodeVisitor>()
+                .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<TemplatingIfStatementMdSyntaxNode>>();
             
             config.WithSyntaxNode<HeadingMdSyntaxNode>()
                 .WithBlazorNodeVisitor<HeadingBlazorSyntaxNodeVisitor>()
@@ -249,24 +249,16 @@ public static class MarkdownConfigExtensions {
                 .WithJsonNodeVisitor<JsonSyntaxNodeVisitor<TableCellMdSyntaxNode>>()
                 .WithXmlNodeVisitor<XmlSyntaxNodeVisitor<TableCellMdSyntaxNode>>();
             
-            config.WithSyntaxNode<ScriptingBodyMdSyntaxNode>()
-                .WithBlazorNodeVisitor<ScriptingBodyBlazorSyntaxNodeVisitor>()
-                .WithJsonNodeVisitor<ScriptingBodyJsonSyntaxNodeVisitor>()
-                .WithMarkdownSingleLineNodeVisitor<ScriptingBodyMarkdownSyntaxNodeVisitor>()
-                .WithXmlNodeVisitor<ScriptingBodyXmlSyntaxNodeVisitor>();
-
-            config.WithSyntaxNode<ScriptingExpressionMdSyntaxNode>()
-                .WithBlazorNodeVisitor<ScriptingExpressionBlazorSyntaxNodeVisitor>()
-                .WithJsonNodeVisitor<ScriptingExpressionJsonSyntaxNodeVisitor>()
-                .WithMarkdownSingleLineNodeVisitor<ScriptingExpressionMarkdownSyntaxNodeVisitor>()
-                .WithXmlNodeVisitor<ScriptingExpressionXmlSyntaxNodeVisitor>();
-            
             config.WithSyntaxNode<TextMdSyntaxNode>()
                 .WithBlazorNodeVisitor<TextBlazorSyntaxNodeVisitor>()
                 .WithJsonNodeVisitor<TextJsonSyntaxNodeVisitor>()
                 .WithMarkdownSingleLineNodeVisitor<TextMarkdownSyntaxNodeVisitor>()
                 .WithXmlNodeVisitor<TextXmlSyntaxNodeVisitor>();
-
+            
+            config.WithSyntaxNode<TemplateExpressionMdSyntaxNode>()
+                .WithJsonNodeVisitor<TemplateExpressionJsonSyntaxNodeVisitor>()
+                .WithXmlNodeVisitor<TemplateExpressionXmlSyntaxNodeVisitor>();
+            
             config.SkipBlazorRenderingOnComponent<FootnoteDescriptionMdSyntaxNode>();
             
             return config;

@@ -10,7 +10,6 @@
       </ParagraphMdSyntaxNode>
     </MdSyntaxTree>
     <ExpectedMarkdown>_underline_</ExpectedMarkdown>
-    <ExpectedMarkdownSkipOnWhitespaceMisMatch>True</ExpectedMarkdownSkipOnWhitespaceMisMatch>
     <ExpectedJsonString>{
   "type": "MdSyntaxTree",
   "children": [
