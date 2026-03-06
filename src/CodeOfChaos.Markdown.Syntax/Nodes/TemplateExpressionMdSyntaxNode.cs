@@ -10,7 +10,7 @@ namespace CodeOfChaos.Markdown.Syntax.Nodes;
 public class TemplateExpressionMdSyntaxNode : MdSyntaxNode<TemplateExpressionMdSyntaxNode> {
     public TemplateExpressionType ExpressionType { get; private set; }
     public string Expression { get; private set; } = string.Empty;
-    public int BodyLeadingSpaces { get; private set; }
+    public int LeadingSpaces { get; private set; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
@@ -40,27 +40,26 @@ public class TemplateExpressionMdSyntaxNode : MdSyntaxNode<TemplateExpressionMdS
         return this;
     }
 
-    public TemplateExpressionMdSyntaxNode WithBodyLeadingSpaces(int leadingSpaces) {
-        BodyLeadingSpaces = leadingSpaces;
+    public TemplateExpressionMdSyntaxNode WithLeadingSpaces(int leadingSpaces) {
+        LeadingSpaces = leadingSpaces;
         return this;
     }
 
     public override bool TryReset() {
         ExpressionType = TemplateExpressionType.Unknown;
         Expression = string.Empty;
-        BodyLeadingSpaces = 0;
+        LeadingSpaces = 0;
         return base.TryReset();
     }
 
     protected override bool Equals([NotNullWhen(true)] TemplateExpressionMdSyntaxNode? other)
         => base.Equals(other)
             && ExpressionType == other.ExpressionType
-            && BodyLeadingSpaces == other.BodyLeadingSpaces
+            && LeadingSpaces == other.LeadingSpaces
             && StringComparer.Ordinal.Equals(Expression, other.Expression);
 
-
     public override string ToDebugString()
-        => $"{base.ToDebugString()}: '{ExpressionTypeToString(ExpressionType)}' '{Expression}' LS:{BodyLeadingSpaces}";
+        => $"{base.ToDebugString()}: '{ExpressionTypeToString(ExpressionType)}' '{Expression}' LS={LeadingSpaces}";
 
     private static string ExpressionTypeToString(TemplateExpressionType type) => type switch {
         TemplateExpressionType.Literal => "Literal",

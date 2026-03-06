@@ -36,7 +36,7 @@ public sealed class CalloutXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CalloutMd
             targetNode.WithCalloutType(calloutType);
         }
         
-        if (TryGetAttributeAsEnum(reader, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
+        if (TryGetAttributeAsEnum(reader, CollapsedState, out CalloutCollapseStateOptions collapsedState)) {
             targetNode.WithCollapseState(collapsedState);
         }
     }

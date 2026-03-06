@@ -24,4 +24,7 @@ public sealed class HeadingMdSyntaxNode : MdSyntaxNode<HeadingMdSyntaxNode> {
     protected override bool Equals(HeadingMdSyntaxNode? other)
         => base.Equals(other)
             && Level == other.Level;
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: LVL={Level}";
 }

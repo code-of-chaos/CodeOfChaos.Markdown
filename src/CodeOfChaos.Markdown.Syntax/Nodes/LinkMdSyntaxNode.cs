@@ -32,4 +32,7 @@ public sealed class LinkMdSyntaxNode : MdSyntaxNode<LinkMdSyntaxNode> {
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Href, other.Href)
             && StringComparer.Ordinal.Equals(Title, other.Title);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{Href}' '{Title}'";
 }

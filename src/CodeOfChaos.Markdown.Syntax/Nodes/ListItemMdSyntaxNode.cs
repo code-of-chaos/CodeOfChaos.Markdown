@@ -48,9 +48,11 @@ public sealed class ListItemMdSyntaxNode : MdSyntaxNode<ListItemMdSyntaxNode> {
 
     protected override bool Equals(ListItemMdSyntaxNode? other)
         => base.Equals(other)
-            && IsCheckable == other.IsCheckable
             && StringComparer.Ordinal.Equals(Index, other.Index)
             && StringComparer.Ordinal.Equals(OriginalCheckMarker, other.OriginalCheckMarker)
             && LeadingSpaces == other.LeadingSpaces
             && CheckLeadingSpaces == other.CheckLeadingSpaces;
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{Index}' '{OriginalCheckMarker}' LS={LeadingSpaces} CLS={CheckLeadingSpaces}";
 }

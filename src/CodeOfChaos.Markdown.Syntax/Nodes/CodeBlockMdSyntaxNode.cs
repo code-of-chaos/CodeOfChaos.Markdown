@@ -32,4 +32,7 @@ public sealed class CodeBlockMdSyntaxNode() : MdSyntaxNode<CodeBlockMdSyntaxNode
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Content, other.Content)
             && StringComparer.Ordinal.Equals(Language, other.Language);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{Language}'";
 }

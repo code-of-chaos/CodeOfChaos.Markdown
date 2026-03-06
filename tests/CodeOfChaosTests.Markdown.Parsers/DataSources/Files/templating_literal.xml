@@ -5,7 +5,7 @@
     <MdSyntaxTree>
       <ParagraphMdSyntaxNode>
         <TemplatingLiteralStatementMdSyntaxNode>
-          <TemplateExpressionMdSyntaxNode expressionType="Literal" expression="something.Fetch()" bodyLeadingSpaces="0" />
+          <TemplateExpressionMdSyntaxNode expressionType="Literal" expression="something.Fetch()" leadingSpaces="0" />
         </TemplatingLiteralStatementMdSyntaxNode>
       </ParagraphMdSyntaxNode>
     </MdSyntaxTree>
@@ -21,7 +21,7 @@
           "children": [
             {
               "type": "TemplateExpressionMdSyntaxNode",
-              "bodyLeadingSpaces": 0,
+              "leadingSpaces": 0,
               "expressionType": "Literal",
               "expression": "something.Fetch()"
             }

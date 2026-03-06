@@ -79,9 +79,9 @@ public sealed partial class CalloutMarkdownSyntaxNodeVisitor : BaseMarkdownSynta
 
         // Add a collapsed state when present
         string collapsedState = node.CollapsedState switch {
-            CalloutMdSyntaxNode.CollapseStateOptions.Closed => "-",
-            CalloutMdSyntaxNode.CollapseStateOptions.Open => "+",
-            CalloutMdSyntaxNode.CollapseStateOptions.None => string.Empty,
+            CalloutCollapseStateOptions.Closed => "-",
+            CalloutCollapseStateOptions.Open => "+",
+            CalloutCollapseStateOptions.None => string.Empty,
             _ => throw new ArgumentOutOfRangeException(nameof(node), node.CollapsedState, null)
         };
         queue.Enqueue(collapsedState);

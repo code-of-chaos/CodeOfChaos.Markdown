@@ -49,5 +49,7 @@ public sealed class FrontMatterMdSyntaxNode() : MdSyntaxNode<FrontMatterMdSyntax
     protected override bool Equals(FrontMatterMdSyntaxNode? other)
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Content, other.Content)
-            && StringComparer.Ordinal.Equals(Language, other.Language);
+            && StringComparer.Ordinal.Equals(Language, other.Language)
+            && DashesCount == other.DashesCount
+            && LeadingSpaces == other.LeadingSpaces;
 }

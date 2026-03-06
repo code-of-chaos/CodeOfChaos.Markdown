@@ -63,8 +63,8 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
         ifExpressionNode.WithExpression(ifExpression.Value);
         statementNode.AddChildNode(ifExpressionNode);
 
-        string adjustedIfBody = LineNormalization.NormalizeLineIndentation(ifBody.ValueSpan, out int ifBodyLeadingSpaces);
-        ifExpressionNode.WithBodyLeadingSpaces(ifBodyLeadingSpaces);
+        string adjustedIfBody = LineNormalization.NormalizeLineIndentation(ifBody.ValueSpan, out int ifLeadingSpaces);
+        ifExpressionNode.WithLeadingSpaces(ifLeadingSpaces);
 
         stack.PushMultiLineMatchesToStack(adjustedIfBody, ifExpressionNode);
 
@@ -84,8 +84,8 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
                 elifExpressionNode.WithExpression(elifExpression.ToString());
                 statementNode.AddChildNode(elifExpressionNode);
 
-                string adjustedElifBody = LineNormalization.NormalizeBlockQuote(elifBody, out int elifBodyLeadingSpaces);
-                elifExpressionNode.WithBodyLeadingSpaces(elifBodyLeadingSpaces);
+                string adjustedElifBody = LineNormalization.NormalizeBlockQuote(elifBody, out int elifLeadingSpaces);
+                elifExpressionNode.WithLeadingSpaces(elifLeadingSpaces);
 
                 stack.PushMultiLineMatchesToStack(adjustedElifBody, elifExpressionNode);
             }
@@ -100,8 +100,8 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
         elseExpressionNode.WithExpression("@else");
         statementNode.AddChildNode(elseExpressionNode);
 
-        string adjustedElseBody = LineNormalization.NormalizeBlockQuote(elseBody.ValueSpan, out int elseBodyLeadingSpaces);
-        elseExpressionNode.WithBodyLeadingSpaces(elseBodyLeadingSpaces);
+        string adjustedElseBody = LineNormalization.NormalizeBlockQuote(elseBody.ValueSpan, out int elseLeadingSpaces);
+        elseExpressionNode.WithLeadingSpaces(elseLeadingSpaces);
 
         stack.PushMultiLineMatchesToStack(adjustedElseBody, elseExpressionNode);
     }
@@ -138,7 +138,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
                     continue;
             }
 
-            if (expressionNode.BodyLeadingSpaces > 0) EnqueueFormattedLines(queue, expressionNode);
+            if (expressionNode.LeadingSpaces > 0) EnqueueFormattedLines(queue, expressionNode);
             else queue.EnqueueChildren(expressionNode);
         }
 
@@ -147,7 +147,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
 
     private static void EnqueueFormattedLines(INodeDeserializerFragmentQueue queue, TemplateExpressionMdSyntaxNode expressionNode) {
         // Skip if we dont need to add the leading spaces
-        if (expressionNode.BodyLeadingSpaces <= 0) {
+        if (expressionNode.LeadingSpaces <= 0) {
             queue.EnqueueChildren(expressionNode);
             return;
         }
@@ -155,7 +155,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
         // Process the content line by line
         string content = queue.ProcessChildrenAsStandaloneContent(expressionNode);
         string leadingSpaces = LeadingSpacesCache.GetOrAdd(
-            Math.Max(expressionNode.BodyLeadingSpaces, 0),
+            Math.Max(expressionNode.LeadingSpaces, 0),
             static i => new string(' ', i)
         );
         

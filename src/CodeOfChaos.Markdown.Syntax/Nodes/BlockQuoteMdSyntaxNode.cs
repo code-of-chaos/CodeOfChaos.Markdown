@@ -24,4 +24,7 @@ public sealed class BlockQuoteMdSyntaxNode : MdSyntaxNode<BlockQuoteMdSyntaxNode
     protected override bool Equals(BlockQuoteMdSyntaxNode? other)
         => base.Equals(other)
             && LeadingSpaces == other.LeadingSpaces;
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: LS={LeadingSpaces}";
 }

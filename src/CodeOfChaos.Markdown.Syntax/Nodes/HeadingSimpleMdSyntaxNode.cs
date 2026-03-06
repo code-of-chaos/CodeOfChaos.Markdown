@@ -24,4 +24,7 @@ public sealed class HeadingSimpleMdSyntaxNode : MdSyntaxNode<HeadingSimpleMdSynt
     protected override bool Equals(HeadingSimpleMdSyntaxNode? other)
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Identifier, other.Identifier);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{Identifier}'";   
 }

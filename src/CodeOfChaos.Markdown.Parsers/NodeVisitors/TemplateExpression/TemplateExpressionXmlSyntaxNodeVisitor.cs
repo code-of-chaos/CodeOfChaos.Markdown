@@ -13,7 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 public sealed class TemplateExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TemplateExpressionMdSyntaxNode> {
     private static readonly string ExpressionType = nameof(TemplateExpressionMdSyntaxNode.ExpressionType).ToCamelCase();
     private static readonly string Body = nameof(TemplateExpressionMdSyntaxNode.Expression).ToCamelCase();
-    private static readonly string BodyLeadingSpaces = nameof(TemplateExpressionMdSyntaxNode.BodyLeadingSpaces).ToCamelCase();
+    private static readonly string LeadingSpaces = nameof(TemplateExpressionMdSyntaxNode.LeadingSpaces).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -23,7 +23,7 @@ public sealed class TemplateExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisito
 
         writer.WriteAttributeString(ExpressionType, Enum.GetName(node.ExpressionType));
         writer.WriteAttributeString(Body, node.Expression);
-        writer.WriteAttributeString(BodyLeadingSpaces, node.BodyLeadingSpaces.ToString());
+        writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
     }
 
     protected override void SerializeDetails(XmlReader reader, TemplateExpressionMdSyntaxNode targetNode) {
@@ -37,8 +37,8 @@ public sealed class TemplateExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisito
             targetNode.WithExpressionType(expressionType);  
         }
         
-        if (TryGetAttributeAsInt32(reader, BodyLeadingSpaces, out int leadingSpaces)) {
-            targetNode.WithBodyLeadingSpaces(leadingSpaces);
+        if (TryGetAttributeAsInt32(reader, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 

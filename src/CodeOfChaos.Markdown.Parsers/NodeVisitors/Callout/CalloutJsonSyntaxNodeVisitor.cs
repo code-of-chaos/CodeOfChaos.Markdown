@@ -37,7 +37,7 @@ public sealed class CalloutJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Callout
             targetNode.WithCalloutType(calloutType);
         }
         
-        if (TryGetPropertyAsEnum(element, CollapsedState, out CalloutMdSyntaxNode.CollapseStateOptions collapsedState)) {
+        if (TryGetPropertyAsEnum(element, CollapsedState, out CalloutCollapseStateOptions collapsedState)) {
             targetNode.WithCollapseState(collapsedState);
         }
     }

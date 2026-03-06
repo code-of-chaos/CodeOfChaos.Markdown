@@ -24,4 +24,7 @@ public sealed class UserMdSyntaxNode() : MdSyntaxNode<UserMdSyntaxNode>(initialC
     protected override bool Equals(UserMdSyntaxNode? other) 
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Content, other.Content);
+    
+    public override string ToDebugString() 
+        => $"{base.ToDebugString()}: '{Content}'";
 }

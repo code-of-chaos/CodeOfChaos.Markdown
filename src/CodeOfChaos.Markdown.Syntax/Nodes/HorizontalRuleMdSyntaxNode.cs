@@ -24,4 +24,7 @@ public sealed class HorizontalRuleMdSyntaxNode() : MdSyntaxNode<HorizontalRuleMd
     protected override bool Equals(HorizontalRuleMdSyntaxNode? other)
         => base.Equals(other)
             && StringComparer.Ordinal.Equals(Identifier, other.Identifier);
+    
+    public override string ToDebugString()
+        => $"{base.ToDebugString()}: '{Identifier}'";   
 }

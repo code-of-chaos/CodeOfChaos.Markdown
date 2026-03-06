@@ -13,7 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 public sealed class TemplateExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<TemplateExpressionMdSyntaxNode> {
     private static readonly string ExpressionType = nameof(TemplateExpressionMdSyntaxNode.ExpressionType).ToCamelCase();
     private static readonly string Expression = nameof(TemplateExpressionMdSyntaxNode.Expression).ToCamelCase();
-    private static readonly string BodyLeadingSpaces = nameof(TemplateExpressionMdSyntaxNode.BodyLeadingSpaces).ToCamelCase();
+    private static readonly string LeadingSpaces = nameof(TemplateExpressionMdSyntaxNode.LeadingSpaces).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -21,7 +21,7 @@ public sealed class TemplateExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisi
     protected override void DeserializeDetails(TemplateExpressionMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
-        writer.WriteNumber(BodyLeadingSpaces, node.BodyLeadingSpaces);
+        writer.WriteNumber(LeadingSpaces, node.LeadingSpaces);
         writer.WriteString(ExpressionType, Enum.GetName(node.ExpressionType));
         writer.WriteString(Expression, node.Expression);
     }
@@ -37,8 +37,8 @@ public sealed class TemplateExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisi
             targetNode.WithExpressionType(expressionType);  
         }
 
-        if (TryGetPropertyAsInt32(element, BodyLeadingSpaces, out int leadingSpaces)) {
-            targetNode.WithBodyLeadingSpaces(leadingSpaces);
+        if (TryGetPropertyAsInt32(element, LeadingSpaces, out int leadingSpaces)) {
+            targetNode.WithLeadingSpaces(leadingSpaces);
         }
     }
 

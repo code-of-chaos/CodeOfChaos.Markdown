@@ -24,4 +24,7 @@ public sealed class EscapedCharacterMdSyntaxNode() : MdSyntaxNode<EscapedCharact
     protected override bool Equals(EscapedCharacterMdSyntaxNode? other)
         => base.Equals(other)
             && Content == other.Content;
+    
+    public override string ToDebugString() 
+        => $"{base.ToDebugString()}: '{Content}'";
 }
