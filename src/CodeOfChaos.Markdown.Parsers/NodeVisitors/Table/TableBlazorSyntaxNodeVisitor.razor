@@ -53,21 +53,21 @@
 @code {
     private string? GetCellStyle(int columnIndex) {
         return GetAlignment(columnIndex) switch {
-            TableMdSyntaxNode.Alignment.Left => "text-align:left;",
-            TableMdSyntaxNode.Alignment.Center => "text-align:center;",
-            TableMdSyntaxNode.Alignment.Right => "text-align:right;",
+            TableAlignment.Left => "text-align:left;",
+            TableAlignment.Center => "text-align:center;",
+            TableAlignment.Right => "text-align:right;",
             _ => null
         };
     }
 
-    private TableMdSyntaxNode.Alignment GetAlignment(int columnIndex) {
-        if (!SyntaxNode.HasAlignments) return TableMdSyntaxNode.Alignment.Left;
+    private TableAlignment GetAlignment(int columnIndex) {
+        if (!SyntaxNode.HasAlignments) return TableAlignment.Left;
 
         return SyntaxNode.Alignments.ElementAtOrDefault(columnIndex) switch {
-            TableMdSyntaxNode.Alignment.Left => TableMdSyntaxNode.Alignment.Left,
-            TableMdSyntaxNode.Alignment.Center => TableMdSyntaxNode.Alignment.Center,
-            TableMdSyntaxNode.Alignment.Right => TableMdSyntaxNode.Alignment.Right,
-            _ => TableMdSyntaxNode.Alignment.Left
+            TableAlignment.Left => TableAlignment.Left,
+            TableAlignment.Center => TableAlignment.Center,
+            TableAlignment.Right => TableAlignment.Right,
+            _ => TableAlignment.Left
         };
     }
 }

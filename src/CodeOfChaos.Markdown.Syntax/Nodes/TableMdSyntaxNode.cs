@@ -12,15 +12,8 @@ namespace CodeOfChaos.Markdown.Syntax.Nodes;
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed class TableMdSyntaxNode : MdSyntaxNode<TableMdSyntaxNode> {
     private const int HeaderIndex = 0;
-    public Alignment[] Alignments { get; private set; } = Array.Empty<Alignment>();
+    public TableAlignment[] Alignments { get; private set; } = Array.Empty<TableAlignment>();
     public bool HasAlignments { get; private set; }
-
-    public enum Alignment {
-        Left = -1,
-        Center = 0,
-        Right = 1,
-        Unknown
-    }
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -47,11 +40,11 @@ public sealed class TableMdSyntaxNode : MdSyntaxNode<TableMdSyntaxNode> {
             rowSpan.Length);
     }
 
-    public TableMdSyntaxNode WithAlignments(scoped ReadOnlySpan<Alignment> alignments) {
+    public TableMdSyntaxNode WithAlignments(scoped ReadOnlySpan<TableAlignment> alignments) {
         int arrayLength = alignments.Length;
         
-        if (HasAlignments) ArrayPool<Alignment>.Shared.Return(Alignments, true);
-        Alignments = ArrayPool<Alignment>.Shared.Rent(arrayLength);
+        if (HasAlignments) ArrayPool<TableAlignment>.Shared.Return(Alignments, true);
+        Alignments = ArrayPool<TableAlignment>.Shared.Rent(arrayLength);
         alignments.CopyTo(Alignments);
         
         HasAlignments = true;
@@ -59,15 +52,15 @@ public sealed class TableMdSyntaxNode : MdSyntaxNode<TableMdSyntaxNode> {
     }
 
     public override bool TryReset() {
-        if (HasAlignments) ArrayPool<Alignment>.Shared.Return(Alignments, true);
-        Alignments = Array.Empty<Alignment>();
+        if (HasAlignments) ArrayPool<TableAlignment>.Shared.Return(Alignments, true);
+        Alignments = Array.Empty<TableAlignment>();
         HasAlignments = false;
         return base.TryReset();
     }
 
     protected override bool Equals(TableMdSyntaxNode? other) {
         for (int i = 0; i < Alignments.Length; i++) {
-            Alignment? alignmentOther = other?.Alignments.ElementAtOrDefault(i);
+            TableAlignment? alignmentOther = other?.Alignments.ElementAtOrDefault(i);
             if (alignmentOther is null || alignmentOther != Alignments[i]) return false;
         }
         
@@ -75,4 +68,11 @@ public sealed class TableMdSyntaxNode : MdSyntaxNode<TableMdSyntaxNode> {
             && HasAlignments == other.HasAlignments;
     }
 
+}
+
+public enum TableAlignment {
+    Left = -1,
+    Center = 0,
+    Right = 1,
+    Unknown
 }
