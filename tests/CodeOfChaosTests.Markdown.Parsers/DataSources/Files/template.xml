@@ -5,10 +5,9 @@
     <MdSyntaxTree>
       <ParagraphMdSyntaxNode>
         <TemplateMdSyntaxNode>something.Fetch()</TemplateMdSyntaxNode>
-        <TextMdSyntaxNode xml:space="preserve">}</TextMdSyntaxNode>
       </ParagraphMdSyntaxNode>
     </MdSyntaxTree>
-    <ExpectedMarkdown>@{something.Fetch()}}</ExpectedMarkdown>
+    <ExpectedMarkdown>@{something.Fetch()}</ExpectedMarkdown>
     <ExpectedJsonString>{
   "type": "MdSyntaxTree",
   "children": [
@@ -18,10 +17,6 @@
         {
           "type": "TemplateMdSyntaxNode",
           "content": "something.Fetch()"
-        },
-        {
-          "type": "TextMdSyntaxNode",
-          "content": "}"
         }
       ]
     }

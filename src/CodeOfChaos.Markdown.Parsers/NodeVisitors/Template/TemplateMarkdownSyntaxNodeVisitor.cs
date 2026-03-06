@@ -13,7 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed partial class TemplateMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TemplateMdSyntaxNode> {
-    [GeneratedRegex(@"\G@{(?<t>(?>[^\s\\{}]+|\\{|\\}|{})+)", DefaultSingleLineRegexOptions)]
+    [GeneratedRegex(@"\G@{(?<t>(?>[^\s\\{}]+|\\{|\\}|{})+)}", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax { get; } = RegexRule;
 
