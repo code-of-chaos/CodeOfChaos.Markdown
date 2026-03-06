@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfMdTestData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <MdTestData Id="default" FileName="template.xml">
+  <MdTestData Id="default" FileName="templating_literal.xml">
     <MdString>@{something.Fetch()}</MdString>
     <MdSyntaxTree>
       <ParagraphMdSyntaxNode>
         <TemplatingLiteralStatementMdSyntaxNode>
-          <TemplateExpressionMdSyntaxNode expressionType="Literal" expression="something.Fetch()" />
+          <TemplateExpressionMdSyntaxNode expressionType="Literal" expression="something.Fetch()" bodyLeadingSpaces="0" />
         </TemplatingLiteralStatementMdSyntaxNode>
       </ParagraphMdSyntaxNode>
     </MdSyntaxTree>
@@ -32,7 +32,7 @@
   ]
 }</ExpectedJsonString>
   </MdTestData>
-  <MdTestData Id="empty" FileName="template.xml">
+  <MdTestData Id="empty" FileName="templating_literal.xml">
     <MdString>@{}</MdString>
     <MdSyntaxTree>
       <ParagraphMdSyntaxNode>

@@ -33,7 +33,7 @@ public sealed class TemplateExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisi
             targetNode.WithExpression(content);   
         }
 
-        if (TryGetPropertyAsEnum(element, ExpressionType, out TemplateExpressionMdSyntaxNode.TemplateExpressionType expressionType)) {
+        if (TryGetPropertyAsEnum(element, ExpressionType, out TemplateExpressionType expressionType)) {
             targetNode.WithExpressionType(expressionType);  
         }
 

@@ -111,7 +111,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
 
         foreach (TemplateExpressionMdSyntaxNode expressionNode in node.GetChildrenByType<TemplateExpressionMdSyntaxNode>()) {
             switch (expressionNode.ExpressionType) {
-                case TemplateExpressionMdSyntaxNode.TemplateExpressionType.If: {
+                case TemplateExpressionType.If: {
                     queue.Enqueue("@if(");
                     queue.Enqueue(expressionNode.Expression);
                     queue.Enqueue(")\n");
@@ -119,7 +119,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
                     break;
                 }
 
-                case TemplateExpressionMdSyntaxNode.TemplateExpressionType.ElseIf: {
+                case TemplateExpressionType.ElseIf: {
                     queue.Enqueue("@else if(");
                     queue.Enqueue(expressionNode.Expression);
                     queue.Enqueue(")\n");
@@ -127,13 +127,13 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
                     break;
                 }
 
-                case TemplateExpressionMdSyntaxNode.TemplateExpressionType.Else: {
+                case TemplateExpressionType.Else: {
                     queue.Enqueue("@else\n");
                     break;
                 }
 
-                case TemplateExpressionMdSyntaxNode.TemplateExpressionType.Unknown:
-                case TemplateExpressionMdSyntaxNode.TemplateExpressionType.Literal:
+                case TemplateExpressionType.Unknown:
+                case TemplateExpressionType.Literal:
                 default:
                     continue;
             }

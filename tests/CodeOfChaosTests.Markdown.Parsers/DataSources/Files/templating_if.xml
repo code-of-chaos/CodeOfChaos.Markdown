@@ -20,7 +20,7 @@
 @endif</MdString>
     <MdSyntaxTree>
       <TemplatingIfStatementMdSyntaxNode>
-        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true" bodyLeadingSpaces="0">
           <ParagraphMdSyntaxNode>
             <BoldMdSyntaxNode>
               <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
@@ -32,7 +32,7 @@
       <NewLineMdSyntaxNode />
       <NewLineMdSyntaxNode />
       <TemplatingIfStatementMdSyntaxNode>
-        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true" bodyLeadingSpaces="0">
           <ParagraphMdSyntaxNode>
             <BoldMdSyntaxNode>
               <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
@@ -40,7 +40,7 @@
           </ParagraphMdSyntaxNode>
           <NewLineMdSyntaxNode />
         </TemplateExpressionMdSyntaxNode>
-        <TemplateExpressionMdSyntaxNode expressionType="Else" expression="@else">
+        <TemplateExpressionMdSyntaxNode expressionType="Else" expression="@else" bodyLeadingSpaces="0">
           <ParagraphMdSyntaxNode>
             <ItalicMdSyntaxNode>
               <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
@@ -52,7 +52,7 @@
       <NewLineMdSyntaxNode />
       <NewLineMdSyntaxNode />
       <TemplatingIfStatementMdSyntaxNode>
-        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true" bodyLeadingSpaces="0">
           <ParagraphMdSyntaxNode>
             <BoldMdSyntaxNode>
               <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
@@ -60,7 +60,7 @@
           </ParagraphMdSyntaxNode>
           <NewLineMdSyntaxNode />
         </TemplateExpressionMdSyntaxNode>
-        <TemplateExpressionMdSyntaxNode expressionType="ElseIf" expression="something.x == true">
+        <TemplateExpressionMdSyntaxNode expressionType="ElseIf" expression="something.x == true" bodyLeadingSpaces="0">
           <ParagraphMdSyntaxNode>
             <BoldMdSyntaxNode>
               <ItalicMdSyntaxNode>
@@ -70,7 +70,7 @@
           </ParagraphMdSyntaxNode>
           <NewLineMdSyntaxNode />
         </TemplateExpressionMdSyntaxNode>
-        <TemplateExpressionMdSyntaxNode expressionType="Else" expression="@else">
+        <TemplateExpressionMdSyntaxNode expressionType="Else" expression="@else" bodyLeadingSpaces="0">
           <ParagraphMdSyntaxNode>
             <ItalicMdSyntaxNode>
               <TextMdSyntaxNode xml:space="preserve">italic</TextMdSyntaxNode>
@@ -339,9 +339,9 @@
 @endif</MdString>
     <MdSyntaxTree>
       <TemplatingIfStatementMdSyntaxNode>
-        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+        <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true" bodyLeadingSpaces="2">
           <TemplatingIfStatementMdSyntaxNode>
-            <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true">
+            <TemplateExpressionMdSyntaxNode expressionType="If" expression="something.y == true" bodyLeadingSpaces="0">
               <ParagraphMdSyntaxNode>
                 <BoldMdSyntaxNode>
                   <TextMdSyntaxNode xml:space="preserve">bold</TextMdSyntaxNode>
