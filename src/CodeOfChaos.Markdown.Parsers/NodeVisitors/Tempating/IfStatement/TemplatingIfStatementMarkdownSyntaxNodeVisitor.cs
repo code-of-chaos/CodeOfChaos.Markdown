@@ -6,6 +6,7 @@ using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
 using CodeOfChaos.Markdown.Parsers.Markdown.Serializer;
 using CodeOfChaos.Markdown.Syntax;
 using CodeOfChaos.Markdown.Syntax.Nodes;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
@@ -35,7 +36,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
 
     [GeneratedRegex(
         """
-        ^@else\ ?if\(.+\)\ *$
+        ^@(?:elseif|else\ if|elif)\(.+\)\ *$
         (?:\s(?!^@elseif|^@else\ if|^@elif|^@else|^@endif)(?:^.*$)+)+
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex ElifSectionRegexRule { get; }
@@ -145,27 +146,33 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
     }
 
     private static void EnqueueFormattedLines(INodeDeserializerFragmentQueue queue, TemplateExpressionMdSyntaxNode expressionNode) {
-        // Process content line by line without creating an array
-
+        // Skip if we dont need to add the leading spaces
+        if (expressionNode.BodyLeadingSpaces <= 0) {
+            queue.EnqueueChildren(expressionNode);
+            return;
+        }
+        
+        // Process the content line by line
         string content = queue.ProcessChildrenAsStandaloneContent(expressionNode);
-        ReadOnlySpan<char> contentValue = content.AsSpan();
-        int lineStart = 0;
-        bool isFirstLine = true;
-        string leadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(expressionNode.BodyLeadingSpaces, 0), static i => new string(' ', i));
+        string leadingSpaces = LeadingSpacesCache.GetOrAdd(
+            Math.Max(expressionNode.BodyLeadingSpaces, 0),
+            static i => new string(' ', i)
+        );
+        
+        int count = content.Count('\n');
+        int i = 0;
 
-        for (int i = 0; i <= contentValue.Length; i++) {
-            if (i != contentValue.Length && contentValue[i] != '\n') continue;
-
-            ReadOnlySpan<char> line = contentValue.Slice(lineStart, i - lineStart);
-            if (!isFirstLine) queue.Enqueue('\n');
+        SpanLineEnumerator enumerator = content.EnumerateLines();
+        while (enumerator.MoveNext() && i <= count)  {
+            // if we are the last item don't add the leading spaces because everything will then be an empty line
+            if (i++ == count) {
+                queue.Enqueue(enumerator.Current);
+                break;
+            }
+            
             queue.Enqueue(leadingSpaces);
-
-            if (line.IsEmpty) queue.Enqueue(' ');
-            else queue.Enqueue(line);
-
-            // Move to the next line
-            lineStart = i + 1;
-            isFirstLine = false;
+            queue.Enqueue(enumerator.Current);
+            queue.Enqueue('\n');
         }
     }
 }
