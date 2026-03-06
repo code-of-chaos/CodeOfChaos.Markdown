@@ -262,8 +262,34 @@ public class IndividualMarkdownBenchmarks {
         new("Tag", "#tag"),
         #endregion
 
-        #region Template
-        new("Template", "{{template}}"),
+        #region Templating
+        new("Templating_literal", "@{template}"),
+        new("Templating_if", """
+            @if(something.x)
+            **bold**
+            @endif
+            """
+        ),
+        
+        new("Templating_elseif", """
+            @if(something.x)
+            **bold**
+            @elseif(something.y)
+            *italic*
+            @endif
+            """
+        ),
+
+        new("Templating_else", """
+            @if(something.x)
+            **bold**
+            @elseif(something.y)
+            *italic*
+            @else
+            ***bold and italic***
+            @endif
+            """
+        ),
         #endregion
 
         #region Underline
