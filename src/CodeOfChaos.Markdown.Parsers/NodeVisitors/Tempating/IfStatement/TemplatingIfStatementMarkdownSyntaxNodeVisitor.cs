@@ -20,8 +20,8 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
         (?<ifBody>(?:(?!^@else\ ?if|^@else|^@endif)^.*$\s*?)*)
         (?<elifSection>
           (?:
-            ^@else\ ?if\(.+\)\ *$\s
-            (?:(?:(?!^@else\ ?if|^@else|^@endif)^.*$\s*?)+)?
+            ^@(?:elseif|else\ if|elif)\(.+\)\ *$\s
+            (?:(?:(?!^@elseif|^@else\ if|^@elif|^@else|^@endif)^.*$\s*?)+)?
           )+
         )?
         (?<elseSection>
@@ -33,10 +33,11 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
     private static partial Regex RegexRule { get; }
     protected override Regex Syntax => RegexRule;
 
-    [GeneratedRegex("""
-                    ^@else\ ?if\(.+\)\ *$
-                    (?:\s(?!^@else\ ?if|^@else|^@endif)(?:^.*$)+)+
-                    """, DefaultMultiLineRegexOptions)]
+    [GeneratedRegex(
+        """
+        ^@else\ ?if\(.+\)\ *$
+        (?:\s(?!^@elseif|^@else\ if|^@elif|^@else|^@endif)(?:^.*$)+)+
+        """, DefaultMultiLineRegexOptions)]
     private static partial Regex ElifSectionRegexRule { get; }
 
     private static readonly char[] STriggerCharacters = ['@'];
@@ -75,7 +76,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
 
                 int endBracket = valueSpan[..valueSpan.IndexOf('\n')].LastIndexOf(')');
                 int startBracket = valueSpan[..valueSpan.IndexOf('\n')].IndexOf('(');
-                ReadOnlySpan<char> elifExpression = valueSpan[(startBracket+1)..endBracket];
+                ReadOnlySpan<char> elifExpression = valueSpan[(startBracket + 1)..endBracket];
                 ReadOnlySpan<char> elifBody = valueSpan[(endBracket + 2)..];
 
                 TemplateExpressionMdSyntaxNode elifExpressionNode = TemplateExpressionMdSyntaxNode.GetPooledElseIf();

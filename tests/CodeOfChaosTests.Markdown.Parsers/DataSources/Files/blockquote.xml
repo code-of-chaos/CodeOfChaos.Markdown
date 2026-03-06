@@ -1298,6 +1298,505 @@
   ]
 }</ExpectedJsonString>
   </MdTestData>
+  <MdTestData Id="nestedMultipleLines" FileName="blockquote.xml">
+    <MdString>&gt; Level 1
+&gt; Level 1
+&gt; Level 1
+&gt; &gt; Level 2
+&gt; &gt; Level 2
+&gt; &gt; Level 2
+&gt; Back to Level 1
+&gt; Back to Level 1
+&gt; Back to Level 1
+&gt; &gt; &gt; Level 3
+&gt; &gt; &gt; Level 3
+&gt; &gt; &gt; Level 3
+
+&gt; Line 1
+&gt; Line 1
+&gt; Line 1
+&gt;&gt; Line 2
+&gt;&gt; Line 2
+&gt;&gt; Line 2
+&gt;&gt;&gt; Line 3
+&gt;&gt;&gt; Line 3
+&gt;&gt;&gt; Line 3
+&gt; Line 4
+&gt; Line 4
+&gt; Line 4</MdString>
+    <MdSyntaxTree>
+      <BlockQuoteMdSyntaxNode LeadingSpaces="1">
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">Level 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">Level 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">Level 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <BlockQuoteMdSyntaxNode LeadingSpaces="1">
+          <ParagraphMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">Level 2</TextMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+          <ParagraphMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">Level 2</TextMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+          <ParagraphMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve">Level 2</TextMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+        </BlockQuoteMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">Back to Level 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">Back to Level 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve">Back to Level 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <BlockQuoteMdSyntaxNode LeadingSpaces="1">
+          <BlockQuoteMdSyntaxNode LeadingSpaces="1">
+            <ParagraphMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">Level 3</TextMdSyntaxNode>
+            </ParagraphMdSyntaxNode>
+            <NewLineMdSyntaxNode />
+            <ParagraphMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">Level 3</TextMdSyntaxNode>
+            </ParagraphMdSyntaxNode>
+            <NewLineMdSyntaxNode />
+            <ParagraphMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">Level 3</TextMdSyntaxNode>
+            </ParagraphMdSyntaxNode>
+          </BlockQuoteMdSyntaxNode>
+        </BlockQuoteMdSyntaxNode>
+      </BlockQuoteMdSyntaxNode>
+      <NewLineMdSyntaxNode />
+      <NewLineMdSyntaxNode />
+      <BlockQuoteMdSyntaxNode LeadingSpaces="0">
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> Line 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> Line 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> Line 1</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <BlockQuoteMdSyntaxNode LeadingSpaces="0">
+          <ParagraphMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve"> Line 2</TextMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+          <ParagraphMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve"> Line 2</TextMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+          <ParagraphMdSyntaxNode>
+            <TextMdSyntaxNode xml:space="preserve"> Line 2</TextMdSyntaxNode>
+          </ParagraphMdSyntaxNode>
+          <NewLineMdSyntaxNode />
+          <BlockQuoteMdSyntaxNode LeadingSpaces="1">
+            <ParagraphMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">Line 3</TextMdSyntaxNode>
+            </ParagraphMdSyntaxNode>
+            <NewLineMdSyntaxNode />
+            <ParagraphMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">Line 3</TextMdSyntaxNode>
+            </ParagraphMdSyntaxNode>
+            <NewLineMdSyntaxNode />
+            <ParagraphMdSyntaxNode>
+              <TextMdSyntaxNode xml:space="preserve">Line 3</TextMdSyntaxNode>
+            </ParagraphMdSyntaxNode>
+          </BlockQuoteMdSyntaxNode>
+        </BlockQuoteMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> Line 4</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> Line 4</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+        <NewLineMdSyntaxNode />
+        <ParagraphMdSyntaxNode>
+          <TextMdSyntaxNode xml:space="preserve"> Line 4</TextMdSyntaxNode>
+        </ParagraphMdSyntaxNode>
+      </BlockQuoteMdSyntaxNode>
+    </MdSyntaxTree>
+    <ExpectedMarkdown>&gt; Level 1
+&gt; Level 1
+&gt; Level 1
+&gt; &gt; Level 2
+&gt; &gt; Level 2
+&gt; &gt; Level 2
+&gt; Back to Level 1
+&gt; Back to Level 1
+&gt; Back to Level 1
+&gt; &gt; &gt; Level 3
+&gt; &gt; &gt; Level 3
+&gt; &gt; &gt; Level 3
+
+&gt; Line 1
+&gt; Line 1
+&gt; Line 1
+&gt;&gt; Line 2
+&gt;&gt; Line 2
+&gt;&gt; Line 2
+&gt;&gt;&gt; Line 3
+&gt;&gt;&gt; Line 3
+&gt;&gt;&gt; Line 3
+&gt; Line 4
+&gt; Line 4
+&gt; Line 4</ExpectedMarkdown>
+    <ExpectedJsonString>{
+  "type": "MdSyntaxTree",
+  "children": [
+    {
+      "type": "BlockQuoteMdSyntaxNode",
+      "leadingSpaces": 1,
+      "children": [
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Level 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Level 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Level 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "BlockQuoteMdSyntaxNode",
+          "leadingSpaces": 1,
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "Level 2"
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            },
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "Level 2"
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            },
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": "Level 2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Back to Level 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Back to Level 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": "Back to Level 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "BlockQuoteMdSyntaxNode",
+          "leadingSpaces": 1,
+          "children": [
+            {
+              "type": "BlockQuoteMdSyntaxNode",
+              "leadingSpaces": 1,
+              "children": [
+                {
+                  "type": "ParagraphMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "Level 3"
+                    }
+                  ]
+                },
+                {
+                  "type": "NewLineMdSyntaxNode"
+                },
+                {
+                  "type": "ParagraphMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "Level 3"
+                    }
+                  ]
+                },
+                {
+                  "type": "NewLineMdSyntaxNode"
+                },
+                {
+                  "type": "ParagraphMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "Level 3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "NewLineMdSyntaxNode"
+    },
+    {
+      "type": "BlockQuoteMdSyntaxNode",
+      "leadingSpaces": 0,
+      "children": [
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " Line 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " Line 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " Line 1"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "BlockQuoteMdSyntaxNode",
+          "leadingSpaces": 0,
+          "children": [
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": " Line 2"
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            },
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": " Line 2"
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            },
+            {
+              "type": "ParagraphMdSyntaxNode",
+              "children": [
+                {
+                  "type": "TextMdSyntaxNode",
+                  "content": " Line 2"
+                }
+              ]
+            },
+            {
+              "type": "NewLineMdSyntaxNode"
+            },
+            {
+              "type": "BlockQuoteMdSyntaxNode",
+              "leadingSpaces": 1,
+              "children": [
+                {
+                  "type": "ParagraphMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "Line 3"
+                    }
+                  ]
+                },
+                {
+                  "type": "NewLineMdSyntaxNode"
+                },
+                {
+                  "type": "ParagraphMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "Line 3"
+                    }
+                  ]
+                },
+                {
+                  "type": "NewLineMdSyntaxNode"
+                },
+                {
+                  "type": "ParagraphMdSyntaxNode",
+                  "children": [
+                    {
+                      "type": "TextMdSyntaxNode",
+                      "content": "Line 3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " Line 4"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " Line 4"
+            }
+          ]
+        },
+        {
+          "type": "NewLineMdSyntaxNode"
+        },
+        {
+          "type": "ParagraphMdSyntaxNode",
+          "children": [
+            {
+              "type": "TextMdSyntaxNode",
+              "content": " Line 4"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</ExpectedJsonString>
+  </MdTestData>
   <MdTestData Id="nestedVaried" FileName="blockquote.xml">
     <MdString>&gt; Level 1
 &gt; &gt; Level 2
