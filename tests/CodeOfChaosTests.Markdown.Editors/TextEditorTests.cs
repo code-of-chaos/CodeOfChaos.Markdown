@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Editors;
 using CodeOfChaos.Markdown.TextEditor;
-using Microsoft.Extensions.Logging.Abstractions;
 using System.Collections.Frozen;
 
 namespace CodeOfChaosTests.Markdown.Editors;
@@ -15,8 +14,7 @@ public class TextEditorTests {
     private static TextEditor CreateEditor(params ITextModifier[] modifiers) {
         FrozenDictionary<string, ITextModifier> lookup = modifiers.ToFrozenDictionary(x => x.ModifierName, x => x);
         return new TextEditor {
-            ModifierLookup = lookup,
-            Logger = NullLogger<TextEditor>.Instance
+            ModifierLookup = lookup
         };
     }
 

@@ -3,7 +3,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Pooling;
 using CodeOfChaos.Markdown.TextEditor;
-using Microsoft.Extensions.Logging;
 using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 
@@ -11,16 +10,22 @@ namespace CodeOfChaos.Markdown.Editors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc/>
 public class TextEditor : ITextEditor {
-    private int _caretIndexToUpdate = -1;
+    /// <inheritdoc />
+    public IEnumerable<ITextModifier> Modifiers => ModifierLookup.Values;
+    
+    /// <summary>
+    /// A required property that provides a frozen dictionary mapping unique modifier names to their corresponding
+    /// implementations of the <see cref="ITextModifier"/> interface. This dictionary is used internally by the
+    /// <see cref="TextEditor"/> to look up and apply text modifications based on the specified modifier name.
+    /// </summary>
     public required FrozenDictionary<string, ITextModifier> ModifierLookup { private get; init; }  
     
     private FrozenDictionary<string, ITextModifier>.AlternateLookup<ReadOnlySpan<char>>? _lookupCache;
     private FrozenDictionary<string, ITextModifier>.AlternateLookup<ReadOnlySpan<char>> AlternateLookup => _lookupCache ??= ModifierLookup.GetAlternateLookup<ReadOnlySpan<char>>();
+    private int _caretIndexToUpdate = -1;
 
-    /// <inheritdoc />
-    public IEnumerable<ITextModifier> Modifiers => ModifierLookup.Values;
-    public required ILogger<TextEditor> Logger { get; init; }
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
