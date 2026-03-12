@@ -7,6 +7,9 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Defines supported vertical alignment values for rendered images.
+/// </summary>
 public enum VerticalAlignImage {
     [UsedImplicitly] Baseline,
     [UsedImplicitly] Sub,
@@ -23,7 +26,16 @@ public enum VerticalAlignImage {
     [UsedImplicitly] Unset
 }
 
+/// <summary>
+/// Provides conversion helpers for <see cref="VerticalAlignImage" />.
+/// </summary>
 public static class VerticalAlignImageUtilities {
+    /// <summary>
+    /// Tries to parse a string as a <see cref="VerticalAlignImage" /> value.
+    /// </summary>
+    /// <param name="input">The input text.</param>
+    /// <param name="verticalAlign">The parsed enum value when successful.</param>
+    /// <returns><see langword="true" /> when parsing succeeds; otherwise <see langword="false" />.</returns>
     public static bool TryGetFromString(string? input, out VerticalAlignImage verticalAlign) {
         verticalAlign = default;
         return !input.IsNullOrWhiteSpace() && Enum.TryParse(input, true, out verticalAlign);

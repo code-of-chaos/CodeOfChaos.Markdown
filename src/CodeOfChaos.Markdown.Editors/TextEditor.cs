@@ -18,11 +18,13 @@ public class TextEditor : ITextEditor {
     private FrozenDictionary<string, ITextModifier>.AlternateLookup<ReadOnlySpan<char>>? _lookupCache;
     private FrozenDictionary<string, ITextModifier>.AlternateLookup<ReadOnlySpan<char>> AlternateLookup => _lookupCache ??= ModifierLookup.GetAlternateLookup<ReadOnlySpan<char>>();
 
+    /// <inheritdoc />
     public IEnumerable<ITextModifier> Modifiers => ModifierLookup.Values;
     public required ILogger<TextEditor> Logger { get; init; }
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public void Modify(ITextSource source, ReadOnlySpan<char> modifierName, Range range) {
         if (!AlternateLookup.TryGetValue(modifierName, out ITextModifier? modifier)) return;
 
@@ -60,6 +62,7 @@ public class TextEditor : ITextEditor {
         }
     }
 
+    /// <inheritdoc />
     public void Insert(ITextSource source, ReadOnlySpan<char> input, Range range) {
         int totalLength = source.Length;
         int start = range.Start.GetOffset(totalLength);
@@ -74,6 +77,7 @@ public class TextEditor : ITextEditor {
         source.UpdateSource(string.Concat(source.Text.AsSpan(0, start), input, source.Text.AsSpan(end)));
     }
 
+    /// <inheritdoc />
     public bool TryGetCaretLine(ITextSource source, int caretIndex, out Range lineRange) {
         int normalizedCaretIndex = Math.Max(0, caretIndex);
 
@@ -90,6 +94,7 @@ public class TextEditor : ITextEditor {
         return false;
     }
 
+    /// <inheritdoc />
     public bool TryGetCaretUpdate(out int caretIndex) {
         caretIndex = _caretIndexToUpdate;
         if (_caretIndexToUpdate < 0) return false;
@@ -97,6 +102,7 @@ public class TextEditor : ITextEditor {
         return true;
     }
 
+    /// <inheritdoc />
     public void UpdateCaret(int caretIndex) {
         if (caretIndex < 0) return;
 

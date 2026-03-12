@@ -11,9 +11,12 @@ namespace CodeOfChaos.Markdown.Editors;
 // ---------------------------------------------------------------------------------------------------------------------
 public abstract class SingleInstructionModifiers(ILogger logger) : ITextModifier {
     protected abstract string Instruction { get; }
+    /// <inheritdoc />
     public abstract string ModifierName { get; }
+    /// <inheritdoc />
     public bool IsSingleLineStructure => true;
 
+    /// <inheritdoc />
     public void Modify(ITextSource source, Range range, ITextEditor editor) {
         ReadOnlySpan<char> inputSpan = source.TextSpan;
 

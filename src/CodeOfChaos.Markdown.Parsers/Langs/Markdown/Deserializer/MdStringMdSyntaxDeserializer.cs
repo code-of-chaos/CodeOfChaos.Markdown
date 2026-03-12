@@ -22,6 +22,7 @@ public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public string DeserializeToString(IMdSyntaxTree tree) {
         StringBuilder builder = GlobalPools.StringBuilder.Get();
         NodeDeserializerFragmentQueue queue = NodeDeserializerFragmentQueuePool.Shared.Get(this, builder);
@@ -40,6 +41,7 @@ public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> 
         }
     }
     
+    /// <inheritdoc />
     public string DeserializeToString(IMdSyntaxNode node) {
         StringBuilder builder = GlobalPools.StringBuilder.Get();
         NodeDeserializerFragmentQueue queue = NodeDeserializerFragmentQueuePool.Shared.Get(this, builder);
@@ -58,6 +60,7 @@ public class MdStringMdSyntaxDeserializer(ILogger<MdStringMdSyntaxDeserializer> 
         }
     }
 
+    /// <inheritdoc />
     public string DeserializeToString(ReadOnlySpan<IMdSyntaxNode> nodes) {
         StringBuilder builder = GlobalPools.StringBuilder.Get();
         NodeDeserializerFragmentQueue queue = NodeDeserializerFragmentQueuePool.Shared.Get(this, builder);

@@ -18,8 +18,12 @@ public class MarkdownParser(
     IXmlMdSyntaxTreeParser xml,
     IJsonMdSyntaxTreeParser json
 ) : IMarkdownParser {
+    /// <inheritdoc />
     public IHtmlMdSyntaxTreeParser Html => html;
+    /// <inheritdoc />
     public IMarkdownMdSyntaxTreeParser Markdown => markdownString;
+    /// <inheritdoc />
     public IXmlMdSyntaxTreeParser Xml => xml;
+    /// <inheritdoc />
     public IJsonMdSyntaxTreeParser Json => json;
 }

@@ -19,6 +19,7 @@ public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerialize
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public IMdStringMdSyntaxSerializer Create(IMarkdownConfig config) {
         // ReSharper disable twice UseCollectionExpression
         ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLineSerializers = config.SingleLineMarkdownSyntaxNodeVisitors;

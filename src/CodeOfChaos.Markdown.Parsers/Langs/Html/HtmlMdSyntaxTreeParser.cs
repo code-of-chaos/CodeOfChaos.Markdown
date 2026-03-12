@@ -16,6 +16,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Html;
 // ---------------------------------------------------------------------------------------------------------------------
 [InjectableSingleton<IHtmlMdSyntaxTreeParser>]
 public class HtmlMdSyntaxTreeParser(IServiceProvider provider, ILoggerFactory loggerFactory) : IHtmlMdSyntaxTreeParser {
+    /// <inheritdoc />
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         await using AsyncServiceScope scope = provider.CreateAsyncScope();
         await using var htmlRenderer = new HtmlRenderer(scope.ServiceProvider, loggerFactory);

@@ -18,6 +18,7 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public void WriteToXml(
         XmlWriter writer,
         IMdSyntaxNode node,
@@ -36,6 +37,7 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
         writer.WriteEndElement();
     }
 
+    /// <inheritdoc />
     public async ValueTask WriteToXmlAsync(
         XmlWriter writer,
         IMdSyntaxNode node,
@@ -73,6 +75,7 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
         }
     }
 
+    /// <inheritdoc />
     public IMdSyntaxNode ReadStartElement(IMdSyntaxTree tree, XmlReader reader, IMdSyntaxNode parentNode) {
         TSyntaxNode node = MdSyntaxNodePool<TSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);
@@ -84,6 +87,7 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
     protected virtual void SerializeDetails(XmlReader reader, TSyntaxNode targetNode) {
     }
 
+    /// <inheritdoc />
     public virtual void ReadTextContent(IMdSyntaxNode node, string content) {
         SerializeContent(Unsafe.As<TSyntaxNode>(node), content);
     }
@@ -91,6 +95,7 @@ public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNo
     protected virtual void SerializeContent(TSyntaxNode targetNode, string content) {
     }
 
+    /// <inheritdoc />
     public virtual bool TryReadSpecialChildElement(IMdSyntaxNode node, XmlReader reader) {
         if (!reader.LocalName.Equals(Modifiers, StringComparison.Ordinal)) return false;
 

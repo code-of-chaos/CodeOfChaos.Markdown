@@ -16,35 +16,45 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed class MdStringMdSyntaxSerializer(ILogger<MdStringMdSyntaxSerializer> logger) : IMdStringMdSyntaxSerializer {
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineSerializers { get; init; }
+    /// <inheritdoc />
     public required SearchValues<char> SingleLineTriggerSearchValues { get; init; }
+    /// <inheritdoc />
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor>[] SingleLineLookup { get; init; }
+    /// <inheritdoc />
     public required ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> SingleLineNonAsciiLookup { get; init; }
     
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineSerializers { get; init; }
+    /// <inheritdoc />
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor>[] MultiLineLookup { get; init; }
+    /// <inheritdoc />
     public required ImmutableDictionary<char, ImmutableArray<IMarkdownSyntaxNodeVisitor>> MultiLineNonAsciiLookup { get; init; }
     
+    /// <inheritdoc />
     public required IMarkdownSyntaxNodeVisitor? FrontMatterSerializer { get; init; }
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public ImmutableArray<IMarkdownSyntaxNodeVisitor> GetSingleLineSerializersForChar(char c)
         => c < 256
             ? SingleLineLookup[c]
             : CollectionExtensions.GetValueOrDefault(SingleLineNonAsciiLookup, c, SingleLineSerializers);
 
+    /// <inheritdoc />
     public ImmutableArray<IMarkdownSyntaxNodeVisitor> GetMultiLineSerializersForChar(char c)
         => c < 256
             ? MultiLineLookup[c]
             : CollectionExtensions.GetValueOrDefault(MultiLineNonAsciiLookup, c, MultiLineSerializers);
 
+    /// <inheritdoc />
     public IMdSyntaxTree SerializeToTree(string markdown) {
         IMdSyntaxTree nodeTree = MdSyntaxTreePool.Shared.Get();
         SerializeToTree(markdown, nodeTree);
         return nodeTree;
     }
 
+    /// <inheritdoc />
     public void SerializeToTree(string markdown, IMdSyntaxTree nodeTree) {
         NodeSerializerFragmentStack fragmentStack = MdSyntaxFragmentStackPool.Shared.Get();
         fragmentStack.SerializerReference = this;

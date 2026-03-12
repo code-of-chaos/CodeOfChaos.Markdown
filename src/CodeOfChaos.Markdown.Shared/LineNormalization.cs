@@ -10,12 +10,21 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Provides helpers for normalizing markdown line indentation and block-quote prefixes.
+/// </summary>
 public static class LineNormalization {
     private const int StackAllocThreshold = 256;
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Removes common leading indentation from non-empty lines.
+    /// </summary>
+    /// <param name="input">The input text.</param>
+    /// <param name="leadingSpaces">The computed minimum indentation, or <c>-1</c> when not applicable.</param>
+    /// <returns>The normalized text.</returns>
     public static string NormalizeLineIndentation(ReadOnlySpan<char> input, out int leadingSpaces) {
         int matchCount = input.Count('\n');
         int splitCount = matchCount + 1;
@@ -81,6 +90,12 @@ public static class LineNormalization {
         return count;
     }
     
+    /// <summary>
+    /// Normalizes block-quote content by removing <c>&gt;</c> prefixes and common indentation.
+    /// </summary>
+    /// <param name="span">The block-quote content.</param>
+    /// <param name="leadingSpaces">The computed indentation after prefix normalization.</param>
+    /// <returns>The normalized block-quote text.</returns>
     public static string NormalizeBlockQuote(ReadOnlySpan<char> span, out int leadingSpaces) {
         ReadOnlySpan<char> normalized = NormalizeLinePrefixes(span, ">");
         return NormalizeLineIndentation(normalized, out leadingSpaces);

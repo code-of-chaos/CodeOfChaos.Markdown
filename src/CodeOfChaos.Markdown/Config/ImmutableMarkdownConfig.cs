@@ -14,23 +14,38 @@ namespace CodeOfChaos.Markdown;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class ImmutableMarkdownConfig : IMarkdownConfig {
+    /// <inheritdoc />
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineMarkdownSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineMarkdownSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required IMarkdownSyntaxNodeVisitor? FrontMatterMarkdownSyntaxNodeVisitor { get; init; }
 
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IXmlSyntaxNodeVisitor> XmlSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IJsonSyntaxNodeVisitor> JsonSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IBlazorComponentBuilderRecord> BlazorComponents { get; init; }
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IMarkdownSyntaxNodeVisitor> MarkdownSyntaxNodeVisitors { get; init; }
     
+    /// <inheritdoc />
     public required FrozenSet<Type> SkippedBlazorComponents { get; init; }
     
+    /// <inheritdoc />
     public required bool RenderUnknownBlazorComponents { get; init; }
+    /// <inheritdoc />
     public required Type? HtmlRendererFootnoteWrapperType { get; init; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Creates an immutable configuration snapshot from a mutable <see cref="MarkdownConfig" />.
+    /// </summary>
+    /// <param name="markdownConfig">The mutable source configuration.</param>
+    /// <returns>An immutable configuration instance.</returns>
     public static IMarkdownConfig From(MarkdownConfig markdownConfig) {
 
         ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLine = markdownConfig.ConfigEntries

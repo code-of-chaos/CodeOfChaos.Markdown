@@ -20,6 +20,7 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSynt
     protected const RegexOptions DefaultMultiLineRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline;
     
     protected abstract Regex Syntax { get; }
+    /// <inheritdoc />
     public virtual ReadOnlySpan<char> SerializationTriggerCharacters => default;
 
     // ReSharper disable once StaticMemberInGenericType
@@ -40,6 +41,7 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSynt
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Serialize
+    /// <inheritdoc />
     public virtual bool TryGetSerializationMatch(string input, [NotNullWhen(true)] out Match? match, int startPosition = 0) {
         match = null;
         if (startPosition >= input.Length) return false;
@@ -48,10 +50,12 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSynt
         match = Syntax.Match(input, startPosition);
         return match.Success;
     }
+    /// <inheritdoc />
     public abstract void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match);
     #endregion
     
     #region Deserialize
+    /// <inheritdoc />
     public void Deserialize(INodeDeserializerFragmentQueue queue, IMdSyntaxNode node) {
         if (node is not TSyntaxNode typedNode) throw new ArgumentException($"Invalid node type of {node.GetType()} did adhere to {typeof(TSyntaxNode)}");
 
