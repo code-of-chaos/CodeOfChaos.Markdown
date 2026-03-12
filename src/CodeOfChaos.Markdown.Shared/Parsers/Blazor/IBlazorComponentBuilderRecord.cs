@@ -14,6 +14,11 @@ namespace CodeOfChaos.Markdown.Parsers.Blazor;
 /// </summary>
 public interface IBlazorComponentBuilderRecord {
     /// <summary>
+    /// Gets the type of the syntax node represented by the Blazor component.
+    /// </summary>
+    Type SyntaxNodeType { get; }
+    
+    /// <summary>
     /// Gets the component type used for rendering.
     /// </summary>
     Type ComponentType { get; }

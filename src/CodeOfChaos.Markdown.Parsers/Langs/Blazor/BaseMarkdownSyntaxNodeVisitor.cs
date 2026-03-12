@@ -18,5 +18,7 @@ public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : ComponentBase
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    protected RenderFragment RenderChildContent() => ComponentConverter.RenderChildComponents(SyntaxNode);
+    protected RenderFragment RenderChildContent() {
+        return ComponentConverter.RenderChildComponents(SyntaxNode);
+    }
 }

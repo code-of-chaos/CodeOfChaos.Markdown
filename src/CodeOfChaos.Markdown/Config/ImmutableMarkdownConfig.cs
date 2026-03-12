@@ -63,7 +63,7 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
 
         FrozenDictionary<Type, IBlazorComponentBuilderRecord> blazorComponents = markdownConfig.ConfigEntries.Where(entry => entry.BlazorComponentBuilder is not null)
             .Select<IMarkdownConfigEntry, IBlazorComponentBuilderRecord>(entry => entry.BlazorComponentBuilder!)
-            .ToFrozenDictionary(record => record.ComponentType, record => record);
+            .ToFrozenDictionary(record => record.SyntaxNodeType, record => record);
         
         FrozenDictionary<Type, IJsonSyntaxNodeVisitor> jsonNodeVisitors = markdownConfig.ConfigEntries.Where(entry => entry.JsonNodeVisitor is not null)
             .ToFrozenDictionary(entry => entry.SyntaxNodeType, entry => entry.JsonNodeVisitor!);
