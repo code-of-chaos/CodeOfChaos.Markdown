@@ -16,6 +16,7 @@
   </Folder>
   <Folder Name="/devtools/py/">
     <File Path="devtools/bump_version.py" />
+    <File Path="devtools/test_bump_version.py" />
   </Folder>
   <Folder Name="/docs/" />
   <Folder Name="/examples/" />
