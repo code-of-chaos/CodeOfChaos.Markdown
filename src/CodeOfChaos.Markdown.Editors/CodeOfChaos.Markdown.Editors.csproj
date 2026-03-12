@@ -1,6 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!-- Package metadata -->
         <PackageId>CodeOfChaos.Markdown.Editors</PackageId>
         <Description>Markdown Parsers for C# and DotNet</Description>
@@ -20,3 +21,5 @@
     <ProjectReference Include="..\CodeOfChaos.Markdown.Shared\CodeOfChaos.Markdown.Shared.csproj" />
   </ItemGroup>
 </Project>
+
+

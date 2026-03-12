@@ -1,0 +1,8 @@
+# Top-level navigation for the generated DocFX site.
+- name: Home
+  href: index.md
+- name: Guides
+  href: articles/toc.yml
+- name: API Reference
+  href: api/toc.yml
+

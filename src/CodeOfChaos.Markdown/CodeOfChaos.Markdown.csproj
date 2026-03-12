@@ -1,6 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!-- Package metadata -->
         <PackageId>CodeOfChaos.Markdown</PackageId>
         <Description>Markdown Parsers for C# and DotNet</Description>
@@ -31,3 +32,5 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     </ItemGroup>
 </Project>
+
+

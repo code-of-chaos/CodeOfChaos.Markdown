@@ -1,6 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <!-- Package metadata -->
         <PackageId>CodeOfChaos.Markdown.Parsers</PackageId>
         <Description>Markdown Parsers for C# and DotNet</Description>
@@ -27,3 +28,5 @@
     <UpToDateCheckInput Remove="NodeVisitors\ScriptingBody\ScriptingBodyBlazorSyntaxNodeVisitor.razor" />
   </ItemGroup>
 </Project>
+
+

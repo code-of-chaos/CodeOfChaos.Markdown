@@ -1,6 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <RootNamespace>CodeOfChaos.Markdown</RootNamespace>
 
         <!-- Package metadata -->
@@ -17,3 +18,5 @@
         <PackageReference Include="Microsoft.Extensions.ObjectPool" />
     </ItemGroup>
 </Project>
+
+
