@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class ImageJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ImageMdSyntaxNode> {
     private static readonly string Href = nameof(ImageMdSyntaxNode.Href).ToCamelCase();
     private static readonly string Title = nameof(ImageMdSyntaxNode.Title).ToCamelCase();
@@ -18,6 +19,7 @@ public sealed class ImageJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ImageMdSy
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(ImageMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -26,6 +28,7 @@ public sealed class ImageJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ImageMdSy
         if (node.Title.IsNotNullOrEmpty()) writer.WriteString(Title, node.Title);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, ImageMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

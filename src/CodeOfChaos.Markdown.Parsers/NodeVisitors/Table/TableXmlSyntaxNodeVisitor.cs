@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class TableXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSyntaxNode> {
     private const string Alignments = nameof(TableMdSyntaxNode.Alignments);
     private const string Alignment = nameof(Alignment);
@@ -17,6 +18,7 @@ public sealed class TableXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSynt
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(TableMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -30,6 +32,7 @@ public sealed class TableXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TableMdSynt
         writer.WriteEndElement();
     }
 
+    /// <inheritdoc />
     public override bool TryReadSpecialChildElement(IMdSyntaxNode node, XmlReader reader) {
         if (base.TryReadSpecialChildElement(node, reader)) return true;
         if (!reader.LocalName.Equals(Alignments, StringComparison.Ordinal)) return false;

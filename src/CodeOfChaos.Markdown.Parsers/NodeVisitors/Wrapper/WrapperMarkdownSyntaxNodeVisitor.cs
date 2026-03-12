@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,20 +12,24 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class WrapperMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<WrapperMdSyntaxNode> {
     [GeneratedRegex(@"\G<(?<mods>\|.*?)>(?<w>.*)</>", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly int WId = RegexRule.GroupNumberFromName("w");
     private static readonly int WModsId = RegexRule.GroupNumberFromName("mods");
 
     private static readonly char[] STriggerCharacters = ['<'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string wrapperValue = match.Groups[WId].Value;
         string mods = match.Groups[WModsId].Value;// Mods are required for this match
@@ -36,6 +40,7 @@ public sealed partial class WrapperMarkdownSyntaxNodeVisitor : BaseMarkdownSynta
         stack.PushSingleLineMatchesToStack(wrapperValue, node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, WrapperMdSyntaxNode node) {
         queue.Enqueue('<');
         queue.Enqueue(node.Modifier!.OriginalInputSpan);

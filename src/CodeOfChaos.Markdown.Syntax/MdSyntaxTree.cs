@@ -12,7 +12,13 @@ namespace CodeOfChaos.Markdown.Syntax;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Represents a syntax tree for Markdown parsing, providing mechanisms
+/// to traverse, query, and manage cached nodes within the tree.
+/// This class is designed to be immutable and resettable.
+/// </summary>
 public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
+    /// <inheritdoc />
     public IRootMdSyntaxNode RootNode {
         get;
         private set {
@@ -28,6 +34,10 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
 
     private static ObjectPool<Stack<IMdSyntaxNode>> MdSyntaxNodeStackPool { get; } = PoolingHelpers.CreateStackPool<IMdSyntaxNode>(16);
 
+
+    /// Provides an empty instance of the <see cref="IMdSyntaxTree"/> interface.
+    /// This property retrieves a pooled instance of <see cref="IMdSyntaxTree"/>
+    /// from the <see cref="MdSyntaxTreePool"/>, allowing for reuse and efficient memory management.
     public static IMdSyntaxTree Empty => MdSyntaxTreePool.Shared.Get();
 
     private ConcurrentDictionary<Type, IMdSyntaxNode[]> CachedChildrenByType { get; } = new();
@@ -35,10 +45,29 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Represents the syntax tree for Markdown content. This class provides the root structure for Markdown parsing and
+    /// manipulation by serving as the foundational node of the tree structure.
+    /// </summary>
+    /// <remarks>
+    /// This class is sealed to prevent inheritance and enforce consistent structure and behavior. It implements the
+    /// IMdSyntaxTree interface to define its role in the Markdown syntax tree domain and implements the IResettable
+    /// interface to allow resetting of its internal state.
+    /// /// </remarks>
     public MdSyntaxTree() {
         InitializeRootNode(this);
     }
 
+    /// <summary>
+    /// Represents a syntax tree specifically tailored for parsing Markdown documents.
+    /// Provides functionality to traverse the tree, query nodes, manage node caches, and reset the tree's state.
+    /// </summary>
+    /// <remarks>
+    /// This class is immutable, and when provided with a root node via initialization or constructor,
+    /// it becomes the authoritative structure for managing Markdown syntax nodes.
+    /// It supports operations like retrieving cached node subsets, traversing the tree in various orders,
+    /// and resetting or clearing associated caches.
+    /// </remarks>
     public MdSyntaxTree(IRootMdSyntaxNode rootNode) {
         RootNode = rootNode;
     }
@@ -53,6 +82,7 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region CachedChildrenReferences
+    /// <inheritdoc />
     public bool TryGetCachedChildrenByType<T>([NotNullWhen(true)] out IEnumerable<T>? nodes) where T : IMdSyntaxNode {
         if (!TryGetCachedChildrenByType(typeof(T), out IEnumerable<IMdSyntaxNode>? childNodes)) {
             nodes = null;
@@ -63,6 +93,7 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
         return true;
     }
 
+    /// <inheritdoc />
     public bool TryGetCachedChildrenByType(Type type, [NotNullWhen(true)] out IEnumerable<IMdSyntaxNode>? nodes) {
         nodes = null;
         if (!type.IsAssignableTo(typeof(IMdSyntaxNode))) return false;
@@ -84,6 +115,7 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
 
     #region Visit Nodes
     // ReSharper disable once ConvertIfStatementToReturnStatement
+    /// <inheritdoc />
     public IEnumerable<IMdSyntaxNode> VisitTopLevelNodes() {
         int childCount = RootNode.ChildCount;
         if (childCount == 0) return [];
@@ -92,6 +124,7 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
 
     }
 
+    /// <inheritdoc />
     public IEnumerable<IMdSyntaxNode> VisitNodesBreadthFirst() {
         ReadOnlySpan<IMdSyntaxNode> rootNodeChildren = RootNode.GetChildrenSpan();
         int rootNodeChildCount = rootNodeChildren.Length;
@@ -123,6 +156,7 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
         }
     }
 
+    /// <inheritdoc />
     public IEnumerable<IMdSyntaxNode> VisitNodesDeepestFirst() {
         ReadOnlySpan<IMdSyntaxNode> rootNodeChildren = RootNode.GetChildrenSpan();
         int rootNodeChildCount = rootNodeChildren.Length;
@@ -167,11 +201,13 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
         }
     }
     
+    /// <inheritdoc />
     public void ClearCaches() {
         if (CachedChildrenByType.IsEmpty) return;
         CachedChildrenByType.Clear();
     }
 
+    /// <inheritdoc />
     public int GetCount() {
         ReadOnlySpan<IMdSyntaxNode> rootNodeChildren = RootNode.GetChildrenSpan();
         int rootNodeChildCount = rootNodeChildren.Length;
@@ -207,6 +243,7 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
     }
     #endregion
 
+    /// <inheritdoc />
     public bool TryReset() {
         if (RootNode is not RootMdSyntaxNode rootNode) return false;// Cannot reset a non-root node
 
@@ -252,17 +289,21 @@ public sealed class MdSyntaxTree : IMdSyntaxTree, IResettable {
     }
 
     // ReSharper disable once NonReadonlyMemberInGetHashCode
+    /// <inheritdoc />
     public override int GetHashCode()
         => HashCode.Combine(RootNode);
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
         => obj is MdSyntaxTree casted
             && Equals(casted);
 
+    /// <inheritdoc />
     public bool Equals(IMdSyntaxTree? other)
         => other is not null
             && RootNode.Equals(other.RootNode);
 
+    /// <inheritdoc />
     public override string ToString() {
         StringBuilder sb = new();
         sb.AppendLine($"{GetType().Name}:");

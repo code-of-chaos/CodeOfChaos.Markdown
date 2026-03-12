@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,19 +12,23 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class WikiLinkMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<WikiLinkMdSyntaxNode> {
     [GeneratedRegex(@"\G\[\[(?<href>[^\]\[\ ]+)\]\]", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly int WikiLinkHrefId = RegexRule.GroupNumberFromName("href");
 
     private static readonly char[] STriggerCharacters = ['['];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
     
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string href = match.Groups[WikiLinkHrefId].Value;
 
@@ -33,6 +37,7 @@ public sealed partial class WikiLinkMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
         parentNode.AddChildNode(node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, WikiLinkMdSyntaxNode node) {
         queue.Enqueue('[');
         queue.Enqueue('[');

@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,6 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class ImageMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ImageMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -24,9 +25,11 @@ public sealed partial class ImageMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         \)
         """, DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['!'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int ImgTextId = RegexRule.GroupNumberFromName("text");
@@ -37,6 +40,7 @@ public sealed partial class ImageMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string altText = match.Groups[ImgTextId].Value;
         string href = match.Groups[ImgHrefId].Value;
@@ -53,6 +57,7 @@ public sealed partial class ImageMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         parentNode.AddChildNode(imgNode);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, ImageMdSyntaxNode node) {
         queue.Enqueue('!');
         queue.Enqueue('[');

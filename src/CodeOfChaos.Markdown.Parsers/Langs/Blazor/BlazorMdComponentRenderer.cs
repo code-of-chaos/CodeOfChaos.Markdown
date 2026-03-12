@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
@@ -13,6 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Blazor;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<IBlazorMdComponentRenderer>]
 public class BlazorMdComponentRenderer(IMarkdownConfig config) : IBlazorMdComponentRenderer {
     private FrozenDictionary<Type, IBlazorComponentBuilderRecord> NodeToComponentMap { get; } = config.BlazorComponents;
@@ -39,9 +40,11 @@ public class BlazorMdComponentRenderer(IMarkdownConfig config) : IBlazorMdCompon
         builder.CloseComponent();
     }
 
+    /// <inheritdoc />
     public RenderFragment RenderComponent(IMdSyntaxNode node)
         => builder => RenderNodeAsComponent(builder, node);
 
+    /// <inheritdoc />
     public RenderFragment RenderComponentDebug(IMdSyntaxNode node) => builder => {
         var data = BlazorComponentBuilderRecord.Empty;
         int sequence = 0;
@@ -51,6 +54,7 @@ public class BlazorMdComponentRenderer(IMarkdownConfig config) : IBlazorMdCompon
         builder.CloseComponent();
     };
 
+    /// <inheritdoc />
     public RenderFragment RenderChildComponents(IMdSyntaxNode node) => builder => {
         int childCount = node.ChildCount;
         if (childCount == 0) return;
@@ -61,10 +65,12 @@ public class BlazorMdComponentRenderer(IMarkdownConfig config) : IBlazorMdCompon
         }
     };
 
+    /// <inheritdoc />
     public RenderFragment RenderRootComponents(IEnumerable<IMdSyntaxNode> nodes) => builder => {
         foreach (IMdSyntaxNode child in nodes) RenderNodeAsComponent(builder, child);
     };
 
+    /// <inheritdoc />
     public RenderFragment RenderRootComponentsWithSkipped(IEnumerable<IMdSyntaxNode> nodes) => builder => {
         foreach (IMdSyntaxNode child in nodes) RenderNodeAsComponent(builder, child, true);
     };

@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,18 +12,22 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class CodeInlineMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<CodeInlineMdSyntaxNode> {
     [GeneratedRegex(@"\G(?<open>`+)(?<c>(?>[^`\\]+|\\.|`(?!\k<open>))+?)\k<open>", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['`'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int CodeContentId = RegexRule.GroupNumberFromName("c");
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string codeValue = match.Groups[CodeContentId].Value;
         ReadOnlySpan<char> fullOriginalString = match.ValueSpan;
@@ -41,6 +45,7 @@ public sealed partial class CodeInlineMarkdownSyntaxNodeVisitor : BaseMarkdownSy
         parentNode.AddChildNode(node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, CodeInlineMdSyntaxNode node) {
         queue.Enqueue('`', Math.Max(node.BackTickCount, 1));
         queue.Enqueue(node.Content);

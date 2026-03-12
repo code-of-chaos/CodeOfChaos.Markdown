@@ -15,6 +15,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<IXmlMdSyntaxTreeParser>]
 public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreeParser {
     private readonly FrozenDictionary<Type, IXmlSyntaxNodeVisitor> _visitorsByType = config.XmlSyntaxNodeVisitors;

@@ -11,6 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public class JsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);

@@ -9,17 +9,20 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class HtmlXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HtmlMdSyntaxNode> {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(HtmlMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         WriteXmlPreserveSpace(writer);
         WriteElementContent(writer, node.Content);
     }
 
+    /// <inheritdoc />
     protected override void SerializeContent(HtmlMdSyntaxNode targetNode, string content) {
         targetNode.WithContent(content);
     }

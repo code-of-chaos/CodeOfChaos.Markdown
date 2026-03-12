@@ -61,4 +61,8 @@ public interface IXmlSyntaxNodeVisitor {
 }
 
 // ReSharper disable once UnusedTypeParameter
+/// <summary>
+/// Marks an XML visitor that targets a specific syntax-node type.
+/// </summary>
+/// <typeparam name="TSyntaxNode">The syntax-node type handled by the visitor.</typeparam>
 public interface IXmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

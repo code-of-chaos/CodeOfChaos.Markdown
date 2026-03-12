@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,12 +12,15 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class TagMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TagMdSyntaxNode> {
     [GeneratedRegex(@"\G\#(?<t>[\p{L}\p{N}\-_\/\.]+)", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['#'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int TextId = RegexRule.GroupNumberFromName("t");
@@ -25,6 +28,7 @@ public sealed partial class TagMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNod
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string tagValue = match.Groups[TextId].Value;
 
@@ -33,6 +37,7 @@ public sealed partial class TagMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNod
         parentNode.AddChildNode(node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, TagMdSyntaxNode node) {
         queue.Enqueue('#');
         queue.Enqueue(node.Content);

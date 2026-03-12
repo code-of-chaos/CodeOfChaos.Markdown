@@ -11,6 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public class XmlSyntaxNodeVisitor<TSyntaxNode> : IXmlSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);

@@ -11,8 +11,15 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Extension methods for configuring default markdown syntax-node visitors.
+/// </summary>
 public static class MarkdownConfigExtensions {
     extension(MarkdownConfig config) {
+        /// <summary>
+        /// Registers the default node visitors used by the library.
+        /// </summary>
+        /// <returns>The same <see cref="MarkdownConfig" /> instance.</returns>
         public MarkdownConfig AddDefaultNodeVisitors() {
             // SingleLine Structures
             config.WithSyntaxNode<EscapedCharacterMdSyntaxNode>()

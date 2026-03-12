@@ -206,3 +206,7 @@ tab_width = 4
 
 [*.razor]
 csharp_space_after_keywords_in_control_flow_statements = true
+
+[*.g.cs]
+# Source-generated files are not manually maintained; suppress missing XML docs there.
+dotnet_diagnostic.CS1591.severity = none

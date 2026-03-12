@@ -10,18 +10,35 @@ namespace CodeOfChaos.Markdown.Syntax;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Represents a syntax node modifier for processing Markdown syntax elements.
+/// Provides mechanisms to parse attributes and flags from a given input string,
+/// enabling efficient reuse via pooling to optimize memory usage.
+/// </summary>
 public class MdSyntaxNodeModifier : IMdSyntaxNodeModifier, IResettable {
     private Lazy<FrozenDictionary<string, Range>> InternalAttributesDictionary { get; set; } = new(static () => FrozenDictionary<string, Range>.Empty);
 
+    /// <inheritdoc />
     public FrozenDictionary<string, Range> Attributes => InternalAttributesDictionary.Value;
+    /// <inheritdoc />
     public string OriginalInput { get; private set; } = string.Empty;
+    /// <inheritdoc />
     public ReadOnlySpan<char> OriginalInputSpan => OriginalInput.AsSpan();
 
+    /// A thread-safe object pool for managing instances of the <see cref="MdSyntaxNodeModifier"/> class.
+    /// This pool facilitates reusability of objects to reduce memory allocation overhead and improve performance.
     public static ObjectPool<MdSyntaxNodeModifier> Pool { get; } = PoolingHelpers.CreateResettablePool<MdSyntaxNodeModifier>(16);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Creates a new instance of <see cref="MdSyntaxNodeModifier"/> from the provided input string.
+    /// </summary>
+    /// <param name="input">The input string used to initialize the <see cref="MdSyntaxNodeModifier"/>.</param>
+    /// <returns>
+    /// A new instance of <see cref="MdSyntaxNodeModifier"/> populated using the given input string.
+    /// </returns>
     public static MdSyntaxNodeModifier FromString(string input) {
         MdSyntaxNodeModifier mod = Pool.Get();
         mod.OriginalInput = input;
@@ -110,6 +127,7 @@ public class MdSyntaxNodeModifier : IMdSyntaxNodeModifier, IResettable {
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public bool TryGetValue(string key, [NotNullWhen(true)] out string? value) {
         if (!Attributes.TryGetValue(key, out Range range)) {
             value = null;
@@ -148,6 +166,7 @@ public class MdSyntaxNodeModifier : IMdSyntaxNodeModifier, IResettable {
     }
 
     // ReSharper disable once InvertIf
+    /// <inheritdoc />
     public bool TryGetFlag(string key, out bool value) {
         if (!Attributes.TryGetValue(key, out Range range)) {
             value = false;
@@ -171,8 +190,10 @@ public class MdSyntaxNodeModifier : IMdSyntaxNodeModifier, IResettable {
         return false;
     }
 
+    /// <inheritdoc />
     public void ReturnToPool() => Pool.Return(this);
 
+    /// <inheritdoc />
     public bool TryReset() {
         InternalAttributesDictionary = new Lazy<FrozenDictionary<string, Range>>(static () => FrozenDictionary<string, Range>.Empty);
         OriginalInput = string.Empty;
@@ -180,18 +201,22 @@ public class MdSyntaxNodeModifier : IMdSyntaxNodeModifier, IResettable {
         return true;
     }
 
+    /// <inheritdoc />
     public bool Equals(IMdSyntaxNodeModifier? other) {
         // Don't need to check the attribute dictionary as it is fully dependent on the OriginalInput on creation.
         return StringComparer.Ordinal.Equals(OriginalInput, other?.OriginalInput);
     }
 
     #region Default Modifiers
+    /// <inheritdoc />
     public bool TryGetIconName([NotNullWhen(true)] out string? iconName)
         => TryGetValue("icon", out iconName) && iconName.IsNotNullOrWhiteSpace();
 
+    /// <inheritdoc />
     public bool TryGetTitle([NotNullWhen(true)] out string? title)
         => TryGetValue("title", out title);
 
+    /// <inheritdoc />
     public bool TryGetSize(out (int Width, int Height) size) {
         size = (-1, -1);
         if (!Attributes.TryGetValue("size", out Range range)) return false;
@@ -223,9 +248,11 @@ public class MdSyntaxNodeModifier : IMdSyntaxNodeModifier, IResettable {
         return false;
     }
     
+    /// <inheritdoc />
     public bool TryGetFit(out bool state)
         => TryGetFlag("fit", out state);
 
+    /// <inheritdoc />
     public bool TryGetAlign([NotNullWhen(true)] out string? align) {
         align = null;
         if (!TryGetValue("align", out align)) return false;
@@ -233,9 +260,11 @@ public class MdSyntaxNodeModifier : IMdSyntaxNodeModifier, IResettable {
         return VerticalAlignImageUtilities.TryGetFromString(align, out _) || align.IsNotNullOrWhiteSpace();
     }
 
+    /// <inheritdoc />
     public bool TryGetColor([NotNullWhen(true)] out string? color)
         => TryGetValue("color", out color);
 
+    /// <inheritdoc />
     public bool TryGetStyle([NotNullWhen(true)] out string? style)
         => TryGetValue("style", out style);
     #endregion

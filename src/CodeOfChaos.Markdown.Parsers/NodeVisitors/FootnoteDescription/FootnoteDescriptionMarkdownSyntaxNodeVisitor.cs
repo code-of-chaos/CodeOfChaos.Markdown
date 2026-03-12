@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,12 +12,15 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class FootnoteDescriptionMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<FootnoteDescriptionMdSyntaxNode> {
     [GeneratedRegex(@"\G^\[\^(?<id>[\d\p{L}\p{N}]+)\][\ ]?:[\ ]?(?<body>.+(?:\n(?!\[)(?:.+))*)", DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['['];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int FootnoteIdentifierId = RegexRule.GroupNumberFromName("id");
@@ -25,6 +28,7 @@ public sealed partial class FootnoteDescriptionMarkdownSyntaxNodeVisitor : BaseM
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string footnoteId = match.Groups[FootnoteIdentifierId].Value;
         string body = match.Groups[FootnoteBodyId].Value;
@@ -36,6 +40,7 @@ public sealed partial class FootnoteDescriptionMarkdownSyntaxNodeVisitor : BaseM
         stack.PushMultiLineMatchesToStack(body, node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, FootnoteDescriptionMdSyntaxNode node) {
         queue.Enqueue('[');
         queue.Enqueue('^');

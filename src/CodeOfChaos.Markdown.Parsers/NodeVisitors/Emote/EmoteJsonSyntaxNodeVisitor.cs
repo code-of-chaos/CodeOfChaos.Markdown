@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class EmoteJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<EmoteMdSyntaxNode> {
     private static readonly string EmoteKey = nameof(EmoteMdSyntaxNode.EmoteKey).ToCamelCase();
     private static readonly string OriginalEmote = nameof(EmoteMdSyntaxNode.OriginalEmote).ToCamelCase();
@@ -17,6 +18,7 @@ public sealed class EmoteJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<EmoteMdSy
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(EmoteMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -24,6 +26,7 @@ public sealed class EmoteJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<EmoteMdSy
         writer.WriteString(OriginalEmote, node.OriginalEmote);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, EmoteMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

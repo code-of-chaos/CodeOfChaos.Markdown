@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,18 +10,21 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class EscapedCharacterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<EscapedCharacterMdSyntaxNode> {
     private static readonly string Content = nameof(EscapedCharacterMdSyntaxNode.Content).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(EscapedCharacterMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
         writer.WriteString(Content, node.Content.ToString());
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, EscapedCharacterMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

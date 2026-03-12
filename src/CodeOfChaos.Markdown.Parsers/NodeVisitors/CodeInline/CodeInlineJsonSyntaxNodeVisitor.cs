@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class CodeInlineJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeInlineMdSyntaxNode> {
     private static readonly string BackTickCount = nameof(CodeInlineMdSyntaxNode.BackTickCount).ToCamelCase();
     private static readonly string Content = nameof(CodeInlineMdSyntaxNode.Content).ToCamelCase();
@@ -17,6 +18,7 @@ public sealed class CodeInlineJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Code
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(CodeInlineMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -24,6 +26,7 @@ public sealed class CodeInlineJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Code
         writer.WriteString(Content, node.Content);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, CodeInlineMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

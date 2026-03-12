@@ -14,6 +14,10 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Configuration entry for a specific syntax-node type.
+/// </summary>
+/// <typeparam name="TSyntaxNode">The syntax-node type.</typeparam>
 public class MarkdownConfigEntry<TSyntaxNode> : IMarkdownConfigEntry where TSyntaxNode : class, IMdSyntaxNode {
     /// <inheritdoc />
     public Type SyntaxNodeType { get; } = typeof(TSyntaxNode);

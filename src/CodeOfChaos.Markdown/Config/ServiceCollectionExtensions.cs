@@ -12,8 +12,17 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Dependency-injection registration helpers for CodeOfChaos.Markdown.
+/// </summary>
 public static class ServiceCollectionExtensions {
     
+    /// <summary>
+    /// Registers CodeOfChaos.Markdown services, default visitors, and serializers.
+    /// </summary>
+    /// <param name="serviceCollection">The service collection to modify.</param>
+    /// <param name="configure">Optional post-configuration callback for <see cref="MarkdownConfig" />.</param>
+    /// <returns>The updated service collection.</returns>
     // Used for the standalone version of the library
     [UsedImplicitly]
     public static IServiceCollection AddCodeOfChaosMarkdown(this IServiceCollection serviceCollection, Action<MarkdownConfig>? configure = null) {

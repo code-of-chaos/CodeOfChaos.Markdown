@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
@@ -15,6 +15,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<IJsonMdSyntaxTreeParser>]
 public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeParser {
     private readonly FrozenDictionary<Type, IJsonSyntaxNodeVisitor> _visitors = config.JsonSyntaxNodeVisitors;

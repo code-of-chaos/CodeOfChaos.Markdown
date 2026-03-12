@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,6 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class HtmlSpanMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<HtmlSpanMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -30,6 +31,7 @@ public sealed partial class HtmlSpanMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
         (?<post>.+)?
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly int SpanPreId = RegexRule.GroupNumberFromName("pre");
@@ -40,6 +42,7 @@ public sealed partial class HtmlSpanMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         // Spans should always be wrapped in a paragraph if not already in one
         bool needsParagraph = parentNode is not (ParagraphMdSyntaxNode or HtmlSpanMdSyntaxNode);
@@ -72,6 +75,7 @@ public sealed partial class HtmlSpanMarkdownSyntaxNodeVisitor : BaseMarkdownSynt
         }
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, HtmlSpanMdSyntaxNode node) {
         queue.Enqueue("<span");
         if (node.Attributes.IsNotNullOrEmpty()) {

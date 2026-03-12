@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class TemplateExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<TemplateExpressionMdSyntaxNode> {
     private static readonly string ExpressionType = nameof(TemplateExpressionMdSyntaxNode.ExpressionType).ToCamelCase();
     private static readonly string Expression = nameof(TemplateExpressionMdSyntaxNode.Expression).ToCamelCase();
@@ -18,6 +19,7 @@ public sealed class TemplateExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisi
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(TemplateExpressionMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -26,6 +28,7 @@ public sealed class TemplateExpressionJsonSyntaxNodeVisitor : JsonSyntaxNodeVisi
         writer.WriteString(Expression, node.Expression);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, TemplateExpressionMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

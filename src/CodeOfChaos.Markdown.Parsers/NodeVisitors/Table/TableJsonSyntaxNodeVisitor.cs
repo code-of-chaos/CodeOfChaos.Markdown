@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,12 +10,14 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class TableJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<TableMdSyntaxNode> {
     private static readonly string Alignments = nameof(TableMdSyntaxNode.Alignments).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(TableMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -31,6 +33,7 @@ public sealed class TableJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<TableMdSy
         }
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, TableMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

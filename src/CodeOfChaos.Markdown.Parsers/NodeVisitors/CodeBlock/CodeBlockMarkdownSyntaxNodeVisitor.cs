@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -13,12 +13,15 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class CodeBlockMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
     [GeneratedRegex(@"\G^(?<open>`{3,})[\ ]*(?<lang>.*?)?\n(?<body>(?>[\s\S]|(?!\k<open>))*?)\k<open>(?<tail>[^\n]+)?$", DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['`'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int CBodyId = RegexRule.GroupNumberFromName("body");
@@ -27,6 +30,7 @@ public sealed partial class CodeBlockMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         ReadOnlySpan<char> codeBlockBody = match.Groups[CBodyId].ValueSpan;
         CodeBlockMdSyntaxNode codeNode = MdSyntaxNodePool<CodeBlockMdSyntaxNode>.Shared.Get();
@@ -93,6 +97,7 @@ public sealed partial class CodeBlockMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
         return destinationIndex;
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, CodeBlockMdSyntaxNode node) {
         queue.Enqueue("```");
         queue.Enqueue(node.Language);

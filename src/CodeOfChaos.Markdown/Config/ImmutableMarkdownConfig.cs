@@ -13,6 +13,9 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Immutable implementation of <see cref="IMarkdownConfig" /> used at runtime.
+/// </summary>
 public class ImmutableMarkdownConfig : IMarkdownConfig {
     /// <inheritdoc />
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineMarkdownSyntaxNodeVisitors { get; init; }

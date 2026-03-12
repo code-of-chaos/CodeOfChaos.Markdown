@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,18 +10,21 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class HorizontalRuleJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<HorizontalRuleMdSyntaxNode> {
     private static readonly string Identifier = nameof(HorizontalRuleMdSyntaxNode.Identifier).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(HorizontalRuleMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
         writer.WriteString(Identifier, node.Identifier);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, HorizontalRuleMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

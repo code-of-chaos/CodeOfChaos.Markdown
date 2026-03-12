@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,15 +12,19 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class EscapedCharacterMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<EscapedCharacterMdSyntaxNode> {
     [GeneratedRegex(@"\G\\\S")]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => ['\\'];
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         char value = match.ValueSpan[1];
         EscapedCharacterMdSyntaxNode node = MdSyntaxNodePool<EscapedCharacterMdSyntaxNode>.Shared.Get();
@@ -28,6 +32,7 @@ public sealed partial class EscapedCharacterMarkdownSyntaxNodeVisitor : BaseMark
         parentNode.AddChildNode(node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, EscapedCharacterMdSyntaxNode node) {
         queue.Enqueue('\\');
         queue.Enqueue(node.Content);

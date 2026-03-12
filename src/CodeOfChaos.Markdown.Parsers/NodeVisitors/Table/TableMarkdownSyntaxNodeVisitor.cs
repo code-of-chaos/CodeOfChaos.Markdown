@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -13,6 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TableMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -21,11 +22,13 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         (?<body>(?:\n(?:^\|.*\|$))+)
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private const int StackAllocThreshold = 16;
 
     private static readonly char[] STriggerCharacters = ['|'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int HeadId = RegexRule.GroupNumberFromName("head");
@@ -35,6 +38,7 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(
         INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
@@ -104,6 +108,7 @@ public sealed partial class TableMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxN
         }
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, TableMdSyntaxNode node) {
         ReadOnlySpan<TableCellMdSyntaxNode> headerCells = node.GetHeaderCells();
         ReadOnlySpan<TableRowMdSyntaxNode> rows = node.GetRows();

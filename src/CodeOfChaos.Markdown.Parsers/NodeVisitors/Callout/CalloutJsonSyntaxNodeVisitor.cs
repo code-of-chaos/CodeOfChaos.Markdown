@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class CalloutJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CalloutMdSyntaxNode> {
     private static readonly string CalloutType = nameof(CalloutMdSyntaxNode.CalloutType).ToCamelCase();
     private static readonly string CollapsedState = nameof(CalloutMdSyntaxNode.CollapsedState).ToCamelCase();
@@ -18,6 +19,7 @@ public sealed class CalloutJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Callout
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(CalloutMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -26,6 +28,7 @@ public sealed class CalloutJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Callout
         writer.WriteNumber(LeadingSpaces, node.LeadingSpaces);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, CalloutMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

@@ -14,6 +14,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public abstract class BaseMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSyntaxNodeVisitor<TSyntaxNode>
     where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     protected const RegexOptions DefaultSingleLineRegexOptions = RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace;

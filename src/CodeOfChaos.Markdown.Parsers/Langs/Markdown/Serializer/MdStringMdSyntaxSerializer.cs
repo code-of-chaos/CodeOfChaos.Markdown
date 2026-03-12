@@ -14,7 +14,9 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class MdStringMdSyntaxSerializer(ILogger<MdStringMdSyntaxSerializer> logger) : IMdStringMdSyntaxSerializer {
+    
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineSerializers { get; init; }
     /// <inheritdoc />
     public required SearchValues<char> SingleLineTriggerSearchValues { get; init; }

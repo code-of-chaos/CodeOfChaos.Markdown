@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class TemplateExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<TemplateExpressionMdSyntaxNode> {
     private static readonly string ExpressionType = nameof(TemplateExpressionMdSyntaxNode.ExpressionType).ToCamelCase();
     private static readonly string Body = nameof(TemplateExpressionMdSyntaxNode.Expression).ToCamelCase();
@@ -18,6 +19,7 @@ public sealed class TemplateExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisito
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(TemplateExpressionMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -26,6 +28,7 @@ public sealed class TemplateExpressionXmlSyntaxNodeVisitor : XmlSyntaxNodeVisito
         writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, TemplateExpressionMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 

@@ -9,6 +9,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class ListItemXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListItemMdSyntaxNode> {
     private const string LeadingSpaces = nameof(ListItemMdSyntaxNode.LeadingSpaces);
     private const string CheckLeadingSpaces = nameof(ListItemMdSyntaxNode.CheckLeadingSpaces);
@@ -18,6 +19,7 @@ public sealed class ListItemXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListItem
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(ListItemMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         writer.WriteAttributeString(CheckMarker, node.OriginalCheckMarker);
@@ -26,6 +28,7 @@ public sealed class ListItemXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListItem
         writer.WriteAttributeString(CheckLeadingSpaces, node.CheckLeadingSpaces.ToString());
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, ListItemMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 

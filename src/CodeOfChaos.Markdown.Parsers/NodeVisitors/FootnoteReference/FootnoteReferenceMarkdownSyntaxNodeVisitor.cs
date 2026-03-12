@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,12 +12,15 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class FootnoteReferenceMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<FootnoteReferenceMdSyntaxNode> {
     [GeneratedRegex(@"\G\[\^(?<id>[\d\p{L}\p{N}]+)\]", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['['];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int FootnoteIdentifierId = RegexRule.GroupNumberFromName("id");
@@ -25,6 +28,7 @@ public sealed partial class FootnoteReferenceMarkdownSyntaxNodeVisitor : BaseMar
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string footnoteId = match.Groups[FootnoteIdentifierId].Value;
 
@@ -33,6 +37,7 @@ public sealed partial class FootnoteReferenceMarkdownSyntaxNodeVisitor : BaseMar
         parentNode.AddChildNode(node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, FootnoteReferenceMdSyntaxNode node) {
         queue.Enqueue('[');
         queue.Enqueue('^');

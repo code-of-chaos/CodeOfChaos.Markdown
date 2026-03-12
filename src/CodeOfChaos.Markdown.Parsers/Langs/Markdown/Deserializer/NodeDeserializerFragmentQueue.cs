@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Markdown.Deserializer;
@@ -14,13 +14,12 @@ public class NodeDeserializerFragmentQueue : INodeDeserializerFragmentQueue, IRe
     private readonly Queue<NodeDeserializerFragment> _queue = new();
     public IMdStringMdSyntaxDeserializer? DeserializerReference { get; set; }
     public StringBuilder? BuilderReference { get; set; }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public bool TryDequeue(out NodeDeserializerFragment fragment) 
+    public bool TryDequeue(out NodeDeserializerFragment fragment)
         => _queue.TryDequeue(out fragment);
-    
     
     /// <inheritdoc />
     public void Enqueue(string? value) {
@@ -31,47 +30,47 @@ public class NodeDeserializerFragmentQueue : INodeDeserializerFragmentQueue, IRe
             BuilderReference.Append(value);
             return;
         }
-        
+
         NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(value);
         _queue.Enqueue(fragment);
     }
-    
+
     /// <inheritdoc />
     public void Enqueue(char value) {
         ArgumentNullException.ThrowIfNull(BuilderReference);
-        
+
         if (_queue.IsEmpty()) {
             BuilderReference.Append(value);
             return;
         }
-        
+
         NodeDeserializerFragment fragment = NodeDeserializerFragment.AsCharacterToBeProcessed(value);
         _queue.Enqueue(fragment);
     }
-    
+
     /// <inheritdoc />
     public void Enqueue(char value, int repeatCount) {
         ArgumentNullException.ThrowIfNull(BuilderReference);
-        
+
         if (_queue.IsEmpty()) {
             BuilderReference.Append(value, repeatCount);
             return;
         }
-        
+
         string stringValue = new(value, repeatCount);
         NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(stringValue);
         _queue.Enqueue(fragment);
     }
-    
+
     /// <inheritdoc />
     public void Enqueue(ReadOnlySpan<char> value) {
         ArgumentNullException.ThrowIfNull(BuilderReference);
-        
+
         if (_queue.IsEmpty()) {
             BuilderReference.Append(value);
             return;
         }
-        
+
         NodeDeserializerFragment fragment = NodeDeserializerFragment.AsContentToBeProcessed(value.ToString());
         _queue.Enqueue(fragment);
     }
@@ -102,10 +101,11 @@ public class NodeDeserializerFragmentQueue : INodeDeserializerFragmentQueue, IRe
         return DeserializerReference.DeserializeToString(node.GetChildrenSpan());
     }
 
+    /// <inheritdoc />
     public bool TryReset() {
         _queue.Clear();
         DeserializerReference = null;
         BuilderReference = null;
         return true;
-    } 
+    }
 }

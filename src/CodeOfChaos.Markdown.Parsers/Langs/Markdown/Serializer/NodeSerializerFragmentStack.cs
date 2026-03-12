@@ -170,6 +170,7 @@ public sealed class NodeSerializerFragmentStack : INodeSerializerFragmentStack, 
         return _stack.TryPop(out dto);
     }
 
+    /// <inheritdoc />
     public bool TryReset() {
         _stack.Clear();
         return true;

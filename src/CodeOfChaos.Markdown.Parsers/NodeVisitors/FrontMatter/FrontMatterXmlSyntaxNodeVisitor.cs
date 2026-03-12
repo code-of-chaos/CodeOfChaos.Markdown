@@ -9,6 +9,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class FrontMatterXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<FrontMatterMdSyntaxNode> {
     private const string Language = nameof(FrontMatterMdSyntaxNode.Language);
     private const string DashesCount = nameof(FrontMatterMdSyntaxNode.DashesCount);
@@ -17,6 +18,7 @@ public sealed class FrontMatterXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Front
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(FrontMatterMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         WriteXmlPreserveSpace(writer);
@@ -26,6 +28,7 @@ public sealed class FrontMatterXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Front
         WriteElementContent(writer, node.Content);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, FrontMatterMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 
@@ -42,6 +45,7 @@ public sealed class FrontMatterXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<Front
         }
     }
 
+    /// <inheritdoc />
     protected override void SerializeContent(FrontMatterMdSyntaxNode targetNode, string content) {
         targetNode.WithContent(content);
     }

@@ -8,6 +8,7 @@ namespace CodeOfChaos.Markdown.Editors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public class TextSource : ITextSource {
     /// <inheritdoc />
     public string Text { get; private set; } = string.Empty;

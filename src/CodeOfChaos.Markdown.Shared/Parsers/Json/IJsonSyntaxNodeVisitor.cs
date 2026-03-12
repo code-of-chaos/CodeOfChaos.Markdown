@@ -29,4 +29,8 @@ public interface IJsonSyntaxNodeVisitor {
 }
 
 // ReSharper disable once UnusedTypeParameter
+/// <summary>
+/// Marks a JSON visitor that targets a specific syntax-node type.
+/// </summary>
+/// <typeparam name="TSyntaxNode">The syntax-node type handled by the visitor.</typeparam>
 public interface IJsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

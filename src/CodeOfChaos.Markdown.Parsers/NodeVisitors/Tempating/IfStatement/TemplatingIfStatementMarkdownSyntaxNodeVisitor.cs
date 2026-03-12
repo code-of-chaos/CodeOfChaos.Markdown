@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -13,6 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<TemplatingIfStatementMdSyntaxNode> {
     [GeneratedRegex(
         """
@@ -32,6 +33,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
         ^@endif\ *$
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax => RegexRule;
 
     [GeneratedRegex(
@@ -42,6 +44,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
     private static partial Regex ElifSectionRegexRule { get; }
 
     private static readonly char[] STriggerCharacters = ['@'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int IfExpressionId = RegexRule.GroupNumberFromName("ifExpression");
@@ -53,6 +56,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         TemplatingIfStatementMdSyntaxNode statementNode = MdSyntaxNodePool<TemplatingIfStatementMdSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(statementNode);
@@ -106,6 +110,7 @@ public sealed partial class TemplatingIfStatementMarkdownSyntaxNodeVisitor : Bas
         stack.PushMultiLineMatchesToStack(adjustedElseBody, elseExpressionNode);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, TemplatingIfStatementMdSyntaxNode node) {
         if (node.ChildCount == 0) return;
 

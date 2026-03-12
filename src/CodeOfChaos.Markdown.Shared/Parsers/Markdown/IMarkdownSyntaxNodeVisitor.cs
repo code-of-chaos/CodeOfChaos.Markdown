@@ -49,4 +49,8 @@ public interface IMarkdownSyntaxNodeVisitor {
 }
 
 // ReSharper disable once UnusedTypeParameter
+/// <summary>
+/// Marks a markdown visitor that targets a specific syntax-node type.
+/// </summary>
+/// <typeparam name="TSyntaxNode">The syntax-node type handled by the visitor.</typeparam>
 public interface IMarkdownSyntaxNodeVisitor<TSyntaxNode> : IMarkdownSyntaxNodeVisitor where TSyntaxNode : class, IMdSyntaxNode;

@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class ListItemJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListItemMdSyntaxNode> {
     private static readonly string LeadingSpaces = nameof(ListItemMdSyntaxNode.LeadingSpaces).ToCamelCase();
     private static readonly string CheckLeadingSpaces = nameof(ListItemMdSyntaxNode.CheckLeadingSpaces).ToCamelCase();
@@ -19,6 +20,7 @@ public sealed class ListItemJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListIt
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(ListItemMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -28,6 +30,7 @@ public sealed class ListItemJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListIt
         writer.WriteNumber(CheckLeadingSpaces, node.CheckLeadingSpaces);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, ListItemMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 
