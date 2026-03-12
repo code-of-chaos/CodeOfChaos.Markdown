@@ -10,6 +10,7 @@
   <Folder Name="/devtools/github/">
     <File Path=".github/dependabot.yml" />
     <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
+    <File Path=".github/workflows/docs.yml" />
     <File Path=".github/workflows/onPullRequest-TestDotnet.yml" />
     <File Path=".github/workflows/release.yml" />
     <File Path=".github/workflows/workflow-todo.yml" />
@@ -18,7 +19,22 @@
     <File Path="devtools/bump_version.py" />
     <File Path="devtools/test_bump_version.py" />
   </Folder>
-  <Folder Name="/docs/" />
+  <Folder Name="/docs/">
+    <File Path="docs/docfx.json" />
+    <File Path="docs/index.md" />
+    <File Path="docs/toc.yml" />
+  </Folder>
+  <Folder Name="/docs/api/">
+    <File Path="docs/api/.gitkeep" />
+  </Folder>
+  <Folder Name="/docs/articles/">
+    <File Path="docs/articles/getting-started.md" />
+    <File Path="docs/articles/toc.yml" />
+  </Folder>
+  <Folder Name="/docs/Images/">
+    <File Path="docs/images/.gitkeep" />
+    <File Path="docs/images/README.md" />
+  </Folder>
   <Folder Name="/examples/" />
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
