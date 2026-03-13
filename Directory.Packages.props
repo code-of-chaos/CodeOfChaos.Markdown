@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="CodeOfChaos.Extensions" Version="0.87.2" />
-    <PackageVersion Include="CodeOfChaos.Extensions.AspNetCore" Version="0.87.2" />
+    <PackageVersion Include="CodeOfChaos.Extensions.AspNetCore" Version="0.89.0" />
     <PackageVersion Include="CodeOfChaos.Extensions.AspNetCore.Components" Version="0.87.2" />
     <PackageVersion Include="CodeOfChaos.Extensions.DependencyInjection" Version="0.87.2" />
     <PackageVersion Include="CodeOfChaos.Extensions.DependencyInjection.Generators" Version="0.87.2">
