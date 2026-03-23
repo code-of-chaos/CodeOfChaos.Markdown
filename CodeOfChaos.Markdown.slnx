@@ -2,6 +2,7 @@
   <Folder Name="/devtools/">
     <File Path="CodeOfChaos.Markdown.GitHubActions.slnf" />
     <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
     <Project Path="devtools/MarkdownDevtools/MarkdownDevtools.csproj" />
   </Folder>
   <Folder Name="/devtools/benchmarks/">
