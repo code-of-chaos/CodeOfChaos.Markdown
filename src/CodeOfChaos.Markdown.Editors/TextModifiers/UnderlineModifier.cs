@@ -10,11 +10,14 @@ namespace CodeOfChaos.Markdown.Editors.TextModifiers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<ITextModifier>]
 [SuppressMessage("ReSharper", "ReplaceAutoPropertyWithComputedProperty")]
 public class UnderlineModifier(ILogger<UnderlineModifier> logger) : SingleInstructionModifiers(logger) {
-    public const string Name = "underline";
+    private const string Name = "underline";
     
+    /// <inheritdoc />
     public override string ModifierName { get; } = Name;
+    /// <inheritdoc />
     protected override string Instruction { get; } = "_";
 }

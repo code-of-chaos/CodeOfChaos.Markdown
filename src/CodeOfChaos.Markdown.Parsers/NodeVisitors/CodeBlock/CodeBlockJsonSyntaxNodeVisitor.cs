@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class CodeBlockJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
     private static readonly string Language = nameof(CodeBlockMdSyntaxNode.Language).ToCamelCase();
     private static readonly string Content = nameof(CodeBlockMdSyntaxNode.Content).ToCamelCase();
@@ -17,6 +18,7 @@ public sealed class CodeBlockJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeB
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(CodeBlockMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -24,6 +26,7 @@ public sealed class CodeBlockJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<CodeB
         writer.WriteString(Content, node.Content);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, CodeBlockMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

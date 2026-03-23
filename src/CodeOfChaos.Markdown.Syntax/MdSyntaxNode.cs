@@ -10,20 +10,39 @@ namespace CodeOfChaos.Markdown.Syntax;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     where T : MdSyntaxNode<T>, new() {
+    /// <inheritdoc />
     public Guid Id { get; } = Guid.CreateVersion7();// Not reset during TryReset, this is by design.
 
+    /// <inheritdoc />
     public int ChildCount { get; private set; }
+
+    /// <summary>
+    /// Represents an array of child nodes associated with the current syntax node instance.
+    /// This property provides access to child nodes, which can include elements such as
+    /// headers, rows, or other nested objects depending on the specific type of syntax node.
+    /// </summary>
+    /// <remarks>
+    /// The child nodes are initialized with a specified initial size and can be dynamically accessed
+    /// or modified based on the operations performed on the parent syntax node. This property is
+    /// crucial for enabling hierarchical relationships between syntax nodes within the Markdown syntax tree.
+    /// </remarks>
     protected IMdSyntaxNode[] ChildNodes { get; private set; } = GetInitialChildNodeArray(initialChildCount);
     private readonly bool _isEmptyInitialized = GetEmptyInitializedState(initialChildCount);
 
+    /// <inheritdoc />
     public int Depth { get; private set; }
+    /// <inheritdoc />
     public IMdSyntaxNode? Parent { get; private set; }
     private static readonly Type TypeBacking = typeof(T);
+    /// <inheritdoc />
     public Type Type => TypeBacking;
 
+    /// <inheritdoc />
     public IMdSyntaxNodeModifier? Modifier { get; private set; }
+    /// <inheritdoc />
     public IMdSyntaxTree? TreeReference { get; protected set; }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -41,18 +60,21 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     // -----------------------------------------------------------------------------------------------------------------
     #region GetChild(ren)
     // ReSharper disable once ConvertIfStatementToReturnStatement
+    /// <inheritdoc />
     public ReadOnlySpan<IMdSyntaxNode> GetChildrenSpan() {
         if (ChildCount == 0) return ReadOnlySpan<IMdSyntaxNode>.Empty;
 
         return ChildNodes.AsSpan(0, ChildCount);
     }
 
+    /// <inheritdoc />
     public IEnumerable<IMdSyntaxNode> GetChildren() {
         for (int i = 0; i < ChildCount; i++) {
             yield return ChildNodes[i];
         }
     }
 
+    /// <inheritdoc />
     public IEnumerable<TChild> GetChildrenByType<TChild>() where TChild : IMdSyntaxNode {
         for (int i = 0; i < ChildCount; i++) {
             IMdSyntaxNode child = ChildNodes[i];
@@ -62,9 +84,11 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         }
     }
 
+    /// <inheritdoc />
     public IMdSyntaxNode GetChildAt(int index)
         => ChildNodes[index];
 
+    /// <inheritdoc />
     public bool TryGetChildAt(int index, [NotNullWhen(true)] out IMdSyntaxNode? childNode) {
         if (index < 0 || index >= ChildCount) {
             childNode = null;
@@ -75,6 +99,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return true;
     }
 
+    /// <inheritdoc />
     public bool TryGetChildAt<TChild>(int index, [NotNullWhen(true)] out TChild? childNode) where TChild : IMdSyntaxNode {
         if (index < 0 || index >= ChildCount || ChildNodes[index] is not TChild casted) {
             childNode = default;
@@ -87,6 +112,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #endregion
 
     #region GetNextSibling(s)
+    /// <inheritdoc />
     public bool TryGetNextSibling([NotNullWhen(true)] out IMdSyntaxNode? mdSyntaxNode) {
         mdSyntaxNode = null;
         if (Parent is null) return false;
@@ -105,6 +131,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return false;
     }
 
+    /// <inheritdoc />
     public bool TryGetNextSibling<TSibling>([NotNullWhen(true)] out TSibling? mdSyntaxNode) where TSibling : IMdSyntaxNode {
         mdSyntaxNode = default;
         if (!TryGetNextSibling(out IMdSyntaxNode? nextSibling)) return false;
@@ -113,6 +140,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return true;
     }
     
+    /// <inheritdoc />
     public bool NextSiblingIsTypeOf<TSibling>() where TSibling : IMdSyntaxNode {
         if (Parent is null) return false;
 
@@ -130,6 +158,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return false;
     }
 
+    /// <inheritdoc />
     public bool HasNextSibling() {
         if (Parent is null) return false;
 
@@ -146,6 +175,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #endregion
 
     #region GetPreviousSibling(s)
+    /// <inheritdoc />
     public bool TryGetPreviousSibling([NotNullWhen(true)] out IMdSyntaxNode? mdSyntaxNode) {
         mdSyntaxNode = null;
         if (Parent is null) return false;
@@ -164,6 +194,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return false;
     }
 
+    /// <inheritdoc />
     public bool HasPreviousSibling() {
         if (Parent is null) return false;
 
@@ -180,6 +211,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #endregion
 
     #region Index
+    /// <inheritdoc />
     public int GetIndexAtParent() {
         if (Parent is null) return -1;
 
@@ -195,6 +227,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #endregion
 
     #region AddChild(ren)
+    /// <inheritdoc />
     public void AddChildNode(IMdSyntaxNode childNode) {
         // Check if we need to resize
         EnsureChildNodeExpansionCapacity();
@@ -205,6 +238,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         ChildNodes[ChildCount++] = childNode;
     }
 
+    /// <inheritdoc />
     public TChild AddChildNode<TChild>(TChild childNode) where TChild : IMdSyntaxNode {
         // Check if we need to resize
         EnsureChildNodeExpansionCapacity();
@@ -217,6 +251,16 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     }
 
     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+
+    /// <summary>
+    /// Attempts to add a child node at the specified index within the current node's list of child nodes.
+    /// </summary>
+    /// <param name="index">The index at which the child node should be added. Must be within the valid range of current children indices.</param>
+    /// <param name="childNode">The child node to add. Cannot be null and must implement <see cref="IMdSyntaxNode"/>.</param>
+    /// <returns>
+    /// <c>true</c> if the child node was successfully added at the specified index;
+    /// otherwise, <c>false</c> if the index is invalid, the position is already occupied, or any other validation fails.
+    /// </returns>
     protected bool TryAddChildNodeAtIndex(int index, IMdSyntaxNode childNode) {
         if (index < 0 || index > ChildNodes.Length - 1) return false;
         if (ChildNodes[index] is not null) return false;
@@ -257,6 +301,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #endregion
 
     #region RemoveChild(ren)
+    /// <inheritdoc />
     public bool RemoveChildAt(int index) {
         if (index < 0 || index >= ChildCount) return false;
 
@@ -275,6 +320,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return true;
     }
 
+    /// <inheritdoc />
     public bool RemoveChild(IMdSyntaxNode childNode) {
         for (int i = 0; i < ChildCount; i++) {
             if (!ReferenceEquals(ChildNodes[i], childNode)) continue;
@@ -287,6 +333,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #endregion
 
     #region With...
+    /// <inheritdoc />
     public IMdSyntaxNode WithText(string content) {
         if (ChildNodes.LastOrDefault() is not TextMdSyntaxNode lastNode) {
             TextMdSyntaxNode newNode = MdSyntaxNodePool<TextMdSyntaxNode>.Shared.Get();
@@ -308,6 +355,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return this;
     }
 
+    /// <inheritdoc />
     public IMdSyntaxNode WithParent(IMdSyntaxNode parent) {
         Parent = parent;
         TreeReference = parent.TreeReference;
@@ -316,6 +364,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return this;
     }
 
+    /// <inheritdoc />
     public IMdSyntaxNode WithDepth(int depth) {
         Depth = depth;
         if (ChildCount == 0) return this;
@@ -327,12 +376,14 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
         return this;
     }
 
+    /// <inheritdoc />
     public IMdSyntaxNode WithModifier(IMdSyntaxNodeModifier modifier) {
         Modifier?.ReturnToPool();
         Modifier = modifier;
         return this;
     }
 
+    /// <inheritdoc />
     public IMdSyntaxNode WithChild<TChild>(TChild child) where TChild : IMdSyntaxNode {
         AddChildNode(child);
         return this;
@@ -342,6 +393,7 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #region ReturnToPool and Cleanup
     void IMdSyntaxNode.ReturnToPool() => MdSyntaxNodePool<T>.Shared.Return(Unsafe.As<T>(this));
 
+    /// <inheritdoc />
     public virtual bool TryReset() {
         if (ChildNodes.Length > 0) {
             ArrayPool<IMdSyntaxNode>.Shared.Return(ChildNodes, true);
@@ -365,11 +417,21 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
 
     #region Equality
     // ReSharper disable once NonReadonlyMemberInGetHashCode
+    /// <inheritdoc />
     public override int GetHashCode() => HashCode.Combine(Id, ChildCount);
 
+    /// <inheritdoc />
     public bool Equals(IMdSyntaxNode? other) => Equals(other as T);
+    /// <inheritdoc />
     public override bool Equals(object? other) => Equals(other as T);
 
+    /// <summary>
+    /// Determines whether the specified <typeparamref name="T"/> instance is equal to the current instance.
+    /// </summary>
+    /// <param name="other">The instance of type <typeparamref name="T"/> to compare with the current instance.</param>
+    /// <returns>
+    /// <see langword="true"/> if the specified instance is equal to the current instance; otherwise, <see langword="false"/>.
+    /// </returns>
     protected virtual bool Equals([NotNullWhen(true)] T? other) {
         if (other is null) return false;
         if (ChildCount != other.ChildCount) return false;
@@ -391,8 +453,10 @@ public abstract class MdSyntaxNode<T>(int initialChildCount = 2) : IMdSyntaxNode
     #endregion
 
     #region ToString
+    /// <inheritdoc />
     public virtual string ToDebugString() => GetType().Name;
 
+    /// <inheritdoc />
     public override string ToString() => ToDebugString();
     #endregion
 }

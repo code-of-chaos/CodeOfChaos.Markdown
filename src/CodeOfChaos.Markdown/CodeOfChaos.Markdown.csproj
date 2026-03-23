@@ -1,6 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- Source-generated DI registration files are public and currently emitted without XML docs. -->
+        <NoWarn>$(NoWarn);1591</NoWarn>
         <!-- Package metadata -->
         <PackageId>CodeOfChaos.Markdown</PackageId>
         <Description>Markdown Parsers for C# and DotNet</Description>
@@ -31,3 +34,5 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     </ItemGroup>
 </Project>
+
+

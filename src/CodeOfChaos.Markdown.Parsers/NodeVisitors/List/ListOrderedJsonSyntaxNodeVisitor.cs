@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,18 +10,21 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class ListOrderedJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<ListOrderedMdSyntaxNode> {
     private static readonly string LeadingSpaces = nameof(ListOrderedMdSyntaxNode.LeadingSpaces).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(ListOrderedMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
         writer.WriteNumber(LeadingSpaces, node.LeadingSpaces);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, ListOrderedMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

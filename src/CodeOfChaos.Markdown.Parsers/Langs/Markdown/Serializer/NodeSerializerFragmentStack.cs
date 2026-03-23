@@ -23,6 +23,7 @@ public sealed class NodeSerializerFragmentStack : INodeSerializerFragmentStack, 
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region PushToStack
+    /// <inheritdoc />
     public void PushMultiLineMatchesToStack(string input, IMdSyntaxNode node, int startIndex = 0) {
         if (input.Length == 0) return;
 
@@ -72,6 +73,7 @@ public sealed class NodeSerializerFragmentStack : INodeSerializerFragmentStack, 
         }
     }
 
+    /// <inheritdoc />
     public void PushSingleLineMatchesToStack(string input, IMdSyntaxNode node) {
         if (input.Length == 0) return;
 
@@ -159,6 +161,7 @@ public sealed class NodeSerializerFragmentStack : INodeSerializerFragmentStack, 
         arr = newArr;
     }
 
+    /// <inheritdoc />
     public void PushProcessedNodeToStack(IMdSyntaxNode parentNode, IMdSyntaxNode childNode)
         => _stack.Push(NodeSerializerFragment.AsProcessedNode(parentNode, childNode));
     #endregion
@@ -167,6 +170,7 @@ public sealed class NodeSerializerFragmentStack : INodeSerializerFragmentStack, 
         return _stack.TryPop(out dto);
     }
 
+    /// <inheritdoc />
     public bool TryReset() {
         _stack.Clear();
         return true;

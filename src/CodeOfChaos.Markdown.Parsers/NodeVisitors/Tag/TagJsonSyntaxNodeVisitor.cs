@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,18 +10,21 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class TagJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<TagMdSyntaxNode> {
     private static readonly string Content = nameof(TagMdSyntaxNode.Content).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(TagMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
         writer.WriteString(Content, node.Content);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, TagMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

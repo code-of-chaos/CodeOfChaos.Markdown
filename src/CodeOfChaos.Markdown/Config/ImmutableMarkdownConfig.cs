@@ -13,24 +13,42 @@ namespace CodeOfChaos.Markdown;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Immutable implementation of <see cref="IMarkdownConfig" /> used at runtime.
+/// </summary>
 public class ImmutableMarkdownConfig : IMarkdownConfig {
+    /// <inheritdoc />
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> SingleLineMarkdownSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required ImmutableArray<IMarkdownSyntaxNodeVisitor> MultiLineMarkdownSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required IMarkdownSyntaxNodeVisitor? FrontMatterMarkdownSyntaxNodeVisitor { get; init; }
 
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IXmlSyntaxNodeVisitor> XmlSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IJsonSyntaxNodeVisitor> JsonSyntaxNodeVisitors { get; init; }
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IBlazorComponentBuilderRecord> BlazorComponents { get; init; }
+    /// <inheritdoc />
     public required FrozenDictionary<Type, IMarkdownSyntaxNodeVisitor> MarkdownSyntaxNodeVisitors { get; init; }
     
+    /// <inheritdoc />
     public required FrozenSet<Type> SkippedBlazorComponents { get; init; }
     
+    /// <inheritdoc />
     public required bool RenderUnknownBlazorComponents { get; init; }
+    /// <inheritdoc />
     public required Type? HtmlRendererFootnoteWrapperType { get; init; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Creates an immutable configuration snapshot from a mutable <see cref="MarkdownConfig" />.
+    /// </summary>
+    /// <param name="markdownConfig">The mutable source configuration.</param>
+    /// <returns>An immutable configuration instance.</returns>
     public static IMarkdownConfig From(MarkdownConfig markdownConfig) {
 
         ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLine = markdownConfig.ConfigEntries
@@ -48,7 +66,7 @@ public class ImmutableMarkdownConfig : IMarkdownConfig {
 
         FrozenDictionary<Type, IBlazorComponentBuilderRecord> blazorComponents = markdownConfig.ConfigEntries.Where(entry => entry.BlazorComponentBuilder is not null)
             .Select<IMarkdownConfigEntry, IBlazorComponentBuilderRecord>(entry => entry.BlazorComponentBuilder!)
-            .ToFrozenDictionary(record => record.ComponentType, record => record);
+            .ToFrozenDictionary(record => record.SyntaxNodeType, record => record);
         
         FrozenDictionary<Type, IJsonSyntaxNodeVisitor> jsonNodeVisitors = markdownConfig.ConfigEntries.Where(entry => entry.JsonNodeVisitor is not null)
             .ToFrozenDictionary(entry => entry.SyntaxNodeType, entry => entry.JsonNodeVisitor!);

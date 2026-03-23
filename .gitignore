@@ -771,3 +771,10 @@ dist
 # Android studio 3.1+ serialized cache file
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,dotnetcore,rider,jetbrains,jetbrains+all,obsidian,node
+
+
+# DocFX generated output
+docs/_site/
+docs/api/*.yml
+docs/api/.manifest
+

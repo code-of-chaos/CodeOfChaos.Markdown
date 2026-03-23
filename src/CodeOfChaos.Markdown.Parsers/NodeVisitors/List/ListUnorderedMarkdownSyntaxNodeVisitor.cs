@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -13,6 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ListUnorderedMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -20,6 +21,7 @@ public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdow
         (?:\n(?:(?:-(?!-))|(?:[\ ]+)).+)*
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     [GeneratedRegex(@"^\ *-(?:(?<taskSpace>\ *)\[(?<task>[\ xX~])])?(?:(?<space>\ *)(?<head>.+)|(?<head>\ )|(?<head>))(?<body>(?:\n\ +.*)*)", DefaultMultiLineRegexOptions)]
@@ -34,6 +36,7 @@ public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdow
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(
         INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
@@ -83,6 +86,7 @@ public sealed partial class ListUnorderedMarkdownSyntaxNodeVisitor : BaseMarkdow
         }
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, ListUnorderedMdSyntaxNode node) {
         bool isFirstItem = true;
         string leadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(node.LeadingSpaces, 0), static i => new string(' ', i));

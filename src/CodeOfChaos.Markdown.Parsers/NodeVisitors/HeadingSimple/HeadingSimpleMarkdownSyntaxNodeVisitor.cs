@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,9 +12,11 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class HeadingSimpleMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<HeadingSimpleMdSyntaxNode> {
     [GeneratedRegex(@"\G^(?<text>.+?)\n(?<id>[\ ]*(?:={3,}?|-{3,}?)[\ ]*$)", DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly int HsTextId = RegexRule.GroupNumberFromName("text");
@@ -23,6 +25,7 @@ public sealed partial class HeadingSimpleMarkdownSyntaxNodeVisitor : BaseMarkdow
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string headerSimpleText = match.Groups[HsTextId].Value;
         string headerIdentifierText = match.Groups[HsIdentifierId].Value;
@@ -35,6 +38,7 @@ public sealed partial class HeadingSimpleMarkdownSyntaxNodeVisitor : BaseMarkdow
         stack.PushSingleLineMatchesToStack(headerSimpleText, headingNode);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, HeadingSimpleMdSyntaxNode node) {
         queue.EnqueueChildren(node);
         queue.Enqueue('\n');

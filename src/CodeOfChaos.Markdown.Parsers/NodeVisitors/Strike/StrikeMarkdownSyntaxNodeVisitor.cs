@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,6 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class StrikeMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<StrikeMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -24,9 +25,11 @@ public sealed partial class StrikeMarkdownSyntaxNodeVisitor : BaseMarkdownSyntax
         )~~
         """, DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['~'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int StrikeContentId = RegexRule.GroupNumberFromName("s");
@@ -34,6 +37,7 @@ public sealed partial class StrikeMarkdownSyntaxNodeVisitor : BaseMarkdownSyntax
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string strikeValue = match.Groups[StrikeContentId].Value;
 
@@ -43,6 +47,7 @@ public sealed partial class StrikeMarkdownSyntaxNodeVisitor : BaseMarkdownSyntax
         stack.PushSingleLineMatchesToStack(strikeValue, node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, StrikeMdSyntaxNode node) {
         queue.Enqueue('~');
         queue.Enqueue('~');

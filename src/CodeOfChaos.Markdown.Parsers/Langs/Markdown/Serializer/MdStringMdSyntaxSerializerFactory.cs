@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
@@ -13,12 +13,14 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<IMdStringMdSyntaxSerializerFactory>]
 public class MdStringMdSyntaxSerializerFactory(ILogger<MdStringMdSyntaxSerializer> logger) : IMdStringMdSyntaxSerializerFactory {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public IMdStringMdSyntaxSerializer Create(IMarkdownConfig config) {
         // ReSharper disable twice UseCollectionExpression
         ImmutableArray<IMarkdownSyntaxNodeVisitor> singleLineSerializers = config.SingleLineMarkdownSyntaxNodeVisitors;

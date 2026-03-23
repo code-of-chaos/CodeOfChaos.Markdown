@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,6 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class LinkMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<LinkMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -23,9 +24,11 @@ public sealed partial class LinkMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
         \)
         """, DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['['];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int LnTextId = RegexRule.GroupNumberFromName("text");
@@ -36,6 +39,7 @@ public sealed partial class LinkMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string linkText = match.Groups[LnTextId].Value;
         string linkHref = match.Groups[LnHrefId].Value;
@@ -51,6 +55,7 @@ public sealed partial class LinkMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
         stack.PushSingleLineMatchesToStack(linkText, linkNode);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, LinkMdSyntaxNode node) {
         queue.Enqueue('[');
         queue.EnqueueChildren(node);

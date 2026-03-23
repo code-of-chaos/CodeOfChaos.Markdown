@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,6 +10,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class FrontMatterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<FrontMatterMdSyntaxNode> {
     private static readonly string Language = nameof(FrontMatterMdSyntaxNode.Language).ToCamelCase();
     private static readonly string Content = nameof(FrontMatterMdSyntaxNode.Content).ToCamelCase();
@@ -19,6 +20,7 @@ public sealed class FrontMatterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Fro
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(FrontMatterMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -28,6 +30,7 @@ public sealed class FrontMatterJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<Fro
         writer.WriteString(DashesCount, node.DashesCount.ToString());
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, FrontMatterMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,6 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class BoldMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<BoldMdSyntaxNode> {
     [GeneratedRegex(
         """
@@ -24,9 +25,11 @@ public sealed partial class BoldMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
             )\*\*
         """, DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['*'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int BoldContentId = RegexRule.GroupNumberFromName("b");
@@ -34,6 +37,7 @@ public sealed partial class BoldMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string boldValue = match.Groups[BoldContentId].Value;
 
@@ -42,6 +46,7 @@ public sealed partial class BoldMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
         stack.PushSingleLineMatchesToStack(boldValue, node);
     }
     
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, BoldMdSyntaxNode node) {
         queue.Enqueue("**");
         queue.EnqueueChildren(node);

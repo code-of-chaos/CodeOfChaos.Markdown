@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,12 +12,15 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class ItalicMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ItalicMdSyntaxNode> {
     [GeneratedRegex(@"\G\*(?<i>(?>[^\\\*]+|\\\*|\*\*|(?<open>\*)|(?<-open>\*))+)(?(open)(?!))\*", DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['*'];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int ItalicContentId = RegexRule.GroupNumberFromName("i");
@@ -25,6 +28,7 @@ public sealed partial class ItalicMarkdownSyntaxNodeVisitor : BaseMarkdownSyntax
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string italicValue = match.Groups[ItalicContentId].Value;
 
@@ -33,6 +37,7 @@ public sealed partial class ItalicMarkdownSyntaxNodeVisitor : BaseMarkdownSyntax
         stack.PushSingleLineMatchesToStack(italicValue, node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, ItalicMdSyntaxNode node) {
         queue.Enqueue('*');
         queue.EnqueueChildren(node);

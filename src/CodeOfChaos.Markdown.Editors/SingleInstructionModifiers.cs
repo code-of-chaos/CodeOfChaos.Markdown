@@ -9,11 +9,36 @@ namespace CodeOfChaos.Markdown.Editors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Represents an abstract base class for text modifiers that apply single instruction-based
+/// modifications to a text source within a specified range in a Markdown editing context.
+/// </summary>
+/// <remarks>
+/// This class provides a foundational implementation for modifying text in a way that requires
+/// applying a single, predefined instruction on a specific range of text. Derived classes must
+/// define the specific instruction to be applied and the name of the modifier.
+/// </remarks>
+/// <example>
+/// This class is intended to be extended by more specific implementations like `StrikeModifier`
+/// or `HighlightModifier` that define their own custom instructions and behavior.
+/// </example>
 public abstract class SingleInstructionModifiers(ILogger logger) : ITextModifier {
+    /// <summary>
+    /// Represents the instruction used to define the behavior of a text modifier.
+    /// </summary>
+    /// <remarks>
+    /// The <c>Instruction</c> property provides the specific syntax marker that a text modifier will apply to transform text,
+    /// such as highlighting, underlining, italicizing, or other forms of Markdown text alterations.
+    /// </remarks>
     protected abstract string Instruction { get; }
+    
+    /// <inheritdoc />
     public abstract string ModifierName { get; }
+
+    /// <inheritdoc />
     public bool IsSingleLineStructure => true;
 
+    /// <inheritdoc />
     public void Modify(ITextSource source, Range range, ITextEditor editor) {
         ReadOnlySpan<char> inputSpan = source.TextSpan;
 

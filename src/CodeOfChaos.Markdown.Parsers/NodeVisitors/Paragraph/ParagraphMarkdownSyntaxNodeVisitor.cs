@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,10 +12,12 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class ParagraphMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ParagraphMdSyntaxNode> {
 
     [GeneratedRegex(@"\G^(?<p>.+?)$", DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly int PId = RegexRule.GroupNumberFromName("p");
@@ -23,6 +25,7 @@ public sealed partial class ParagraphMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string paragraph = match.Groups[PId].Value;
 
@@ -36,6 +39,7 @@ public sealed partial class ParagraphMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
         stack.PushSingleLineMatchesToStack(paragraph, parentNode);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, ParagraphMdSyntaxNode node) {
         queue.EnqueueChildren(node);
     }

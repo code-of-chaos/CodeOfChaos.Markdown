@@ -9,17 +9,20 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class HorizontalRuleXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<HorizontalRuleMdSyntaxNode> {
     private const string Identifier = nameof(HorizontalRuleMdSyntaxNode.Identifier);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(HorizontalRuleMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         writer.WriteAttributeString(Identifier, node.Identifier);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, HorizontalRuleMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 

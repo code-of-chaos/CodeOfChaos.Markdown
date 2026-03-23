@@ -9,12 +9,14 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class CodeBlockXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeBlockMdSyntaxNode> {
     private const string Language = nameof(CodeBlockMdSyntaxNode.Language);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(CodeBlockMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         WriteXmlPreserveSpace(writer);
@@ -23,6 +25,7 @@ public sealed class CodeBlockXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeBlo
         WriteElementContent(writer, node.Content);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, CodeBlockMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
         
@@ -31,6 +34,7 @@ public sealed class CodeBlockXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CodeBlo
         }
     }
 
+    /// <inheritdoc />
     protected override void SerializeContent(CodeBlockMdSyntaxNode targetNode, string content) {
         targetNode.WithContent(content);
     }

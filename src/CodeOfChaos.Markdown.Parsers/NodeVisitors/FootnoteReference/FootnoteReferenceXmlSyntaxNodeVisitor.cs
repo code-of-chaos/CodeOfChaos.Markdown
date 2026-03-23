@@ -9,17 +9,20 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class FootnoteReferenceXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<FootnoteReferenceMdSyntaxNode> {
     private const string Identifier = nameof(FootnoteReferenceMdSyntaxNode.Identifier);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(FootnoteReferenceMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         writer.WriteAttributeString(Identifier, node.Identifier);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, FootnoteReferenceMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 

@@ -9,6 +9,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class CalloutXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CalloutMdSyntaxNode> {
     private const string CalloutType = nameof(CalloutMdSyntaxNode.CalloutType);
     private const string CollapsedState = nameof(CalloutMdSyntaxNode.CollapsedState);
@@ -17,6 +18,7 @@ public sealed class CalloutXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CalloutMd
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(CalloutMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
 
@@ -25,6 +27,7 @@ public sealed class CalloutXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<CalloutMd
         writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, CalloutMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 

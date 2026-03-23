@@ -11,6 +11,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public class JsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor<TSyntaxNode> where TSyntaxNode : MdSyntaxNode<TSyntaxNode>, new() {
     private const string Modifiers = nameof(Modifiers);
     private const string OriginalInput = nameof(OriginalInput);
@@ -21,6 +22,7 @@ public class JsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor<TSyntax
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public void DeserializeToJson(IMdSyntaxNode node, Utf8JsonWriter writer) {
         DeserializeDetails(Unsafe.As<TSyntaxNode>(node), writer);
     }
@@ -49,6 +51,7 @@ public class JsonSyntaxNodeVisitor<TSyntaxNode> : IJsonSyntaxNodeVisitor<TSyntax
         }
     }
 
+    /// <inheritdoc />
     public IMdSyntaxNode SerializeToNode(JsonElement element, IMdSyntaxNode parentNode) {
         TSyntaxNode node = MdSyntaxNodePool<TSyntaxNode>.Shared.Get();
         parentNode.AddChildNode(node);

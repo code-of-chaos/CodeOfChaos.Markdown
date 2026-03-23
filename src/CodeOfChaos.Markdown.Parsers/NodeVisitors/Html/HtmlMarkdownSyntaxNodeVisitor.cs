@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,6 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class HtmlMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<HtmlMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -30,6 +31,7 @@ public sealed partial class HtmlMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
         (?<post>.+)?
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly int HtmlPreId = RegexRule.GroupNumberFromName("pre");
@@ -39,6 +41,7 @@ public sealed partial class HtmlMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         // Only add a paragraph wrapper if there's trailing content (pre or post)
         bool hasTrailingContent = match.Groups[HtmlPreId].Success || match.Groups[HtmlPostId].Success;
@@ -62,6 +65,7 @@ public sealed partial class HtmlMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNo
         }
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, HtmlMdSyntaxNode node) {
         queue.Enqueue(node.Content);
     }

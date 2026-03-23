@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
@@ -15,6 +15,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Json;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<IJsonMdSyntaxTreeParser>]
 public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeParser {
     private readonly FrozenDictionary<Type, IJsonSyntaxNodeVisitor> _visitors = config.JsonSyntaxNodeVisitors;
@@ -41,6 +42,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Deserialize
+    /// <inheritdoc />
     public string DeserializeToString(IMdSyntaxTree input) {
         ArgumentNullException.ThrowIfNull(input);
 
@@ -53,6 +55,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
     
+    /// <inheritdoc />
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
 
@@ -64,6 +67,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
 
+    /// <inheritdoc />
     public JsonElement DeserializeToJsonElement(IMdSyntaxTree tree) {
         ArgumentNullException.ThrowIfNull(tree);
 
@@ -76,6 +80,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         return document.RootElement.Clone();
     }
 
+    /// <inheritdoc />
     public async Task DeserializeToJsonStreamAsync(Stream stream, IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(stream);
         ArgumentNullException.ThrowIfNull(tree);
@@ -85,6 +90,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         await writer.FlushAsync(ct);
     }
 
+    /// <inheritdoc />
     public async Task DeserializeToJsonFileAsync(string filePath, IMdSyntaxTree tree, CancellationToken ct = default) {
         if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("File path cannot be null or whitespace.", nameof(filePath));
 
@@ -140,11 +146,13 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
 
     #region Serialize
     
+    /// <inheritdoc />
     public IMdSyntaxTree SerializeToSyntaxTree(string input) {
         JsonElement element = JsonDocument.Parse(input).RootElement;
         return SerializeToSyntaxTree(element);
     }
     
+    /// <inheritdoc />
     public IMdSyntaxTree SerializeToSyntaxTree(JsonElement element) {
         if (!element.TryGetProperty("type", out JsonElement typeProperty) || typeProperty.GetString() != "MdSyntaxTree") {
             throw new InvalidOperationException("Invalid JSON root element");
@@ -161,6 +169,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         return tree;
     }
 
+    /// <inheritdoc />
     public async Task<IMdSyntaxTree> SerializeToSyntaxTreeAsync(Stream stream, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(stream);
 
@@ -168,6 +177,7 @@ public class JsonMdSyntaxTreeParser(IMarkdownConfig config) : IJsonMdSyntaxTreeP
         return SerializeToSyntaxTree(document.RootElement);
     }
 
+    /// <inheritdoc />
     public async Task<IMdSyntaxTree> SerializeToSyntaxTreeAsync(string filePath, CancellationToken ct = default) {
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentException("File path cannot be null or whitespace.", nameof(filePath));

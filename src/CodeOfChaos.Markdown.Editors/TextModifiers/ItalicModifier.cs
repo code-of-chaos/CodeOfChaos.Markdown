@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
@@ -10,11 +10,14 @@ namespace CodeOfChaos.Markdown.Editors.TextModifiers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<ITextModifier>]
 [SuppressMessage("ReSharper", "ReplaceAutoPropertyWithComputedProperty")]
 public class ItalicModifier(ILogger<ItalicModifier> logger) : SingleInstructionModifiers(logger) {
-    public const string Name = "italic";
+    private const string Name = "italic";
     
+    /// <inheritdoc />
     public override string ModifierName { get; } = Name;
+    /// <inheritdoc />
     protected override string Instruction { get; } = "*";
 }

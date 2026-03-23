@@ -15,6 +15,7 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Xml;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<IXmlMdSyntaxTreeParser>]
 public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreeParser {
     private readonly FrozenDictionary<Type, IXmlSyntaxNodeVisitor> _visitorsByType = config.XmlSyntaxNodeVisitors;
@@ -49,6 +50,7 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     #region Deserialize
+    /// <inheritdoc />
     public string DeserializeToString(IMdSyntaxTree tree) {
         ArgumentNullException.ThrowIfNull(tree);
 
@@ -70,6 +72,7 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         return stringBuilder.ToString();
     }
 
+    /// <inheritdoc />
     public async Task<string> DeserializeToStringAsync(IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(tree);
 
@@ -80,11 +83,13 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         return await reader.ReadToEndAsync(ct);
     }
 
+    /// <inheritdoc />
     public XElement DeserializeToXmlElement(IMdSyntaxTree tree) {
         string xml = DeserializeToString(tree);
         return XElement.Parse(xml);
     }
 
+    /// <inheritdoc />
     public async Task DeserializeToXmlStreamAsync(Stream stream, IMdSyntaxTree tree, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(stream);
         ArgumentNullException.ThrowIfNull(tree);
@@ -105,6 +110,7 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         await writer.FlushAsync(ct);
     }
 
+    /// <inheritdoc />
     public async Task DeserializeToXmlFileAsync(string filePath, IMdSyntaxTree tree, CancellationToken ct = default) {
         if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("File path cannot be null or whitespace.", nameof(filePath));
 
@@ -137,17 +143,20 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
     #endregion
 
     #region Serialize
+    /// <inheritdoc />
     public IMdSyntaxTree SerializeStringToSyntaxTree(string input) {
         ArgumentNullException.ThrowIfNull(input);
         using MemoryStream stream = new(Encoding.UTF8.GetBytes(input));
         return SerializeToSyntaxTreeAsync(stream).GetAwaiter().GetResult();
     }
 
+    /// <inheritdoc />
     public IMdSyntaxTree SerializeToSyntaxTree(XElement element) {
         ArgumentNullException.ThrowIfNull(element);
         return SerializeStringToSyntaxTree(element.ToString(SaveOptions.DisableFormatting));
     }
 
+    /// <inheritdoc />
     public async Task<IMdSyntaxTree> SerializeToSyntaxTreeAsync(Stream stream, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(stream);
 
@@ -155,6 +164,7 @@ public class XmlMdSyntaxTreeParser(IMarkdownConfig config) : IXmlMdSyntaxTreePar
         return await ReadSyntaxTreeAsync(reader, ct);
     }
 
+    /// <inheritdoc />
     public async Task<IMdSyntaxTree> SerializeFileToSyntaxTreeAsync(string filePath, CancellationToken ct = default) {
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentException("File path cannot be null or whitespace.", nameof(filePath));

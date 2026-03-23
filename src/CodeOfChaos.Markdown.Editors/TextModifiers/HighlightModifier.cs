@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
@@ -10,11 +10,14 @@ namespace CodeOfChaos.Markdown.Editors.TextModifiers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 [InjectableSingleton<ITextModifier>]
 [SuppressMessage("ReSharper", "ReplaceAutoPropertyWithComputedProperty")]
 public class HighlightModifier(ILogger<HighlightModifier> logger) : SingleInstructionModifiers(logger) {
-    public const string Name = "highlight";
+    private const string Name = "highlight";
     
+    /// <inheritdoc />
     public override string ModifierName { get; } = Name;
+    /// <inheritdoc />
     protected override string Instruction { get; } = "==";
 }

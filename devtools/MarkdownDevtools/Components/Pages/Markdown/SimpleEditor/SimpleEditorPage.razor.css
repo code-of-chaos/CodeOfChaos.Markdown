@@ -1,0 +1,21 @@
+.simple-editor-page {
+    background: linear-gradient(180deg, rgba(96, 125, 139, 0.08) 0%, rgba(96, 125, 139, 0) 55%);
+}
+
+.editor-panel,
+.preview-panel {
+    border-radius: 12px;
+    height: 100%;
+}
+
+.editor-input {
+    font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+}
+
+.preview-surface {
+    border: 1px solid var(--mud-palette-lines-default);
+    border-radius: 10px;
+    min-height: 560px;
+    overflow: auto;
+    background-color: var(--mud-palette-surface);
+}

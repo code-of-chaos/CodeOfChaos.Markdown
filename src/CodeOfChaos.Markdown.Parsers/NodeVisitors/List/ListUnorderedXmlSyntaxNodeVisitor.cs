@@ -9,17 +9,20 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class ListUnorderedXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ListUnorderedMdSyntaxNode> {
     private const string LeadingSpaces = nameof(ListUnorderedMdSyntaxNode.LeadingSpaces);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(ListUnorderedMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         writer.WriteAttributeString(LeadingSpaces, node.LeadingSpaces.ToString());
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, ListUnorderedMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 

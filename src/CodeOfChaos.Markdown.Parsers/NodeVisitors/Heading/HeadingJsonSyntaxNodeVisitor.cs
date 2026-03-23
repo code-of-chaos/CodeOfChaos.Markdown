@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions;
@@ -10,18 +10,21 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class HeadingJsonSyntaxNodeVisitor : JsonSyntaxNodeVisitor<HeadingMdSyntaxNode> {
     private static readonly string Level = nameof(HeadingMdSyntaxNode.Level).ToCamelCase();
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(HeadingMdSyntaxNode node, Utf8JsonWriter writer) {
         base.DeserializeDetails(node, writer);
 
         writer.WriteNumber(Level, node.Level);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(JsonElement element, HeadingMdSyntaxNode targetNode) {
         base.SerializeDetails(element, targetNode);
 

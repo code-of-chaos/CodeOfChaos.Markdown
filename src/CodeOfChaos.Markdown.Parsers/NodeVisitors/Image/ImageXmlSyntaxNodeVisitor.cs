@@ -9,6 +9,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed class ImageXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ImageMdSyntaxNode> {
     private const string Href = nameof(ImageMdSyntaxNode.Href);
     private const string Title = nameof(ImageMdSyntaxNode.Title);
@@ -17,6 +18,7 @@ public sealed class ImageXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ImageMdSynt
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     protected override void DeserializeDetails(ImageMdSyntaxNode node, XmlWriter writer) {
         base.DeserializeDetails(node, writer);
         writer.WriteAttributeString(Href, node.Href);
@@ -24,6 +26,7 @@ public sealed class ImageXmlSyntaxNodeVisitor : XmlSyntaxNodeVisitor<ImageMdSynt
         if (node.Title.IsNotNullOrEmpty()) writer.WriteAttributeString(Title, node.Title);
     }
 
+    /// <inheritdoc />
     protected override void SerializeDetails(XmlReader reader, ImageMdSyntaxNode targetNode) {
         base.SerializeDetails(reader, targetNode);
 

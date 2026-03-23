@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -12,6 +12,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class HighlightMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<HighlightMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -24,9 +25,11 @@ public sealed partial class HighlightMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
         )==
         """, DefaultSingleLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     private static readonly char[] STriggerCharacters = ['='];
+    /// <inheritdoc />
     public override ReadOnlySpan<char> SerializationTriggerCharacters => STriggerCharacters;
 
     private static readonly int HId = RegexRule.GroupNumberFromName("h");
@@ -34,6 +37,7 @@ public sealed partial class HighlightMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(INodeSerializerFragmentStack stack, IMdSyntaxNode parentNode, Match match) {
         string highlightValue = match.Groups[HId].Value;
 
@@ -42,6 +46,7 @@ public sealed partial class HighlightMarkdownSyntaxNodeVisitor : BaseMarkdownSyn
         stack.PushSingleLineMatchesToStack(highlightValue, node);
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, HighlightMdSyntaxNode node) {
         queue.Enqueue("==");
         queue.EnqueueChildren(node);

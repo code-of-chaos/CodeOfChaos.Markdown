@@ -1,0 +1,98 @@
+﻿@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Imports
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@using CodeOfChaos.Markdown
+@using CodeOfChaos.Markdown.Parsers.Blazor
+@using CodeOfChaos.Markdown.Parsers.Langs.Blazor
+
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Descriptors
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@page "/markdown/simple-editor"
+@rendermode InteractiveServer
+
+@inject IMarkdownParser MarkdownParser
+@inject IBlazorMdComponentRenderer ComponentConverter
+
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Html
+@* ------------------------------------------------------------------------------------------------------------------ *@
+<MudContainer MaxWidth="MaxWidth.False" Class="simple-editor-page pa-4">
+    <MudStack Spacing="2" Class="mb-3">
+        <MudText Typo="Typo.h4">Simple Markdown Editor</MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary">
+            Type markdown on the left and see rendered output on the right.
+        </MudText>
+    </MudStack>
+
+    <MudGrid Spacing="3">
+        <MudItem xs="12" md="6">
+            <MudPaper Outlined="true" Class="editor-panel pa-3">
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-2">
+                    <MudText Typo="Typo.h6">Markdown Input</MudText>
+                    <MudChip T="string" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small">
+                        @($"{LineCount} lines")
+                    </MudChip>
+                </MudStack>
+
+                <MudTextField T="string"
+                              Value="@EditorContext.Content"
+                              ValueChanged="@OnContentChanged"
+                              Lines="25"
+                              FullWidth="true"
+                              Immediate="true"
+                              Variant="Variant.Outlined"
+                              Class="editor-input"
+                              Placeholder="Write markdown here..." />
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" md="6">
+            <MudPaper Outlined="true" Class="preview-panel pa-3">
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-2">
+                    <MudText Typo="Typo.h6">Preview</MudText>
+                </MudStack>
+
+                <MudPaper Class="preview-surface pa-4">
+                    <CascadingValue Value="@EditorContext">
+                        <CascadingValue Value="@RenderContext">
+                            @ComponentConverter.RenderRootComponents(EditorContext.SyntaxTree.VisitTopLevelNodes())
+                        </CascadingValue>
+                    </CascadingValue>
+                </MudPaper>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@* ------------------------------------------------------------------------------------------------------------------ *@
+@* Code
+@* ------------------------------------------------------------------------------------------------------------------ *@
+
+@code {
+    [Parameter] public string FileName { get; set; } = string.Empty;
+    [Parameter] public string TestId { get; set; } = string.Empty;
+    [Parameter] public EventCallback OnSave { get; set; }
+
+    private readonly MdEditorContext EditorContext = new() {
+        ShowInput = true,
+        ShowPreview = false
+    };
+    private readonly MdRenderContext RenderContext = MdRenderContext.NonInteractive;
+
+    private int LineCount => string.IsNullOrWhiteSpace(EditorContext.Content)
+        ? 0
+        : EditorContext.Content.Count(c => c == '\n') + 1;
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
+    private Task OnContentChanged(string? newContent) {
+        if (newContent is null) return Task.CompletedTask;
+        
+        EditorContext.Content = newContent;
+        EditorContext.SyntaxTree = MarkdownParser.Markdown.SerializeToSyntaxTree(newContent);
+        return Task.CompletedTask;
+    }
+}
+

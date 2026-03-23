@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Markdown;
@@ -9,6 +9,13 @@ namespace CodeOfChaos.Markdown.Parsers.Langs.Markdown.Serializer;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <summary>
+/// Represents a queued input fragment for markdown serialization.
+/// </summary>
+/// <param name="ParentNode">The parent node being processed.</param>
+/// <param name="ChildNode">The child node being produced.</param>
+/// <param name="Match">The regex match associated with this fragment.</param>
+/// <param name="NodeSerializer">The serializer that produced or should handle the fragment.</param>
 public readonly record struct NodeSerializerFragment(
     IMdSyntaxNode? ParentNode,
     IMdSyntaxNode? ChildNode,

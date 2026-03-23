@@ -8,15 +8,22 @@ namespace CodeOfChaos.Markdown.Editors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public class TextSource : ITextSource {
+    /// <inheritdoc />
     public string Text { get; private set; } = string.Empty;
+    /// <inheritdoc />
     public int Length { get; private set; }
 
     private Range[] LinesCache { get; set; } = ArrayPool<Range>.Shared.Rent(0);
+    /// <inheritdoc />
     public ReadOnlySpan<char> TextSpan => Text.AsSpan();
+    /// <inheritdoc />
     public ReadOnlySpan<Range> LineRanges => LinesCache.AsSpan(0, LineCount);
     
+    /// <inheritdoc />
     public int LineCount { get; private set; }
+    /// <inheritdoc />
     public bool IsEmpty => Length == 0;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -29,6 +36,7 @@ public class TextSource : ITextSource {
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public void UpdateSource(string value) {
         Text = value.ReplaceLineEndings("\n");
         Length = Math.Max(0, Text.Length);

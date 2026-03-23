@@ -1,6 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- Source-generated DI registration files are public and currently emitted without XML docs. -->
+        <NoWarn>$(NoWarn);1591</NoWarn>
         <!-- Package metadata -->
         <PackageId>CodeOfChaos.Markdown.Parsers</PackageId>
         <Description>Markdown Parsers for C# and DotNet</Description>
@@ -27,3 +30,5 @@
     <UpToDateCheckInput Remove="NodeVisitors\ScriptingBody\ScriptingBodyBlazorSyntaxNodeVisitor.razor" />
   </ItemGroup>
 </Project>
+
+

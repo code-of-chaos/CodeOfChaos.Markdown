@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Markdown.Parsers.Langs.Markdown;
@@ -13,6 +13,7 @@ namespace CodeOfChaos.Markdown.Parsers.NodeVisitors;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+/// <inheritdoc />
 public sealed partial class ListOrderedMarkdownSyntaxNodeVisitor : BaseMarkdownSyntaxNodeVisitor<ListOrderedMdSyntaxNode> {
     [GeneratedRegex("""
         \G
@@ -20,6 +21,7 @@ public sealed partial class ListOrderedMarkdownSyntaxNodeVisitor : BaseMarkdownS
         (?:\n(?:(?:\d+\.|\.\d+)|(?:[\ ]+)).+)*
         """, DefaultMultiLineRegexOptions)]
     private static partial Regex RegexRule { get; }
+    /// <inheritdoc />
     protected override Regex Syntax { get; } = RegexRule;
 
     [GeneratedRegex(@"^\ *(?<index>\d*)\.(?:(?<taskSpace>\ *)\[(?<task>[\ xX~])])?(?:(?<space>\ *)(?<head>.+)|(?<head>\ )|(?<head>))(?<body>(?:\n\ +.*)*)", DefaultMultiLineRegexOptions)]
@@ -35,6 +37,7 @@ public sealed partial class ListOrderedMarkdownSyntaxNodeVisitor : BaseMarkdownS
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
+    /// <inheritdoc />
     public override void Serialize(
         INodeSerializerFragmentStack stack,
         IMdSyntaxNode parentNode,
@@ -88,6 +91,7 @@ public sealed partial class ListOrderedMarkdownSyntaxNodeVisitor : BaseMarkdownS
         }
     }
 
+    /// <inheritdoc />
     protected override void Deserialize(INodeDeserializerFragmentQueue queue, ListOrderedMdSyntaxNode node) {
         bool isFirstItem = true;
         string leadingSpaces = LeadingSpacesCache.GetOrAdd(Math.Max(node.LeadingSpaces, 0), static i => new string(' ', i));
