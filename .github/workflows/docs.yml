@@ -39,7 +39,7 @@ jobs:
 
       # Configure the workflow environment for GitHub Pages deployment.
       - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       # Upload the generated static site as a Pages artifact.
       - name: Upload Pages artifact
