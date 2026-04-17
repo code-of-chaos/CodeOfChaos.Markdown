@@ -26,6 +26,7 @@
     <ProjectReference Include="..\CodeOfChaos.Markdown.Syntax\CodeOfChaos.Markdown.Syntax.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <UpToDateCheckInput Remove="NodeVisitors\ScriptingExpression\ScriptingExpressionBlazorSyntaxNodeVisitor.razor" />
     <UpToDateCheckInput Remove="NodeVisitors\ScriptingBody\ScriptingBodyBlazorSyntaxNodeVisitor.razor" />
   </ItemGroup>
