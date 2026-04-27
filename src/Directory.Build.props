@@ -19,7 +19,7 @@
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageProjectUrl>https://github.com/code-of-chaos/Markdown/</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/code-of-chaos/CodeOfChaos.Markdown/</PackageProjectUrl>
 
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
