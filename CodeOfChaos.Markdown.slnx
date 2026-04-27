@@ -1,24 +1,24 @@
 <Solution>
-  <Folder Name="/devtools/">
-    <File Path="CodeOfChaos.Markdown.GitHubActions.slnf" />
+  <Folder Name="/.dev-tools/">
+    <File Path="CodeOfChaos.Markdown.Release.slnf" />
+    <File Path="CodeOfChaos.Markdown.Testing.slnf" />
     <File Path="Directory.Packages.props" />
     <File Path="README.md" />
     <Project Path="devtools/MarkdownDevtools/MarkdownDevtools.csproj" />
   </Folder>
-  <Folder Name="/devtools/benchmarks/">
-    <Project Path="benchmarks/CodeOfChaosBenchmarks.Markdown/CodeOfChaosBenchmarks.Markdown.csproj" />
-  </Folder>
-  <Folder Name="/devtools/github/">
+  <Folder Name="/.dev-tools/github/">
     <File Path=".github/dependabot.yml" />
     <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
-    <File Path=".github/workflows/docs.yml" />
-    <File Path=".github/workflows/onPullRequest-TestDotnet.yml" />
-    <File Path=".github/workflows/release.yml" />
-    <File Path=".github/workflows/workflow-todo.yml" />
   </Folder>
-  <Folder Name="/devtools/py/">
-    <File Path="devtools/bump_version.py" />
-    <File Path="devtools/test_bump_version.py" />
+  <Folder Name="/.dev-tools/github/scripts/">
+    <File Path=".github/scripts/bump_version.py" />
+    <File Path=".github/scripts/test_bump_version.py" />
+  </Folder>
+  <Folder Name="/.dev-tools/github/workflows/">
+    <File Path=".github/workflows/ci-release.yml" />
+    <File Path=".github/workflows/ci-testing.yml" />
+    <File Path=".github/workflows/ci-todo.yml" />
+    <File Path=".github/workflows/docs.yml" />
   </Folder>
   <Folder Name="/docs/">
     <File Path="docs/docfx.json" />
@@ -47,6 +47,7 @@
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
+    <Project Path="benchmarks/CodeOfChaosBenchmarks.Markdown/CodeOfChaosBenchmarks.Markdown.csproj" />
     <Project Path="tests/CodeOfChaosTests.Markdown.Editors/CodeOfChaosTests.Markdown.Editors.csproj" />
     <Project Path="tests/CodeOfChaosTests.Markdown.Parsers/CodeOfChaosTests.Markdown.Parsers.csproj" />
     <Project Path="tests/CodeOfChaosTests.Markdown.Syntax/CodeOfChaosTests.Markdown.Syntax.csproj" />

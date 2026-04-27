@@ -4,7 +4,7 @@ on:
     branches:
       - core
     paths-ignore:
-      - ".github/workflows/workflow-todo.yml" # Exclude this specific workflow file
+      - ".github/workflows/ci-todo.yml" # Exclude this specific workflow file
 jobs:
   build:
     runs-on: "ubuntu-latest"
