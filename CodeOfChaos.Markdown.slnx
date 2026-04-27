@@ -18,7 +18,6 @@
     <File Path=".github/workflows/ci-release.yml" />
     <File Path=".github/workflows/ci-testing.yml" />
     <File Path=".github/workflows/ci-todo.yml" />
-    <File Path=".github/workflows/docs.yml" />
   </Folder>
   <Folder Name="/docs/">
     <File Path="docs/docfx.json" />
