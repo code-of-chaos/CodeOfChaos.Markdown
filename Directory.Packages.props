@@ -26,8 +26,8 @@
     <PackageVersion Include="Microsoft.Extensions.ObjectPool" Version="10.0.10" />
     <PackageVersion Include="MudBlazor" Version="9.7.0" />
     <PackageVersion Include="NSubstitute" Version="6.0.0" />
-    <PackageVersion Include="TUnit" Version="1.62.0" />
+    <PackageVersion Include="TUnit" Version="1.63.0" />
     <PackageVersion Include="TUnit.Assertions" Version="1.17.36" />
-    <PackageVersion Include="TUnit.Core" Version="1.62.0" />
+    <PackageVersion Include="TUnit.Core" Version="1.63.0" />
   </ItemGroup>
 </Project>
