@@ -104,8 +104,8 @@ public class XmlMdTestDataTests(IXmlMdSyntaxTreeParser parser) {
         // Assert
         await Assert.That(deserializedData)
             .IsNotEmpty()
-            .IsNotNull()
-            .Count().IsEqualTo(3);
+            .And.IsNotNull()
+            .And.Count().IsEqualTo(3);
 
         await Assert.That(deserializedData[0]).IsEqualTo(TestEntry);
         await Assert.That(deserializedData[1]).IsEqualTo(TestEntry);
