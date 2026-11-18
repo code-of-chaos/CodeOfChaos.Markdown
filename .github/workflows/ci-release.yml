@@ -65,6 +65,7 @@ jobs:
                 uses: actions/setup-dotnet@v6
                 with:
                     dotnet-version: |
+                        10.x
                         11.x
 
             -   name: Restore dependencies
@@ -167,7 +168,7 @@ jobs:
             -   name: Setup .NET
                 uses: actions/setup-dotnet@v6
                 with:
-                    dotnet-version: 10.x
+                    dotnet-version: 11.x
 
             -   name: Restore dependencies
                 run: dotnet restore CodeOfChaos.Markdown.Release.slnf
@@ -230,7 +231,7 @@ jobs:
             -   name: Setup .NET
                 uses: actions/setup-dotnet@v6
                 with:
-                    dotnet-version: 10.x
+                    dotnet-version: 11.x
 
             - name: Install DocFX .NET tool (latest)
               run: |

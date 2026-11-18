@@ -243,7 +243,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ### Development Requirements
 
-- .NET 10 SDK or later
+- .NET 10 and .NET 11 SDKs (the libraries multi-target `net10.0` and `net11.0`)
 - IDE with C# support (Visual Studio, Rider, or VS Code)
 
 ### Building the Project
