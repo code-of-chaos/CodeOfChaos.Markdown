@@ -778,3 +778,4 @@ docs/_site/
 docs/api/*.yml
 docs/api/.manifest
 
+/benchmarks/CodeOfChaosBenchmarks.Markdown/.bdn

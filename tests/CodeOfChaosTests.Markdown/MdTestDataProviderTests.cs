@@ -118,7 +118,7 @@ public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
         // Assert
         await Assert.That(fileNames)
             .IsNotNull()
-            .Count().IsGreaterThanOrEqualTo(2);
+            .And.Count().IsGreaterThanOrEqualTo(2);
 
         await Assert.That(fileNames)
             .Contains(filePath => filePath == "bold.xml");
@@ -135,7 +135,7 @@ public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
         // Assert
         await Assert.That(data)
             .IsNotNull()
-            .Count().IsGreaterThanOrEqualTo(minimumExpectedCount);
+            .And.Count().IsGreaterThanOrEqualTo(minimumExpectedCount);
     }
 
     [Test]
@@ -149,7 +149,7 @@ public class MdTestDataProviderTests(IXmlMdSyntaxTreeParser parser) {
         // Assert
         await Assert.That(data)
             .IsNotNull()
-            .Count().IsGreaterThanOrEqualTo(minimumExpectedCount);
+            .And.Count().IsGreaterThanOrEqualTo(minimumExpectedCount);
     }
 
     [Test]

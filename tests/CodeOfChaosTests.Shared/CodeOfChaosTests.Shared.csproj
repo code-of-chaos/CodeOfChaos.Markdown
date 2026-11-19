@@ -7,7 +7,6 @@
         <PackageReference Include="CodeOfChaos.Extensions"/>
         <PackageReference Include="CodeOfChaos.Extensions.AspNetCore" />
         <PackageReference Include="CodeOfChaos.Testing.TUnit" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
         <PackageReference Include="NSubstitute" />
         <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection.Generators">

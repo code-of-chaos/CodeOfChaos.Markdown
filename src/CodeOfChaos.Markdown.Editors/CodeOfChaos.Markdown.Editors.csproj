@@ -13,7 +13,6 @@
   <ItemGroup>
       <PackageReference Include="CodeOfChaos.Extensions.MicrosoftLogging" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
       <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection" />
       <PackageReference Include="CodeOfChaos.Extensions.DependencyInjection.Generators">
           <PrivateAssets>all</PrivateAssets>
